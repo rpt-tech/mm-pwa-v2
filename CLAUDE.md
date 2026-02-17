@@ -172,10 +172,18 @@ Mỗi khi bắt đầu session MỚI (hoặc resume sau khi hết quota):
 - Push ngay sau commit để user có thể review từ phone
 
 ### Deploy Strategy
-- **Frontend (Vercel):** `npx vercel --prod` từ `apps/web/` (đã login CLI)
-- **BFF (Cloudflare Workers):** `npx wrangler deploy` từ `apps/bff/` (đã login CLI)
+- **Frontend (Vercel):**
+  ```bash
+  cd apps/web && VERCEL_TOKEN=$(grep VERCEL_TOKEN ../../.env | cut -d= -f2) npx vercel --prod --token $VERCEL_TOKEN --yes
+  ```
+- **BFF (Cloudflare Workers):**
+  ```bash
+  cd apps/bff && CLOUDFLARE_API_TOKEN=$(grep CLOUDFLARE_API_TOKEN ../../.env | cut -d= -f2) npx wrangler deploy
+  ```
 - Deploy staging sau mỗi phase hoàn thành để test
 - CF Account ID: `3215d8c2be0ce3c84386a52aa03ad93b`
+- Tất cả tokens nằm trong `.env` (root project) - file này KHÔNG commit vào git
+- Trên WSL, project ở `/mnt/d/mm-new-pwa/`
 
 ### Source Reference
 Khi migrate component, LUÔN đọc source tại:
