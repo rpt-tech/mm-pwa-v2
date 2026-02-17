@@ -1,0 +1,12 @@
+name = "mm-bff"
+main = "src/index.ts"
+compatibility_date = "2024-12-01"
+account_id = "3215d8c2be0ce3c84386a52aa03ad93b"
+
+[vars]
+MAGENTO_URL = "https://online.mmvietnam.com/graphql"
+
+# KV namespace for caching (create with: wrangler kv namespace create CACHE)
+# [[kv_namespaces]]
+# binding = "CACHE"
+# id = ""
