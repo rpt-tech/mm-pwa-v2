@@ -1,7 +1,8 @@
 import { Routes, Route } from 'react-router-dom';
-import { Suspense, lazy } from 'react';
+import { Suspense, lazy, useEffect } from 'react';
 import MainLayout from '@/components/layout/MainLayout';
 import LoadingIndicator from '@/components/ui/LoadingIndicator';
+import { useAuthStore } from '@/stores/authStore';
 
 // Lazy-loaded pages
 const HomePage = lazy(() => import('@/pages/HomePage'));
@@ -18,6 +19,13 @@ const CmsPage = lazy(() => import('@/pages/CmsPage'));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
 
 export default function App() {
+  const initializeAuth = useAuthStore((state) => state.initializeAuth);
+
+  useEffect(() => {
+    // Initialize auth on app mount
+    initializeAuth();
+  }, [initializeAuth]);
+
   return (
     <Suspense fallback={<LoadingIndicator />}>
       <Routes>

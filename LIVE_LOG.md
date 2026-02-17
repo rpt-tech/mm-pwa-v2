@@ -18,3 +18,14 @@ Ghi lại mọi action theo format:
 [13:45] Read source components — ✓ Header, Navigation, MegaMenu, CartTrigger, AccountTrigger — create GraphQL queries
 [13:47] Create GraphQL queries — ✓ navigation.ts, cart.ts — create uiStore — ✓ uiStore.ts — implement Header component
 [13:44] Phase 1 start: Auth flow implementation — read source components — creating auth store and queries
+[13:43] Read source Footer component — ✓ found at override/Components/Footer/footer.js — analyze structure
+[13:44] Analyze Footer structure — ✓ uses CMS blocks (footer_services, footer_links_v2, footer_delivery), store info from localStorage, BCT image — plan implementation
+[13:45] Copy BCT image to public/images — ✓ copied bct.png — implement Footer component
+[13:46] Implement Footer.tsx — ✓ migrated layout, store info logic, Google Maps links, mobile responsive, placeholders for CMS blocks — commit changes
+[13:47] git commit and push — ✓ pushed to dev — phase1 footer complete
+[13:50] Create hooks — ✓ useMegaMenu.ts, useMediaQuery.ts — implement Header component — ✓ Header.tsx with logo, search, cart, account, mega menu button
+[13:52] Implement MegaMenu and Navigation components — ✓ MegaMenu.tsx with multi-level dropdown — ✓ Navigation.tsx mobile sidebar — create Breadcrumbs component
+[13:54] Create Breadcrumbs component — ✓ Breadcrumbs.tsx with auto-generation from URL — update MainLayout to integrate Header + Navigation
+[13:56] Build test — ✗ errors found — fix graphqlClient import, install @apollo/client, fix unused vars
+[13:58] Fix build errors — ✓ graphqlClient → gqlClient, remove unused vars — rebuild
+[14:02] Build successful — ✓ Phase 1 complete — commit and push changes

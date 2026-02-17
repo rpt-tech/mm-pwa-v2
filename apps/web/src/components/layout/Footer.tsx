@@ -12,8 +12,6 @@ export default function Footer() {
   const { t } = useTranslation();
   const location = useLocation();
   const [storeInfo, setStoreInfo] = useState<StoreInfo | null>(null);
-  const [servicesInView, setServicesInView] = useState(false);
-  const [deliveryInView, setDeliveryInView] = useState(false);
 
   useEffect(() => {
     // Load store info from localStorage
