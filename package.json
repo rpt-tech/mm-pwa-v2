@@ -1,0 +1,17 @@
+{
+  "name": "mm-pwa-v2",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm --filter @mm/web dev",
+    "build": "pnpm --filter @mm/web build",
+    "preview": "pnpm --filter @mm/web preview",
+    "lint": "pnpm --filter @mm/web lint",
+    "type-check": "pnpm --filter @mm/web type-check",
+    "bff:dev": "pnpm --filter @mm/bff dev",
+    "bff:deploy": "pnpm --filter @mm/bff deploy"
+  },
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  }
+}
