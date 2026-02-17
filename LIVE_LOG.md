@@ -29,3 +29,14 @@ Ghi lại mọi action theo format:
 [13:56] Build test — ✗ errors found — fix graphqlClient import, install @apollo/client, fix unused vars
 [13:58] Fix build errors — ✓ graphqlClient → gqlClient, remove unused vars — rebuild
 [14:02] Build successful — ✓ Phase 1 complete — commit and push changes
+[13:45] Install js-cookie dependency — ✓ installed — create authStore
+[13:46] Create authStore with cookie-based token storage — ✓ /apps/web/src/stores/authStore.ts — create GraphQL queries
+[13:47] Create auth GraphQL queries — ✓ /apps/web/src/queries/auth.ts with all mutations — create useAuth hook
+[13:48] Create useAuth hook — ✓ /apps/web/src/hooks/useAuth.ts — create SignIn component
+[13:49] Create SignIn component — ✓ /apps/web/src/components/auth/SignIn.tsx with form validation — create CreateAccount component
+[13:50] Create CreateAccount component — ✓ /apps/web/src/components/auth/CreateAccount.tsx with phone validation — create ForgotPassword component
+[13:51] Create ForgotPassword component — ✓ /apps/web/src/components/auth/ForgotPassword.tsx — create AuthModal wrapper
+[13:51] Create AuthModal wrapper — ✓ /apps/web/src/components/auth/AuthModal.tsx — update pages
+[13:52] Update SignInPage, CreateAccountPage, ForgotPasswordPage — ✓ all pages use AuthModal — fix build errors
+[13:52] Fix graphqlClient import errors — ✓ changed to gqlClient — build successful
+[13:52] Build test — ✓ 342KB bundle, PWA ready — commit changes
