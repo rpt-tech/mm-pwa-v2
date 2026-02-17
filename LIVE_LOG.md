@@ -42,3 +42,5 @@ Ghi lại mọi action theo format:
 [13:52] Build test — ✓ 342KB bundle, PWA ready — commit changes
 [14:03] Git commit and push — ✓ pushed to dev (c7d6491) — update PROGRESS.md
 [14:04] Update PROGRESS.md — ✓ Phase 1 logged — Phase 1 complete
+[14:05] STEERING.md read — CF token mới có quyền Edit Workers — deploy BFF to Cloudflare Workers
+[14:06] BFF deploy — ✓ deployed to https://mm-bff.hi-huythanh.workers.dev — STEERING.md cleared — Phase 1 complete
