@@ -44,3 +44,4 @@ Ghi lại mọi action theo format:
 [14:04] Update PROGRESS.md — ✓ Phase 1 logged — Phase 1 complete
 [14:05] STEERING.md read — CF token mới có quyền Edit Workers — deploy BFF to Cloudflare Workers
 [14:06] BFF deploy — ✓ deployed to https://mm-bff.hi-huythanh.workers.dev — STEERING.md cleared — Phase 1 complete
+[14:10] Phase 2 search + flashsale — implemented search page, autocomplete header, flashsale component, catalog queries — next: finalize testing
