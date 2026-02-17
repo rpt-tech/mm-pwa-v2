@@ -40,3 +40,5 @@ Ghi lại mọi action theo format:
 [13:52] Update SignInPage, CreateAccountPage, ForgotPasswordPage — ✓ all pages use AuthModal — fix build errors
 [13:52] Fix graphqlClient import errors — ✓ changed to gqlClient — build successful
 [13:52] Build test — ✓ 342KB bundle, PWA ready — commit changes
+[14:03] Git commit and push — ✓ pushed to dev (c7d6491) — update PROGRESS.md
+[14:04] Update PROGRESS.md — ✓ Phase 1 logged — Phase 1 complete
