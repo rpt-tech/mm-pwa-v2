@@ -93,9 +93,15 @@ Cập nhật `PROGRESS.md` sau mỗi feature hoàn thành:
 - Thay đổi config
 
 **Chỉ hỏi khi:**
-- Cần credentials/secrets
+- Cần credentials/secrets KHÔNG có trong `.env`
 - Blocked > 30 phút không có cách giải quyết
-- Quyết định business logic không rõ ràng
+
+**TUYỆT ĐỐI KHÔNG HỎI:**
+- "Tiếp theo làm gì?" → Đọc MIGRATION_PLAN.md, làm phase tiếp theo
+- "Deploy không?" → Tự deploy
+- "Có muốn tôi...?" → Cứ làm
+- Sau khi hoàn thành 1 task → NGAY LẬP TỨC bắt đầu task tiếp theo
+- KHÔNG BAO GIỜ dừng chờ user confirm
 
 ### 🎨 Code Standards
 
