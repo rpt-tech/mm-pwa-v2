@@ -56,10 +56,32 @@
   - ForgotPassword component with success modal
   - AuthModal wrapper for view switching
   - useAuth hook for state management
-- **Notes:** 
+- **Notes:**
   - All forms use React Hook Form + Zod validation
   - Token stored in cookies with configurable lifetime
   - Cart merging on login/register
   - Auth initialization on app mount
   - Build successful: 342KB bundle
+
+## Phase 2: Search and Catalog
+- **Status:** ✓ Done
+- **Completed:** 2026-02-17 14:59
+- **Components:**
+  - SearchPage with filters, sort, pagination
+  - CategoryPage with filters, sort, view modes (grid/list)
+  - ProductGrid, FilterSidebar, FilterModal, ProductSort
+  - ProductLabel (4 types: text, shape, image, frame)
+  - StockStatusMessage, FlashsaleProducts with countdown
+  - Pagination component
+  - Autocomplete in Header
+- **GraphQL Queries:**
+  - catalog.ts: products, category, filters, search, autocomplete, flashsale
+  - All queries match source 1:1 with custom MM fields
+  - PRODUCT_FRAGMENT with all custom fields: ecom_name, unit_ecom, mm_product_type, is_alcohol, allow_pickup, product_label
+- **Migration:**
+  - Migrated from Apollo Client to TanStack Query
+  - All data fetching uses graphql-request
+  - Cache strategies: staleTime configured per query
+- **Build:** 488KB bundle, PWA ready
+- **Commit:** 2a3f35d
 

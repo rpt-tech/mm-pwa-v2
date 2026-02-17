@@ -20,6 +20,7 @@ interface CartState {
   removeItem: (uid: string) => void;
   getItemByProductUid: (productUid: string) => CartItem | undefined;
   setItemCount: (count: number) => void;
+  fetchCart: () => Promise<void>;
   reset: () => void;
 }
 
@@ -84,6 +85,16 @@ export const useCartStore = create<CartState>()(
       },
 
       setItemCount: (itemCount) => set({ itemCount }),
+
+      fetchCart: async () => {
+        // TODO: Implement cart fetching from GraphQL
+        // For now, this is a placeholder that will be implemented in Phase 4
+        const cartId = get().cartId;
+        if (!cartId) return;
+
+        // Placeholder - will fetch cart data from backend
+        console.log('Fetching cart:', cartId);
+      },
 
       reset: () => set({ cartId: null, items: [], itemCount: 0 }),
     }),

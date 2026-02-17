@@ -44,4 +44,26 @@ Ghi lại mọi action theo format:
 [14:04] Update PROGRESS.md — ✓ Phase 1 logged — Phase 1 complete
 [14:05] STEERING.md read — CF token mới có quyền Edit Workers — deploy BFF to Cloudflare Workers
 [14:06] BFF deploy — ✓ deployed to https://mm-bff.hi-huythanh.workers.dev — STEERING.md cleared — Phase 1 complete
-[14:10] Phase 2 search + flashsale — implemented search page, autocomplete header, flashsale component, catalog queries — next: finalize testing
+[14:47] Resume from checkpoint — Phase 1 complete, Phase 2 uncommitted changes detected — reviewing
+[14:48] Read catalog queries and pages — SearchPage, CategoryPage, catalog components created — checking build
+[14:49] Build errors found — Apollo Client import mismatch, TypeScript errors — fixing
+[14:50] Fix FlashsaleProducts Apollo → TanStack Query — ✓ updated — fix Header
+[14:51] Fix Header Apollo → TanStack Query — ✓ updated — fix SearchPage
+[14:52] Fix SearchPage Apollo → TanStack Query — ✓ updated — fix ProductLabel, ProductSort
+[14:53] Fix ProductLabel string type issue — ✓ fixed — fix ProductSort undefined handling
+[14:54] Fix all TypeScript errors — ✓ all files updated — rebuild
+[14:55] Build test — ✓ running in background — wait for completion
+[14:57] Build successful — 488KB bundle, PWA ready — commit Phase 2
+[14:58] Git commit Phase 2 — ✓ 2a3f35d — push to remote
+[14:59] Push to dev — ✓ pushed — update PROGRESS.md
+[15:00] Update PROGRESS.md — ✓ Phase 2 logged — Phase 2 complete
+[15:02] Phase 2 complete — starting Phase 3: Product Detail Page — reading source
+[15:03] Find ProductFullDetail source — ✓ found override and base components — reading
+[15:08] Read ProductFullDetail component — complex with DNR, alcohol dialog, store switcher — reading GraphQL
+[15:10] Read productDetailFragment.gql.js — ✓ full fragment with configurable options, custom attributes — creating queries
+[15:11] Create product.ts queries — ✓ GET_PRODUCT_DETAIL, ADD_PRODUCT_TO_CART, reviews, related/upsell — next: ProductPage component
+[15:15] Create ProductPage component — ✓ full PDP with breadcrumbs, images, options, add to cart — create product components
+[15:16] Create ProductImageCarousel — ✓ with lightbox, thumbnails, navigation — create QuantityStepper
+[15:16] Create QuantityStepper — ✓ with +/- buttons, input validation — create ProductOptions
+[15:16] Create ProductOptions — ✓ color/image/text swatches, selection state — build test
+[15:17] Build test — running in background — checking for errors
