@@ -142,3 +142,8 @@ Ghi lại mọi action theo format:
 [06:59] Add i18n strings — addressBook, addAddress, editAddress, deleteAddress, confirmDelete, etc.
 [07:00] Build successful — 630KB bundle (AddressBookPage 11.43KB) — all TypeScript errors fixed
 [07:00] Git commit 1a9d798 — ✓ pushed to dev — AddressBookPage complete with Vietnam cascade
+[07:01] Start WishlistPage implementation — read source for business logic
+[07:02] Implement WishlistPage — display wishlist items, remove from wishlist, add to cart
+[07:03] Add i18n strings — wishlist, emptyWishlist, continueShopping, removeFromWishlist
+[07:04] Build successful — 635KB bundle (WishlistPage 3.86KB) — commit and push
+[07:04] Git commit 54cd2df — ✓ pushed to dev — WishlistPage complete
