@@ -12,6 +12,8 @@ import { Html } from './Html';
 import { Image } from './Image';
 import { Text } from './Text';
 import SliderComponent from './Slider';
+import ProductsCarousel from './ProductsCarousel';
+import FlashsaleProductsCT from './FlashsaleProductsCT';
 
 export interface ContentTypeData {
   contentType: string;
@@ -48,6 +50,12 @@ export const ContentTypeFactory: React.FC<{ data: ContentTypeData }> = ({ data }
 
     case 'text':
       return <Text {...props as any} />;
+
+    case 'products':
+      return <ProductsCarousel {...props as any} />;
+
+    case 'flashsale-products':
+      return <FlashsaleProductsCT {...props as any} />;
 
     default:
       console.warn(`Unknown content type: ${contentType}`);

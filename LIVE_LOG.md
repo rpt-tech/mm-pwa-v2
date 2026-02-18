@@ -153,4 +153,19 @@ Ghi lại mọi action theo format:
 [07:08] Build successful — 639KB bundle (OrderHistoryPage 4.40KB) — commit and push
 [07:08] Git commit 1863337 — ✓ pushed to dev — OrderHistoryPage complete
 [07:08] Phase 5 Account pages COMPLETE — AccountInformation, AddressBook, Wishlist, OrderHistory all functional
-[07:09] Start Phase 6: CMS + Content — reading source CMS components
+[07:20] Start Phase 6: CMS + Content — reading source CMS components
+[07:21] Read source CMS components — ✓ Banner, Row, Html, Slider, CMS page structure — create CMS queries
+[07:22] Create CMS queries — ✓ GET_CMS_PAGE, GET_CMS_BLOCKS, GET_URL_RESOLVER — install DOMPurify
+[07:23] Install isomorphic-dompurify — ✓ installed — create RichContent component
+[07:24] Create RichContent component — ✓ with DOMPurify sanitization, SPA navigation — create ContentType components
+[07:25] Create ContentType components — ✓ Row, ColumnGroup, Column, Banner, Html, Image, Text, Slider — install react-slick
+[07:26] Install react-slick + slick-carousel — ✓ installed — create ContentTypeFactory
+[07:27] Create ContentTypeFactory — ✓ dynamic component rendering — create CmsPage and CmsBlock
+[07:28] Create CmsPage and CmsBlock — ✓ with TanStack Query integration — update HomePage
+[07:29] Update HomePage — ✓ uses CmsPage component — update Footer with CmsBlock
+[07:30] Update Footer — ✓ integrated footer_services, footer_links_v2, footer_delivery blocks — build test
+[07:31] Build errors — TypeScript type mismatches, Footer JSX errors — fixing
+[07:32] Fix TypeScript errors — ✓ ContentTypeFactory uses 'as any', Footer JSX fixed — rebuild
+[07:33] Build successful — ✓ 660.88 KiB bundle (149.79 KiB gzip) — commit and push
+[07:34] Git commit 28dba5f — ✓ pushed to dev — Phase 6 CMS foundation complete
+

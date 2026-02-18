@@ -111,7 +111,53 @@
 - **Build:** 520KB bundle, PWA ready
 - **Commit:** fb3b36a
 
-## Phase 5: Account (P1)
+## Phase 6: CMS + Content (P1)
+- **Status:** 🚧 In Progress (Foundation Complete)
+- **Started:** 2026-02-18 07:20
+- **Completed Features:**
+  - ✓ CMS GraphQL queries (cms.ts)
+    - GET_CMS_PAGE (identifier, title, content, meta tags)
+    - GET_CMS_BLOCKS (identifiers array)
+    - GET_URL_RESOLVER (dynamic routing)
+  - ✓ RichContent component
+    - DOMPurify HTML sanitization (XSS protection)
+    - SPA navigation for internal links
+    - iframe support for embedded content
+  - ✓ ContentType components (8 types):
+    - Row (contained/full-width/full-bleed layouts)
+    - ColumnGroup (grid/flex container)
+    - Column (grid columns with vertical alignment)
+    - Banner (image, overlay, button, link support)
+    - Slider (react-slick integration, autoplay, fade)
+    - Html (raw HTML with styling)
+    - Image (responsive desktop/mobile, lazy loading)
+    - Text (styled text content)
+  - ✓ ContentTypeFactory (dynamic component rendering)
+  - ✓ CmsPage component
+    - TanStack Query integration
+    - Loading/error states
+    - Meta tags support
+  - ✓ CmsBlock component
+    - Multi-block fetching
+    - Loading skeleton
+  - ✓ HomePage integration (uses CmsPage)
+  - ✓ Footer integration (CmsBlock for footer_services, footer_links_v2, footer_delivery)
+- **Dependencies:**
+  - isomorphic-dompurify ^2.36.0 (HTML sanitization)
+  - react-slick ^0.31.0 (slider component)
+  - slick-carousel ^1.8.1 (slider styles)
+  - @types/react-slick ^0.23.13
+- **Build:** 660.88 KiB bundle (149.79 KiB gzip)
+- **Commit:** 28dba5f
+- **TODO:**
+  - [ ] Products/Carousel ContentType (product grid with GQL)
+  - [ ] FlashsaleProducts ContentType (already exists as component, needs CT wrapper)
+  - [ ] ProductRecommendation ContentType (AI-based recommendations)
+  - [ ] MagentoRoute component (URL resolver for dynamic routing)
+  - [ ] Test with live CMS content from backend
+  - [ ] PageBuilder content parsing (if backend returns structured data)
+
+
 - **Status:** ✓ Done
 - **Started:** 2026-02-17 16:30
 - **Completed:** 2026-02-18 07:08
