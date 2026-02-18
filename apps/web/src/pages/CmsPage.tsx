@@ -1,3 +1,3 @@
-export default function CmsPage() {
-  return <div className="container mx-auto px-4 py-8"><h1>CmsPage</h1><p>TODO: Implement</p></div>;
-}
+import CmsPage from '@/components/cms/CmsPage';
+
+export default CmsPage;
