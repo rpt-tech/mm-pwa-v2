@@ -94,3 +94,6 @@ Ghi lại mọi action theo format:
 [16:23] Update checkout.ts queries — ✓ added fragments, GET_CHECKOUT_DETAILS, GET_ORDER_DETAILS with MM custom fields — build test
 [16:24] Build successful — 578KB bundle — fix CheckoutPage imports
 [16:25] Git commit baccd8e — ✓ pushed to dev — update PROGRESS.md
+[16:26] PROGRESS.md updated — Phase 4 checkpoint: cart + checkout queries complete, basic flow works
+[16:27] Phase 4 status — ✓ cart.ts, checkout.ts, MiniCart, CartPage, CheckoutPage basic — TODO: Vietnam cascade, delivery time
+[16:28] Check next steps — Phase 4 core complete, advanced features (location cascade, delivery time) can be Phase 5 or later
