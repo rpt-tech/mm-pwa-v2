@@ -9,16 +9,13 @@ import { ChevronRight, CheckCircle, AlertCircle, Package, CreditCard, MapPin } f
 import { useCartStore } from '@/stores/cartStore';
 import { useAuthStore } from '@/stores/authStore';
 import {
-  GET_CART_DETAILS,
-} from '@/queries/cart';
-import {
   GET_CUSTOMER_ADDRESSES,
   SET_GUEST_EMAIL,
   SET_SHIPPING_ADDRESS,
   SET_SHIPPING_METHOD,
-  GET_PAYMENT_METHODS,
   SET_PAYMENT_METHOD,
   PLACE_ORDER,
+  GET_CHECKOUT_DETAILS,
 } from '@/queries/checkout';
 
 const GRAPHQL_ENDPOINT = 'https://online.mmvietnam.com/graphql';
@@ -477,10 +474,12 @@ function ShippingStep({
 // Payment step
 function PaymentStep({
   cartId,
+  cart,
   onBack,
   onPlaceOrder,
 }: {
   cartId: string;
+  cart: any;
   onBack: () => void;
   onPlaceOrder: (orderNumber: string) => void;
 }) {
@@ -488,23 +487,17 @@ function PaymentStep({
   const [selectedMethod, setSelectedMethod] = useState('');
   const [error, setError] = useState('');
 
-  const { data: paymentData, isLoading } = useQuery({
-    queryKey: ['paymentMethods', cartId],
-    queryFn: () => request(GRAPHQL_ENDPOINT, GET_PAYMENT_METHODS, { cartId }),
-    enabled: !!cartId,
-  });
-
-  const methods = paymentData?.cart?.available_payment_methods || [];
+  const methods = cart?.available_payment_methods || [];
 
   // Set default payment method
   useEffect(() => {
-    const defaultMethod = paymentData?.cart?.selected_payment_method?.code;
+    const defaultMethod = cart?.selected_payment_method?.code;
     if (defaultMethod) {
       setSelectedMethod(defaultMethod);
     } else if (methods.length > 0) {
       setSelectedMethod(methods[0].code);
     }
-  }, [paymentData, methods]);
+  }, [cart, methods]);
 
   const setPaymentMutation = useMutation({
     mutationFn: (code: string) =>
@@ -515,9 +508,9 @@ function PaymentStep({
   });
 
   const placeOrderMutation = useMutation({
-    mutationFn: () => request(GRAPHQL_ENDPOINT, PLACE_ORDER, { cartId }),
+    mutationFn: () => request(GRAPHQL_ENDPOINT, PLACE_ORDER, { input: { cart_id: cartId } }),
     onSuccess: (data) => {
-      const orderNumber = data?.placeOrder?.order?.order_number;
+      const orderNumber = data?.placeOrder?.orderV2?.number;
       if (orderNumber) {
         queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
         queryClient.invalidateQueries({ queryKey: ['miniCart'] });
@@ -547,14 +540,6 @@ function PaymentStep({
     zalopay: { label: 'ZaloPay', desc: 'Thanh toán qua ZaloPay' },
     banktransfer: { label: 'Chuyển khoản ngân hàng', desc: 'Chuyển khoản trước khi giao hàng' },
   };
-
-  if (isLoading) {
-    return (
-      <div className="flex justify-center py-8">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#006341]" />
-      </div>
-    );
-  }
 
   return (
     <div>
@@ -668,8 +653,8 @@ export default function CheckoutPage() {
   const [orderNumber, setOrderNumber] = useState('');
 
   const { data: cartData, isLoading } = useQuery({
-    queryKey: ['cartDetails', cartId],
-    queryFn: () => request(GRAPHQL_ENDPOINT, GET_CART_DETAILS, { cartId }),
+    queryKey: ['checkoutDetails', cartId],
+    queryFn: () => request(GRAPHQL_ENDPOINT, GET_CHECKOUT_DETAILS, { cartId }),
     enabled: !!cartId,
     staleTime: 30000,
   });
@@ -737,6 +722,7 @@ export default function CheckoutPage() {
             {step === CHECKOUT_STEP.PAYMENT && (
               <PaymentStep
                 cartId={cartId}
+                cart={cart}
                 onBack={() => setStep(CHECKOUT_STEP.SHIPPING)}
                 onPlaceOrder={handleOrderSuccess}
               />

@@ -85,3 +85,10 @@ Ghi lại mọi action theo format:
 [15:53] Build errors — unused imports, AuthModal export, navigate calls — fixing
 [16:07] Fixed all TypeScript errors — removed unused imports, fixed AuthModal import, removed navigate handlers — building
 [16:13] Build running — Phase 4 cart queries and MiniCart component complete — will commit when build finishes
+[16:15] Build successful — 575KB bundle — commit Phase 4 progress
+[16:16] Git commit 169521d — ✓ pushed to dev — update PROGRESS.md
+[16:17] PROGRESS.md updated — Phase 4 cart queries + MiniCart complete — CartPage and CheckoutPage need completion
+[16:20] Resume Phase 4 — read checkpoint files — continue checkout implementation
+[16:21] Read CheckoutPage source — very complex with MCard, AI tracking, delivery time picker — simplify approach
+[16:22] Read checkout fragments from source — ItemsReviewFragment, CheckoutPageFragment — update checkout.ts
+[16:23] Update checkout.ts queries — ✓ added fragments, GET_CHECKOUT_DETAILS, GET_ORDER_DETAILS with MM custom fields — build test

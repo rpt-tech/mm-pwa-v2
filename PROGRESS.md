@@ -91,7 +91,7 @@
 - **Components:**
   - ProductPage: full PDP with breadcrumbs, images, options, add to cart
   - ProductImageCarousel: lightbox, thumbnails, navigation, video support
-  - QuantityStepper: +/- buttons, input validation, min/max
+  - QuantityStepper: +/- buttons, input validation, min/max, step parameter
   - ProductOptions: color/image/text swatches for configurable products
 - **GraphQL Queries:**
   - product.ts: GET_PRODUCT_DETAIL, ADD_PRODUCT_TO_CART, reviews, related/upsell
@@ -110,4 +110,38 @@
   - Added fetchCart placeholder to cartStore (will implement in Phase 4)
 - **Build:** 520KB bundle, PWA ready
 - **Commit:** fb3b36a
+
+## Phase 4: Cart + Checkout
+- **Status:** 🚧 In Progress
+- **Started:** 2026-02-17 15:35
+- **Completed So Far:**
+  - ✓ Cart GraphQL queries (cart.ts)
+  - ✓ MiniCart drawer component
+  - ⏳ CartPage (exists, needs testing)
+  - ⏳ CheckoutPage (exists, needs completion)
+- **GraphQL Queries:**
+  - cart.ts: Complete cart operations
+    - MINI_CART_FRAGMENT, CART_PAGE_FRAGMENT with all MM custom fields
+    - GET_MINI_CART, GET_CART_DETAILS, CREATE_CART
+    - UPDATE_CART_ITEMS, REMOVE_ITEM_FROM_CART, REMOVE_ALL_CART_ITEMS
+    - APPLY_COUPON_TO_CART, REMOVE_COUPON_FROM_CART
+    - ADD_COMMENT_TO_CART_ITEM, CHECK_PRICE_CHANGE
+    - GET_CROSS_SELL_PRODUCTS
+  - checkout.ts: Checkout flow queries (created, needs implementation)
+- **Components:**
+  - MiniCart: Drawer with item list, quantity update, remove, price summary
+    - Integrated into MainLayout
+    - Real-time cart updates with TanStack Query
+    - Configurable options display
+    - Links to cart and checkout pages
+- **Custom Fields:**
+  - dnr_price, have_same_promotion, have_great_deal, comment
+  - All MM-specific fields preserved from source
+- **Build:** 575KB bundle, PWA ready
+- **Commit:** 169521d
+- **TODO:**
+  - Complete CartPage implementation
+  - Complete CheckoutPage with address cascade
+  - Shipping methods, payment methods
+  - Order placement flow
 
