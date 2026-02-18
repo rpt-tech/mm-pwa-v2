@@ -147,3 +147,9 @@ Ghi lại mọi action theo format:
 [07:03] Add i18n strings — wishlist, emptyWishlist, continueShopping, removeFromWishlist
 [07:04] Build successful — 635KB bundle (WishlistPage 3.86KB) — commit and push
 [07:04] Git commit 54cd2df — ✓ pushed to dev — WishlistPage complete
+[07:05] Start OrderHistoryPage implementation — read source for business logic
+[07:06] Implement OrderHistoryPage — display orders list with status badges, items preview (first 2), shipping address
+[07:07] Add i18n strings — orderHistory, noOrders, orderNumber, orderDate, quantity, shippingAddress, viewOrderDetails
+[07:08] Build successful — 639KB bundle (OrderHistoryPage 4.40KB) — commit and push
+[07:08] Git commit 1863337 — ✓ pushed to dev — OrderHistoryPage complete
+[07:08] Phase 5 Account pages COMPLETE — AccountInformation, AddressBook, Wishlist, OrderHistory all functional

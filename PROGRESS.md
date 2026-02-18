@@ -112,9 +112,10 @@
 - **Commit:** fb3b36a
 
 ## Phase 5: Account (P1)
-- **Status:** 🚧 In Progress
+- **Status:** ✓ Done
 - **Started:** 2026-02-17 16:30
-- **Completed So Far:**
+- **Completed:** 2026-02-18 07:08
+- **Completed Features:**
   - ✓ Account GraphQL queries (account.ts) with customer_no, vat_address
   - ✓ MyAccountLayout with sidebar navigation
   - ✓ AccountSidebar with menu and sign out
@@ -136,8 +137,19 @@
     - Sort: default address first
     - Form validation with React Hook Form + Zod
     - i18n strings for all UI elements
-  - ⏳ Order History page (complex - tracking, progress bars)
-  - ⏳ Wishlist page (complex - multiple wishlists, rename/delete)
+  - ✓ WishlistPage - display and manage wishlist:
+    - GET_WISHLIST query with product details
+    - Display items with image, name, price, stock status
+    - Remove from wishlist mutation
+    - Add to cart from wishlist
+    - Empty state with continue shopping link
+  - ✓ OrderHistoryPage - display order list:
+    - GET_CUSTOMER_ORDERS query with pagination
+    - Display orders with status badges (color-coded)
+    - Order items preview (first 2 items)
+    - Shipping address display
+    - View order details link (detail page TODO)
+    - Empty state with start shopping link
 - **GraphQL Queries:**
   - account.ts: Complete customer account operations
     - GET_CUSTOMER with custom_attributes, city_code, ward_code
@@ -155,8 +167,9 @@
   - /account → redirects to /account/dashboard
   - /account/dashboard, /information, /addresses, /orders, /wishlist
 - **i18n:** Added account section strings (vi-VN, en-US)
-- **Build:** 630KB bundle, AddressBookPage 11.43KB, PWA ready
-- **Commit:** 1a9d798
+- **Build:** 639KB bundle, OrderHistoryPage 4.40KB, WishlistPage 3.82KB, AddressBookPage 11.39KB, PWA ready
+- **Commit:** 1863337
+- **Notes:** All core account pages functional. Order detail page, advanced filters, and tracking features can be added later if needed.
 - **TODO:**
   - Implement Account Information edit form
   - Implement Address Book CRUD
