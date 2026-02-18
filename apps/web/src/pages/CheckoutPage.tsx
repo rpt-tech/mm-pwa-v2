@@ -35,7 +35,7 @@ const addressSchema = z.object({
   street: z.string().min(5, 'Địa chỉ không được để trống'),
   city_code: z.string().min(1, 'Vui lòng chọn Tỉnh/Thành phố'),
   city_name: z.string().optional(),
-  district_code: z.string().optional(),
+  district_code: z.string().min(1, 'Vui lòng chọn Quận/Huyện'),
   district_name: z.string().optional(),
   ward_code: z.string().min(1, 'Vui lòng chọn Phường/Xã'),
   ward_name: z.string().optional(),
@@ -235,21 +235,14 @@ function ShippingStep({
         firstname: data.firstname,
         lastname: data.lastname,
         street: [data.street],
-        city: data.city_code, // Use city_code as city
+        city: data.city_code, // city field receives city_code value
         country_code: data.country_code || 'VN',
         postcode: data.postcode || '700000',
         telephone: data.telephone,
         save_in_address_book: false,
-        custom_attributes: [
-          {
-            attribute_code: 'city_code',
-            value: data.city_code,
-          },
-          {
-            attribute_code: 'ward_code',
-            value: data.ward_code,
-          },
-        ],
+        city_code: data.city_code,
+        district_code: data.district_code,
+        ward_code: data.ward_code,
       };
 
       return gqlClient.request(SET_SHIPPING_ADDRESS, {

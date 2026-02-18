@@ -186,3 +186,10 @@ Ghi lại mọi action theo format:
 [07:49] Build successful — ✓ 661.20 KiB bundle (149.79 KiB gzip) — commit and push
 [08:40] Git commit 5ac3873 — ✓ pushed to dev — ProductRecommendation complete
 [08:40] Phase 6 CMS + Content COMPLETE — 11/11 ContentTypes implemented, all features functional
+[08:45] Resume session — read checkpoint — Priority 0: Fix Critical Bugs
+[08:46] Audit critical bugs — found: route params, Header cart count, MiniCart buttons — fixing
+[08:47] Fix Header bugs — cart count badge, account link — done
+[08:47] Fix VietnamLocationCascade — wards fetch by city not district — done
+[08:48] Fix location.ts GET_WARDS query — city_code not district_code — done
+[08:49] Fix CheckoutPage shipping address — city_code, district_code, ward_code in address object — done
+[08:49] Make district_code required in addressSchema — done

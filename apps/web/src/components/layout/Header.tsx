@@ -5,15 +5,19 @@ import { GET_AUTOCOMPLETE_RESULTS } from '@/queries/catalog';
 import { gqlClient } from '@/lib/graphql-client';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
 import { useUIStore } from '@/stores/uiStore';
+import { useCartStore } from '@/stores/cartStore';
+import { useAuthStore } from '@/stores/authStore';
 import { ChevronDown, Search, X } from 'lucide-react';
 import MegaMenu from '@/components/navigation/MegaMenu';
 import { useTranslation } from 'react-i18next';
 
 export default function Header() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const isDesktop = useIsDesktop();
   const { drawer, toggleDrawer, openNav, openMiniCart } = useUIStore();
+  const { itemCount } = useCartStore();
+  const { isLoggedIn } = useAuthStore();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [isAutocompleteOpen, setIsAutocompleteOpen] = useState(false);
@@ -258,7 +262,7 @@ export default function Header() {
 
                 {/* Account */}
                 <Link
-                  to="/sign-in"
+                  to={isLoggedIn ? "/account" : "/sign-in"}
                   className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 rounded"
                 >
                   <svg
@@ -301,9 +305,11 @@ export default function Header() {
                 />
               </svg>
               {/* Cart count badge */}
-              <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                0
-              </span>
+              {itemCount > 0 && (
+                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                  {itemCount}
+                </span>
+              )}
             </button>
           </div>
         </div>
@@ -333,7 +339,11 @@ export default function Header() {
 
                 {/* Language Switcher */}
                 <div className="flex items-center gap-4">
-                  <select className="px-2 py-1 border border-gray-300 rounded text-sm">
+                  <select
+                    className="px-2 py-1 border border-gray-300 rounded text-sm"
+                    value={i18n.language}
+                    onChange={(e) => i18n.changeLanguage(e.target.value)}
+                  >
                     <option value="vi">VI</option>
                     <option value="en">EN</option>
                   </select>

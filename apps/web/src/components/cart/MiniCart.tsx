@@ -226,13 +226,19 @@ export default function MiniCart() {
 
             <div className="flex gap-2">
               <button
-                onClick={closeMiniCart}
+                onClick={() => {
+                  closeMiniCart();
+                  window.location.href = '/cart';
+                }}
                 className="flex-1 py-2 border-2 border-[#006341] text-[#006341] rounded font-medium text-sm hover:bg-[#006341] hover:text-white transition-colors"
               >
                 Xem giỏ hàng
               </button>
               <button
-                onClick={closeMiniCart}
+                onClick={() => {
+                  closeMiniCart();
+                  window.location.href = '/checkout';
+                }}
                 className="flex-1 py-2 bg-[#006341] text-white rounded font-medium text-sm hover:bg-[#004d32] transition-colors"
               >
                 Thanh toán

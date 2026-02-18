@@ -56,14 +56,14 @@ export default function VietnamLocationCascade({
     enabled: !!selectedCity,
   });
 
-  // Fetch wards when district is selected
+  // Fetch wards when city is selected (wards API uses city_code, not district_code)
   const { data: wardsData, isLoading: wardsLoading } = useQuery({
-    queryKey: ['wards', selectedDistrict],
+    queryKey: ['wards', selectedCity],
     queryFn: async () => {
-      const data = await gqlClient.request(GET_WARDS, { districtCode: selectedDistrict });
+      const data = await gqlClient.request(GET_WARDS, { cityCode: selectedCity });
       return data.wards;
     },
-    enabled: !!selectedDistrict,
+    enabled: !!selectedCity,
   });
 
   // Update local state when props change
