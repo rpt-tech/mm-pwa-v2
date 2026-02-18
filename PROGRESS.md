@@ -182,6 +182,26 @@
 - **Commit:** e86c7cb
 - **Notes:** Deal/promotion display. Business logic 1:1 from source.
 
+## Priority 2: Product Detail Completion - Reviews
+- **Status:** ✓ Done
+- **Started:** 2026-02-18 09:35
+- **Completed:** 2026-02-18 09:47
+- **Components:**
+  - ProductReviews: Display reviews list with pagination (10 per page)
+  - Review form: Rating (1-5 stars), nickname, summary, text
+  - Star rating display with lucide-react Star icon
+- **Features:**
+  - Auth-gated: Only logged-in users can write reviews
+  - Pagination support with page info
+  - Empty state encourages first review
+  - Error handling for submission
+- **Queries:** GET_PRODUCT_REVIEWS, CREATE_PRODUCT_REVIEW (already in product.ts)
+- **Integration:** ProductPage shows reviews below description
+- **i18n:** Added review form strings (writeReview, rating, nickname, etc)
+- **Build:** 681.14 KiB bundle (150.15 KiB gzip), ProductPage 25.41KB (+5.8KB)
+- **Commit:** 1474a35
+- **Notes:** Full review functionality. Users can read and write reviews.
+
 
 ## Phase 6: CMS + Content (P1)
 - **Status:** 🚧 In Progress (10/11 ContentTypes Complete)

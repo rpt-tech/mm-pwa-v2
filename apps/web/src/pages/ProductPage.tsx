@@ -14,6 +14,7 @@ import AlcoholDialog from '@/components/product/AlcoholDialog';
 import DnrLabel from '@/components/product/DnrLabel';
 import DnrBlock from '@/components/product/DnrBlock';
 import ProductReviews from '@/components/product/ProductReviews';
+import RelatedUpsellProducts from '@/components/product/RelatedUpsellProducts';
 
 export default function ProductPage() {
   const { t } = useTranslation();
@@ -287,27 +288,10 @@ export default function ProductPage() {
         <ProductReviews sku={product.sku} productName={product.ecom_name || product.name} />
       </div>
 
-      {product.similar_products && product.similar_products.length > 0 && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">{t('product.similarProducts', 'Similar Products')}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {product.similar_products.map((item: any) => (
-              <Link key={item.uid} to={`/${item.url_key}${item.url_suffix || '.html'}`} className="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow">
-                <div className="aspect-square">
-                  <img src={item.small_image?.url} alt={item.name} className="w-full h-full object-cover" loading="lazy" />
-                </div>
-                <div className="p-3">
-                  <h3 className="text-sm font-medium line-clamp-2 mb-2">{item.ecom_name || item.name}</h3>
-                  {item.unit_ecom && <p className="text-xs text-gray-500 mb-2">{item.unit_ecom}</p>}
-                  <div className="text-lg font-bold text-gray-900">
-                    {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: item.price_range?.maximum_price?.final_price?.currency || 'VND' }).format(item.price_range?.maximum_price?.final_price?.value || 0)}
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
+      {/* Related and Upsell Products */}
+      <div className="mb-12">
+        <RelatedUpsellProducts urlKey={urlKey?.replace('.html', '') || ''} />
+      </div>
 
       {/* Alcohol age confirmation dialog */}
       <AlcoholDialog

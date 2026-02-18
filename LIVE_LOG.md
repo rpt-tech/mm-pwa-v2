@@ -222,3 +222,11 @@ Ghi lại mọi action theo format:
 [09:28] Add i18n string — dnrBlock.title — done
 [09:29] Build successful — 674.90 KiB (149.99 KiB gzip) — ProductPage +1.4KB
 [09:30] Git commit e86c7cb — ✓ pushed to dev — DNR labels complete
+[09:35] Check reviews queries — GET_PRODUCT_REVIEWS, CREATE_PRODUCT_REVIEW already exist — done
+[09:37] Create ProductReviews component — list, pagination, star rating display — done
+[09:40] Add review form — rating (1-5 stars), nickname, summary, text — done
+[09:42] Auth-gated review form — only logged-in users can write — done
+[09:43] Integrate ProductReviews to ProductPage — below description section — done
+[09:45] Add i18n strings — writeReview, rating, nickname, reviewSummary, etc — done
+[09:46] Build successful — 681.14 KiB (150.15 KiB gzip) — ProductPage +5.8KB (25.41KB)
+[09:47] Git commit 1474a35 — ✓ pushed to dev — ProductReviews complete
