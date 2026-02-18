@@ -199,3 +199,8 @@ Ghi lại mọi action theo format:
 [08:53] Create PaymentMethods component — COD, Momo, VNPay, ZaloPay support — done
 [08:54] Add payment queries to checkout.ts — GET_PAYMENT_METHODS, SET_PAYMENT_METHOD — done
 [08:57] Update GET_ORDER_DETAILS — add note and available fields to payment methods — done
+[08:59] Git commit payment methods — ✓ pushed to dev — COD, Momo, VNPay, ZaloPay support
+[08:59] Payment methods COMPLETE — next: OrderConfirmationPage
+[09:00] Create OrderConfirmationPage — payment result handling, success/pending/failed states — done
+[09:00] Add /checkout/confirmation route — done
+[09:01] Update CheckoutPage — redirect to OrderConfirmationPage, handle pay_url for payment gateways — done

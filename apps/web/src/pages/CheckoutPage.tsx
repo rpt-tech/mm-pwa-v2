@@ -48,7 +48,6 @@ type AddressFormData = z.infer<typeof addressSchema>;
 const CHECKOUT_STEP = {
   SHIPPING: 1,
   PAYMENT: 2,
-  CONFIRMATION: 3,
 } as const;
 
 type CheckoutStepType = typeof CHECKOUT_STEP[keyof typeof CHECKOUT_STEP];
@@ -58,7 +57,6 @@ function CheckoutProgress({ step }: { step: CheckoutStepType }) {
   const steps = [
     { id: CHECKOUT_STEP.SHIPPING, label: 'Địa chỉ giao hàng', icon: MapPin },
     { id: CHECKOUT_STEP.PAYMENT, label: 'Thanh toán', icon: CreditCard },
-    { id: CHECKOUT_STEP.CONFIRMATION, label: 'Xác nhận', icon: CheckCircle },
   ];
 
   return (
@@ -523,11 +521,21 @@ function PaymentStep({
   const placeOrderMutation = useMutation({
     mutationFn: () => gqlClient.request(PLACE_ORDER, { input: { cart_id: cartId } }),
     onSuccess: (data) => {
-      const orderNumber = data?.placeOrder?.orderV2?.number;
+      const orderV2 = data?.placeOrder?.orderV2;
+      const orderNumber = orderV2?.number;
+      const payUrl = orderV2?.payment_methods?.[0]?.pay_url;
+
       if (orderNumber) {
         queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
         queryClient.invalidateQueries({ queryKey: ['miniCart'] });
-        onPlaceOrder(orderNumber);
+
+        // If payment redirect URL exists (Momo, VNPay, ZaloPay), redirect to payment gateway
+        if (payUrl) {
+          window.location.href = payUrl;
+        } else {
+          // Otherwise go to confirmation page
+          onPlaceOrder(orderNumber);
+        }
       }
     },
     onError: (err: any) => {
@@ -631,47 +639,11 @@ function PaymentStep({
   );
 }
 
-// Confirmation step
-function ConfirmationStep({ orderNumber }: { orderNumber: string }) {
-  const navigate = useNavigate();
-
-  return (
-    <div className="text-center py-8">
-      <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-        <CheckCircle size={32} className="text-[#006341]" />
-      </div>
-      <h2 className="text-xl font-bold text-gray-800 mb-2">Đặt hàng thành công!</h2>
-      <p className="text-gray-600 mb-1">
-        Mã đơn hàng của bạn: <strong className="text-[#006341]">#{orderNumber}</strong>
-      </p>
-      <p className="text-sm text-gray-500 mb-8">
-        Chúng tôi sẽ gửi email xác nhận đến địa chỉ email của bạn.
-      </p>
-
-      <div className="flex gap-3 justify-center">
-        <button
-          onClick={() => navigate('/account/orders')}
-          className="px-6 py-3 border-2 border-[#006341] text-[#006341] rounded-lg font-medium hover:bg-green-50 transition-colors"
-        >
-          Xem đơn hàng
-        </button>
-        <button
-          onClick={() => navigate('/')}
-          className="px-6 py-3 bg-[#006341] text-white rounded-lg font-semibold hover:bg-[#004d32] transition-colors"
-        >
-          Tiếp tục mua sắm
-        </button>
-      </div>
-    </div>
-  );
-}
-
 export default function CheckoutPage() {
   const navigate = useNavigate();
   const { cartId, reset: resetCart } = useCartStore();
   const { isLoggedIn } = useAuthStore();
   const [step, setStep] = useState<CheckoutStepType>(CHECKOUT_STEP.SHIPPING);
-  const [orderNumber, setOrderNumber] = useState('');
 
   const { data: cartData, isLoading } = useQuery({
     queryKey: ['checkoutDetails', cartId],
@@ -690,9 +662,9 @@ export default function CheckoutPage() {
   }, [cartId, navigate]);
 
   const handleOrderSuccess = (number: string) => {
-    setOrderNumber(number);
-    setStep(CHECKOUT_STEP.CONFIRMATION);
     resetCart();
+    // Redirect to order confirmation page
+    navigate(`/checkout/confirmation?order_number=${number}`);
   };
 
   if (!cartId) return null;
@@ -723,9 +695,7 @@ export default function CheckoutPage() {
               <span className="font-bold text-[#006341] text-lg">MM Mega Market</span>
             </a>
           </div>
-          {step !== CHECKOUT_STEP.CONFIRMATION && (
-            <CheckoutProgress step={step} />
-          )}
+          <CheckoutProgress step={step} />
         </div>
       </div>
 
@@ -748,13 +718,10 @@ export default function CheckoutPage() {
                 onPlaceOrder={handleOrderSuccess}
               />
             )}
-            {step === CHECKOUT_STEP.CONFIRMATION && (
-              <ConfirmationStep orderNumber={orderNumber} />
-            )}
           </div>
 
           {/* Order summary */}
-          {step !== CHECKOUT_STEP.CONFIRMATION && cart && (
+          {cart && (
             <div className="lg:col-span-1">
               <OrderSummary cart={cart} isCompact={true} />
             </div>
