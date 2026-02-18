@@ -459,3 +459,26 @@
   - Handle payment redirect (pay_url from orderV2)
   - Enhanced order confirmation page
 
+## Priority 4: Auth Completion - ConfirmPasswordPage
+- **Status:** ✓ Done
+- **Started:** 2026-02-18 10:35
+- **Completed:** 2026-02-18 10:27
+- **Components:**
+  - ConfirmPasswordPage: Password reset confirmation from email link
+  - Token and email validation from URL params
+  - Form validation with Zod (min 8 chars, password match)
+  - Success state with auto-redirect to sign-in (3s)
+  - Error state for invalid/expired links
+- **Features:**
+  - Read-only email field display
+  - Password strength validation
+  - Confirm password matching
+  - Error handling with user-friendly messages
+  - Link to request new reset link if expired
+- **Mutation:** RESET_PASSWORD_MUTATION (already in auth.ts)
+- **Route:** /confirm-password?token=xxx&email=xxx
+- **i18n:** Added password reset strings (vi-VN)
+- **Build:** 697.19 KiB bundle (150.66 KiB gzip), ConfirmPasswordPage 4.96KB
+- **Commit:** a4c2665
+- **Notes:** Password reset flow complete. Users can reset password from email link.
+
