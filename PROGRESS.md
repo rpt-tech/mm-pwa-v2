@@ -240,6 +240,25 @@
 - **Commit:** bc0a921
 - **Notes:** Wishlist functionality complete on PDP and catalog.
 
+## Priority 2: Product Detail Completion - AdditionalAttributes
+- **Status:** ✓ Done
+- **Started:** 2026-02-18 10:12
+- **Completed:** 2026-02-18 10:19
+- **Components:**
+  - AdditionalAttributes: Display product specs in table format
+  - Two-column table: attribute label and value
+  - Alternating row colors for better readability
+- **Features:**
+  - Filter out empty values and common attributes (name, sku, price, etc)
+  - Null check: only render if attributes exist
+  - Responsive table layout
+- **Data:** additional_attributes already in GET_PRODUCT_DETAIL query
+- **Integration:** ProductPage shows specs between description and reviews
+- **i18n:** Added product.specifications string
+- **Build:** 688.17 KiB bundle (150.23 KiB gzip), ProductPage 31.31KB (+1KB)
+- **Commit:** be35f95
+- **Notes:** Product specifications table complete.
+
 
 ## Phase 6: CMS + Content (P1)
 - **Status:** 🚧 In Progress (10/11 ContentTypes Complete)

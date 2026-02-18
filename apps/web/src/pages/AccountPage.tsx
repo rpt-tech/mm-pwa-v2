@@ -5,6 +5,7 @@ const DashboardPage = lazy(() => import('./account/DashboardPage'));
 const AccountInformationPage = lazy(() => import('./account/AccountInformationPage'));
 const AddressBookPage = lazy(() => import('./account/AddressBookPage'));
 const OrderHistoryPage = lazy(() => import('./account/OrderHistoryPage'));
+const OrderDetailPage = lazy(() => import('./OrderDetailPage'));
 const WishlistPage = lazy(() => import('./account/WishlistPage'));
 
 export default function AccountPage() {
@@ -15,6 +16,7 @@ export default function AccountPage() {
       <Route path="information" element={<AccountInformationPage />} />
       <Route path="addresses" element={<AddressBookPage />} />
       <Route path="orders" element={<OrderHistoryPage />} />
+      <Route path="orders/:orderNumber" element={<OrderDetailPage />} />
       <Route path="wishlist" element={<WishlistPage />} />
     </Routes>
   );

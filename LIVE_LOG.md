@@ -243,3 +243,10 @@ Ghi lại mọi action theo format:
 [10:07] Integrate to ProductCard — small button on product image — done
 [10:08] Build successful — 687.17 KiB (150.21 KiB gzip) — ProductPage +1.3KB (30.36KB)
 [10:09] Git commit bc0a921 — ✓ pushed to dev — WishlistButton complete
+[10:12] Check additional_attributes query — exists in GET_PRODUCT_DETAIL — done
+[10:14] Create AdditionalAttributes component — table format, alternating rows — done
+[10:15] Filter logic — remove empty values and common attributes — done
+[10:16] Integrate to ProductPage — between description and reviews — done
+[10:17] Add i18n string — product.specifications — done
+[10:18] Build successful — 688.17 KiB (150.23 KiB gzip) — ProductPage +1KB (31.31KB)
+[10:19] Git commit be35f95 — ✓ pushed to dev — AdditionalAttributes complete
