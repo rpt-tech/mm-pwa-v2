@@ -16,6 +16,7 @@ import DnrBlock from '@/components/product/DnrBlock';
 import ProductReviews from '@/components/product/ProductReviews';
 import RelatedUpsellProducts from '@/components/product/RelatedUpsellProducts';
 import WishlistButton from '@/components/product/WishlistButton';
+import AdditionalAttributes from '@/components/product/AdditionalAttributes';
 
 export default function ProductPage() {
   const { t } = useTranslation();
@@ -282,6 +283,13 @@ export default function ProductPage() {
         <div className="mb-12">
           <h2 className="text-2xl font-bold mb-4">{t('product.description', 'Product Description')}</h2>
           <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: product.description.html }} />
+        </div>
+      )}
+
+      {/* Additional Attributes / Specifications */}
+      {product.additional_attributes && (
+        <div className="mb-12">
+          <AdditionalAttributes attributes={product.additional_attributes} />
         </div>
       )}
 

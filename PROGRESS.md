@@ -221,6 +221,25 @@
 - **Commit:** df83f6c
 - **Notes:** Cross-sell and upsell functionality complete.
 
+## Priority 2: Product Detail Completion - WishlistButton
+- **Status:** ✓ Done
+- **Started:** 2026-02-18 10:02
+- **Completed:** 2026-02-18 10:09
+- **Components:**
+  - WishlistButton: Toggle add/remove from wishlist with heart icon
+  - Three sizes: sm, md, lg with optional label
+  - Heart icon fills when in wishlist (lucide-react)
+- **Features:**
+  - Auth-gated: Opens auth modal if not logged in
+  - Loading state with pulse animation
+  - Query invalidation on success to refresh wishlist
+  - Hover effects and transitions
+- **Mutations:** ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST (already in account.ts)
+- **Integration:** ProductPage (large button next to Add to Cart), ProductCard (small button on image)
+- **Build:** 687.17 KiB bundle (150.21 KiB gzip), ProductPage 30.36KB (+1.3KB)
+- **Commit:** bc0a921
+- **Notes:** Wishlist functionality complete on PDP and catalog.
+
 
 ## Phase 6: CMS + Content (P1)
 - **Status:** 🚧 In Progress (10/11 ContentTypes Complete)

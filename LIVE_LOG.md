@@ -237,3 +237,9 @@ Ghi lại mọi action theo format:
 [09:56] Add i18n strings — relatedProducts, upsellProducts — done
 [09:57] Build successful — 685.17 KiB (150.18 KiB gzip) — ProductPage +3.7KB (29.08KB)
 [09:58] Git commit df83f6c — ✓ pushed to dev — RelatedUpsellProducts complete
+[10:02] Check wishlist mutations — ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST exist — done
+[10:04] Create WishlistButton component — heart icon, 3 sizes, auth-gated — done
+[10:06] Integrate to ProductPage — large button next to Add to Cart — done
+[10:07] Integrate to ProductCard — small button on product image — done
+[10:08] Build successful — 687.17 KiB (150.21 KiB gzip) — ProductPage +1.3KB (30.36KB)
+[10:09] Git commit bc0a921 — ✓ pushed to dev — WishlistButton complete
