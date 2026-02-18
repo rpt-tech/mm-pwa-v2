@@ -111,6 +111,31 @@
 - **Build:** 520KB bundle, PWA ready
 - **Commit:** fb3b36a
 
+## Phase 5: Account (P1)
+- **Status:** 🚧 In Progress
+- **Started:** 2026-02-17 16:30
+- **Completed So Far:**
+  - ✓ Account GraphQL queries (account.ts)
+  - ⏳ MyAccount layout and components (TODO)
+- **GraphQL Queries:**
+  - account.ts: Complete customer account operations
+    - GET_CUSTOMER with custom_attributes, city_code, ward_code
+    - UPDATE_CUSTOMER, UPDATE_CUSTOMER_EMAIL, CHANGE_PASSWORD
+    - Address CRUD: CREATE/UPDATE/DELETE_CUSTOMER_ADDRESS
+    - GET_CUSTOMER_ORDERS with pagination, shipments, invoices, credit_memos
+    - GET_ORDER_DETAILS with full order breakdown
+    - GET_WISHLIST, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST
+- **Build:** 578KB bundle, PWA ready
+- **Commit:** 05b934f
+- **TODO:**
+  - MyAccount layout with sidebar navigation
+  - Dashboard page
+  - Account Information page
+  - Address Book page
+  - Order History page
+  - Order Detail page
+  - Wishlist page
+
 ## Phase 4: Cart + Checkout
 - **Status:** 🚧 In Progress
 - **Started:** 2026-02-17 15:35

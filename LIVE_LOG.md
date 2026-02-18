@@ -99,3 +99,5 @@ Ghi lại mọi action theo format:
 [16:28] Check next steps — Phase 4 core complete, advanced features (location cascade, delivery time) can be Phase 5 or later
 [16:29] Phase 4 complete — core cart and checkout functional — commit 47cbdbc
 [16:30] Start Phase 5: Account — reading MyAccount source structure — plan implementation
+[16:31] Create account.ts queries — ✓ GET_CUSTOMER, orders, wishlist, address CRUD — build successful
+[16:32] Git commit 05b934f — ✓ Phase 5 account queries complete — push to dev
