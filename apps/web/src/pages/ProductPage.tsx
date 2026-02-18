@@ -13,6 +13,7 @@ import StockStatusMessage from '@/components/catalog/StockStatusMessage';
 import AlcoholDialog from '@/components/product/AlcoholDialog';
 import DnrLabel from '@/components/product/DnrLabel';
 import DnrBlock from '@/components/product/DnrBlock';
+import ProductReviews from '@/components/product/ProductReviews';
 
 export default function ProductPage() {
   const { t } = useTranslation();
@@ -280,6 +281,11 @@ export default function ProductPage() {
           <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: product.description.html }} />
         </div>
       )}
+
+      {/* Product Reviews */}
+      <div className="mb-12">
+        <ProductReviews sku={product.sku} productName={product.ecom_name || product.name} />
+      </div>
 
       {product.similar_products && product.similar_products.length > 0 && (
         <div className="mb-12">

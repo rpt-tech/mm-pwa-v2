@@ -166,6 +166,22 @@
 - **Commit:** 053ed75
 - **Notes:** Legal compliance feature for alcohol products. Age verification required before purchase.
 
+## Priority 2: Product Detail Completion - DNR Labels
+- **Status:** ✓ Done
+- **Started:** 2026-02-18 09:20
+- **Completed:** 2026-02-18 09:30
+- **Components:**
+  - DnrLabel: Display event_name badge with tooltip for discount tiers
+  - DnrBlock: Detailed promotion info (disabled by default per source)
+- **Integration:**
+  - ProductPage: DnrLabel below title, DnrBlock below price
+  - ProductCard: DnrLabel in catalog grid
+- **Data:** dnr_price fields already in queries (event_name, promo_label, promo_value, etc)
+- **i18n:** Added dnrBlock.title string
+- **Build:** 674.90 KiB bundle (149.99 KiB gzip), ProductPage 19.62KB (+1.4KB)
+- **Commit:** e86c7cb
+- **Notes:** Deal/promotion display. Business logic 1:1 from source.
+
 
 ## Phase 6: CMS + Content (P1)
 - **Status:** 🚧 In Progress (10/11 ContentTypes Complete)

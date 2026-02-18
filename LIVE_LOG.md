@@ -213,3 +213,12 @@ Ghi lại mọi action theo format:
 [09:15] Add i18n strings — alcoholDialog.confirmMessage, cancel, redirectToCart — done
 [09:16] Build successful — 673.29 KiB (149.98 KiB gzip) — ProductPage +2KB
 [09:17] Git commit 053ed75 — ✓ pushed to dev — AlcoholDialog complete
+[09:20] Read DNR source — dnrLabel.js, dnrBlock.js — understand promotion display logic
+[09:22] Create DnrLabel component — event_name badge, tooltip for discount tiers — done
+[09:23] Create DnrBlock component — detailed promo info (disabled per source) — done
+[09:25] Integrate DnrLabel to ProductPage — below title, show event_name — done
+[09:26] Integrate DnrLabel to ProductCard — catalog grid display — done
+[09:27] Add DnrBlock to ProductPage — below price section (hidden by default) — done
+[09:28] Add i18n string — dnrBlock.title — done
+[09:29] Build successful — 674.90 KiB (149.99 KiB gzip) — ProductPage +1.4KB
+[09:30] Git commit e86c7cb — ✓ pushed to dev — DNR labels complete
