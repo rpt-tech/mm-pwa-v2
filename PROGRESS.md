@@ -116,7 +116,14 @@
 - **Started:** 2026-02-17 16:30
 - **Completed So Far:**
   - ✓ Account GraphQL queries (account.ts)
-  - ⏳ MyAccount layout and components (TODO)
+  - ✓ MyAccountLayout with sidebar navigation
+  - ✓ AccountSidebar with menu and sign out
+  - ✓ DashboardPage with customer info, orders, loyalty points
+  - ✓ Account routing structure
+  - ⏳ Account Information page (placeholder)
+  - ⏳ Address Book page (placeholder)
+  - ⏳ Order History page (placeholder)
+  - ⏳ Wishlist page (placeholder)
 - **GraphQL Queries:**
   - account.ts: Complete customer account operations
     - GET_CUSTOMER with custom_attributes, city_code, ward_code
@@ -125,16 +132,22 @@
     - GET_CUSTOMER_ORDERS with pagination, shipments, invoices, credit_memos
     - GET_ORDER_DETAILS with full order breakdown
     - GET_WISHLIST, ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST
-- **Build:** 578KB bundle, PWA ready
-- **Commit:** 05b934f
+- **Components:**
+  - MyAccountLayout: Auth guard, breadcrumbs, sidebar toggle
+  - AccountSidebar: Navigation menu with icons, sign out confirmation dialog
+  - DashboardPage: Customer summary cards (info, address, orders, points)
+  - Placeholder pages: AccountInformation, AddressBook, OrderHistory, Wishlist
+- **Routing:**
+  - /account → redirects to /account/dashboard
+  - /account/dashboard, /information, /addresses, /orders, /wishlist
+- **i18n:** Added account section strings (vi-VN, en-US)
+- **Build:** 601KB bundle, PWA ready
+- **Commit:** 2d0d970
 - **TODO:**
-  - MyAccount layout with sidebar navigation
-  - Dashboard page
-  - Account Information page
-  - Address Book page
-  - Order History page
-  - Order Detail page
-  - Wishlist page
+  - Implement Account Information edit form
+  - Implement Address Book CRUD
+  - Implement Order History list and detail
+  - Implement Wishlist with add/remove
 
 ## Phase 4: Cart + Checkout
 - **Status:** 🚧 In Progress

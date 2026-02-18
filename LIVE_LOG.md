@@ -112,3 +112,7 @@ Ghi lại mọi action theo format:
 [02:38] Build errors — fix imports, Breadcrumbs, isAuthenticated, graphqlClient
 [02:42] Fixed TypeScript errors — building again
 [02:42] Build successful — 601KB bundle, PWA ready — commit Phase 5 account layout + dashboard
+[02:43] Git commit 2d0d970 — ✓ pushed to dev — update PROGRESS.md
+[02:43] PROGRESS.md updated — Phase 5 account layout + dashboard complete — next: implement detail pages
+[02:43] Check STEERING.md — empty, continue with Phase 5 detail pages implementation
+[02:43] Phase 5 account layout complete — dashboard functional — next: AccountInformation, AddressBook, OrderHistory, Wishlist detail pages
