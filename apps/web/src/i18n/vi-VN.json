@@ -80,5 +80,21 @@
   "account.enterCompanyAddress": "Nhập địa chỉ công ty",
   "account.saveInformation": "Lưu thông tin",
   "account.informationUpdated": "Thông tin đã được cập nhật",
-  "account.noChanges": "Không có thông tin nào được thay đổi"
+  "account.noChanges": "Không có thông tin nào được thay đổi",
+  "account.addressBook": "Sổ địa chỉ",
+  "account.addAddress": "Thêm địa chỉ",
+  "account.editAddress": "Sửa địa chỉ",
+  "account.deleteAddress": "Xóa địa chỉ",
+  "account.confirmDeleteAddress": "Bạn có chắc chắn muốn xóa địa chỉ này?",
+  "account.defaultAddress": "Địa chỉ mặc định",
+  "account.makeDefaultAddress": "Đặt làm địa chỉ mặc định",
+  "account.noAddresses": "Bạn chưa có địa chỉ nào được lưu",
+  "account.firstName": "Họ và tên",
+  "account.streetAddress": "Địa chỉ chi tiết",
+  "account.updateNewAdministrative": "Vui lòng cập nhật địa chỉ theo đơn vị hành chính mới",
+  "account.newAdministrativeNote": "Vui lòng nhập địa chỉ theo đơn vị hành chính mới để đảm bảo giao hàng chính xác",
+  "common.cancel": "Hủy",
+  "common.delete": "Xóa",
+  "common.save": "Lưu",
+  "common.saving": "Đang lưu..."
 }

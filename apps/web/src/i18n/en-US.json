@@ -80,5 +80,21 @@
   "account.enterCompanyAddress": "Enter company address",
   "account.saveInformation": "Save Information",
   "account.informationUpdated": "Your information has been updated",
-  "account.noChanges": "No information has been updated"
+  "account.noChanges": "No information has been updated",
+  "account.addressBook": "Address Book",
+  "account.addAddress": "Add Address",
+  "account.editAddress": "Edit Address",
+  "account.deleteAddress": "Delete Address",
+  "account.confirmDeleteAddress": "Are you sure you want to delete this address?",
+  "account.defaultAddress": "Default Address",
+  "account.makeDefaultAddress": "Make this my default address",
+  "account.noAddresses": "You have not saved any addresses",
+  "account.firstName": "Full Name",
+  "account.streetAddress": "Street Address",
+  "account.updateNewAdministrative": "Please update the shipping address according to the new administrative divisions",
+  "account.newAdministrativeNote": "Please enter the address according to the new administrative divisions to ensure correct delivery address",
+  "common.cancel": "Cancel",
+  "common.delete": "Delete",
+  "common.save": "Save",
+  "common.saving": "Saving..."
 }

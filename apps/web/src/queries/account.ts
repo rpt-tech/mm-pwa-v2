@@ -97,64 +97,65 @@ export const CHANGE_PASSWORD = gql`
   }
 `;
 
+// Get customer addresses with pagination (for AddressBookPage)
+export const GET_CUSTOMER_ADDRESSES_PAGINATED = gql`
+  query GetCustomerAddressesForAddressBook($currentPage: Int!, $pageSize: Int!) {
+    customer {
+      addressesV2(currentPage: $currentPage, pageSize: $pageSize) {
+        total_count
+        total_pages
+        addresses {
+          id
+          firstname
+          telephone
+          default_shipping
+          is_new_administrative
+          country_code
+          city
+          street
+          custom_attributes {
+            attribute_code
+            value
+          }
+        }
+      }
+    }
+  }
+`;
+
 // Create customer address
 export const CREATE_CUSTOMER_ADDRESS = gql`
-  mutation CreateCustomerAddress($input: CustomerAddressInput!) {
-    createCustomerAddress(input: $input) {
+  mutation CreateCustomerAddress($address: CustomerAddressInput!) {
+    createCustomerAddress(input: $address) {
       id
-      uid
-      firstname
-      lastname
-      street
-      city
-      city_code
-      ward
-      ward_code
-      region {
-        region_code
-        region_id
-        region
-      }
-      country_code
-      postcode
-      telephone
-      default_shipping
-      default_billing
     }
   }
 `;
 
 // Update customer address
 export const UPDATE_CUSTOMER_ADDRESS = gql`
-  mutation UpdateCustomerAddress($id: Int!, $input: CustomerAddressInput!) {
-    updateCustomerAddress(id: $id, input: $input) {
+  mutation UpdateCustomerAddress($addressId: Int!, $updated_address: CustomerAddressInput!) {
+    updateCustomerAddress(id: $addressId, input: $updated_address) {
       id
-      uid
       firstname
-      lastname
-      street
-      city
-      city_code
-      ward
-      ward_code
-      region {
-        region_code
-        region_id
-        region
-      }
-      country_code
-      postcode
       telephone
       default_shipping
-      default_billing
+      is_new_administrative
+      country_code
+      city
+      street
+      custom_attributes {
+        attribute_code
+        value
+      }
     }
   }
 `;
 
 // Delete customer address
 export const DELETE_CUSTOMER_ADDRESS = gql`
-  mutation DeleteCustomerAddress($id: Int!) {
-    deleteCustomerAddress(id: $id)
+  mutation DeleteCustomerAddress($addressId: Int!) {
+    deleteCustomerAddress(id: $addressId)
   }
 `;
 
