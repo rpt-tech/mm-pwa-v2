@@ -310,3 +310,4 @@ Next priorities:
 5. Add loading states where missing
 [11:39] Fixed CmsPage and NotFoundPage stubs — ✓ committed 986ab65 — build 886.20 KiB
 [12:25] Continue development — Focus on remaining enhancements
+[12:31] SEO structured data added — ✓ Product & Breadcrumb schemas — committed 0c4a119 — build 888.17 KiB
