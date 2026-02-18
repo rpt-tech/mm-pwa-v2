@@ -168,4 +168,12 @@ Ghi lại mọi action theo format:
 [07:32] Fix TypeScript errors — ✓ ContentTypeFactory uses 'as any', Footer JSX fixed — rebuild
 [07:33] Build successful — ✓ 660.88 KiB bundle (149.79 KiB gzip) — commit and push
 [07:34] Git commit 28dba5f — ✓ pushed to dev — Phase 6 CMS foundation complete
+[07:35] Start ProductsCarousel + FlashsaleProducts ContentTypes — reading source components
+[07:36] Read source components — ✓ Products carousel with URL keys, Flashsale with countdown — create ProductCard
+[07:37] Create ProductCard component — ✓ reusable card with discount, labels, rating — create ProductsCarousel
+[07:38] Create ProductsCarousel ContentType — ✓ fetches by URL keys, grid/carousel modes, responsive — create FlashsaleProductsCT
+[07:39] Create FlashsaleProductsCT — ✓ countdown timer, auto-refresh, responsive carousel — update ContentTypeFactory
+[07:40] Update ContentTypeFactory — ✓ added products and flashsale-products types — build test
+[07:41] Build successful — ✓ 661.20 KiB bundle (149.79 KiB gzip) — commit and push
+[07:42] Git commit 381ef89 — ✓ pushed to dev — ProductsCarousel + FlashsaleProducts complete
 

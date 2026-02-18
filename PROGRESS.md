@@ -112,7 +112,7 @@
 - **Commit:** fb3b36a
 
 ## Phase 6: CMS + Content (P1)
-- **Status:** 🚧 In Progress (Foundation Complete)
+- **Status:** 🚧 In Progress (10/11 ContentTypes Complete)
 - **Started:** 2026-02-18 07:20
 - **Completed Features:**
   - ✓ CMS GraphQL queries (cms.ts)
@@ -123,7 +123,7 @@
     - DOMPurify HTML sanitization (XSS protection)
     - SPA navigation for internal links
     - iframe support for embedded content
-  - ✓ ContentType components (8 types):
+  - ✓ ContentType components (10 types):
     - Row (contained/full-width/full-bleed layouts)
     - ColumnGroup (grid/flex container)
     - Column (grid columns with vertical alignment)
@@ -132,6 +132,12 @@
     - Html (raw HTML with styling)
     - Image (responsive desktop/mobile, lazy loading)
     - Text (styled text content)
+    - **ProductsCarousel** (fetch by URL keys, grid/carousel modes)
+    - **FlashsaleProductsCT** (countdown timer, auto-refresh)
+  - ✓ ProductCard component (reusable product card)
+    - Discount badge, product labels, rating
+    - Stock status, unit_ecom display
+    - Lazy loading images
   - ✓ ContentTypeFactory (dynamic component rendering)
   - ✓ CmsPage component
     - TanStack Query integration
@@ -147,11 +153,9 @@
   - react-slick ^0.31.0 (slider component)
   - slick-carousel ^1.8.1 (slider styles)
   - @types/react-slick ^0.23.13
-- **Build:** 660.88 KiB bundle (149.79 KiB gzip)
-- **Commit:** 28dba5f
+- **Build:** 661.20 KiB bundle (149.79 KiB gzip)
+- **Commits:** 28dba5f (foundation), 381ef89 (products/flashsale)
 - **TODO:**
-  - [ ] Products/Carousel ContentType (product grid with GQL)
-  - [ ] FlashsaleProducts ContentType (already exists as component, needs CT wrapper)
   - [ ] ProductRecommendation ContentType (AI-based recommendations)
   - [ ] MagentoRoute component (URL resolver for dynamic routing)
   - [ ] Test with live CMS content from backend
