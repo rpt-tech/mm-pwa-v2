@@ -125,3 +125,7 @@ Ghi lại mọi action theo format:
 [05:34] Decision: Complete Phase 4 checkout Vietnam cascade first — higher priority for MVP
 [05:35] CheckoutPage analysis — basic form exists, NO Vietnam cascade yet — needs GET_CITIES/DISTRICTS/WARDS
 [05:35] Phase 5 checkpoint — AccountInformationPage complete, other account pages too complex for now
+[05:35] Git commit progress update — ✓ pushed to dev
+[05:35] Summary: Phase 5 AccountInformationPage done (612KB), AddressBook/OrderHistory/Wishlist complex, Phase 4 checkout needs cascade
+[06:36] Start Vietnam location cascade for CheckoutPage — read source for cascade logic
+[06:37] Integrate VietnamLocationCascade into CheckoutPage — replace text inputs with cascade dropdowns

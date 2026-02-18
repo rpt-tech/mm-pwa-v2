@@ -8,6 +8,7 @@ import { z } from 'zod';
 import { ChevronRight, CheckCircle, AlertCircle, Package, CreditCard, MapPin } from 'lucide-react';
 import { useCartStore } from '@/stores/cartStore';
 import { useAuthStore } from '@/stores/authStore';
+import VietnamLocationCascade from '@/components/checkout/VietnamLocationCascade';
 import {
   GET_CUSTOMER_ADDRESSES,
   SET_GUEST_EMAIL,
@@ -34,8 +35,12 @@ const addressSchema = z.object({
   lastname: z.string().min(1, 'Tên không được để trống'),
   telephone: z.string().min(10, 'Số điện thoại không hợp lệ'),
   street: z.string().min(5, 'Địa chỉ không được để trống'),
-  city: z.string().min(1, 'Thành phố không được để trống'),
-  region_code: z.string().min(1, 'Tỉnh/thành phố không được để trống'),
+  city_code: z.string().min(1, 'Vui lòng chọn Tỉnh/Thành phố'),
+  city_name: z.string().optional(),
+  district_code: z.string().optional(),
+  district_name: z.string().optional(),
+  ward_code: z.string().min(1, 'Vui lòng chọn Phường/Xã'),
+  ward_name: z.string().optional(),
   country_code: z.string().default('VN'),
   postcode: z.string().default('700000'),
 });
@@ -191,6 +196,7 @@ function ShippingStep({
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm<AddressFormData>({
     resolver: zodResolver(addressSchema),
@@ -215,8 +221,8 @@ function ShippingStep({
       setValue('lastname', defaultAddr.lastname);
       setValue('telephone', defaultAddr.telephone);
       setValue('street', defaultAddr.street?.join(', ') || '');
-      setValue('city', defaultAddr.city);
-      setValue('region_code', defaultAddr.region?.region_code || '');
+      setValue('city_code', defaultAddr.city_code || '');
+      setValue('ward_code', defaultAddr.ward_code || '');
     }
   }, [addresses, setValue]);
 
@@ -231,12 +237,21 @@ function ShippingStep({
         firstname: data.firstname,
         lastname: data.lastname,
         street: [data.street],
-        city: data.city,
-        region: { region_code: data.region_code },
+        city: data.city_code, // Use city_code as city
         country_code: data.country_code || 'VN',
         postcode: data.postcode || '700000',
         telephone: data.telephone,
         save_in_address_book: false,
+        custom_attributes: [
+          {
+            attribute_code: 'city_code',
+            value: data.city_code,
+          },
+          {
+            attribute_code: 'ward_code',
+            value: data.ward_code,
+          },
+        ],
       };
 
       return request(GRAPHQL_ENDPOINT, SET_SHIPPING_ADDRESS, {
@@ -311,8 +326,8 @@ function ShippingStep({
                     setValue('lastname', addr.lastname);
                     setValue('telephone', addr.telephone);
                     setValue('street', addr.street?.join(', ') || '');
-                    setValue('city', addr.city);
-                    setValue('region_code', addr.region?.region_code || '');
+                    setValue('city_code', addr.city_code || '');
+                    setValue('ward_code', addr.ward_code || '');
                   }}
                   className="mt-0.5 accent-[#006341]"
                 />
@@ -399,32 +414,39 @@ function ShippingStep({
             <label className="block text-sm font-medium text-gray-700 mb-1">Địa chỉ *</label>
             <input
               {...register('street')}
-              placeholder="Số nhà, tên đường, phường/xã"
+              placeholder="Số nhà, tên đường"
               className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#006341]"
             />
             {errors.street && <p className="mt-1 text-xs text-red-500">{errors.street.message}</p>}
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Tỉnh/Thành phố *</label>
-              <input
-                {...register('region_code')}
-                placeholder="HN / HCM..."
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#006341]"
-              />
-              {errors.region_code && <p className="mt-1 text-xs text-red-500">{errors.region_code.message}</p>}
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Quận/Huyện *</label>
-              <input
-                {...register('city')}
-                placeholder="Quận 1"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#006341]"
-              />
-              {errors.city && <p className="mt-1 text-xs text-red-500">{errors.city.message}</p>}
-            </div>
-          </div>
+          {/* Vietnam Location Cascade */}
+          <VietnamLocationCascade
+            cityCode={watch('city_code')}
+            wardCode={watch('ward_code')}
+            onCityChange={(cityCode, cityName) => {
+              setValue('city_code', cityCode);
+              setValue('city_name', cityName);
+              setValue('district_code', '');
+              setValue('district_name', '');
+              setValue('ward_code', '');
+              setValue('ward_name', '');
+            }}
+            onDistrictChange={(districtCode, districtName) => {
+              setValue('district_code', districtCode);
+              setValue('district_name', districtName);
+              setValue('ward_code', '');
+              setValue('ward_name', '');
+            }}
+            onWardChange={(wardCode, wardName) => {
+              setValue('ward_code', wardCode);
+              setValue('ward_name', wardName);
+            }}
+            errors={{
+              city: errors.city_code?.message,
+              ward: errors.ward_code?.message,
+            }}
+          />
 
           {setShippingAddressMutation.isError && (
             <div className="flex items-center gap-2 text-red-500 text-sm">
