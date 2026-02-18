@@ -156,18 +156,20 @@
   - Implement Wishlist with add/remove
 
 ## Phase 4: Cart + Checkout
-- **Status:** 🚧 In Progress
+- **Status:** ✓ Done (Core Complete)
 - **Started:** 2026-02-17 15:35
-- **Completed So Far:**
+- **Completed:** 2026-02-18 (Vietnam cascade)
+- **Completed Features:**
   - ✓ Cart GraphQL queries (cart.ts)
   - ✓ MiniCart drawer component
   - ✓ Checkout GraphQL queries (checkout.ts) with MM custom fields
-  - ✓ CartPage (exists, functional, needs testing)
-  - ✓ CheckoutPage (exists, basic flow works)
-  - ⏳ Vietnam location cascade (city → district → ward) - NOT IMPLEMENTED YET
-    - Need: GET_CITIES, GET_DISTRICTS, GET_WARDS queries
-    - Need: Cascade dropdown selectors
-    - Need: city_code, ward_code integration
+  - ✓ CartPage (functional)
+  - ✓ CheckoutPage (multi-step flow)
+  - ✓ Vietnam location cascade (city → district → ward) - IMPLEMENTED
+    - GET_CITIES, GET_DISTRICTS, GET_WARDS queries
+    - VietnamLocationCascade component with cascade dropdowns
+    - city_code, ward_code integration
+    - Auto-reset on parent selection change
 - **GraphQL Queries:**
   - cart.ts: Complete cart operations
     - MINI_CART_FRAGMENT, CART_PAGE_FRAGMENT with all MM custom fields
@@ -183,36 +185,35 @@
     - SET_GUEST_EMAIL, SET_SHIPPING_ADDRESS, SET_BILLING_ADDRESS
     - SET_SHIPPING_METHOD, SET_PAYMENT_METHOD
     - PLACE_ORDER with orderV2 response (MM custom: id, number, status, payment_methods with pay_url)
-    - GET_CITIES, GET_DISTRICTS, GET_WARDS for Vietnam location cascade
     - GET_CUSTOMER_ADDRESSES with city_code, ward_code
+  - location.ts: Vietnam location queries
+    - GET_CITIES (country_id: VN, is_new_administrative: 1)
+    - GET_DISTRICTS (city_code)
+    - GET_WARDS (city_code)
 - **Components:**
   - MiniCart: Drawer with item list, quantity update, remove, price summary
-    - Integrated into MainLayout
-    - Real-time cart updates with TanStack Query
-    - Configurable options display
-    - Links to cart and checkout pages
   - CartPage: Full cart page with item management
-    - Item list with quantity stepper, remove, comment
-    - Coupon code input
-    - Price summary with discounts, taxes
-    - Checkout button
-  - CheckoutPage: Multi-step checkout flow
-    - Step 1: Shipping address form (basic text inputs, NO cascade yet)
+  - CheckoutPage: Multi-step checkout flow with Vietnam cascade
+    - Step 1: Shipping address form with city/district/ward cascade dropdowns
     - Step 2: Payment method selection
     - Step 3: Order confirmation
     - Progress indicator
     - Order summary sidebar
+  - VietnamLocationCascade: Reusable cascade component
+    - City dropdown (independent)
+    - District dropdown (depends on city)
+    - Ward dropdown (depends on city)
+    - Auto-reset child selections on parent change
 - **Custom Fields:**
   - dnr_price, have_same_promotion, have_great_deal, comment
   - pickup_location, customer_no (MCard)
   - city_code, ward_code for Vietnam addresses
   - All MM-specific fields preserved from source
-- **Build:** 612KB bundle, PWA ready
-- **Commit:** 6633fd7
-- **TODO:**
-  - Implement Vietnam location cascade (city → district → ward) in CheckoutPage
+- **Build:** 616KB bundle, CheckoutPage 31.32KB, PWA ready
+- **Commit:** 34f2897
+- **TODO (Optional):**
   - Add delivery time picker
-  - Test full checkout flow end-to-end
+  - Test full checkout flow end-to-end with live backend
   - Handle payment redirect (pay_url from orderV2)
-  - Order confirmation page
+  - Enhanced order confirmation page
 
