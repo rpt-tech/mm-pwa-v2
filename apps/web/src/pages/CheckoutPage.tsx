@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
@@ -9,6 +9,7 @@ import { useCartStore } from '@/stores/cartStore';
 import { useAuthStore } from '@/stores/authStore';
 import { gqlClient } from '@/lib/graphql-client';
 import VietnamLocationCascade from '@/components/checkout/VietnamLocationCascade';
+import AlcoholCheckoutDialog from '@/components/product/AlcoholCheckoutDialog';
 import {
   GET_CUSTOMER_ADDRESSES,
   SET_GUEST_EMAIL,
@@ -644,6 +645,7 @@ export default function CheckoutPage() {
   const { cartId, reset: resetCart } = useCartStore();
   const { isLoggedIn } = useAuthStore();
   const [step, setStep] = useState<CheckoutStepType>(CHECKOUT_STEP.SHIPPING);
+  const [showAlcoholDialog, setShowAlcoholDialog] = useState(false);
 
   const { data: cartData, isLoading } = useQuery({
     queryKey: ['checkoutDetails', cartId],
@@ -654,6 +656,11 @@ export default function CheckoutPage() {
 
   const cart = cartData?.cart;
 
+  // Check if cart has alcohol products
+  const hasAlcoholProduct = useMemo(() => {
+    return cart?.items?.some((item: any) => item?.product?.is_alcohol === true) ?? false;
+  }, [cart]);
+
   // Redirect if cart is empty
   useEffect(() => {
     if (!cartId) {
@@ -661,10 +668,28 @@ export default function CheckoutPage() {
     }
   }, [cartId, navigate]);
 
+  // Show alcohol dialog if cart has alcohol products
+  useEffect(() => {
+    if (hasAlcoholProduct && !sessionStorage.getItem('alcohol_confirmed')) {
+      setShowAlcoholDialog(true);
+    }
+  }, [hasAlcoholProduct]);
+
   const handleOrderSuccess = (number: string) => {
     resetCart();
+    sessionStorage.removeItem('alcohol_confirmed');
     // Redirect to order confirmation page
     navigate(`/checkout/confirmation?order_number=${number}`);
+  };
+
+  const handleAlcoholDialogConfirm = () => {
+    setShowAlcoholDialog(false);
+    navigate('/cart');
+  };
+
+  const handleAlcoholDialogClose = () => {
+    setShowAlcoholDialog(false);
+    navigate('/cart');
   };
 
   if (!cartId) return null;
@@ -728,6 +753,13 @@ export default function CheckoutPage() {
           )}
         </div>
       </div>
+
+      {/* Alcohol checkout dialog */}
+      <AlcoholCheckoutDialog
+        isOpen={showAlcoholDialog}
+        onConfirm={handleAlcoholDialogConfirm}
+        onClose={handleAlcoholDialogClose}
+      />
     </div>
   );
 }

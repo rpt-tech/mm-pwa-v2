@@ -10,6 +10,7 @@ import ProductLabel from '@/components/catalog/ProductLabel';
 import QuantityStepper from '@/components/product/QuantityStepper';
 import ProductOptions from '@/components/product/ProductOptions';
 import StockStatusMessage from '@/components/catalog/StockStatusMessage';
+import AlcoholDialog from '@/components/product/AlcoholDialog';
 
 export default function ProductPage() {
   const { t } = useTranslation();
@@ -20,6 +21,8 @@ export default function ProductPage() {
   const [quantity, setQuantity] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
   const [addToCartError, setAddToCartError] = useState<string | null>(null);
+  const [showAlcoholDialog, setShowAlcoholDialog] = useState(false);
+  const [pendingAddToCart, setPendingAddToCart] = useState(false);
 
   // Fetch product details
   const { data, isLoading, error } = useQuery({
@@ -46,6 +49,20 @@ export default function ProductPage() {
   const handleAddToCart = async () => {
     if (!cartId || !product) return;
 
+    // Check if product is alcohol and user hasn't confirmed age
+    if (product.is_alcohol && !sessionStorage.getItem('alcohol_age_confirmed')) {
+      setPendingAddToCart(true);
+      setShowAlcoholDialog(true);
+      return;
+    }
+
+    // Proceed with add to cart
+    proceedAddToCart();
+  };
+
+  const proceedAddToCart = () => {
+    if (!cartId || !product) return;
+
     const cartItems: any = {
       sku: product.sku,
       quantity,
@@ -59,6 +76,20 @@ export default function ProductPage() {
       cartId,
       cartItems: [cartItems],
     });
+  };
+
+  const handleAlcoholConfirm = () => {
+    sessionStorage.setItem('alcohol_age_confirmed', 'true');
+    setShowAlcoholDialog(false);
+    if (pendingAddToCart) {
+      setPendingAddToCart(false);
+      proceedAddToCart();
+    }
+  };
+
+  const handleAlcoholCancel = () => {
+    setShowAlcoholDialog(false);
+    setPendingAddToCart(false);
   };
 
   const isAddToCartDisabled =
@@ -254,6 +285,14 @@ export default function ProductPage() {
           </div>
         </div>
       )}
+
+      {/* Alcohol age confirmation dialog */}
+      <AlcoholDialog
+        isOpen={showAlcoholDialog}
+        onConfirm={handleAlcoholConfirm}
+        onCancel={handleAlcoholCancel}
+        isBusy={addToCartMutation.isPending}
+      />
     </div>
   );
 }
