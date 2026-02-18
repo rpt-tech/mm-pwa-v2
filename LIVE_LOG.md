@@ -120,3 +120,8 @@ Ghi lại mọi action theo format:
 [05:33] AccountInformationPage complete — form with customer_no, VAT fields, password change — build 612KB
 [05:33] Skip AddressBookPage — too complex, needs Vietnam location cascade — do OrderHistory + Wishlist first
 [05:33] Skip OrderHistory — complex with tracking, progress bars — do Wishlist first (simplest)
+[05:34] Git commit 6633fd7 — ✓ pushed to dev — AccountInformationPage complete
+[05:34] Phase 5 account pages analysis — AddressBook/OrderHistory/Wishlist all complex — need dedicated time
+[05:34] Decision: Complete Phase 4 checkout Vietnam cascade first — higher priority for MVP
+[05:35] CheckoutPage analysis — basic form exists, NO Vietnam cascade yet — needs GET_CITIES/DISTRICTS/WARDS
+[05:35] Phase 5 checkpoint — AccountInformationPage complete, other account pages too complex for now

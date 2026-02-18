@@ -115,15 +115,21 @@
 - **Status:** 🚧 In Progress
 - **Started:** 2026-02-17 16:30
 - **Completed So Far:**
-  - ✓ Account GraphQL queries (account.ts)
+  - ✓ Account GraphQL queries (account.ts) with customer_no, vat_address
   - ✓ MyAccountLayout with sidebar navigation
   - ✓ AccountSidebar with menu and sign out
   - ✓ DashboardPage with customer info, orders, loyalty points
   - ✓ Account routing structure
-  - ⏳ Account Information page (placeholder)
-  - ⏳ Address Book page (placeholder)
-  - ⏳ Order History page (placeholder)
-  - ⏳ Wishlist page (placeholder)
+  - ✓ AccountInformationPage - full edit form with:
+    - firstname, email, telephone, customer_no (13 or 16 digits)
+    - Password required to save changes
+    - Change password toggle (new password + confirm)
+    - VAT fields toggle (company name, tax code, address)
+    - Form validation with Zod
+    - React Hook Form integration
+  - ⏳ Address Book page (complex - needs Vietnam location cascade)
+  - ⏳ Order History page (complex - tracking, progress bars)
+  - ⏳ Wishlist page (complex - multiple wishlists, rename/delete)
 - **GraphQL Queries:**
   - account.ts: Complete customer account operations
     - GET_CUSTOMER with custom_attributes, city_code, ward_code
@@ -156,8 +162,12 @@
   - ✓ Cart GraphQL queries (cart.ts)
   - ✓ MiniCart drawer component
   - ✓ Checkout GraphQL queries (checkout.ts) with MM custom fields
-  - ⏳ CartPage (exists, functional, needs testing)
-  - ⏳ CheckoutPage (exists, basic flow works, needs Vietnam location cascade)
+  - ✓ CartPage (exists, functional, needs testing)
+  - ✓ CheckoutPage (exists, basic flow works)
+  - ⏳ Vietnam location cascade (city → district → ward) - NOT IMPLEMENTED YET
+    - Need: GET_CITIES, GET_DISTRICTS, GET_WARDS queries
+    - Need: Cascade dropdown selectors
+    - Need: city_code, ward_code integration
 - **GraphQL Queries:**
   - cart.ts: Complete cart operations
     - MINI_CART_FRAGMENT, CART_PAGE_FRAGMENT with all MM custom fields
@@ -187,7 +197,7 @@
     - Price summary with discounts, taxes
     - Checkout button
   - CheckoutPage: Multi-step checkout flow
-    - Step 1: Shipping address form (basic, needs Vietnam cascade)
+    - Step 1: Shipping address form (basic text inputs, NO cascade yet)
     - Step 2: Payment method selection
     - Step 3: Order confirmation
     - Progress indicator
@@ -197,8 +207,8 @@
   - pickup_location, customer_no (MCard)
   - city_code, ward_code for Vietnam addresses
   - All MM-specific fields preserved from source
-- **Build:** 578KB bundle, PWA ready
-- **Commit:** baccd8e
+- **Build:** 612KB bundle, PWA ready
+- **Commit:** 6633fd7
 - **TODO:**
   - Implement Vietnam location cascade (city → district → ward) in CheckoutPage
   - Add delivery time picker
