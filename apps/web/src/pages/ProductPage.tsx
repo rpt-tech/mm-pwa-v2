@@ -11,6 +11,8 @@ import QuantityStepper from '@/components/product/QuantityStepper';
 import ProductOptions from '@/components/product/ProductOptions';
 import StockStatusMessage from '@/components/catalog/StockStatusMessage';
 import AlcoholDialog from '@/components/product/AlcoholDialog';
+import DnrLabel from '@/components/product/DnrLabel';
+import DnrBlock from '@/components/product/DnrBlock';
 
 export default function ProductPage() {
   const { t } = useTranslation();
@@ -188,6 +190,13 @@ export default function ProductPage() {
           <h1 className="text-3xl font-bold mb-2">{product.ecom_name || product.name}</h1>
           {product.unit_ecom && <p className="text-gray-600 mb-4">{product.unit_ecom}</p>}
 
+          {/* DNR Label */}
+          {product.dnr_price && (
+            <div className="mb-4">
+              <DnrLabel dnrData={product.dnr_price} />
+            </div>
+          )}
+
           <div className="flex gap-4 text-sm text-gray-600 mb-4">
             {product.art_no && (
               <span>{t('product.sku', 'SKU')}: <strong>{product.art_no}</strong></span>
@@ -227,6 +236,14 @@ export default function ProductPage() {
               </span>
             )}
           </div>
+
+          {/* DNR Block - Discount details */}
+          {product.dnr_price && Array.isArray(product.dnr_price) && (
+            <DnrBlock
+              dnrData={product.dnr_price}
+              currencyCode={product.price_range?.maximum_price?.final_price?.currency || 'VND'}
+            />
+          )}
 
           <StockStatusMessage stockStatus={product.stock_status} />
 

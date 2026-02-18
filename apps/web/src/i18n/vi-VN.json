@@ -46,6 +46,7 @@
   "alcoholDialog.confirmMessage": "Vui lòng xác nhận bạn đủ 18 tuổi để tiếp tục xem nội dung hoặc mua sản phẩm này.",
   "alcoholDialog.cancel": "Dưới 18 tuổi",
   "alcoholDialog.redirectToCart": "Vui lòng xóa tất cả sản phẩm rượu và 18+ khỏi giỏ hàng để tiếp tục. Nhấn xác nhận để quay lại trang giỏ hàng.",
+  "dnrBlock.title": "Khuyến mãi",
   "account.myAccount": "Tài khoản của tôi",
   "account.dashboard": "Thông tin chung",
   "account.accountInformation": "Thông tin tài khoản",

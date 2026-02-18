@@ -149,6 +149,24 @@
 - **Route:** /checkout/confirmation
 - **Notes:** Core checkout flow complete. Payment redirect works for Momo/VNPay/ZaloPay. DeliveryTime, VAT, MCard can be added later if needed.
 
+## Priority 2: Product Detail Completion - AlcoholDialog
+- **Status:** ✓ Done
+- **Started:** 2026-02-18 09:05
+- **Completed:** 2026-02-18 09:17
+- **Components:**
+  - AlcoholDialog: Age confirmation (18+) on ProductPage before add to cart
+  - AlcoholCheckoutDialog: Redirect to cart if alcohol products in checkout
+  - SessionStorage tracking: alcohol_age_confirmed, alcohol_confirmed
+  - 18+ image asset copied from source
+- **Integration:**
+  - ProductPage: Check is_alcohol field, show dialog before add to cart
+  - CheckoutPage: Check cart items for is_alcohol, show dialog on mount
+- **i18n:** Added alcoholDialog strings (vi-VN)
+- **Build:** 673.29 KiB bundle (149.98 KiB gzip), ProductPage +2KB
+- **Commit:** 053ed75
+- **Notes:** Legal compliance feature for alcohol products. Age verification required before purchase.
+
+
 ## Phase 6: CMS + Content (P1)
 - **Status:** 🚧 In Progress (10/11 ContentTypes Complete)
 - **Started:** 2026-02-18 07:20

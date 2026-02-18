@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import DnrLabel from '@/components/product/DnrLabel';
 
 interface Product {
   uid: string;
@@ -48,6 +49,7 @@ interface Product {
     name: string;
     image: string;
   };
+  dnr_price?: any;
 }
 
 interface ProductCardProps {
@@ -115,6 +117,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {product.unit_ecom && (
           <p className="text-xs text-gray-600 mb-2">{product.unit_ecom}</p>
+        )}
+
+        {/* DNR Label */}
+        {product.dnr_price && (
+          <div className="mb-2">
+            <DnrLabel dnrData={product.dnr_price} />
+          </div>
         )}
 
         {/* Price */}

@@ -204,3 +204,12 @@ Ghi lại mọi action theo format:
 [09:00] Create OrderConfirmationPage — payment result handling, success/pending/failed states — done
 [09:00] Add /checkout/confirmation route — done
 [09:01] Update CheckoutPage — redirect to OrderConfirmationPage, handle pay_url for payment gateways — done
+[09:05] Read AlcoholDialog source — alcoholDialog.js, alcoholCheckoutDialog.js — understand logic
+[09:08] Create AlcoholDialog component — age confirmation (18+), sessionStorage tracking — done
+[09:09] Create AlcoholCheckoutDialog component — redirect to cart if alcohol in checkout — done
+[09:10] Copy 18+ image asset — from source to public/images/ — done
+[09:12] Integrate AlcoholDialog to ProductPage — check is_alcohol, show dialog before add to cart — done
+[09:14] Integrate AlcoholCheckoutDialog to CheckoutPage — check cart items, show on mount — done
+[09:15] Add i18n strings — alcoholDialog.confirmMessage, cancel, redirectToCart — done
+[09:16] Build successful — 673.29 KiB (149.98 KiB gzip) — ProductPage +2KB
+[09:17] Git commit 053ed75 — ✓ pushed to dev — AlcoholDialog complete
