@@ -193,3 +193,4 @@ Ghi lại mọi action theo format:
 [08:48] Fix location.ts GET_WARDS query — city_code not district_code — done
 [08:49] Fix CheckoutPage shipping address — city_code, district_code, ward_code in address object — done
 [08:49] Make district_code required in addressSchema — done
+[08:52] Git commit e5044af — ✓ pushed to dev — Priority 0 bugs fixed

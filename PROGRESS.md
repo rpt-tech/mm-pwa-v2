@@ -111,6 +111,23 @@
 - **Build:** 520KB bundle, PWA ready
 - **Commit:** fb3b36a
 
+## Phase 0: Critical Bug Fixes
+- **Status:** ✓ Done
+- **Started:** 2026-02-18 08:50
+- **Completed:** 2026-02-18 09:15
+- **Fixed Bugs:**
+  - Header: Cart count badge now shows actual itemCount
+  - Header: Account link redirects to /account when logged in
+  - Header: Language switcher functional with i18n.changeLanguage
+  - MiniCart: View cart/Checkout buttons navigate properly
+  - CheckoutPage: Shipping address sends city_code, district_code, ward_code in address object
+  - CheckoutPage: district_code required in validation
+  - VietnamLocationCascade: Wards fetch by city_code per API spec
+  - location.ts: GET_WARDS query uses city_code parameter
+- **Build:** 661.38 KiB bundle (149.73 KiB gzip)
+- **Commit:** e5044af
+- **Notes:** Fixed 8 critical/high bugs blocking core functionality
+
 ## Phase 6: CMS + Content (P1)
 - **Status:** 🚧 In Progress (10/11 ContentTypes Complete)
 - **Started:** 2026-02-18 07:20
