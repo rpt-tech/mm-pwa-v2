@@ -133,3 +133,12 @@ Ghi lại mọi action theo format:
 [06:41] Build successful — 616KB bundle (CheckoutPage 31.32KB) — commit and push
 [06:42] Git commit progress — Phase 4 complete ✓
 [06:42] Session complete — Vietnam cascade implemented, CheckoutPage functional with city/district/ward dropdowns
+[06:53] Start AddressBookPage implementation — read source for business logic
+[06:54] Create AddressCard component — display address with edit/delete, default badge, delete confirmation dialog
+[06:55] Create AddEditAddressDialog component — form with Vietnam cascade, React Hook Form + Zod validation
+[06:56] Implement AddressBookPage — CRUD operations, pagination (4 per page), TanStack Query mutations
+[06:57] Add GET_CUSTOMER_ADDRESSES_PAGINATED query — addressesV2 with pagination, custom_attributes for city_code/ward_code
+[06:58] Update account queries — CREATE/UPDATE/DELETE mutations with correct variable names
+[06:59] Add i18n strings — addressBook, addAddress, editAddress, deleteAddress, confirmDelete, etc.
+[07:00] Build successful — 630KB bundle (AddressBookPage 11.43KB) — all TypeScript errors fixed
+[07:00] Git commit 1a9d798 — ✓ pushed to dev — AddressBookPage complete with Vietnam cascade

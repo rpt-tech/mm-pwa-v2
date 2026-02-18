@@ -127,7 +127,15 @@
     - VAT fields toggle (company name, tax code, address)
     - Form validation with Zod
     - React Hook Form integration
-  - ⏳ Address Book page (complex - needs Vietnam location cascade)
+  - ✓ AddressBookPage - complete CRUD with Vietnam cascade:
+    - GET_CUSTOMER_ADDRESSES_PAGINATED query (addressesV2 with pagination)
+    - AddressCard component (display, edit, delete, default badge)
+    - AddEditAddressDialog with Vietnam location cascade (city/district/ward)
+    - Create/Update/Delete mutations with TanStack Query
+    - Pagination (4 addresses per page)
+    - Sort: default address first
+    - Form validation with React Hook Form + Zod
+    - i18n strings for all UI elements
   - ⏳ Order History page (complex - tracking, progress bars)
   - ⏳ Wishlist page (complex - multiple wishlists, rename/delete)
 - **GraphQL Queries:**
@@ -147,8 +155,8 @@
   - /account → redirects to /account/dashboard
   - /account/dashboard, /information, /addresses, /orders, /wishlist
 - **i18n:** Added account section strings (vi-VN, en-US)
-- **Build:** 601KB bundle, PWA ready
-- **Commit:** 2d0d970
+- **Build:** 630KB bundle, AddressBookPage 11.43KB, PWA ready
+- **Commit:** 1a9d798
 - **TODO:**
   - Implement Account Information edit form
   - Implement Address Book CRUD
