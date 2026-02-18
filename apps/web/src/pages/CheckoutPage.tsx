@@ -10,12 +10,12 @@ import { useAuthStore } from '@/stores/authStore';
 import { gqlClient } from '@/lib/graphql-client';
 import VietnamLocationCascade from '@/components/checkout/VietnamLocationCascade';
 import AlcoholCheckoutDialog from '@/components/product/AlcoholCheckoutDialog';
+import PaymentMethods from '@/components/checkout/PaymentMethods';
 import {
   GET_CUSTOMER_ADDRESSES,
   SET_GUEST_EMAIL,
   SET_SHIPPING_ADDRESS,
   SET_SHIPPING_METHOD,
-  SET_PAYMENT_METHOD,
   PLACE_ORDER,
   GET_CHECKOUT_DETAILS,
 } from '@/queries/checkout';
@@ -486,38 +486,17 @@ function ShippingStep({
 // Payment step
 function PaymentStep({
   cartId,
-  cart,
   onBack,
   onPlaceOrder,
 }: {
   cartId: string;
-  cart: any;
+  cart?: any;
   onBack: () => void;
   onPlaceOrder: (orderNumber: string) => void;
 }) {
   const queryClient = useQueryClient();
   const [selectedMethod, setSelectedMethod] = useState('');
   const [error, setError] = useState('');
-
-  const methods = cart?.available_payment_methods || [];
-
-  // Set default payment method
-  useEffect(() => {
-    const defaultMethod = cart?.selected_payment_method?.code;
-    if (defaultMethod) {
-      setSelectedMethod(defaultMethod);
-    } else if (methods.length > 0) {
-      setSelectedMethod(methods[0].code);
-    }
-  }, [cart, methods]);
-
-  const setPaymentMutation = useMutation({
-    mutationFn: (code: string) =>
-      gqlClient.request(SET_PAYMENT_METHOD, {
-        cartId,
-        paymentMethod: { code },
-      }),
-  });
 
   const placeOrderMutation = useMutation({
     mutationFn: () => gqlClient.request(PLACE_ORDER, { input: { cart_id: cartId } }),
@@ -544,23 +523,13 @@ function PaymentStep({
     },
   });
 
-  const handlePlaceOrder = async () => {
+  const handlePlaceOrder = () => {
     if (!selectedMethod) {
       setError('Vui lòng chọn phương thức thanh toán');
       return;
     }
     setError('');
-    await setPaymentMutation.mutateAsync(selectedMethod);
     placeOrderMutation.mutate();
-  };
-
-  const PAYMENT_METHOD_LABELS: Record<string, { label: string; desc: string }> = {
-    cashondelivery: { label: 'Thanh toán khi nhận hàng (COD)', desc: 'Trả tiền mặt khi nhận hàng' },
-    free: { label: 'Miễn phí', desc: 'Không cần thanh toán' },
-    vnpay: { label: 'VNPay', desc: 'Thanh toán qua cổng VNPay' },
-    momo_wallet: { label: 'Ví MoMo', desc: 'Thanh toán qua ví MoMo' },
-    zalopay: { label: 'ZaloPay', desc: 'Thanh toán qua ZaloPay' },
-    banktransfer: { label: 'Chuyển khoản ngân hàng', desc: 'Chuyển khoản trước khi giao hàng' },
   };
 
   return (
@@ -570,54 +539,22 @@ function PaymentStep({
         Phương thức thanh toán
       </h2>
 
-      <div className="space-y-3 mb-6">
-        {methods.map((method: any) => {
-          const info = PAYMENT_METHOD_LABELS[method.code] || {
-            label: method.title,
-            desc: method.note || '',
-          };
-          const isAvailable = method.available !== false;
-
-          return (
-            <label
-              key={method.code}
-              className={`flex items-center gap-3 p-4 rounded-lg border cursor-pointer transition-colors
-                ${selectedMethod === method.code
-                  ? 'border-[#006341] bg-green-50'
-                  : 'border-gray-200 hover:border-gray-300'
-                }
-                ${!isAvailable ? 'opacity-50 cursor-not-allowed' : ''}
-              `}
-            >
-              <input
-                type="radio"
-                name="paymentMethod"
-                value={method.code}
-                checked={selectedMethod === method.code}
-                onChange={() => setSelectedMethod(method.code)}
-                disabled={!isAvailable}
-                className="accent-[#006341]"
-              />
-              <div>
-                <p className="text-sm font-medium">{info.label}</p>
-                {info.desc && <p className="text-xs text-gray-500">{info.desc}</p>}
-                {!isAvailable && (
-                  <p className="text-xs text-red-600 mt-1">Phương thức này hiện không khả dụng</p>
-                )}
-              </div>
-            </label>
-          );
-        })}
-      </div>
+      <PaymentMethods
+        cartId={cartId}
+        onPaymentMethodChange={(code) => {
+          setSelectedMethod(code);
+          setError('');
+        }}
+      />
 
       {error && (
-        <div className="flex items-center gap-2 text-red-500 text-sm mb-4">
+        <div className="flex items-center gap-2 text-red-500 text-sm mb-4 mt-4">
           <AlertCircle size={16} />
           <span>{error}</span>
         </div>
       )}
 
-      <div className="flex gap-3">
+      <div className="flex gap-3 mt-6">
         <button
           onClick={onBack}
           className="flex-1 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-medium hover:border-gray-400 transition-colors"
@@ -626,7 +563,7 @@ function PaymentStep({
         </button>
         <button
           onClick={handlePlaceOrder}
-          disabled={placeOrderMutation.isPending || setPaymentMutation.isPending}
+          disabled={placeOrderMutation.isPending || !selectedMethod}
           className="flex-1 bg-[#006341] text-white py-3 rounded-lg font-semibold hover:bg-[#004d32] disabled:opacity-50 transition-colors flex items-center justify-center gap-2"
         >
           {placeOrderMutation.isPending ? (

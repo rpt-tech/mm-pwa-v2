@@ -482,3 +482,18 @@
 - **Commit:** a4c2665
 - **Notes:** Password reset flow complete. Users can reset password from email link.
 
+## Priority 3: Account Features Complete
+- **Status:** ✓ Done
+- **Completed:** 2026-02-18 10:33
+- **Features:**
+  - ✓ ConfirmPasswordPage (password reset from email)
+  - ✓ AddressBookPage (full CRUD with Vietnam cascade)
+  - ✓ WishlistPage (full CRUD with add to cart)
+  - ✓ DashboardPage (info cards, recent orders)
+  - ✓ AccountInformationPage (edit profile, password change)
+  - ✓ OrderHistoryPage (order list with pagination)
+  - ✓ OrderDetailPage (full order breakdown)
+- **Build:** 702.34 KiB (150.66 KiB gzip)
+- **Commit:** e5f88fb
+- **Notes:** All Priority 3 Account features complete. Users can manage addresses, wishlist, view orders, and update profile.
+

@@ -54,6 +54,8 @@
   "checkout.selectDistrict": "Chọn Quận/Huyện",
   "checkout.ward": "Phường/Xã",
   "checkout.selectWard": "Chọn Phường/Xã",
+  "checkout.paymentLoadingError": "Có lỗi khi tải phương thức thanh toán.",
+  "checkout.refreshOrTryAgainLater": "Vui lòng làm mới trang hoặc thử lại sau.",
   "product.addedToCart": "Đã thêm vào giỏ hàng",
   "product.outOfStock": "Hết hàng",
   "product.reviews": "Đánh giá",

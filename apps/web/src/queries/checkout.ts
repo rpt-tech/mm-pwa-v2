@@ -1,5 +1,43 @@
 import { gql } from 'graphql-request';
 
+// Payment Methods
+export const GET_PAYMENT_METHODS = gql`
+  query getPaymentMethods($cartId: String!) {
+    cart(cart_id: $cartId) {
+      id
+      available_payment_methods {
+        code
+        title
+        note
+        available
+      }
+      selected_payment_method {
+        code
+        title
+      }
+    }
+  }
+`;
+
+export const SET_PAYMENT_METHOD_ON_CART = gql`
+  mutation setPaymentMethodOnCart(
+    $cartId: String!
+    $paymentMethod: PaymentMethodInput!
+  ) {
+    setPaymentMethodOnCart(
+      input: { cart_id: $cartId, payment_method: $paymentMethod }
+    ) {
+      cart {
+        id
+        selected_payment_method {
+          code
+          title
+        }
+      }
+    }
+  }
+`;
+
 // Fragments
 export const CHECKOUT_PAGE_FRAGMENT = gql`
   fragment CheckoutPageFragment on Cart {
@@ -509,25 +547,6 @@ export const SET_PAYMENT_METHOD = gql`
           code
           title
         }
-      }
-    }
-  }
-`;
-
-// Get available payment methods
-export const GET_PAYMENT_METHODS = gql`
-  query GetPaymentMethods($cartId: String!) {
-    cart(cart_id: $cartId) {
-      id
-      available_payment_methods {
-        code
-        title
-        note
-        available
-      }
-      selected_payment_method {
-        code
-        title
       }
     }
   }
