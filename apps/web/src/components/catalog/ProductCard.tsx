@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import DnrLabel from '@/components/product/DnrLabel';
+import WishlistButton from '@/components/product/WishlistButton';
 
 interface Product {
   uid: string;
@@ -107,6 +108,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             )}
           </div>
         )}
+        {/* Wishlist Button */}
+        <div className="absolute bottom-2 right-2">
+          <WishlistButton productSku={product.sku} size="sm" />
+        </div>
       </div>
 
       {/* Product Info */}

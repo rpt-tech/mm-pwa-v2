@@ -202,6 +202,25 @@
 - **Commit:** 1474a35
 - **Notes:** Full review functionality. Users can read and write reviews.
 
+## Priority 2: Product Detail Completion - RelatedUpsellProducts
+- **Status:** ✓ Done
+- **Started:** 2026-02-18 09:50
+- **Completed:** 2026-02-18 09:58
+- **Components:**
+  - RelatedUpsellProducts: Display related_products and upsell_products
+  - Two sections: Related Products and You May Also Like (upsell)
+  - Product cards with image, name, price, discount badge, stock status
+- **Features:**
+  - Responsive grid: 2 cols mobile, 4 cols tablet, 6 cols desktop
+  - Loading skeleton for better UX
+  - Null check: only render if products exist
+- **Query:** GET_RELATED_UPSELL_PRODUCTS (already in product.ts)
+- **Integration:** ProductPage replaces similar_products section
+- **i18n:** Added relatedProducts, upsellProducts strings
+- **Build:** 685.17 KiB bundle (150.18 KiB gzip), ProductPage 29.08KB (+3.7KB)
+- **Commit:** df83f6c
+- **Notes:** Cross-sell and upsell functionality complete.
+
 
 ## Phase 6: CMS + Content (P1)
 - **Status:** 🚧 In Progress (10/11 ContentTypes Complete)

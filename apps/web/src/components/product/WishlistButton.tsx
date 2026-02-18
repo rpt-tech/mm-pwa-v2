@@ -1,0 +1,103 @@
+import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Heart } from 'lucide-react';
+import { useAuthStore } from '@/stores/authStore';
+import { useUIStore } from '@/stores/uiStore';
+import { gqlClient } from '@/lib/graphql-client';
+import { ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST } from '@/queries/account';
+
+interface WishlistButtonProps {
+  productSku: string;
+  isInWishlist?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  showLabel?: boolean;
+}
+
+export default function WishlistButton({
+  productSku,
+  isInWishlist = false,
+  size = 'md',
+  showLabel = false,
+}: WishlistButtonProps) {
+  const { isLoggedIn } = useAuthStore();
+  const { openAuthModal } = useUIStore();
+  const queryClient = useQueryClient();
+  const [inWishlist, setInWishlist] = useState(isInWishlist);
+
+  // Add to wishlist mutation
+  const addToWishlistMutation = useMutation({
+    mutationFn: (sku: string) =>
+      gqlClient.request(ADD_TO_WISHLIST, {
+        items: [{ sku, quantity: 1 }],
+      }),
+    onSuccess: () => {
+      setInWishlist(true);
+      queryClient.invalidateQueries({ queryKey: ['wishlist'] });
+    },
+  });
+
+  // Remove from wishlist mutation
+  const removeFromWishlistMutation = useMutation({
+    mutationFn: (sku: string) =>
+      gqlClient.request(REMOVE_FROM_WISHLIST, {
+        items: [sku],
+      }),
+    onSuccess: () => {
+      setInWishlist(false);
+      queryClient.invalidateQueries({ queryKey: ['wishlist'] });
+    },
+  });
+
+  const handleClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (!isLoggedIn) {
+      openAuthModal();
+      return;
+    }
+
+    if (inWishlist) {
+      removeFromWishlistMutation.mutate(productSku);
+    } else {
+      addToWishlistMutation.mutate(productSku);
+    }
+  };
+
+  const isPending = addToWishlistMutation.isPending || removeFromWishlistMutation.isPending;
+
+  const sizeClasses = {
+    sm: 'w-8 h-8',
+    md: 'w-10 h-10',
+    lg: 'w-12 h-12',
+  };
+
+  const iconSizes = {
+    sm: 16,
+    md: 20,
+    lg: 24,
+  };
+
+  return (
+    <button
+      onClick={handleClick}
+      disabled={isPending}
+      className={`${sizeClasses[size]} flex items-center justify-center rounded-full border-2 transition-all ${
+        inWishlist
+          ? 'bg-red-50 border-red-500 text-red-500 hover:bg-red-100'
+          : 'bg-white border-gray-300 text-gray-600 hover:border-red-500 hover:text-red-500'
+      } disabled:opacity-50 disabled:cursor-not-allowed ${showLabel ? 'gap-2 px-4 w-auto' : ''}`}
+      title={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+    >
+      <Heart
+        size={iconSizes[size]}
+        className={`${inWishlist ? 'fill-current' : ''} ${isPending ? 'animate-pulse' : ''}`}
+      />
+      {showLabel && (
+        <span className="text-sm font-medium">
+          {inWishlist ? 'In Wishlist' : 'Add to Wishlist'}
+        </span>
+      )}
+    </button>
+  );
+}

@@ -15,6 +15,7 @@ import DnrLabel from '@/components/product/DnrLabel';
 import DnrBlock from '@/components/product/DnrBlock';
 import ProductReviews from '@/components/product/ProductReviews';
 import RelatedUpsellProducts from '@/components/product/RelatedUpsellProducts';
+import WishlistButton from '@/components/product/WishlistButton';
 
 export default function ProductPage() {
   const { t } = useTranslation();
@@ -264,6 +265,7 @@ export default function ProductPage() {
             >
               {addToCartMutation.isPending ? t('product.adding', 'Adding...') : t('product.addToCart', 'Add to cart')}
             </button>
+            <WishlistButton productSku={product.sku} size="lg" />
           </div>
 
           {addToCartError && (

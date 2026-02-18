@@ -230,3 +230,10 @@ Ghi lại mọi action theo format:
 [09:45] Add i18n strings — writeReview, rating, nickname, reviewSummary, etc — done
 [09:46] Build successful — 681.14 KiB (150.15 KiB gzip) — ProductPage +5.8KB (25.41KB)
 [09:47] Git commit 1474a35 — ✓ pushed to dev — ProductReviews complete
+[09:50] Check related/upsell query — GET_RELATED_UPSELL_PRODUCTS exists — done
+[09:52] Create RelatedUpsellProducts component — two sections (related + upsell) — done
+[09:54] Product cards with discount badge, stock status — responsive grid — done
+[09:55] Integrate to ProductPage — replace similar_products section — done
+[09:56] Add i18n strings — relatedProducts, upsellProducts — done
+[09:57] Build successful — 685.17 KiB (150.18 KiB gzip) — ProductPage +3.7KB (29.08KB)
+[09:58] Git commit df83f6c — ✓ pushed to dev — RelatedUpsellProducts complete
