@@ -116,3 +116,7 @@ Ghi lại mọi action theo format:
 [02:43] PROGRESS.md updated — Phase 5 account layout + dashboard complete — next: implement detail pages
 [02:43] Check STEERING.md — empty, continue with Phase 5 detail pages implementation
 [02:43] Phase 5 account layout complete — dashboard functional — next: AccountInformation, AddressBook, OrderHistory, Wishlist detail pages
+[02:43] Git commit 42da398 — ✓ pushed to dev — Phase 5 checkpoint complete
+[05:33] AccountInformationPage complete — form with customer_no, VAT fields, password change — build 612KB
+[05:33] Skip AddressBookPage — too complex, needs Vietnam location cascade — do OrderHistory + Wishlist first
+[05:33] Skip OrderHistory — complex with tracking, progress bars — do Wishlist first (simplest)

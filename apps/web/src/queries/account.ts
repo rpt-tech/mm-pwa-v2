@@ -10,6 +10,13 @@ export const GET_CUSTOMER = gql`
       email
       date_of_birth
       gender
+      customer_no
+      vat_address {
+        customer_vat_id
+        company_name
+        company_vat_number
+        company_address
+      }
       custom_attributes {
         code
         value
@@ -41,8 +48,8 @@ export const GET_CUSTOMER = gql`
 
 // Update customer info
 export const UPDATE_CUSTOMER = gql`
-  mutation UpdateCustomer($input: CustomerUpdateInput!) {
-    updateCustomerV2(input: $input) {
+  mutation UpdateCustomer($customerInput: CustomerUpdateInput!) {
+    updateCustomerV2(input: $customerInput) {
       customer {
         id
         firstname
@@ -50,6 +57,17 @@ export const UPDATE_CUSTOMER = gql`
         email
         date_of_birth
         gender
+        customer_no
+        vat_address {
+          customer_vat_id
+          company_name
+          company_vat_number
+          company_address
+        }
+        custom_attributes {
+          code
+          value
+        }
       }
     }
   }
