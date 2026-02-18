@@ -17,6 +17,8 @@ import ProductReviews from '@/components/product/ProductReviews';
 import RelatedUpsellProducts from '@/components/product/RelatedUpsellProducts';
 import WishlistButton from '@/components/product/WishlistButton';
 import AdditionalAttributes from '@/components/product/AdditionalAttributes';
+import ProductStructuredData from '@/components/seo/ProductStructuredData';
+import BreadcrumbStructuredData from '@/components/seo/BreadcrumbStructuredData';
 
 export default function ProductPage() {
   const { t } = useTranslation();
@@ -150,8 +152,22 @@ export default function ProductPage() {
   const isOutOfStock = product.stock_status === 'OUT_OF_STOCK';
   const hasDiscount = product.price_range?.maximum_price?.discount?.amount_off > 0;
 
+  // Prepare breadcrumb data for structured data
+  const breadcrumbItems = [
+    { name: t('global.home', 'Home'), url: '/' },
+    ...(product.main_category?.breadcrumbs?.map((crumb: any) => ({
+      name: crumb.category_name,
+      url: `/${crumb.category_url_path}.html`,
+    })) || []),
+    { name: product.ecom_name || product.name, url: `/product/${product.url_key}` },
+  ];
+
   return (
     <div className="container mx-auto px-4 py-6">
+      {/* SEO Structured Data */}
+      <ProductStructuredData product={product} />
+      <BreadcrumbStructuredData items={breadcrumbItems} />
+
       <nav className="mb-6 text-sm">
         <ol className="flex items-center gap-2">
           <li>
