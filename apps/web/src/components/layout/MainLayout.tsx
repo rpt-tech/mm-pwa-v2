@@ -6,14 +6,16 @@ import MiniCart from '@/components/cart/MiniCart';
 import { AuthModal } from '@/components/auth/AuthModal';
 import { useUIStore } from '@/stores/uiStore';
 import OrganizationStructuredData from '@/components/seo/OrganizationStructuredData';
+import WebSiteStructuredData from '@/components/seo/WebSiteStructuredData';
 
 export default function MainLayout() {
   const { isAuthModalOpen, closeAuthModal, authModalView } = useUIStore();
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* SEO: Organization structured data */}
+      {/* SEO: Organization & Website structured data */}
       <OrganizationStructuredData />
+      <WebSiteStructuredData />
 
       <Header />
       <Navigation />
