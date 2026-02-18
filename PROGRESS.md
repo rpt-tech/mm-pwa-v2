@@ -85,3 +85,29 @@
 - **Build:** 488KB bundle, PWA ready
 - **Commit:** 2a3f35d
 
+## Phase 3: Product Detail Page
+- **Status:** ✓ Done
+- **Completed:** 2026-02-17 15:28
+- **Components:**
+  - ProductPage: full PDP with breadcrumbs, images, options, add to cart
+  - ProductImageCarousel: lightbox, thumbnails, navigation, video support
+  - QuantityStepper: +/- buttons, input validation, min/max
+  - ProductOptions: color/image/text swatches for configurable products
+- **GraphQL Queries:**
+  - product.ts: GET_PRODUCT_DETAIL, ADD_PRODUCT_TO_CART, reviews, related/upsell
+  - PRODUCT_DETAILS_FRAGMENT: full product data with configurable options, custom attributes, media gallery
+- **Features:**
+  - Breadcrumbs with category hierarchy from main_category
+  - Product labels overlay on images
+  - Rating display (5-star)
+  - Price with discount badge and percentage
+  - Stock status message
+  - Add to cart with error handling
+  - Similar products grid
+  - Rich content description (HTML)
+  - Configurable product support (size, color swatches)
+- **Store Updates:**
+  - Added fetchCart placeholder to cartStore (will implement in Phase 4)
+- **Build:** 520KB bundle, PWA ready
+- **Commit:** fb3b36a
+
