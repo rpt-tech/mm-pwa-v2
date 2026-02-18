@@ -97,3 +97,5 @@ Ghi lại mọi action theo format:
 [16:26] PROGRESS.md updated — Phase 4 checkpoint: cart + checkout queries complete, basic flow works
 [16:27] Phase 4 status — ✓ cart.ts, checkout.ts, MiniCart, CartPage, CheckoutPage basic — TODO: Vietnam cascade, delivery time
 [16:28] Check next steps — Phase 4 core complete, advanced features (location cascade, delivery time) can be Phase 5 or later
+[16:29] Phase 4 complete — core cart and checkout functional — commit 47cbdbc
+[16:30] Start Phase 5: Account — reading MyAccount source structure — plan implementation
