@@ -497,3 +497,25 @@
 - **Commit:** e5f88fb
 - **Notes:** All Priority 3 Account features complete. Users can manage addresses, wishlist, view orders, and update profile.
 
+## Priority 1: Checkout Payment Methods (Vietnam)
+- **Status:** ✓ Done
+- **Completed:** 2026-02-18 10:41
+- **Components:**
+  - PaymentMethods: Payment gateway selection with icons
+  - Payment method icons: COD, Momo, VNPay, ZaloPay (SVG)
+- **Features:**
+  - ✓ Cash on Delivery (COD)
+  - ✓ Momo Wallet with redirect
+  - ✓ VNPay with redirect
+  - ✓ ZaloPay with redirect
+  - Payment method selection with radio buttons
+  - Payment gateway redirect handling (pay_url)
+  - Error handling for unavailable methods
+- **Queries:**
+  - GET_PAYMENT_METHODS: Fetch available payment methods
+  - SET_PAYMENT_METHOD_ON_CART: Set selected payment method
+- **Integration:** CheckoutPage payment step
+- **Build:** 884.72 KiB (150.72 KiB gzip), CheckoutPage 29.25KB
+- **Commit:** f835a2d
+- **Notes:** All Vietnam payment methods complete. Users can pay with COD or online gateways (Momo, VNPay, ZaloPay).
+
