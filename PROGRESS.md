@@ -128,6 +128,27 @@
 - **Commit:** e5044af
 - **Notes:** Fixed 8 critical/high bugs blocking core functionality
 
+## Priority 1: Complete Checkout (MVP Critical)
+- **Status:** ✓ Done
+- **Started:** 2026-02-18 09:20
+- **Completed:** 2026-02-18 10:30
+- **Completed Features:**
+  - ✓ Payment Methods VN (COD, Momo, VNPay, ZaloPay)
+    - GET_PAYMENT_METHODS query with note and available fields
+    - SET_PAYMENT_METHOD mutation
+    - PaymentMethods component with availability validation
+    - CheckoutPage payment step shows method notes
+  - ✓ OrderConfirmationPage
+    - PAYMENT_RESULT_QUERY for order status
+    - Success/Pending/Failed states with appropriate UI
+    - Payment gateway redirect support (pay_url handling)
+    - Order details summary display
+    - Actions: Continue shopping, View orders
+- **Build:** 666.84 KiB bundle (149.82 KiB gzip)
+- **Commits:** 77511c0 (payment methods), 8cc95d2 (order confirmation)
+- **Route:** /checkout/confirmation
+- **Notes:** Core checkout flow complete. Payment redirect works for Momo/VNPay/ZaloPay. DeliveryTime, VAT, MCard can be added later if needed.
+
 ## Phase 6: CMS + Content (P1)
 - **Status:** 🚧 In Progress (10/11 ContentTypes Complete)
 - **Started:** 2026-02-18 07:20
