@@ -194,3 +194,8 @@ Ghi lại mọi action theo format:
 [08:49] Fix CheckoutPage shipping address — city_code, district_code, ward_code in address object — done
 [08:49] Make district_code required in addressSchema — done
 [08:52] Git commit e5044af — ✓ pushed to dev — Priority 0 bugs fixed
+[08:52] Priority 0 COMPLETE — 8 bugs fixed — next: Priority 1 Checkout completion
+[08:52] Start Priority 1: Complete Checkout — Payment methods VN (Momo, VNPay, ZaloPay, COD)
+[08:53] Create PaymentMethods component — COD, Momo, VNPay, ZaloPay support — done
+[08:54] Add payment queries to checkout.ts — GET_PAYMENT_METHODS, SET_PAYMENT_METHOD — done
+[08:57] Update GET_ORDER_DETAILS — add note and available fields to payment methods — done

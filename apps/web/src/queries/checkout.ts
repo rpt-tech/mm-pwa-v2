@@ -338,6 +338,8 @@ export const GET_ORDER_DETAILS = gql`
       available_payment_methods {
         code
         title
+        note
+        available
       }
       selected_payment_method {
         code
@@ -507,6 +509,25 @@ export const SET_PAYMENT_METHOD = gql`
           code
           title
         }
+      }
+    }
+  }
+`;
+
+// Get available payment methods
+export const GET_PAYMENT_METHODS = gql`
+  query GetPaymentMethods($cartId: String!) {
+    cart(cart_id: $cartId) {
+      id
+      available_payment_methods {
+        code
+        title
+        note
+        available
+      }
+      selected_payment_method {
+        code
+        title
       }
     }
   }

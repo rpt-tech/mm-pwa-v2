@@ -565,8 +565,10 @@ function PaymentStep({
         {methods.map((method: any) => {
           const info = PAYMENT_METHOD_LABELS[method.code] || {
             label: method.title,
-            desc: '',
+            desc: method.note || '',
           };
+          const isAvailable = method.available !== false;
+
           return (
             <label
               key={method.code}
@@ -574,7 +576,9 @@ function PaymentStep({
                 ${selectedMethod === method.code
                   ? 'border-[#006341] bg-green-50'
                   : 'border-gray-200 hover:border-gray-300'
-                }`}
+                }
+                ${!isAvailable ? 'opacity-50 cursor-not-allowed' : ''}
+              `}
             >
               <input
                 type="radio"
@@ -582,11 +586,15 @@ function PaymentStep({
                 value={method.code}
                 checked={selectedMethod === method.code}
                 onChange={() => setSelectedMethod(method.code)}
+                disabled={!isAvailable}
                 className="accent-[#006341]"
               />
               <div>
                 <p className="text-sm font-medium">{info.label}</p>
                 {info.desc && <p className="text-xs text-gray-500">{info.desc}</p>}
+                {!isAvailable && (
+                  <p className="text-xs text-red-600 mt-1">Phương thức này hiện không khả dụng</p>
+                )}
               </div>
             </label>
           );
