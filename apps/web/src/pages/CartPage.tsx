@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { request } from 'graphql-request';
 import { Trash2, ShoppingCart, Tag, ChevronRight, AlertCircle } from 'lucide-react';
 import { useCartStore } from '@/stores/cartStore';
+import { gqlClient } from '@/lib/graphql-client';
 import {
   GET_CART_DETAILS,
   UPDATE_CART_ITEMS,
@@ -14,8 +14,6 @@ import {
 } from '@/queries/cart';
 import QuantityStepper from '@/components/product/QuantityStepper';
 import Breadcrumbs from '@/components/navigation/Breadcrumbs';
-
-const GRAPHQL_ENDPOINT = 'https://online.mmvietnam.com/graphql';
 
 function formatPrice(value: number, currency = 'VND') {
   if (currency === 'VND') {
@@ -50,7 +48,7 @@ function CartItemRow({ item, cartId, onQuantityChange, onRemove, isMutating }: C
 
   const commentMutation = useMutation({
     mutationFn: (newComment: string) =>
-      request(GRAPHQL_ENDPOINT, ADD_COMMENT_TO_CART_ITEM, {
+      gqlClient.request(ADD_COMMENT_TO_CART_ITEM, {
         cartId,
         cartItemUid: item.uid,
         comment: newComment,
@@ -255,7 +253,7 @@ function CouponSection({ cartId }: { cartId: string }) {
 
   const applyMutation = useMutation({
     mutationFn: () =>
-      request(GRAPHQL_ENDPOINT, APPLY_COUPON_TO_CART, { cartId, couponCode }),
+      gqlClient.request(APPLY_COUPON_TO_CART, { cartId, couponCode }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
       setCouponCode('');
@@ -305,7 +303,7 @@ export default function CartPage() {
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['cartDetails', cartId],
-    queryFn: () => request(GRAPHQL_ENDPOINT, GET_CART_DETAILS, { cartId }),
+    queryFn: () => gqlClient.request(GET_CART_DETAILS, { cartId }),
     enabled: !!cartId,
     staleTime: 30000,
   });
@@ -317,7 +315,7 @@ export default function CartPage() {
 
   const updateItemMutation = useMutation({
     mutationFn: ({ uid, quantity }: { uid: string; quantity: number }) =>
-      request(GRAPHQL_ENDPOINT, UPDATE_CART_ITEMS, {
+      gqlClient.request(UPDATE_CART_ITEMS, {
         cartId,
         cartItems: [{ cart_item_uid: uid, quantity }],
       }),
@@ -329,7 +327,7 @@ export default function CartPage() {
 
   const removeItemMutation = useMutation({
     mutationFn: (cartItemUid: string) =>
-      request(GRAPHQL_ENDPOINT, REMOVE_ITEM_FROM_CART, { cartId, cartItemUid }),
+      gqlClient.request(REMOVE_ITEM_FROM_CART, { cartId, cartItemUid }),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
       queryClient.invalidateQueries({ queryKey: ['miniCart'] });
@@ -340,7 +338,7 @@ export default function CartPage() {
 
   const removeAllMutation = useMutation({
     mutationFn: () =>
-      request(GRAPHQL_ENDPOINT, REMOVE_ALL_CART_ITEMS, { cartId }),
+      gqlClient.request(REMOVE_ALL_CART_ITEMS, { cartId }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
       queryClient.invalidateQueries({ queryKey: ['miniCart'] });

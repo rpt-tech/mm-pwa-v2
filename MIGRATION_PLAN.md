@@ -810,18 +810,212 @@ pwacng-release-backup/pwacng-release/
 
 ---
 
+## 🐛 CRITICAL BUGS IN CURRENT CODE (Audit 2026-02-18)
+
+> Phải fix TRƯỚC khi tiếp tục implement features mới
+
+### CRITICAL (5 bugs — app không hoạt động đúng)
+
+| # | File | Bug | Impact |
+|---|------|-----|--------|
+| 1 | `queries/cart.ts:1` | `import { gql } from '@apollo/client'` thay vì `graphql-request` | Cart page crash — `gql` tạo `DocumentNode` thay vì string |
+| 2 | `stores/cartStore.ts:89` | `fetchCart` chỉ `console.log` — placeholder | Cart count/items không bao giờ update sau add-to-cart |
+| 3 | 7 files | Hardcode `GRAPHQL_ENDPOINT` bypass `gqlClient` | Auth token không gửi — checkout/cart fail cho logged-in users |
+| 4 | `CheckoutPage.tsx:267` | Auto-select shipping dùng wrong query key `['cartDetails']` | `getQueryData` luôn `undefined` → shipping không set → place order fail |
+| 5 | `CategoryPage.tsx:18` + `ProductPage.tsx:18` | `useParams` mismatch with wildcard `/*` routes | Params luôn `undefined` → Category và Product page trắng |
+
+**Files hardcode GRAPHQL_ENDPOINT (bug #3):** CheckoutPage, CartPage, SearchPage, ProductPage, MiniCart, FlashsaleProducts, Header — tất cả phải chuyển sang dùng `gqlClient` từ `lib/graphql-client.ts`
+
+### HIGH (20 bugs)
+
+| # | File:Line | Bug |
+|---|-----------|-----|
+| 6 | `Header.tsx:306` | Cart count badge hardcode `0` |
+| 7 | `Header.tsx:262` | Account link luôn "Sign In" kể cả khi đã login |
+| 8 | `Header.tsx:338` | Language switcher không có `onChange` |
+| 9 | `MiniCart.tsx:232` | "View cart"/"Checkout" buttons chỉ close drawer, không navigate |
+| 10 | `ProductPage.tsx:191` | Discount badge dùng `amount_off` thay vì `percent_off` |
+| 11 | `ProductGrid.tsx:69` | Product links dùng `/product/` prefix sai format |
+| 12 | `VietnamLocationCascade.tsx:60` | Wards fetch theo city thay vì district |
+| 13 | `CheckoutPage.tsx:241` | `city` field gửi code thay vì name |
+| 14 | `CheckoutPage.tsx:244` | Thiếu `district_code` trong shipping custom_attributes |
+| 15 | `CheckoutPage.tsx:203` | Postcode hardcode `700000` (HCMC) cho mọi city |
+| 16 | `AddressBookPage.tsx:121` | `lastname` missing trong address payload |
+| 17 | `AddEditAddressDialog.tsx:163` | `districtCode` luôn empty khi edit |
+| 18 | `OrderHistoryPage.tsx:173` | Route `/account/orders/:id` không tồn tại |
+| 19 | `WishlistPage.tsx:51` | Wrong query key invalidation `['cart']` |
+| 20 | `CategoryPage.tsx:326` | `dangerouslySetInnerHTML` không sanitize — XSS risk |
+| 21 | `AccountInformationPage.tsx:169` | Dùng native `alert()` thay vì toast |
+| 22 | `AccountInformationPage.tsx:160` | Password field dual-use gây unintended password change |
+| 23 | `WishlistPage.tsx:106` | Product URLs dùng `/product/` prefix sai |
+| 24 | `OrderHistoryPage.tsx:12` | Pagination non-functional (page luôn 1) |
+| 25 | `DashboardPage.tsx:69` | Back button mobile là no-op |
+
+### MEDIUM (15 bugs)
+
+| # | File | Bug |
+|---|------|-----|
+| 26 | `graphql-client.ts:18` | `setAuthToken` override cookie expiry |
+| 27 | `useMediaQuery.ts:5` | SSR-unsafe, layout flicker |
+| 28 | `SignIn.tsx`, `CreateAccount.tsx`, `ForgotPassword.tsx` | Hardcoded English, no i18n |
+| 29 | `ProductPage.tsx:225,233` | `dangerouslySetInnerHTML` XSS risk |
+| 30 | `ProductImageCarousel.tsx:37` | Hardcoded image base URL |
+| 31 | `AddressBookPage.tsx:158` | Pagination off-by-one |
+| 32 | `DashboardPage.tsx:62` | `loyalty_points` always 0 (not in GQL) |
+| 33 | `AddEditAddressDialog.tsx:163` | `districtCode` always empty on edit |
+| 34 | `CheckoutPage.tsx:451` | Error message discards backend details |
+| 35 | `VietnamLocationCascade.tsx:181` | Ward disabled depends on city not district |
+| 36 | `SearchPage.tsx:92` | Sort split on `_` is fragile |
+| 37 | `StockStatusMessage.tsx:16` | Hardcoded Vietnamese, no i18n |
+| 38 | `OrderHistoryPage.tsx:125` | Order thumbnails empty placeholder |
+| 39 | `checkout.ts:538` | Duplicate old-format location queries conflict with `location.ts` |
+| 40 | `useAuth.ts:8` | `initializeAuth` called twice on startup |
+
+---
+
+## 🔍 GQL QUERY FIELD-LEVEL MISMATCHES (Migrated but incorrect)
+
+> Queries đã migrate nhưng thiếu fields hoặc sai structure so với source
+
+### cart.ts
+- **CRITICAL:** Mutation sai tên `addCommentToCartItem` → phải là `updateCommentOnCartItem` + `removeCommentFromCartItem`
+- Cross-sell products thiếu `allow_pickup`, `unit_ecom`, `art_no`, `rating_summary`, `product_label`, `categories`
+- `REMOVE_ITEM_FROM_CART` response thiếu price summary fields
+
+### checkout.ts
+- **CRITICAL:** `CHECKOUT_PAGE_FRAGMENT` thiếu `delivery_date { date, time_interval_id, comment, from, to }` và `vat_address { customer_vat_id, company_name, company_vat_number, company_address }`
+- **CRITICAL:** `SET_SHIPPING_METHOD` thiếu `$deliveryDate: DeliveryDateInput` và `$pickupDate: PickupDateInput` inputs
+- **CRITICAL:** `SET_BILLING_ADDRESS` thiếu `city_code` và `ward_code` trong address input
+- **CRITICAL:** Duplicate location queries (old API) conflict với `location.ts` (correct API) — phải xóa từ checkout.ts
+- Thiếu `GET_PAYMENT_INFORMATION` query hoàn toàn
+- Thiếu `GET_PICKUP_LOCATIONS` query
+- `shipping_addresses` thiếu `customer_address_id`, `district`, `district_code`, `is_new_administrative`, `pickup_location_code`
+- `available_payment_methods` thiếu `note` và `available` fields
+- `ITEMS_REVIEW_FRAGMENT` thiếu `product.description.html`
+
+### account.ts
+- **CRITICAL:** `GET_CUSTOMER_ORDERS` thiếu: `status_code`, `delivery_information`, `pickup_date_order`, `pickup_location_order`, `vat_information`, product fields (`unit_ecom`, `ecom_name`, `is_alcohol`, `thumbnail`, `dnr_price`), `pay_url`, `base_total_after_discount`
+- Thiếu `GET_DELIVERY_DETAIL` (delivery tracking query: `getDeliveryTracking`)
+- Thiếu dashboard query với `loyalty_points`, `addressesV2`, recent orders
+- `GET_CUSTOMER_ADDRESSES_PAGINATED` thiếu `countries { id, full_name_locale }`
+
+### product.ts
+- `GET_RELATED_UPSELL_PRODUCTS` dùng `url_key` filter thay vì `sku` filter (source dùng sku)
+- Related/upsell products thiếu `mm_product_type`, `art_no`, `allow_pickup`, `product_label`, `dnr_price_search_page`, `categories`, `rating_summary`
+- Thiếu `GET_SEARCH_CONFIG_QUERY` (autocomplete config from storeConfig)
+
+### catalog.ts
+- Thiếu `GET_PRODUCT_FILTERS_BY_SEARCH` (chỉ có by-category variant)
+
+### auth.ts
+- `MERGE_CARTS_MUTATION` thiếu `...CheckoutPageFragment` spread (cache không primed)
+
+---
+
+## 🏗️ MM-SPECIFIC BUSINESS LOGIC — THIẾU HOÀN TOÀN
+
+> Phát hiện từ deep-dive source code. Không có trong plan cũ.
+
+### Checkout Logic (CRITICAL cho MVP)
+
+| # | Feature | Source File | GQL Needed | Priority |
+|---|---------|------------|------------|----------|
+| 1 | **Store-address validation** trước placeOrder | `useCheckoutPage.js:398-447` | `storeView(street, city, ward, language, website)` | CRITICAL |
+| 2 | **Delivery time picker** (date + time interval) | `DeliveryTime/deliveryTime.js` | `getDeliveryDateConfiguration`, `getTimeInterval` | CRITICAL |
+| 3 | **VAT invoice export** (company name, VAT number, address) | `IncludeVAT/includeVat.js` | `setVatInformationOnCart` | HIGH (legal) |
+| 4 | **MCard loyalty number** (13/16 digit) | `Mcard/mCard.js` | `setCustomerNoOnCart` | HIGH |
+| 5 | **Call before delivery** checkbox | `IncludeVAT/includeVat.js` | `setCallBeforeDeliveryOnCart` | MEDIUM |
+| 6 | **Price change detection** | `useCartPage.js`, `useShippingInformation.js` | `CheckPriceChange(cart_id)` | MEDIUM |
+| 7 | **Order confirmation page** (payment result + chatbot) | `OrderConfirmationPage/` | `paymentResult(input: { response_params })` | HIGH |
+| 8 | **Chatbot auto-step** (`?step=2` URL param) | `useCheckoutPage.js:363-379` | N/A (client logic) | MEDIUM |
+| 9 | **Guest address persistence** (sessionStorage) | `useGuestForm.js:35-53` | N/A (client logic) | LOW |
+
+### Cart Logic
+
+| # | Feature | Source File | GQL Needed | Priority |
+|---|---------|------------|------------|----------|
+| 10 | **Deal/DNR companion products** | `dealDnrProducts.js` | `getGreatDealCartItem(cart_id, cart_item_id)` | MEDIUM |
+| 11 | **Same promotion products** drawer | `samePromotionDnrProducts.js` | Uses `dnr_price.event_id` | MEDIUM |
+| 12 | **Remove all cart items** button | `cartPage.gql.js` | `removeAllCartItems` (already in cart.ts) | LOW |
+
+### Product Logic
+
+| # | Feature | Source File | GQL Needed | Priority |
+|---|---------|------------|------------|----------|
+| 13 | **Alcohol age verification dialog** | `Product/alcoholDialog.js` | Check `is_alcohol` field | HIGH (legal) |
+| 14 | **Alcohol checkout dialog** | `Product/alcoholCheckoutDialog.js` | Check cart items `is_alcohol` | HIGH (legal) |
+| 15 | **ecom_name \|\| name** display pattern | Throughout source | N/A (UI pattern) | MEDIUM |
+
+### Auth Logic
+
+| # | Feature | Source File | GQL Needed | Priority |
+|---|---------|------------|------------|----------|
+| 16 | **Password encrypt for Remember Me** | `Hooks/EncryptPassword/` | N/A (CryptoJS AES) | LOW |
+| 17 | **Social Login** (Google/Facebook) | `SocialLogin/socialLogin.js` | `socialLogin(input: { provider, token })` | MEDIUM |
+| 18 | **Location-based store switching at login** | `useSignIn.js:180-212` | Uses `location_user` from login response | MEDIUM |
+
+### Store/Location Logic
+
+| # | Feature | Source File | GQL Needed | Priority |
+|---|---------|------------|------------|----------|
+| 19 | **locationUser by GPS** | `storeLocation.gql.js` | `locationUser(lat, long, language, website)` | LOW |
+| 20 | **removeItemNotVisibleFromCart** on store switch | `storeLocation.gql.js` | `removeItemNotVisibleFromCart(cart_id)` | MEDIUM |
+| 21 | **addressDefault** query | `deliveryAddressDefault.gql.js` | `addressDefault { city_code, city_name, ward_code, ward_name }` | LOW |
+
+### Analytics (Major Gap)
+
+| # | Feature | Description | Priority |
+|---|---------|-------------|----------|
+| 22 | **CDP tracking** (`window.web_event.track`) | view_cart, checkout, purchase, sign_in events | MEDIUM |
+| 23 | **ReactGA4 event tracking** | All commerce events | MEDIUM |
+| 24 | **Antsomi SDK** | Customer data platform | LOW |
+
+---
+
 ## 🎯 RECOMMENDED NEXT PRIORITIES
 
 Dựa trên audit, thứ tự ưu tiên đề xuất:
 
-1. **Phase 4 completion** — Payment methods VN + DeliveryTime + OrderConfirmation (MVP checkout critical)
-2. **Phase 6 CMS** — ContentTypes renderers (Home page blocked by this)
-3. **Phase 3 completion** — Reviews, DNR, AlcoholDialog
-4. **Phase 5 completion** — OrderHistory, Wishlist, AddressBook
-5. **Phase 1 completion** — ConfirmPassword, SocialLogin
-6. **Phase 8** — Bundle optimization (612KB → 300KB)
-7. **Phase 7** — Blog, StoreLocator, extras
-8. **Phase 9** — Testing + Launch
+### Priority 0: Fix Critical Bugs (NGAY LẬP TỨC)
+- Fix 5 critical bugs (cart.ts import, fetchCart stub, hardcoded endpoint, route params, query keys)
+- Fix GQL query mismatches (checkout.ts delivery_date, billing city_code, duplicate location queries)
+
+### Priority 1: Complete Checkout (MVP Critical)
+- Payment methods VN (Momo, VNPay, ZaloPay, COD)
+- DeliveryTime picker + GQL
+- OrderConfirmationPage
+- Store-address validation (storeView query)
+- VAT invoice + Call before delivery
+- MCard loyalty number
+
+### Priority 2: CMS + Home Page
+- ContentTypes renderers (11 types) — Home page blocked by this
+- CmsBlock fetcher
+
+### Priority 3: Product Detail Completion
+- Reviews, DNR, AlcoholDialog (legal)
+- DescriptionTabs, AdditionalAttributes
+
+### Priority 4: Account Completion
+- OrderHistory + OrderDetail + delivery tracking
+- Wishlist, AddressBook CRUD
+- ConfirmPassword page
+
+### Priority 5: Auth Completion
+- SocialLogin (Google/Facebook)
+- ConfirmPassword page
+
+### Priority 6: Performance + PWA
+- Bundle optimization (612KB → 300KB)
+- Code splitting, lazy loading
+
+### Priority 7: Extras
+- Blog, StoreLocator, Contact, FAQ, QuickOrder
+
+### Priority 8: Testing + Launch
+- Unit/Integration/E2E tests
+- Lighthouse audit
+- Production deploy
 
 ---
 

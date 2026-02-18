@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import CmsBlock from '@/components/cms/CmsBlock';
 
 interface StoreInfo {
   name: string;
@@ -42,47 +43,9 @@ export default function Footer() {
       className={`max-w-[1482px] mx-auto ${isCartPage ? 'pb-[170px] md:pb-0' : ''} py-5 md:py-[30px]`}
       data-cy="Footer-root"
     >
-      {/* Services Section */}
+      {/* Services Section - CMS Block */}
       <div className="mb-5 px-2.5 md:px-0">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 md:gap-[30px]">
-          {/* Placeholder for CMS Block: footer_services */}
-          <div className="bg-[#F8F8F8] rounded p-2.5 md:p-[30px]">
-            <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-5 bg-gray-300 rounded"></div>
-              <strong className="block mb-2 text-sm md:text-base font-medium md:font-bold">
-                Service 1
-              </strong>
-              <p className="text-xs md:text-sm">Description</p>
-            </div>
-          </div>
-          <div className="bg-[#F8F8F8] rounded p-2.5 md:p-[30px]">
-            <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-5 bg-gray-300 rounded"></div>
-              <strong className="block mb-2 text-sm md:text-base font-medium md:font-bold">
-                Service 2
-              </strong>
-              <p className="text-xs md:text-sm">Description</p>
-            </div>
-          </div>
-          <div className="bg-[#F8F8F8] rounded p-2.5 md:p-[30px]">
-            <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-5 bg-gray-300 rounded"></div>
-              <strong className="block mb-2 text-sm md:text-base font-medium md:font-bold">
-                Service 3
-              </strong>
-              <p className="text-xs md:text-sm">Description</p>
-            </div>
-          </div>
-          <div className="bg-[#F8F8F8] rounded p-2.5 md:p-[30px]">
-            <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-5 bg-gray-300 rounded"></div>
-              <strong className="block mb-2 text-sm md:text-base font-medium md:font-bold">
-                Service 4
-              </strong>
-              <p className="text-xs md:text-sm">Description</p>
-            </div>
-          </div>
-        </div>
+        <CmsBlock identifiers={['footer_services']} className="grid grid-cols-2 md:grid-cols-4 gap-2.5 md:gap-[30px]" />
       </div>
 
       {/* Links Section */}
@@ -123,47 +86,15 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Footer Links - Placeholder for CMS Block: footer_links_v2 */}
-        <div className="md:w-4/5 grid grid-cols-1 md:grid-cols-3 gap-0 md:gap-[30px]">
-          <div className="py-2.5 md:py-0 border-b md:border-b-0 border-[#C9E3F6]">
-            <strong className="block text-base font-medium mb-2.5 md:mb-[15px]">Column 1</strong>
-            <ul className="space-y-2.5 md:space-y-[15px]">
-              <li className="hover:text-[#0272BA] cursor-pointer">Link 1</li>
-              <li className="hover:text-[#0272BA] cursor-pointer">Link 2</li>
-              <li className="hover:text-[#0272BA] cursor-pointer">Link 3</li>
-            </ul>
-          </div>
-          <div className="py-2.5 md:py-0 border-b md:border-b-0 border-[#C9E3F6]">
-            <strong className="block text-base font-medium mb-2.5 md:mb-[15px]">Column 2</strong>
-            <ul className="space-y-2.5 md:space-y-[15px]">
-              <li className="hover:text-[#0272BA] cursor-pointer">Link 1</li>
-              <li className="hover:text-[#0272BA] cursor-pointer">Link 2</li>
-              <li className="hover:text-[#0272BA] cursor-pointer">Link 3</li>
-            </ul>
-          </div>
-          <div className="py-2.5 md:py-0">
-            <strong className="block text-base font-medium mb-2.5 md:mb-[15px]">Social</strong>
-            <div className="flex flex-wrap gap-2.5">
-              <div className="w-10 h-10 bg-gray-300 rounded"></div>
-              <div className="w-10 h-10 bg-gray-300 rounded"></div>
-              <div className="w-10 h-10 bg-gray-300 rounded"></div>
-            </div>
-          </div>
+        {/* Footer Links - CMS Block */}
+        <div className="md:w-4/5">
+          <CmsBlock identifiers={['footer_links_v2']} className="grid grid-cols-1 md:grid-cols-3 gap-0 md:gap-[30px]" />
         </div>
       </div>
 
-      {/* Delivery Section */}
+      {/* Delivery Section - CMS Block */}
       <div className="max-w-[937px] mx-auto px-5 py-5">
-        {/* Placeholder for CMS Block: footer_delivery */}
-        <div className="flex flex-col md:flex-row gap-5 md:gap-[20px] items-start md:items-center">
-          <div className="flex gap-[15px] items-center">
-            <div className="w-10 h-10 bg-gray-300 rounded"></div>
-            <div>
-              <strong className="text-[#0272BA]">Delivery Info</strong>
-              <p className="text-sm">Details</p>
-            </div>
-          </div>
-        </div>
+        <CmsBlock identifiers={['footer_delivery']} />
       </div>
 
       {/* Copyright */}

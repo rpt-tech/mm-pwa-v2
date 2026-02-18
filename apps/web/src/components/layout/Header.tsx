@@ -1,10 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { request } from 'graphql-request';
 import { GET_AUTOCOMPLETE_RESULTS } from '@/queries/catalog';
-
-const GRAPHQL_ENDPOINT = 'https://online.mmvietnam.com/graphql';
+import { gqlClient } from '@/lib/graphql-client';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
 import { useUIStore } from '@/stores/uiStore';
 import { ChevronDown, Search, X } from 'lucide-react';
@@ -27,7 +25,7 @@ export default function Header() {
   // Autocomplete query
   const { data: autocompleteData, isLoading: autocompleteLoading } = useQuery({
     queryKey: ['autocomplete', searchQuery],
-    queryFn: () => request(GRAPHQL_ENDPOINT, GET_AUTOCOMPLETE_RESULTS, {
+    queryFn: () => gqlClient.request(GET_AUTOCOMPLETE_RESULTS, {
       inputText: searchQuery,
       asmUid: '',
       pageSize: 5

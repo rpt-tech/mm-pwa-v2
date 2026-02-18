@@ -1,21 +1,20 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { request } from 'graphql-request';
 import { GET_PRODUCT_DETAIL, ADD_PRODUCT_TO_CART } from '@/queries/product';
 import { useTranslation } from 'react-i18next';
 import { useCartStore } from '@/stores/cartStore';
+import { gqlClient } from '@/lib/graphql-client';
 import ProductImageCarousel from '@/components/product/ProductImageCarousel';
 import ProductLabel from '@/components/catalog/ProductLabel';
 import QuantityStepper from '@/components/product/QuantityStepper';
 import ProductOptions from '@/components/product/ProductOptions';
 import StockStatusMessage from '@/components/catalog/StockStatusMessage';
 
-const GRAPHQL_ENDPOINT = 'https://online.mmvietnam.com/graphql';
-
 export default function ProductPage() {
   const { t } = useTranslation();
-  const { urlKey } = useParams<{ urlKey: string }>();
+  const { '*': splat } = useParams();
+  const urlKey = splat;
   const { cartId, fetchCart } = useCartStore();
 
   const [quantity, setQuantity] = useState(1);
@@ -25,7 +24,7 @@ export default function ProductPage() {
   // Fetch product details
   const { data, isLoading, error } = useQuery({
     queryKey: ['productDetail', urlKey],
-    queryFn: () => request(GRAPHQL_ENDPOINT, GET_PRODUCT_DETAIL, { urlKey: urlKey?.replace('.html', '') }),
+    queryFn: () => gqlClient.request(GET_PRODUCT_DETAIL, { urlKey: urlKey?.replace('.html', '') }),
     enabled: !!urlKey,
   });
 
@@ -33,7 +32,7 @@ export default function ProductPage() {
 
   // Add to cart mutation
   const addToCartMutation = useMutation({
-    mutationFn: (variables: any) => request(GRAPHQL_ENDPOINT, ADD_PRODUCT_TO_CART, variables),
+    mutationFn: (variables: any) => gqlClient.request(ADD_PRODUCT_TO_CART, variables),
     onSuccess: () => {
       fetchCart();
       setAddToCartError(null);

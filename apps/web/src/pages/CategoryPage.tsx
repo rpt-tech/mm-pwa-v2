@@ -1,21 +1,20 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { request } from 'graphql-request';
 import { GET_PRODUCTS, GET_CATEGORY_DATA, GET_FILTER_INPUTS } from '../queries/catalog';
 import ProductGrid from '../components/catalog/ProductGrid';
 import FilterSidebar from '../components/catalog/FilterSidebar';
 import FilterModal from '../components/catalog/FilterModal';
 import ProductSort from '../components/catalog/ProductSort';
 import Pagination from '../components/ui/Pagination';
-
-const GRAPHQL_ENDPOINT = 'https://online.mmvietnam.com/graphql';
+import { gqlClient } from '@/lib/graphql-client';
 const PAGE_SIZE = 24;
 
 interface CategoryPageProps {}
 
 const CategoryPage: React.FC<CategoryPageProps> = () => {
-  const { categoryId } = useParams<{ categoryId: string }>();
+  const { '*': splat } = useParams();
+  const categoryId = splat;
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>(() => {
@@ -29,7 +28,7 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
   // Get filter inputs for type mapping
   const { data: filterInputsData } = useQuery({
     queryKey: ['filterInputs'],
-    queryFn: () => request(GRAPHQL_ENDPOINT, GET_FILTER_INPUTS),
+    queryFn: () => gqlClient.request(GET_FILTER_INPUTS),
     staleTime: Infinity,
   });
 
@@ -73,7 +72,7 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
   // Fetch category data
   const { data: categoryData, isLoading: categoryLoading } = useQuery({
     queryKey: ['category', categoryId],
-    queryFn: () => request(GRAPHQL_ENDPOINT, GET_CATEGORY_DATA, { id: categoryId }),
+    queryFn: () => gqlClient.request(GET_CATEGORY_DATA, { id: categoryId }),
     enabled: !!categoryId,
   });
 
@@ -81,7 +80,7 @@ const CategoryPage: React.FC<CategoryPageProps> = () => {
   const { data: productsData, isLoading: productsLoading } = useQuery({
     queryKey: ['products', categoryId, currentPage, filters, sortAttribute, sortDirection],
     queryFn: () =>
-      request(GRAPHQL_ENDPOINT, GET_PRODUCTS, {
+      gqlClient.request(GET_PRODUCTS, {
         currentPage,
         filters,
         pageSize: PAGE_SIZE,

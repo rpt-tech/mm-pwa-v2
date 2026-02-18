@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { request } from 'graphql-request';
 import { GET_FLASHSALE_PRODUCTS } from '@/queries/catalog';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-
-const GRAPHQL_ENDPOINT = 'https://online.mmvietnam.com/graphql';
+import { gqlClient } from '@/lib/graphql-client';
 
 interface FlashsaleProductsProps {
   pageSize?: number;
@@ -83,7 +81,7 @@ export default function FlashsaleProducts({
   const { t } = useTranslation();
   const { isLoading: loading, error, data } = useQuery({
     queryKey: ['flashsale', pageSize],
-    queryFn: () => request(GRAPHQL_ENDPOINT, GET_FLASHSALE_PRODUCTS, { pageSize }),
+    queryFn: () => gqlClient.request(GET_FLASHSALE_PRODUCTS, { pageSize }),
     staleTime: 0,
   });
 

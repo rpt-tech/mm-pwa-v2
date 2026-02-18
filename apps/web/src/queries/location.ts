@@ -22,10 +22,10 @@ export const GET_DISTRICTS = gql`
   }
 `;
 
-// Get wards based on city_code
+// Get wards based on district_code
 export const GET_WARDS = gql`
-  query GetWards($cityCode: String!) {
-    wards(city_code: $cityCode) {
+  query GetWards($districtCode: String!) {
+    wards(district_code: $districtCode) {
       id
       name
       ward_code

@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from 'graphql-request';
 
 // Cart item fragment for MiniCart
 export const MINI_CART_ITEM_FRAGMENT = gql`

@@ -1,11 +1,9 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { request } from 'graphql-request';
 import { PRODUCT_SEARCH, GET_PAGE_SIZE, GET_SEARCH_PAGE_META } from '@/queries/catalog';
 import { useTranslation } from 'react-i18next';
-
-const GRAPHQL_ENDPOINT = 'https://online.mmvietnam.com/graphql';
+import { gqlClient } from '@/lib/graphql-client';
 
 export default function SearchPage() {
   const { t } = useTranslation();
@@ -21,14 +19,14 @@ export default function SearchPage() {
   // Get page size
   const { data: pageSizeData } = useQuery({
     queryKey: ['pageSize'],
-    queryFn: () => request(GRAPHQL_ENDPOINT, GET_PAGE_SIZE),
+    queryFn: () => gqlClient.request(GET_PAGE_SIZE),
     staleTime: Infinity,
   });
 
   // Get meta data
   const { data: metaData } = useQuery({
     queryKey: ['searchPageMeta'],
-    queryFn: () => request(GRAPHQL_ENDPOINT, GET_SEARCH_PAGE_META),
+    queryFn: () => gqlClient.request(GET_SEARCH_PAGE_META),
     staleTime: 300000,
   });
 
@@ -52,7 +50,7 @@ export default function SearchPage() {
   // Search products
   const { isLoading: loading, error, data } = useQuery({
     queryKey: ['productSearch', searchTerm, currentPage, filters, sortAttribute, sortDirection, pageSize],
-    queryFn: () => request(GRAPHQL_ENDPOINT, PRODUCT_SEARCH, {
+    queryFn: () => gqlClient.request(PRODUCT_SEARCH, {
       currentPage,
       inputText: searchTerm,
       pageSize,

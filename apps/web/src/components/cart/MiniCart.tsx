@@ -1,13 +1,11 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { request } from 'graphql-request';
 import { X, ShoppingCart, Trash2 } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
 import { useCartStore } from '@/stores/cartStore';
+import { gqlClient } from '@/lib/graphql-client';
 import { GET_MINI_CART, REMOVE_ITEM_FROM_CART } from '@/queries/cart';
-
-const GRAPHQL_ENDPOINT = 'https://online.mmvietnam.com/graphql';
 
 function formatPrice(value: number, currency = 'VND') {
   if (currency === 'VND') {
@@ -107,7 +105,7 @@ export default function MiniCart() {
   // Fetch cart data
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['miniCart', cartId],
-    queryFn: () => request(GRAPHQL_ENDPOINT, GET_MINI_CART, { cartId }),
+    queryFn: () => gqlClient.request(GET_MINI_CART, { cartId }),
     enabled: !!cartId && isMiniCartOpen,
     staleTime: 30000,
   });
@@ -130,7 +128,7 @@ export default function MiniCart() {
   // Remove item mutation
   const removeItemMutation = useMutation({
     mutationFn: ({ cartItemUid }: { cartItemUid: string }) =>
-      request(GRAPHQL_ENDPOINT, REMOVE_ITEM_FROM_CART, { cartId, cartItemUid }),
+      gqlClient.request(REMOVE_ITEM_FROM_CART, { cartId, cartItemUid }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['miniCart'] });
       queryClient.invalidateQueries({ queryKey: ['cartDetails'] });

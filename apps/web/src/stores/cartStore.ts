@@ -1,5 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { gqlClient } from '@/lib/graphql-client';
+import { GET_MINI_CART } from '@/queries/cart';
 
 interface CartItem {
   uid: string;
@@ -87,13 +89,18 @@ export const useCartStore = create<CartState>()(
       setItemCount: (itemCount) => set({ itemCount }),
 
       fetchCart: async () => {
-        // TODO: Implement cart fetching from GraphQL
-        // For now, this is a placeholder that will be implemented in Phase 4
         const cartId = get().cartId;
         if (!cartId) return;
 
-        // Placeholder - will fetch cart data from backend
-        console.log('Fetching cart:', cartId);
+        try {
+          const data: any = await gqlClient.request(GET_MINI_CART, { cartId });
+          const cart = data?.cart;
+          if (cart) {
+            set({ itemCount: cart.total_quantity ?? 0 });
+          }
+        } catch (error) {
+          console.error('Failed to fetch cart:', error);
+        }
       },
 
       reset: () => set({ cartId: null, items: [], itemCount: 0 }),

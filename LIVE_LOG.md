@@ -153,3 +153,4 @@ Ghi lại mọi action theo format:
 [07:08] Build successful — 639KB bundle (OrderHistoryPage 4.40KB) — commit and push
 [07:08] Git commit 1863337 — ✓ pushed to dev — OrderHistoryPage complete
 [07:08] Phase 5 Account pages COMPLETE — AccountInformation, AddressBook, Wishlist, OrderHistory all functional
+[07:09] Start Phase 6: CMS + Content — reading source CMS components

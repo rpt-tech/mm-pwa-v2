@@ -56,14 +56,14 @@ export default function VietnamLocationCascade({
     enabled: !!selectedCity,
   });
 
-  // Fetch wards when city is selected
+  // Fetch wards when district is selected
   const { data: wardsData, isLoading: wardsLoading } = useQuery({
-    queryKey: ['wards', selectedCity],
+    queryKey: ['wards', selectedDistrict],
     queryFn: async () => {
-      const data = await gqlClient.request(GET_WARDS, { cityCode: selectedCity });
+      const data = await gqlClient.request(GET_WARDS, { districtCode: selectedDistrict });
       return data.wards;
     },
-    enabled: !!selectedCity,
+    enabled: !!selectedDistrict,
   });
 
   // Update local state when props change
@@ -179,7 +179,7 @@ export default function VietnamLocationCascade({
         <select
           value={selectedWard}
           onChange={handleWardChange}
-          disabled={!selectedCity || wardsLoading}
+          disabled={!selectedDistrict || wardsLoading}
           className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#006341] disabled:bg-gray-100"
         >
           <option value="">{t('checkout.selectWard')}</option>

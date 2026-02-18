@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { request } from 'graphql-request';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { ChevronRight, CheckCircle, AlertCircle, Package, CreditCard, MapPin } from 'lucide-react';
 import { useCartStore } from '@/stores/cartStore';
 import { useAuthStore } from '@/stores/authStore';
+import { gqlClient } from '@/lib/graphql-client';
 import VietnamLocationCascade from '@/components/checkout/VietnamLocationCascade';
 import {
   GET_CUSTOMER_ADDRESSES,
@@ -18,8 +18,6 @@ import {
   PLACE_ORDER,
   GET_CHECKOUT_DETAILS,
 } from '@/queries/checkout';
-
-const GRAPHQL_ENDPOINT = 'https://online.mmvietnam.com/graphql';
 
 function formatPrice(value: number, currency = 'VND') {
   if (currency === 'VND') {
@@ -206,7 +204,7 @@ function ShippingStep({
   // Fetch customer addresses if logged in
   const { data: customerData } = useQuery({
     queryKey: ['customerAddresses'],
-    queryFn: () => request(GRAPHQL_ENDPOINT, GET_CUSTOMER_ADDRESSES),
+    queryFn: () => gqlClient.request(GET_CUSTOMER_ADDRESSES),
     enabled: isLoggedIn,
   });
 
@@ -228,7 +226,7 @@ function ShippingStep({
 
   const setGuestEmailMutation = useMutation({
     mutationFn: (email: string) =>
-      request(GRAPHQL_ENDPOINT, SET_GUEST_EMAIL, { cartId, email }),
+      gqlClient.request(SET_GUEST_EMAIL, { cartId, email }),
   });
 
   const setShippingAddressMutation = useMutation({
@@ -254,7 +252,7 @@ function ShippingStep({
         ],
       };
 
-      return request(GRAPHQL_ENDPOINT, SET_SHIPPING_ADDRESS, {
+      return gqlClient.request(SET_SHIPPING_ADDRESS, {
         cartId,
         shippingAddresses: [
           selectedAddressId
@@ -270,7 +268,7 @@ function ShippingStep({
       const shippingAddr = cart?.cart?.shipping_addresses?.[0];
       const firstMethod = shippingAddr?.available_shipping_methods?.[0];
       if (firstMethod) {
-        request(GRAPHQL_ENDPOINT, SET_SHIPPING_METHOD, {
+        gqlClient.request(SET_SHIPPING_METHOD, {
           cartId,
           shippingMethods: [{
             carrier_code: firstMethod.carrier_code,
@@ -523,14 +521,14 @@ function PaymentStep({
 
   const setPaymentMutation = useMutation({
     mutationFn: (code: string) =>
-      request(GRAPHQL_ENDPOINT, SET_PAYMENT_METHOD, {
+      gqlClient.request(SET_PAYMENT_METHOD, {
         cartId,
         paymentMethod: { code },
       }),
   });
 
   const placeOrderMutation = useMutation({
-    mutationFn: () => request(GRAPHQL_ENDPOINT, PLACE_ORDER, { input: { cart_id: cartId } }),
+    mutationFn: () => gqlClient.request(PLACE_ORDER, { input: { cart_id: cartId } }),
     onSuccess: (data) => {
       const orderNumber = data?.placeOrder?.orderV2?.number;
       if (orderNumber) {
@@ -676,7 +674,7 @@ export default function CheckoutPage() {
 
   const { data: cartData, isLoading } = useQuery({
     queryKey: ['checkoutDetails', cartId],
-    queryFn: () => request(GRAPHQL_ENDPOINT, GET_CHECKOUT_DETAILS, { cartId }),
+    queryFn: () => gqlClient.request(GET_CHECKOUT_DETAILS, { cartId }),
     enabled: !!cartId,
     staleTime: 30000,
   });
