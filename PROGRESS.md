@@ -259,6 +259,28 @@
 - **Commit:** be35f95
 - **Notes:** Product specifications table complete.
 
+## Priority 3: Account Completion - OrderDetailPage
+- **Status:** ✓ Done
+- **Started:** 2026-02-18 10:22
+- **Completed:** 2026-02-18 10:32
+- **Components:**
+  - OrderDetailPage: Full order breakdown with items, addresses, payment
+  - Order items list with product links, SKU, options, quantities
+  - Order summary: subtotal, shipping, tax, discounts, grand total
+  - Shipping address display with contact info
+  - Payment method display
+- **Features:**
+  - Order status badge with color coding (pending/processing/complete/canceled)
+  - Back button to order history
+  - Error handling: order not found state
+  - Responsive layout: 2-column on desktop, stacked on mobile
+- **Query:** GET_ORDER_DETAILS (already in account.ts)
+- **Route:** /account/orders/:orderNumber
+- **i18n:** Added order detail strings (vi-VN)
+- **Build:** 696.40 KiB bundle (150.42 KiB gzip), OrderDetailPage 7.04KB
+- **Commit:** 865fe45
+- **Notes:** Order detail page complete. Users can view full order information.
+
 
 ## Phase 6: CMS + Content (P1)
 - **Status:** 🚧 In Progress (10/11 ContentTypes Complete)

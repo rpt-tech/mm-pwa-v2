@@ -250,3 +250,11 @@ Ghi lại mọi action theo format:
 [10:17] Add i18n string — product.specifications — done
 [10:18] Build successful — 688.17 KiB (150.23 KiB gzip) — ProductPage +1KB (31.31KB)
 [10:19] Git commit be35f95 — ✓ pushed to dev — AdditionalAttributes complete
+[10:22] Check order detail query — GET_ORDER_DETAILS exists in account.ts — done
+[10:25] Create OrderDetailPage — full order breakdown, items, addresses, payment — done
+[10:27] Order summary section — subtotal, shipping, tax, discounts, total — done
+[10:28] Status badge with color coding — pending/processing/complete/canceled — done
+[10:29] Add route /account/orders/:orderNumber — integrated to AccountPage — done
+[10:30] Add i18n strings — order detail strings (vi-VN) — done
+[10:31] Build successful — 696.40 KiB (150.42 KiB gzip) — OrderDetailPage 7.04KB
+[10:32] Git commit 865fe45 — ✓ pushed to dev — OrderDetailPage complete
