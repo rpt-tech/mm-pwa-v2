@@ -92,3 +92,5 @@ Ghi lại mọi action theo format:
 [16:21] Read CheckoutPage source — very complex with MCard, AI tracking, delivery time picker — simplify approach
 [16:22] Read checkout fragments from source — ItemsReviewFragment, CheckoutPageFragment — update checkout.ts
 [16:23] Update checkout.ts queries — ✓ added fragments, GET_CHECKOUT_DETAILS, GET_ORDER_DETAILS with MM custom fields — build test
+[16:24] Build successful — 578KB bundle — fix CheckoutPage imports
+[16:25] Git commit baccd8e — ✓ pushed to dev — update PROGRESS.md

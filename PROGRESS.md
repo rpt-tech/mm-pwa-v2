@@ -117,8 +117,9 @@
 - **Completed So Far:**
   - ✓ Cart GraphQL queries (cart.ts)
   - ✓ MiniCart drawer component
-  - ⏳ CartPage (exists, needs testing)
-  - ⏳ CheckoutPage (exists, needs completion)
+  - ✓ Checkout GraphQL queries (checkout.ts) with MM custom fields
+  - ⏳ CartPage (exists, functional, needs testing)
+  - ⏳ CheckoutPage (exists, basic flow works, needs Vietnam location cascade)
 - **GraphQL Queries:**
   - cart.ts: Complete cart operations
     - MINI_CART_FRAGMENT, CART_PAGE_FRAGMENT with all MM custom fields
@@ -127,21 +128,43 @@
     - APPLY_COUPON_TO_CART, REMOVE_COUPON_FROM_CART
     - ADD_COMMENT_TO_CART_ITEM, CHECK_PRICE_CHANGE
     - GET_CROSS_SELL_PRODUCTS
-  - checkout.ts: Checkout flow queries (created, needs implementation)
+  - checkout.ts: Checkout flow queries
+    - CHECKOUT_PAGE_FRAGMENT, ITEMS_REVIEW_FRAGMENT
+    - GET_CHECKOUT_DETAILS with pickup_location, customer_no, city_code, ward_code
+    - GET_ORDER_DETAILS with full cart data before placement
+    - SET_GUEST_EMAIL, SET_SHIPPING_ADDRESS, SET_BILLING_ADDRESS
+    - SET_SHIPPING_METHOD, SET_PAYMENT_METHOD
+    - PLACE_ORDER with orderV2 response (MM custom: id, number, status, payment_methods with pay_url)
+    - GET_CITIES, GET_DISTRICTS, GET_WARDS for Vietnam location cascade
+    - GET_CUSTOMER_ADDRESSES with city_code, ward_code
 - **Components:**
   - MiniCart: Drawer with item list, quantity update, remove, price summary
     - Integrated into MainLayout
     - Real-time cart updates with TanStack Query
     - Configurable options display
     - Links to cart and checkout pages
+  - CartPage: Full cart page with item management
+    - Item list with quantity stepper, remove, comment
+    - Coupon code input
+    - Price summary with discounts, taxes
+    - Checkout button
+  - CheckoutPage: Multi-step checkout flow
+    - Step 1: Shipping address form (basic, needs Vietnam cascade)
+    - Step 2: Payment method selection
+    - Step 3: Order confirmation
+    - Progress indicator
+    - Order summary sidebar
 - **Custom Fields:**
   - dnr_price, have_same_promotion, have_great_deal, comment
+  - pickup_location, customer_no (MCard)
+  - city_code, ward_code for Vietnam addresses
   - All MM-specific fields preserved from source
-- **Build:** 575KB bundle, PWA ready
-- **Commit:** 169521d
+- **Build:** 578KB bundle, PWA ready
+- **Commit:** baccd8e
 - **TODO:**
-  - Complete CartPage implementation
-  - Complete CheckoutPage with address cascade
-  - Shipping methods, payment methods
-  - Order placement flow
+  - Implement Vietnam location cascade (city → district → ward) in CheckoutPage
+  - Add delivery time picker
+  - Test full checkout flow end-to-end
+  - Handle payment redirect (pay_url from orderV2)
+  - Order confirmation page
 
