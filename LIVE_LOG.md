@@ -101,3 +101,14 @@ Ghi lại mọi action theo format:
 [16:30] Start Phase 5: Account — reading MyAccount source structure — plan implementation
 [16:31] Create account.ts queries — ✓ GET_CUSTOMER, orders, wishlist, address CRUD — build successful
 [16:32] Git commit 05b934f — ✓ Phase 5 account queries complete — push to dev
+[02:34] Resume Phase 5 — account queries done, now implement MyAccount layout + components
+[02:35] Read MyAccount source — layout with sidebar, dashboard, account info, address book — start implementation
+[02:36] Create MyAccount components — MyAccountLayout, AccountSidebar, Dashboard
+[02:37] Create DashboardPage — customer info, default address, orders, loyalty points
+[02:37] Add account i18n strings — dashboard, sidebar, orders, points
+[02:37] Create account pages — Dashboard, AccountInfo, AddressBook, OrderHistory, Wishlist — routing setup
+[02:37] Update i18n files — add account translations (vi-VN, en-US)
+[02:38] i18n updated — building to check errors
+[02:38] Build errors — fix imports, Breadcrumbs, isAuthenticated, graphqlClient
+[02:42] Fixed TypeScript errors — building again
+[02:42] Build successful — 601KB bundle, PWA ready — commit Phase 5 account layout + dashboard

@@ -1,3 +1,21 @@
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { lazy } from 'react';
+
+const DashboardPage = lazy(() => import('./account/DashboardPage'));
+const AccountInformationPage = lazy(() => import('./account/AccountInformationPage'));
+const AddressBookPage = lazy(() => import('./account/AddressBookPage'));
+const OrderHistoryPage = lazy(() => import('./account/OrderHistoryPage'));
+const WishlistPage = lazy(() => import('./account/WishlistPage'));
+
 export default function AccountPage() {
-  return <div className="container mx-auto px-4 py-8"><h1>AccountPage</h1><p>TODO: Implement</p></div>;
+  return (
+    <Routes>
+      <Route index element={<Navigate to="/account/dashboard" replace />} />
+      <Route path="dashboard" element={<DashboardPage />} />
+      <Route path="information" element={<AccountInformationPage />} />
+      <Route path="addresses" element={<AddressBookPage />} />
+      <Route path="orders" element={<OrderHistoryPage />} />
+      <Route path="wishlist" element={<WishlistPage />} />
+    </Routes>
+  );
 }
