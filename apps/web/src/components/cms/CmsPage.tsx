@@ -23,7 +23,7 @@ interface CmsPageData {
  * CMS Page component
  * Renders CMS pages with PageBuilder content
  */
-export const CmsPage: React.FC<{ identifier?: string }> = ({ identifier: propIdentifier }) => {
+export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.ReactNode }> = ({ identifier: propIdentifier, fallbackElement }) => {
   const params = useParams();
   const identifier = propIdentifier || params['*'] || 'home';
 
@@ -49,6 +49,10 @@ export const CmsPage: React.FC<{ identifier?: string }> = ({ identifier: propIde
   }
 
   if (error || !data?.cmsPage) {
+    if (fallbackElement) {
+      return <>{fallbackElement}</>;
+    }
+
     return (
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold text-red-600">Page Not Found</h1>
