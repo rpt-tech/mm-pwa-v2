@@ -1,6 +1,7 @@
 {
   "name": "mm-pwa-v2",
   "private": true,
+  "packageManager": "pnpm@9.0.0",
   "scripts": {
     "dev": "pnpm --filter @mm/web dev",
     "build": "pnpm --filter @mm/web build",

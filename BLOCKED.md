@@ -1,15 +1,2 @@
-# Blocked Items
-
-Ghi lại các blockers theo format:
-```
-[YYYY-MM-DD HH:MM] BLOCKED: Mô tả vấn đề
-Reason: Lý do cụ thể
-```
-
----
-
-[2026-02-17 13:23] BLOCKED: Cloudflare API token thiếu quyền
-Reason: Token cần permission 'Workers Scripts:Edit' và 'User Details:Read'
-Phase: 0 | Component: BFF deploy
-Tried: Deploy với CLOUDFLARE_API_TOKEN từ .env
-Workaround: Skip BFF deploy, tiếp tục deploy frontend Vercel, frontend sẽ call trực tiếp Magento GraphQL endpoint tạm thời
+[2026-02-19 00:09] BLOCKED: husky install hook missing since package not installed
+Reason: npm install fails because the post-install Husky hook (`husky install && npm run prepare:hooks`) references `husky` but the mono repo has no husky dependency. Need either to install husky dependency or remove the undefined hook before dependency installation can succeed.

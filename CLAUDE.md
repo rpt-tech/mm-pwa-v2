@@ -180,16 +180,28 @@ Mỗi khi bắt đầu session MỚI (hoặc resume sau khi hết quota):
 ### Deploy Strategy
 - **Frontend (Vercel):**
   ```bash
-  cd apps/web && VERCEL_TOKEN=$(grep VERCEL_TOKEN ../../.env | cut -d= -f2) npx vercel --prod --token $VERCEL_TOKEN --yes
+  cd apps/web && VERCEL_TOKEN=$(grep VERCEL_TOKEN ../../.env | cut -d= -f2) npx vercel deploy --prod --scope admin-rpts-projects --token "$VERCEL_TOKEN" --yes
   ```
+  - In case CLI demands scope/link: `npx vercel link --scope admin-rpts-projects --token "$VERCEL_TOKEN"` once before deploying.
+  - Ensure dependencies (`lucide-react`, `@apollo/client`, `husky`, `npm-run-all`) exist before build.
+  - After deploy log URL in `LIVE_LOG.md`, update `PROGRESS.md`, and clear `STEERING.md`.
 - **BFF (Cloudflare Workers):**
   ```bash
   cd apps/bff && CLOUDFLARE_API_TOKEN=$(grep CLOUDFLARE_API_TOKEN ../../.env | cut -d= -f2) npx wrangler deploy
   ```
 - Deploy staging sau mỗi phase hoàn thành để test
+- Tạo script deploy (`/scripts/deploy-vercel.sh`) để tự động hóa: install → build → (link) → deploy.
 - CF Account ID: `3215d8c2be0ce3c84386a52aa03ad93b`
 - Tất cả tokens nằm trong `.env` (root project) - file này KHÔNG commit vào git
 - Trên WSL, project ở `/mnt/d/mm-new-pwa/`
+
+### Deployment Plan
+1. **Prepare local build** – `npm install` (hoặc `NPM_CONFIG_IGNORE_SCRIPTS=true` nếu cần), đảm bảo các dependency bị Vercel báo thiếu đã được cài.
+2. **Run `npm run build`** – xác nhận không còn lỗi TS2307 trước khi deploy.
+3. **Link project once** – nếu chưa có `.vercel/project.json`, chạy `npx vercel link --scope admin-rpts-projects --token "$VERCEL_TOKEN"`.
+4. **Deploy Vercel** – `npx vercel deploy --prod --scope admin-rpts-projects --token "$VERCEL_TOKEN" --yes`.
+5. **Log & progress** – ghi action vào `LIVE_LOG.md`, cập nhật `PROGRESS.md`, xóa `STEERING.md`. Nhớ note URL deploy và status.
+6. **CI/CD checkpoint** – nếu dùng runner tự động (như log 08:40…), tạo script (install → build → deploy) và thiết lập token scope trong hệ thống chạy (pnpm/npm tương thích, audit vulnerabilities nếu cần).
 
 ### Source Reference
 Khi migrate component, LUÔN đọc source tại:
