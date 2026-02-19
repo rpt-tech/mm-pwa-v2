@@ -4,6 +4,9 @@ import { gqlClient } from '@/lib/graphql-client';
 import { GET_CMS_PAGE } from '@/queries/cms';
 import RichContent from '@/components/cms/RichContent';
 import { useParams } from 'react-router-dom';
+import HomeSchema from '@/components/home/HomeSchema';
+import SearchPopular from '@/components/navbar/SearchPopular';
+import ContentTypeFactory from '@/components/cms/contentTypes/ContentTypeFactory';
 
 interface CmsPageData {
   cmsPage: {
@@ -26,6 +29,7 @@ interface CmsPageData {
 export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.ReactNode }> = ({ identifier: propIdentifier, fallbackElement }) => {
   const params = useParams();
   const identifier = propIdentifier || params['*'] || 'home';
+  const isHome = identifier === 'home';
 
   const { data, isLoading, error } = useQuery<CmsPageData>({
     queryKey: ['cmsPage', identifier],
@@ -53,6 +57,10 @@ export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.Re
       return <>{fallbackElement}</>;
     }
 
+    if (isHome) {
+      return <HomeSchema />; // ensure schema even if home data missing
+    }
+
     return (
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-2xl font-bold text-red-600">Page Not Found</h1>
@@ -64,21 +72,30 @@ export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.Re
   const { content_heading, title, meta_title, content } = data.cmsPage;
   const pageTitle = meta_title || title;
 
+  const blocks = content ? JSON.parse(content) : [];
+
   return (
     <article className="cms-page">
-      {/* Set page title */}
-      {pageTitle && (
-        <title>{pageTitle}</title>
-      )}
-
-      {content_heading && (
-        <h1 className="text-3xl font-bold mb-6 container mx-auto px-4 pt-8">
-          {content_heading}
-        </h1>
-      )}
-
-      <RichContent html={content} />
+      {isHome && <HomeSchema />}
+      {pageHeading(content_heading, pageTitle)}
+      <div className="space-y-6 max-w-6xl mx-auto px-4 py-6">
+        {blocks.map((block: any, index: number) => (
+          <ContentTypeFactory key={block.content_type + index} data={block} />
+        ))}
+        <RichContent html={content} />
+        {isHome && <SearchPopular />}
+      </div>
     </article>
+  );
+};
+
+const pageHeading = (heading: string, title: string) => {
+  if (!heading) return null;
+  return (
+    <div className="pt-6">
+      <p className="text-xs uppercase tracking-[0.4em] text-gray-500 text-center">{heading}</p>
+      <h1 className="text-4xl font-bold text-center mt-4">{title}</h1>
+    </div>
   );
 };
 
