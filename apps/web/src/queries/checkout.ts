@@ -242,6 +242,7 @@ export const GET_CUSTOMER_ADDRESSES = gql`
         city_code
         ward
         ward_code
+        district_code
         region {
           region_code
           region_id

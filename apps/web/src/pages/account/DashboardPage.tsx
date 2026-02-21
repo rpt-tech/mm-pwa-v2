@@ -42,7 +42,7 @@ export default function DashboardPage() {
   const customer = data;
   const customerName = customer.firstname;
   const customerPhone = customer.custom_attributes?.find(
-    (attr: any) => attr.attribute_code === 'company_user_phone_number'
+    (attr: any) => attr.code === 'company_user_phone_number'
   )?.value || '';
 
   const defaultAddress = customer.addresses?.find((addr: any) => addr.default_shipping);

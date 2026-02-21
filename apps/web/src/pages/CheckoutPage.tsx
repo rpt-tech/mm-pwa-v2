@@ -219,6 +219,7 @@ function ShippingStep({
       setValue('telephone', defaultAddr.telephone);
       setValue('street', defaultAddr.street?.join(', ') || '');
       setValue('city_code', defaultAddr.city_code || '');
+      setValue('district_code', defaultAddr.district_code || '');
       setValue('ward_code', defaultAddr.ward_code || '');
     }
   }, [addresses, setValue]);
@@ -317,6 +318,7 @@ function ShippingStep({
                     setValue('telephone', addr.telephone);
                     setValue('street', addr.street?.join(', ') || '');
                     setValue('city_code', addr.city_code || '');
+                    setValue('district_code', addr.district_code || '');
                     setValue('ward_code', addr.ward_code || '');
                   }}
                   className="mt-0.5 accent-[#006341]"
