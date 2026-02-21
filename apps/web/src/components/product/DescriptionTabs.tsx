@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import DOMPurify from 'isomorphic-dompurify';
 import AdditionalAttributes from './AdditionalAttributes';
 import ProductReviews from './ProductReviews';
 
@@ -46,7 +47,7 @@ export default function DescriptionTabs({ product }: DescriptionTabsProps) {
 
       {/* Tab content */}
       {activeTab === 'description' && hasDescription && (
-        <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: product.description.html }} />
+        <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.description.html) }} />
       )}
 
       {activeTab === 'specs' && hasSpecs && (

@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
+import DOMPurify from 'isomorphic-dompurify';
 import { GET_PRODUCTS, GET_CATEGORY_DATA, GET_CATEGORY_BY_URL_PATH, GET_FILTER_INPUTS } from '../queries/catalog';
 import ProductGrid from '../components/catalog/ProductGrid';
 import FilterSidebar from '../components/catalog/FilterSidebar';
@@ -357,7 +358,7 @@ const CategoryPage: React.FC = () => {
                 <div
                   ref={contentRef}
                   style={{ maxHeight, overflow: 'hidden', transition: 'max-height 0.3s ease' }}
-                  dangerouslySetInnerHTML={{ __html: category.description }}
+                  dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(category.description) }}
                 />
                 <button
                   onClick={toggleDescription}
@@ -367,7 +368,7 @@ const CategoryPage: React.FC = () => {
                 </button>
               </div>
             ) : (
-              <div dangerouslySetInnerHTML={{ __html: category.description }} />
+              <div dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(category.description) }} />
             )}
           </div>
         )}

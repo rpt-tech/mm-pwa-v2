@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
+import DOMPurify from 'isomorphic-dompurify';
 import { PRODUCT_SEARCH, GET_PAGE_SIZE, GET_SEARCH_PAGE_META, SEARCH_QUERY_DESCRIPTION, GET_SEARCH_TERM_DATA } from '@/queries/catalog';
 import { useTranslation } from 'react-i18next';
 import { gqlClient } from '@/lib/graphql-client';
@@ -219,7 +220,7 @@ export default function SearchPage() {
           {t('searchPage.totalPages', `${totalCount} items`)}
         </p>
         {searchDescription && (
-          <div className="mt-3 text-sm text-gray-600 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: searchDescription }} />
+          <div className="mt-3 text-sm text-gray-600 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(searchDescription) }} />
         )}
       </div>
 

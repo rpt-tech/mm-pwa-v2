@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
 import { toast } from 'sonner';
+import DOMPurify from 'isomorphic-dompurify';
 import { GET_PRODUCT_DETAIL, ADD_PRODUCT_TO_CART } from '@/queries/product';
 import { useTranslation } from 'react-i18next';
 import { useCartStore } from '@/stores/cartStore';
@@ -310,7 +311,7 @@ export default function ProductPage() {
           )}
 
           {product.short_description?.html && (
-            <div className="prose prose-sm max-w-none mb-6" dangerouslySetInnerHTML={{ __html: product.short_description.html }} />
+            <div className="prose prose-sm max-w-none mb-6" dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(product.short_description.html) }} />
           )}
         </div>
       </div>

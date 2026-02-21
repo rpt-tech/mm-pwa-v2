@@ -10,6 +10,7 @@ import { useAuthStore } from '@/stores/authStore';
 import { ChevronDown, Search, X, MapPin } from 'lucide-react';
 import MegaMenu from '@/components/navigation/MegaMenu';
 import StoreSwitcher from '@/components/common/StoreSwitcher';
+import CmsBlock from '@/components/cms/CmsBlock';
 import { useTranslation } from 'react-i18next';
 
 export default function Header() {
@@ -342,11 +343,9 @@ export default function Header() {
                 </a>
               </>
             ) : (
-              /* Mobile: horizontal scrollable category links placeholder */
+              /* Mobile: horizontal scrollable CMS menu links */
               <div className="flex-1 overflow-x-auto scrollbar-none">
-                <div className="flex gap-4 text-sm text-gray-600 whitespace-nowrap py-1">
-                  {/* CMS Block: header_menu_links_v2 */}
-                </div>
+                <CmsBlock identifiers={['header_menu_links_v2']} className="flex gap-4 text-sm text-gray-600 whitespace-nowrap py-1" />
               </div>
             )}
           </div>
