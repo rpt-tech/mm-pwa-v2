@@ -12,6 +12,7 @@ export const GET_CUSTOMER = gql`
       gender
       customer_no
       loyalty_points
+      is_subscribed
       vat_address {
         customer_vat_id
         company_name
@@ -74,6 +75,7 @@ export const UPDATE_CUSTOMER = gql`
         date_of_birth
         gender
         customer_no
+        is_subscribed
         vat_address {
           customer_vat_id
           company_name

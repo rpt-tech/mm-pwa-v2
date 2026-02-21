@@ -34,7 +34,7 @@ export default function ProductImageCarousel({ images }: ProductImageCarouselPro
   }
 
   const currentImage = activeImages[currentIndex];
-  const baseUrl = 'https://online.mmvietnam.com/media/catalog/product';
+  const baseUrl = import.meta.env.VITE_MEDIA_BASE_URL || 'https://online.mmvietnam.com/media/catalog/product';
 
   if (!currentImage) {
     return (

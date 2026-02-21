@@ -16,6 +16,7 @@ const accountInfoSchema = z.object({
   email: z.string().email('Invalid email address'),
   telephone: z.string().min(10, 'Phone number must be at least 10 digits'),
   customer_no: z.string().optional(),
+  is_subscribed: z.boolean().optional(),
   password: z.string().min(1, 'Password is required to save changes'),
   newPassword: z.string().optional(),
   confirmPassword: z.string().optional(),
@@ -91,6 +92,7 @@ export default function AccountInformationPage() {
       email: customerData.email || '',
       telephone: phoneNumber,
       customer_no: customerData.customer_no || '',
+      is_subscribed: customerData.is_subscribed || false,
       password: '',
       newPassword: '',
       confirmPassword: '',
@@ -107,6 +109,7 @@ export default function AccountInformationPage() {
         firstname,
         telephone,
         customer_no,
+        is_subscribed,
         password,
         newPassword,
         company_name,
@@ -120,6 +123,7 @@ export default function AccountInformationPage() {
         email: email.trim(),
         firstname: firstname.trim(),
         password: password.trim(),
+        is_subscribed: is_subscribed ?? false,
         custom_attributes: [
           {
             attribute_code: 'company_user_phone_number',
@@ -294,6 +298,16 @@ export default function AccountInformationPage() {
               <p className="text-red-500 text-sm mt-1">{errors.password.message}</p>
             )}
           </div>
+
+          {/* Newsletter subscription */}
+          <label className="flex items-center gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              {...register('is_subscribed')}
+              className="w-4 h-4 accent-[#0272BA]"
+            />
+            <span className="text-sm text-gray-700">{t('account.subscribeNewsletter', 'Đăng ký nhận bản tin khuyến mãi')}</span>
+          </label>
 
           {/* Toggle buttons */}
           <div className="space-y-2">
