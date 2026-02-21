@@ -23,6 +23,7 @@ export const MINI_CART_ITEM_FRAGMENT = gql`
       uid
       name
       ecom_name
+      unit_ecom
       is_alcohol
       mm_product_type
       sku
