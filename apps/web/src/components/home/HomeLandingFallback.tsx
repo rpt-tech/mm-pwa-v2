@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import FlashsaleProducts from '@/components/catalog/FlashsaleProducts';
 
 const categories = [
   { name: 'Thực phẩm tươi sống', href: '/category', icon: '🥩' },
@@ -98,6 +99,11 @@ export default function HomeLandingFallback() {
             </Link>
           ))}
         </div>
+      </div>
+
+      {/* Flash Sale Products */}
+      <div className="container mx-auto px-4 pb-8">
+        <FlashsaleProducts pageSize={12} />
       </div>
     </div>
   );
