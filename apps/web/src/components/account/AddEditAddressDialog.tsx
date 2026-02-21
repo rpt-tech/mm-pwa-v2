@@ -11,6 +11,7 @@ const addressSchema = z.object({
   telephone: z.string().regex(/^[0-9]{10,11}$/, 'Invalid phone number'),
   street: z.string().min(1, 'Street address is required'),
   city_code: z.string().min(1, 'City is required'),
+  district_code: z.string().optional(),
   ward_code: z.string().min(1, 'Ward is required'),
   default_shipping: z.boolean().optional(),
 });
@@ -50,12 +51,14 @@ export default function AddEditAddressDialog({
       telephone: '',
       street: '',
       city_code: '',
+      district_code: '',
       ward_code: '',
       default_shipping: false,
     },
   });
 
   const cityCode = watch('city_code');
+  const districtCode = watch('district_code');
   const wardCode = watch('ward_code');
 
   // Reset form when dialog opens/closes or initialValues change
@@ -63,6 +66,9 @@ export default function AddEditAddressDialog({
     if (isOpen && initialValues) {
       const cityCodeValue = initialValues.is_new_administrative
         ? initialValues.custom_attributes?.find((attr: any) => attr.attribute_code === 'city_code')?.value || ''
+        : '';
+      const districtCodeValue = initialValues.is_new_administrative
+        ? initialValues.custom_attributes?.find((attr: any) => attr.attribute_code === 'district_code')?.value || ''
         : '';
       const wardCodeValue = initialValues.is_new_administrative
         ? initialValues.custom_attributes?.find((attr: any) => attr.attribute_code === 'ward_code')?.value || ''
@@ -73,6 +79,7 @@ export default function AddEditAddressDialog({
         telephone: initialValues.telephone || '',
         street: initialValues.street?.[0] || '',
         city_code: cityCodeValue,
+        district_code: districtCodeValue,
         ward_code: wardCodeValue,
         default_shipping: initialValues.default_shipping || false,
       });
@@ -82,6 +89,7 @@ export default function AddEditAddressDialog({
         telephone: '',
         street: '',
         city_code: '',
+        district_code: '',
         ward_code: '',
         default_shipping: false,
       });
@@ -94,6 +102,7 @@ export default function AddEditAddressDialog({
       telephone: data.telephone,
       street: [data.street],
       city_code: data.city_code,
+      district_code: data.district_code,
       ward_code: data.ward_code,
       default_shipping: data.default_shipping || false,
     };
@@ -160,13 +169,15 @@ export default function AddEditAddressDialog({
             {/* Vietnam Location Cascade */}
             <VietnamLocationCascade
               cityCode={cityCode}
-              districtCode=""
+              districtCode={districtCode || ''}
               wardCode={wardCode}
               onCityChange={(code) => {
                 setValue('city_code', code, { shouldValidate: true });
+                setValue('district_code', '');
+                setValue('ward_code', '');
               }}
-              onDistrictChange={() => {
-                // District change handled by cascade
+              onDistrictChange={(code) => {
+                setValue('district_code', code);
               }}
               onWardChange={(code) => {
                 setValue('ward_code', code, { shouldValidate: true });
