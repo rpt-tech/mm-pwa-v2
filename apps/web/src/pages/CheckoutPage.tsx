@@ -891,7 +891,7 @@ export default function CheckoutPage() {
           <div className="flex items-center justify-between mb-4">
             <a href="/" className="flex items-center gap-2">
               <img
-                src="/images/logo.svg"
+                src="/logo.svg"
                 alt="MM Mega Market"
                 className="h-8"
                 onError={(e) => {
