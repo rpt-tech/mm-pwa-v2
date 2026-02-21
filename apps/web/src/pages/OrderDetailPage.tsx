@@ -222,6 +222,25 @@ export default function OrderDetailPage() {
             </div>
           )}
 
+          {/* VAT Information */}
+          {order.vat_information?.company_name && (
+            <div className="bg-white rounded-lg border p-6">
+              <h2 className="text-lg font-semibold mb-3">Thông tin xuất hóa đơn</h2>
+              <div className="text-sm text-gray-700 space-y-1">
+                <p><span className="font-medium">Công ty:</span> {order.vat_information.company_name}</p>
+                {order.vat_information.company_vat_number && (
+                  <p><span className="font-medium">MST:</span> {order.vat_information.company_vat_number}</p>
+                )}
+                {order.vat_information.company_address && (
+                  <p><span className="font-medium">Địa chỉ:</span> {order.vat_information.company_address}</p>
+                )}
+                {order.vat_information.customer_vat_id && (
+                  <p><span className="font-medium">Mã KH:</span> {order.vat_information.customer_vat_id}</p>
+                )}
+              </div>
+            </div>
+          )}
+
           {/* Order Summary */}
           <div className="bg-white rounded-lg border p-6">
             <h2 className="text-xl font-semibold mb-4">{t('order.summary', 'Order Summary')}</h2>

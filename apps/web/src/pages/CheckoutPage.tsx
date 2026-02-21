@@ -16,6 +16,7 @@ import {
   GET_CUSTOMER_ADDRESSES,
   SET_GUEST_EMAIL,
   SET_SHIPPING_ADDRESS,
+  SET_BILLING_ADDRESS,
   SET_SHIPPING_METHOD,
   PLACE_ORDER,
   GET_CHECKOUT_DETAILS,
@@ -335,6 +336,13 @@ function ShippingStep({
             ? { customer_address_id: selectedAddressId }
             : { address: input },
         ],
+      }).then(async (result) => {
+        // Set billing = same as shipping
+        await gqlClient.request(SET_BILLING_ADDRESS, {
+          cartId,
+          billingAddress: { same_as_shipping: true },
+        }).catch(() => {/* non-critical */});
+        return result;
       });
     },
     onSuccess: () => {
