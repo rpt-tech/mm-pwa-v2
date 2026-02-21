@@ -41,7 +41,7 @@ function MiniCartItem({ item, onRemove, isRemoving }: MiniCartItemProps) {
   return (
     <div className="flex gap-3 py-3 border-b border-gray-100 last:border-0">
       <Link
-        to={`/${product.url_key}.html`}
+        to={`/product/${product.url_key}`}
         className="flex-shrink-0 w-16 h-16 rounded overflow-hidden bg-gray-100"
       >
         <img
@@ -54,7 +54,7 @@ function MiniCartItem({ item, onRemove, isRemoving }: MiniCartItemProps) {
 
       <div className="flex-1 min-w-0">
         <Link
-          to={`/${product.url_key}.html`}
+          to={`/product/${product.url_key}`}
           className="text-sm font-medium text-gray-800 line-clamp-2 hover:text-[#006341]"
         >
           {displayName}

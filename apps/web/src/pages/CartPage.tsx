@@ -63,7 +63,7 @@ function CartItemRow({ item, cartId, onQuantityChange, onRemove, isMutating }: C
     <div className="flex gap-4 py-4 border-b border-gray-100">
       {/* Product image */}
       <Link
-        to={`/${product.url_key}.html`}
+        to={`/product/${product.url_key}`}
         className="flex-shrink-0 w-20 h-20 bg-gray-50 rounded overflow-hidden"
       >
         <img
@@ -77,7 +77,7 @@ function CartItemRow({ item, cartId, onQuantityChange, onRemove, isMutating }: C
       {/* Product details */}
       <div className="flex-1 min-w-0">
         <Link
-          to={`/${product.url_key}.html`}
+          to={`/product/${product.url_key}`}
           className="text-sm font-medium text-gray-800 hover:text-[#006341] line-clamp-2"
         >
           {displayName}

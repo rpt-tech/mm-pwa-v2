@@ -110,7 +110,7 @@ export default function OrderDetailPage() {
                 <div key={item.id} className="flex gap-4 pb-4 border-b last:border-b-0">
                   <div className="flex-1">
                     <Link
-                      to={`/${item.product_url_key}.html`}
+                      to={`/product/${item.product_url_key}`}
                       className="font-medium text-gray-800 hover:text-[#0272BA]"
                     >
                       {item.product_name}

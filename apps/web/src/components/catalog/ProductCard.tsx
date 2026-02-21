@@ -100,7 +100,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   return (
     <Link
-      to={`/${product.url_key}`}
+      to={`/product/${product.url_key}`}
       className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md hover:border-[#0272BA]/30 transition-all"
     >
       {/* Product Image */}

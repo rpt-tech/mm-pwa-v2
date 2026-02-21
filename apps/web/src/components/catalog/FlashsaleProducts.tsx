@@ -131,7 +131,7 @@ export default function FlashsaleProducts({
             {items.map((product: any) => (
               <Link
                 key={product.uid}
-                to={`/${product.url_key}${product.url_suffix || '.html'}`}
+                to={`/product/${product.url_key}`}
                 className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
               >
                 {/* Product Image */}

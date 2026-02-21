@@ -368,3 +368,8 @@ All major structured data types implemented!
 [08:18] AccountSidebar + LoadingIndicator — replace bg-primary with #0272BA — commit 20751b9
 [08:22] Global sweep — replace all bg-blue-600/text-blue-600 with #0272BA across 7 files — commit 3a67826
 [08:25] Deploy to Vercel production — in progress
+[08:35] ProductCard — add quick add-to-cart button for simple products — commit aee8736
+[08:40] CmsPage — add URL resolver to redirect category/product URLs — commit 29e4fb0
+[08:42] CmsPage — use category uid for redirect — commit 1acdc29
+[08:45] Header — fix search URL from /search.html to /search — commit 29e4fb0
+[08:50] BLOCKED: Vercel CLI v50 scope bug — cannot deploy via CLI — logged in BLOCKED.md
