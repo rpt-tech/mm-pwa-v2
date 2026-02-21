@@ -10,6 +10,7 @@ import { useCartStore } from '@/stores/cartStore';
 import OrganizationStructuredData from '@/components/seo/OrganizationStructuredData';
 import WebSiteStructuredData from '@/components/seo/WebSiteStructuredData';
 import AdvancedPopup from '@/components/common/AdvancedPopup';
+import PWAInstallBanner from '@/components/common/PWAInstallBanner';
 import { analytics } from '@/lib/analytics';
 
 export default function MainLayout() {
@@ -40,6 +41,7 @@ export default function MainLayout() {
       <Footer />
       <MiniCart />
       <AdvancedPopup />
+      <PWAInstallBanner />
       {isAuthModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg w-full max-w-md relative">
