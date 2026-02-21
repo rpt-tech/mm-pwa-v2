@@ -319,6 +319,33 @@ export default function ProductPage() {
       {/* Description, Specs, Reviews — tabbed */}
       <DescriptionTabs product={product} />
 
+      {/* Similar Products (MM-specific field) */}
+      {product.similar_products && product.similar_products.length > 0 && (
+        <div className="mb-8">
+          <h2 className="text-xl font-bold text-gray-800 mb-4">Sản phẩm tương tự</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {product.similar_products.slice(0, 6).map((sp: any) => {
+              const spPrice = sp.price_range?.maximum_price?.final_price?.value || 0;
+              const spRegular = sp.price_range?.maximum_price?.regular_price?.value || 0;
+              const spDiscount = spPrice < spRegular;
+              return (
+                <a key={sp.uid} href={`/product/${sp.url_key}`} className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+                  <div className="aspect-square">
+                    <img src={sp.small_image?.url || '/placeholder.png'} alt={sp.ecom_name || sp.name} className="w-full h-full object-contain p-2" loading="lazy" />
+                  </div>
+                  <div className="p-2">
+                    <p className="text-xs font-medium line-clamp-2 mb-1">{sp.ecom_name || sp.name}</p>
+                    {sp.unit_ecom && <p className="text-xs text-gray-500 mb-1">{sp.unit_ecom}</p>}
+                    <p className="text-sm font-bold text-[#E82230]">{spPrice.toLocaleString('vi-VN')}₫</p>
+                    {spDiscount && <p className="text-xs text-gray-400 line-through">{spRegular.toLocaleString('vi-VN')}₫</p>}
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
       {/* Related and Upsell Products */}
       <div className="mb-12">
         <RelatedUpsellProducts urlKey={urlKey?.replace('.html', '') || ''} />

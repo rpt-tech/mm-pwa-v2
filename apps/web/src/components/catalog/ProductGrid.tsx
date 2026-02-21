@@ -91,6 +91,9 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, isLoading, viewMode
                   <p className="text-sm text-gray-600 mb-2">{product.unit_ecom}</p>
                 )}
                 <div className="flex items-center gap-2 mb-2">
+                  {product.__typename === 'ConfigurableProduct' && (
+                    <span className="text-xs text-gray-500">Từ</span>
+                  )}
                   <span className="text-xl font-bold text-[#E82230]">
                     {finalPrice.toLocaleString('vi-VN')}₫
                   </span>

@@ -197,6 +197,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Price */}
         <div className="flex items-baseline gap-1.5 flex-wrap">
+          {!isSimple && (
+            <span className="text-xs text-gray-500">Từ</span>
+          )}
           <span className="text-base font-bold text-[#E82230]">
             {finalPrice.toLocaleString('vi-VN')}₫
           </span>

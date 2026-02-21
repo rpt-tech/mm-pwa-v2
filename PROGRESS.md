@@ -600,6 +600,17 @@
 - **Commits:** 95a11cc → 63f7449 (20 commits)
 - **Status:** 🚧 In Progress — continuing with remaining gaps
 
+## Session 7 Summary (2026-02-21 continued)
+- **Status:** ✓ Done
+- **Completed:**
+  1. ✓ ScrollToTop button (shows after 400px scroll, MM green, fixed bottom-right)
+  2. ✓ ScrollToTop integrated into MainLayout
+  3. ✓ GET_AVAILABLE_STATUS query in account.ts
+  4. ✓ GET_CUSTOMER_ORDERS filter variable support (CustomerOrdersFilterInput)
+  5. ✓ OrderHistoryPage status filter dropdown (fetches live statuses from API)
+- **Commit:** 127d427
+- **Status:** 🚧 In Progress — continuing with remaining gaps
+
 ## Session 6 Summary (2026-02-21 continued)
 - **Status:** ✓ Done
 - **Completed:**
