@@ -168,6 +168,26 @@ export const GET_CATEGORY_DATA = gql`
   }
 `;
 
+export const GET_CATEGORY_BY_URL_PATH = gql`
+  query getCategoryByUrlPath($urlPath: String!) {
+    categories(filters: { url_path: { eq: $urlPath } }) {
+      items {
+        uid
+        id
+        name
+        image
+        category_menu_background
+        description
+        url_key
+        url_path
+        meta_title
+        meta_keywords
+        meta_description
+      }
+    }
+  }
+`;
+
 // Get product filters by category
 export const GET_PRODUCT_FILTERS_BY_CATEGORY = gql`
   query getProductFiltersByCategory($categoryIdFilter: FilterEqualTypeInput!) {

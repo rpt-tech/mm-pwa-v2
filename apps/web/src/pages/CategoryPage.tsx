@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { GET_PRODUCTS, GET_CATEGORY_DATA, GET_FILTER_INPUTS } from '../queries/catalog';
+import { GET_PRODUCTS, GET_CATEGORY_DATA, GET_CATEGORY_BY_URL_PATH, GET_FILTER_INPUTS } from '../queries/catalog';
 import ProductGrid from '../components/catalog/ProductGrid';
 import FilterSidebar from '../components/catalog/FilterSidebar';
 import FilterModal from '../components/catalog/FilterModal';
@@ -13,7 +13,11 @@ const PAGE_SIZE = 24;
 
 const CategoryPage: React.FC = () => {
   const { '*': splat } = useParams();
-  const categoryId = splat;
+  // Strip .html suffix if present
+  const rawId = splat?.replace(/\.html$/, '') || '';
+  // Detect if it's a base64 UID (contains = or is short alphanumeric) vs URL path
+  const isUid = /^[A-Za-z0-9+/]+=*$/.test(rawId) && rawId.length <= 20;
+  const categoryId = rawId;
   const [searchParams, setSearchParams] = useSearchParams();
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const [viewMode, setViewMode] = useState<'grid' | 'list'>(() => {
@@ -23,6 +27,19 @@ const CategoryPage: React.FC = () => {
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
   const sortAttribute = searchParams.get('sort_attribute') || 'position';
   const sortDirection = searchParams.get('sort_direction') || 'ASC';
+
+  // Fetch category data - by UID or URL path
+  const { data: categoryData, isLoading: categoryLoading } = useQuery({
+    queryKey: ['category', categoryId],
+    queryFn: () => isUid
+      ? gqlClient.request(GET_CATEGORY_DATA, { id: categoryId })
+      : gqlClient.request(GET_CATEGORY_BY_URL_PATH, { urlPath: categoryId }),
+    enabled: !!categoryId,
+  });
+
+  const category = categoryData?.categories?.items?.[0];
+  // Use category UID for product queries (may differ from URL-based categoryId)
+  const categoryUid = category?.uid || (isUid ? categoryId : null);
 
   // Get filter inputs for type mapping
   const { data: filterInputsData } = useQuery({
@@ -45,7 +62,7 @@ const CategoryPage: React.FC = () => {
   // Parse filters from URL
   const filters = useMemo(() => {
     const filterObj: any = {
-      category_uid: { eq: categoryId },
+      category_uid: { eq: categoryUid },
     };
 
     searchParams.forEach((value, key) => {
@@ -66,18 +83,11 @@ const CategoryPage: React.FC = () => {
     });
 
     return filterObj;
-  }, [searchParams, categoryId, filterTypeMap]);
-
-  // Fetch category data
-  const { data: categoryData, isLoading: categoryLoading } = useQuery({
-    queryKey: ['category', categoryId],
-    queryFn: () => gqlClient.request(GET_CATEGORY_DATA, { id: categoryId }),
-    enabled: !!categoryId,
-  });
+  }, [searchParams, categoryUid, filterTypeMap]);
 
   // Fetch products
   const { data: productsData, isLoading: productsLoading } = useQuery({
-    queryKey: ['products', categoryId, currentPage, filters, sortAttribute, sortDirection],
+    queryKey: ['products', categoryUid, currentPage, filters, sortAttribute, sortDirection],
     queryFn: () =>
       gqlClient.request(GET_PRODUCTS, {
         currentPage,
@@ -85,10 +95,9 @@ const CategoryPage: React.FC = () => {
         pageSize: PAGE_SIZE,
         sort: { [sortAttribute]: sortDirection },
       }),
-    enabled: !!categoryId && filterTypeMap.size > 0,
+    enabled: !!categoryUid && filterTypeMap.size > 0,
   });
 
-  const category = categoryData?.categories?.items?.[0];
   const products = productsData?.products?.items || [];
   const totalCount = productsData?.products?.total_count || 0;
   const totalPages = productsData?.products?.page_info?.total_pages || 1;
