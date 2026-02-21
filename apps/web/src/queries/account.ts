@@ -11,6 +11,7 @@ export const GET_CUSTOMER = gql`
       date_of_birth
       gender
       customer_no
+      loyalty_points
       vat_address {
         customer_vat_id
         company_name

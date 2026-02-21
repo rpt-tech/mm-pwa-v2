@@ -47,7 +47,8 @@ export default function WishlistPage() {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['cart'] });
+      queryClient.invalidateQueries({ queryKey: ['miniCart'] });
+      queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
     },
   });
 
