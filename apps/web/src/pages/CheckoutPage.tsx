@@ -191,10 +191,12 @@ function ShippingStep({
   cartId,
   isLoggedIn,
   onNext,
+  existingShippingAddress,
 }: {
   cartId: string;
   isLoggedIn: boolean;
   onNext: () => void;
+  existingShippingAddress?: any;
 }) {
   const queryClient = useQueryClient();
   const [selectedAddressId, setSelectedAddressId] = useState<number | null>(null);
@@ -284,8 +286,16 @@ function ShippingStep({
       setValue('city_code', defaultAddr.city_code || '');
       setValue('district_code', defaultAddr.district_code || '');
       setValue('ward_code', defaultAddr.ward_code || '');
+    } else if (existingShippingAddress && !isLoggedIn) {
+      // Pre-fill from existing cart shipping address for guest users
+      setValue('firstname', existingShippingAddress.firstname || '');
+      setValue('telephone', existingShippingAddress.telephone || '');
+      setValue('street', existingShippingAddress.street?.join(', ') || '');
+      setValue('city_code', existingShippingAddress.city_code || '');
+      setValue('district_code', existingShippingAddress.district_code || '');
+      setValue('ward_code', existingShippingAddress.ward_code || '');
     }
-  }, [addresses, setValue]);
+  }, [addresses, existingShippingAddress, isLoggedIn, setValue]);
 
   const setGuestEmailMutation = useMutation({
     mutationFn: (email: string) =>
@@ -900,6 +910,7 @@ export default function CheckoutPage() {
               <ShippingStep
                 cartId={cartId}
                 isLoggedIn={isLoggedIn}
+                existingShippingAddress={cart?.shipping_addresses?.[0]}
                 onNext={() => setStep(CHECKOUT_STEP.PAYMENT)}
               />
             )}
