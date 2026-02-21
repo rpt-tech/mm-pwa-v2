@@ -56,13 +56,14 @@ export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.Re
   // Redirect based on URL resolver result
   React.useEffect(() => {
     if (!resolverData?.urlResolver) return;
-    const { type, relative_url, uid } = resolverData.urlResolver;
+    const { type, relative_url, url_path, url_key } = resolverData.urlResolver;
     if (type === 'CATEGORY') {
-      // Use uid if available, otherwise use relative_url
-      const categoryPath = uid || relative_url;
+      // Prefer url_path (full path), fall back to relative_url
+      const categoryPath = url_path || url_key || relative_url;
       navigate(`/category/${categoryPath}`, { replace: true });
     } else if (type === 'PRODUCT') {
-      navigate(`/product/${relative_url}`, { replace: true });
+      const productKey = url_key || relative_url;
+      navigate(`/product/${productKey}`, { replace: true });
     }
   }, [resolverData, navigate]);
 

@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
@@ -100,9 +100,7 @@ export default function SearchPage() {
   const metaDescription = metaData?.storeConfig?.search_page_meta_description ||
     `${t('category.metaBuyNow', 'Buy now')} ${searchTerm} ${t('category.metaDescription', 'for your family at MM Mega Market fresh, safe, carefully packaged, fast delivery nationwide. Easy ordering.')}`;
 
-  useEffect(() => {
-    // noop — Helmet handles title/meta
-  }, [metaTitle, metaDescription]);
+  // Helmet handles title/meta
 
   // No search term
   if (!searchTerm) {
