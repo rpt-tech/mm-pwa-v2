@@ -15,6 +15,7 @@ import {
   REMOVE_COUPON_FROM_CART,
   ADD_COMMENT_TO_CART_ITEM,
   GET_CROSS_SELL_PRODUCTS,
+  CHECK_PRICE_CHANGE,
 } from '@/queries/cart';
 import QuantityStepper from '@/components/product/QuantityStepper';
 import Breadcrumbs from '@/components/navigation/Breadcrumbs';
@@ -359,6 +360,15 @@ export default function CartPage() {
   });
   const crossSellProducts = crossSellData?.products?.items?.flatMap((p: any) => p.crosssell_products || []) || [];
 
+  // Check for price changes
+  const { data: priceChangeData } = useQuery({
+    queryKey: ['priceChange', cartId],
+    queryFn: () => gqlClient.request(CHECK_PRICE_CHANGE, { cartId }),
+    enabled: !!cartId && hasItems,
+    staleTime: 60000,
+  });
+  const hasPriceChange = priceChangeData?.CheckPriceChange?.is_price_change || false;
+
   const updateItemMutation = useMutation({
     mutationFn: ({ uid, quantity }: { uid: string; quantity: number }) =>
       gqlClient.request(UPDATE_CART_ITEMS, {
@@ -458,6 +468,13 @@ export default function CartPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Price change warning */}
+          {hasPriceChange && (
+            <div className="lg:col-span-3 bg-yellow-50 border border-yellow-200 rounded-lg p-3 flex items-center gap-2 text-sm text-yellow-800">
+              <AlertCircle size={16} className="flex-shrink-0" />
+              <span>Giá một số sản phẩm trong giỏ hàng đã thay đổi. Vui lòng kiểm tra lại trước khi thanh toán.</span>
+            </div>
+          )}
           {/* Cart items */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg border border-gray-200 p-4">
