@@ -141,84 +141,64 @@ export const SignIn = ({
 
   return (
     <div className="sign-in-form max-w-md mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-6">Sign In</h2>
+      <h2 className="text-2xl font-bold mb-1 text-gray-800">Đăng nhập</h2>
+      <p className="text-sm text-gray-500 mb-6">Chào mừng bạn quay lại MM Vietnam</p>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4 text-sm">
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-1">
-            Email
-          </label>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
           <input
             id="email"
             type="email"
             {...register('email')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter your email"
+            className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#0272BA] focus:ring-1 focus:ring-[#0272BA]"
+            placeholder="Nhập địa chỉ email"
             autoComplete="email"
           />
-          {errors.email && (
-            <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium mb-1">
-            Password
-          </label>
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
           <input
             id="password"
             type="password"
             {...register('password')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter password"
+            className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#0272BA] focus:ring-1 focus:ring-[#0272BA]"
+            placeholder="Nhập mật khẩu"
             autoComplete="current-password"
           />
-          {errors.password && (
-            <p className="text-red-600 text-sm mt-1">{errors.password.message}</p>
-          )}
+          {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
         </div>
 
         <div className="flex items-center justify-between">
-          <label className="flex items-center">
-            <input
-              type="checkbox"
-              {...register('saveInformation')}
-              className="mr-2"
-            />
-            <span className="text-sm">Save information</span>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" {...register('saveInformation')} className="w-4 h-4 accent-[#0272BA]" />
+            <span className="text-sm text-gray-600">Ghi nhớ đăng nhập</span>
           </label>
-
-          <button
-            type="button"
-            onClick={handleForgotPasswordClick}
-            className="text-sm text-blue-600 hover:underline"
-          >
-            Forgot Password?
+          <button type="button" onClick={handleForgotPasswordClick} className="text-sm text-[#0272BA] hover:underline">
+            Quên mật khẩu?
           </button>
         </div>
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="w-full bg-[#0272BA] text-white py-3 px-4 rounded-lg font-semibold hover:bg-[#005a9e] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
         >
-          {isSubmitting ? 'Signing in...' : 'Sign In'}
+          {isSubmitting ? 'Đang đăng nhập...' : 'Đăng nhập'}
         </button>
 
-        <div className="text-center mt-4">
-          <span className="text-sm text-gray-600">Don't have an account yet? </span>
-          <button
-            type="button"
-            onClick={handleCreateAccountClick}
-            className="text-sm text-blue-600 hover:underline"
-          >
-            Register now
+        <div className="text-center">
+          <span className="text-sm text-gray-600">Chưa có tài khoản? </span>
+          <button type="button" onClick={handleCreateAccountClick} className="text-sm text-[#0272BA] font-medium hover:underline">
+            Đăng ký ngay
           </button>
         </div>
       </form>
