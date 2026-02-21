@@ -169,6 +169,7 @@ export const ITEMS_REVIEW_FRAGMENT = gql`
         uid
         sku
         ecom_name
+        unit_ecom
         name
         is_alcohol
         id
@@ -359,6 +360,7 @@ export const GET_ORDER_DETAILS = gql`
           sku
           art_no
           ecom_name
+          unit_ecom
           thumbnail {
             url
           }
