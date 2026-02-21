@@ -477,3 +477,15 @@ export const GET_AVAILABLE_STATUS = gql`
     }
   }
 `;
+
+// Cancel order
+export const CANCEL_ORDER = gql`
+  mutation CancelOrder($input: CancelOrderInput!) {
+    cancelOrder(input: $input) {
+      error
+      order {
+        status
+      }
+    }
+  }
+`;

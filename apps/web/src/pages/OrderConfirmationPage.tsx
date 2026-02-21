@@ -1,10 +1,11 @@
 import { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation } from '@tanstack/react-query';
 import { CheckCircle, XCircle, Clock, Package } from 'lucide-react';
 import { gqlClient } from '@/lib/graphql-client';
 import { gql } from 'graphql-request';
 import { analytics } from '@/lib/analytics';
+import { CANCEL_ORDER } from '@/queries/account';
 
 // Payment result query
 const PAYMENT_RESULT_QUERY = gql`
@@ -83,6 +84,20 @@ export default function OrderConfirmationPage() {
 
   const orderStatus = data?.status || 'pending';
   const order = data?.order;
+
+  // Auto-cancel order when payment fails
+  const cancelMutation = useMutation({
+    mutationFn: (orderId: string) =>
+      gqlClient.request(CANCEL_ORDER, {
+        input: { order_id: atob(orderId), reason: 'Payment failed' },
+      }),
+  });
+
+  useEffect(() => {
+    if (orderStatus === 'failed' && order?.id && !cancelMutation.isSuccess && !cancelMutation.isPending) {
+      cancelMutation.mutate(order.id);
+    }
+  }, [orderStatus, order?.id]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Track purchase event on success
   useEffect(() => {
