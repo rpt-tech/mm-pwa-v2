@@ -2,5 +2,8 @@
   "buildCommand": "cd ../.. && pnpm --filter @mm/web build",
   "outputDirectory": "dist",
   "framework": "vite",
-  "installCommand": "npm install -g pnpm@9 && pnpm install --frozen-lockfile"
+  "installCommand": "npm install -g pnpm@9 && pnpm install --frozen-lockfile",
+  "rewrites": [
+    { "source": "/((?!assets|images|icons|favicon|pwa|sw|workbox|manifest).*)", "destination": "/index.html" }
+  ]
 }

@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@/lib/gql';
 import { PRODUCT_FRAGMENT } from './fragments';
 
 export const GET_PRODUCTS = gql`

@@ -34,4 +34,4 @@ const ResizeObserverMock = vi.fn().mockImplementation(() => ({
 vi.stubGlobal('ResizeObserver', ResizeObserverMock);
 
 // Mock global fetch
-global.fetch = vi.fn();
+vi.stubGlobal('fetch', vi.fn());

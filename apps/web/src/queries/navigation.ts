@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@/lib/gql';
 
 export const GET_MEGA_MENU = gql`
   query getMegaMenu {

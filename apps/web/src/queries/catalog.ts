@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@/lib/gql';
 
 // Product fragment with all custom MM fields
 export const PRODUCT_FRAGMENT = gql`

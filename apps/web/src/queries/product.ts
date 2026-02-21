@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from '@/lib/gql';
 
 // Product details fragment with all fields needed for PDP
 export const PRODUCT_DETAILS_FRAGMENT = gql`
