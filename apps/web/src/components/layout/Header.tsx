@@ -44,7 +44,7 @@ export default function Header() {
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      navigate(`/search.html?query=${encodeURIComponent(searchQuery.trim())}`);
+      navigate(`/search?query=${encodeURIComponent(searchQuery.trim())}`);
       setIsAutocompleteOpen(false);
       searchInputRef.current?.blur();
     }

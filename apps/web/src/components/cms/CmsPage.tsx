@@ -1,9 +1,9 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { gqlClient } from '@/lib/graphql-client';
-import { GET_CMS_PAGE } from '@/queries/cms';
+import { GET_CMS_PAGE, GET_URL_RESOLVER } from '@/queries/cms';
 import RichContent from '@/components/cms/RichContent';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import HomeSchema from '@/components/home/HomeSchema';
 import SearchPopular from '@/components/navbar/SearchPopular';
 import ContentTypeFactory from '@/components/cms/contentTypes/ContentTypeFactory';
@@ -28,7 +28,10 @@ interface CmsPageData {
  */
 export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.ReactNode }> = ({ identifier: propIdentifier, fallbackElement }) => {
   const params = useParams();
-  const identifier = propIdentifier || params['*'] || 'home';
+  const navigate = useNavigate();
+  const rawIdentifier = propIdentifier || params['urlKey'] || params['*'] || 'home';
+  // Strip .html suffix for CMS lookup
+  const identifier = rawIdentifier.replace(/\.html$/, '');
   const isHome = identifier === 'home';
 
   const { data, isLoading, error } = useQuery<CmsPageData>({
@@ -38,6 +41,27 @@ export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.Re
     },
     staleTime: 5 * 60 * 1000 // 5 minutes
   });
+
+  // URL resolver — runs when CMS page not found, to check if it's a category/product
+  const { data: resolverData } = useQuery({
+    queryKey: ['urlResolver', rawIdentifier],
+    queryFn: async () => {
+      return gqlClient.request(GET_URL_RESOLVER, { url: rawIdentifier });
+    },
+    enabled: !isLoading && (!!error || !data?.cmsPage) && !isHome,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  // Redirect based on URL resolver result
+  React.useEffect(() => {
+    if (!resolverData?.urlResolver) return;
+    const { type, relative_url } = resolverData.urlResolver;
+    if (type === 'CATEGORY') {
+      navigate(`/category/${relative_url}`, { replace: true });
+    } else if (type === 'PRODUCT') {
+      navigate(`/product/${relative_url}`, { replace: true });
+    }
+  }, [resolverData, navigate]);
 
   if (isLoading) {
     return (
