@@ -124,10 +124,18 @@ export default function OrderHistoryPage() {
               <div className="space-y-2 mb-4">
                 {order.items.slice(0, 2).map((item: any) => (
                   <div key={item.id} className="flex items-center gap-3">
-                    <div className="w-12 h-12 bg-gray-100 rounded flex-shrink-0"></div>
+                    <div className="w-12 h-12 bg-gray-100 rounded flex-shrink-0 overflow-hidden">
+                      {item.product?.thumbnail?.url ? (
+                        <img
+                          src={item.product.thumbnail.url}
+                          alt={item.product.ecom_name || item.product_name}
+                          className="w-full h-full object-contain"
+                        />
+                      ) : null}
+                    </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm text-gray-900 truncate">
-                        {item.product_name}
+                        {item.product?.ecom_name || item.product_name}
                       </p>
                       <p className="text-xs text-gray-500">
                         {t('account.quantity')}: {item.quantity_ordered}

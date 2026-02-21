@@ -171,6 +171,7 @@ export const GET_CUSTOMER_ORDERS = gql`
           number
           order_date
           status
+          status_code
           state
           total {
             grand_total {
@@ -195,6 +196,14 @@ export const GET_CUSTOMER_ORDERS = gql`
             quantity_shipped
             quantity_canceled
             quantity_refunded
+            product {
+              uid
+              ecom_name
+              unit_ecom
+              thumbnail {
+                url
+              }
+            }
           }
           shipping_address {
             firstname
