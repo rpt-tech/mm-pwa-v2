@@ -332,7 +332,7 @@ const CategoryPage: React.FC = () => {
                 />
                 <button
                   onClick={toggleDescription}
-                  className="mt-2 text-blue-600 hover:underline"
+                  className="mt-2 text-[#0272BA] hover:underline"
                 >
                   {descriptionExpanded ? 'Show Less' : 'Show More'}
                 </button>

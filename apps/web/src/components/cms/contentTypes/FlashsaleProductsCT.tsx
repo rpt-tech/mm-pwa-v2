@@ -240,7 +240,7 @@ export const FlashsaleProductsCT: React.FC<FlashsaleProductsProps> = ({
         </h2>
         <Link
           to={url}
-          className="text-blue-600 hover:text-blue-800 font-medium"
+          className="text-[#0272BA] hover:text-[#005a9e] font-medium"
         >
           {t('global.viewAll', 'View all')} →
         </Link>

@@ -359,3 +359,12 @@ All major structured data types implemented!
 [07:35] CategoryPage toolbar — icon view toggle, brand colors — commit 34fb032
 [07:40] ProductSort — compact, Vietnamese label — commit 12529c5
 [07:42] ProductPage — brand blue add-to-cart, Vietnamese text — commit 12529c5
+[08:00] Session resume - continue auth + account page fixes
+[08:02] SignIn.tsx — Vietnamese text + brand colors — commit d481ba1
+[08:05] CreateAccount.tsx + ForgotPassword.tsx — Vietnamese + brand colors — commit 3be1cb0
+[08:10] AccountInformationPage — replace alert() with inline toast — commit e1b73b2
+[08:12] AddressBookPage — add missing lastname field to address payload — commit e1b73b2
+[08:14] OrderHistoryPage — fix non-functional pagination (useState setter was unused) — commit e1b73b2
+[08:18] AccountSidebar + LoadingIndicator — replace bg-primary with #0272BA — commit 20751b9
+[08:22] Global sweep — replace all bg-blue-600/text-blue-600 with #0272BA across 7 files — commit 3a67826
+[08:25] Deploy to Vercel production — in progress

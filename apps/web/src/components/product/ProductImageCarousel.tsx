@@ -100,7 +100,7 @@ export default function ProductImageCarousel({ images }: ProductImageCarouselPro
               onClick={() => setCurrentIndex(index)}
               className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
                 index === currentIndex
-                  ? 'border-blue-600 ring-2 ring-blue-200'
+                  ? 'border-[#0272BA] ring-2 ring-[#0272BA]/30'
                   : 'border-gray-200 hover:border-gray-400'
               }`}
             >

@@ -126,10 +126,10 @@ export const Banner: React.FC<BannerProps> = ({
       <button
         className={`px-6 py-2 rounded ${
           buttonType === 'primary'
-            ? 'bg-blue-600 text-white hover:bg-blue-700'
+            ? 'bg-[#0272BA] text-white hover:bg-[#005a9e]'
             : buttonType === 'secondary'
             ? 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-            : 'text-blue-600 hover:underline'
+            : 'text-[#0272BA] hover:underline'
         }`}
         type="button"
       >
