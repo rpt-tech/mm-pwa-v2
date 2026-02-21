@@ -157,7 +157,7 @@ export default function ProductPage() {
     { name: t('global.home', 'Home'), url: '/' },
     ...(product.main_category?.breadcrumbs?.map((crumb: any) => ({
       name: crumb.category_name,
-      url: `/${crumb.category_url_path}.html`,
+      url: `/category/${crumb.category_url_path}`,
     })) || []),
     { name: product.ecom_name || product.name, url: `/product/${product.url_key}` },
   ];
@@ -176,7 +176,7 @@ export default function ProductPage() {
           {product.main_category?.breadcrumbs?.map((crumb: any) => (
             <li key={crumb.category_uid} className="flex items-center gap-1">
               <span className="text-gray-300">/</span>
-              <Link to={`/${crumb.category_url_path}.html`} className="text-[#0272BA] hover:underline">
+              <Link to={`/category/${crumb.category_url_path}`} className="text-[#0272BA] hover:underline">
                 {crumb.category_name}
               </Link>
             </li>

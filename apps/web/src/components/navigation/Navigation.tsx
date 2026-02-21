@@ -71,7 +71,7 @@ export default function Navigation() {
               {categories.map((category: Category) => (
                 <li key={category.uid} className="border-b border-gray-100">
                   <Link
-                    to={`/${category.url_path}`}
+                    to={`/category/${category.url_path}`}
                     onClick={closeNav}
                     className="flex items-center justify-between px-4 py-3 text-gray-800 hover:bg-gray-50 hover:text-[#0272BA] font-medium text-sm"
                   >
@@ -90,7 +90,7 @@ export default function Navigation() {
                         .map((child: Category) => (
                           <li key={child.uid}>
                             <Link
-                              to={`/${child.url_path}`}
+                              to={`/category/${child.url_path}`}
                               onClick={closeNav}
                               className="block pl-8 pr-4 py-2 text-xs text-gray-600 hover:text-[#0272BA] hover:bg-gray-100"
                             >

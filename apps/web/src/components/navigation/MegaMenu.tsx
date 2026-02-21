@@ -22,7 +22,6 @@ export default function MegaMenu({ isOpen }: MegaMenuProps) {
     loading,
     megaMenuData,
     activeCategoryId,
-    categoryUrlSuffix,
     setHoveredItem,
   } = useMegaMenu();
 
@@ -70,7 +69,7 @@ export default function MegaMenu({ isOpen }: MegaMenuProps) {
               onMouseLeave={() => setHoveredItem(null)}
             >
               <Link
-                to={`/${category.url_path}${categoryUrlSuffix}`}
+                to={`/category/${category.url_path}`}
                 className={`block font-semibold text-sm mb-2 pb-1 border-b border-gray-100 transition-colors ${
                   activeCategoryId === category.uid
                     ? 'text-[#0272BA]'
@@ -85,7 +84,7 @@ export default function MegaMenu({ isOpen }: MegaMenuProps) {
                   {category.children.map((child: Category) => (
                     <li key={child.uid}>
                       <Link
-                        to={`/${child.url_path}${categoryUrlSuffix}`}
+                        to={`/category/${child.url_path}`}
                         className="block text-xs text-gray-600 hover:text-[#0272BA] hover:underline py-0.5"
                       >
                         {child.name}
