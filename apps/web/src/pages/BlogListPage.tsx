@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
 import { Calendar, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
 import { gqlClient } from '@/lib/graphql-client';
-import { GET_BLOG_LIST, GET_BLOG_CATEGORIES } from '@/queries/blog';
+import { GET_BLOG_LIST, GET_BLOG_CATEGORIES, GET_ARCHIVED_BLOG } from '@/queries/blog';
 import Breadcrumbs from '@/components/navigation/Breadcrumbs';
 
 const PAGE_SIZE = 12;
@@ -74,10 +74,17 @@ export default function BlogListPage() {
     staleTime: 10 * 60 * 1000,
   });
 
+  const { data: archivedData } = useQuery({
+    queryKey: ['archivedBlog'],
+    queryFn: () => gqlClient.request(GET_ARCHIVED_BLOG),
+    staleTime: 10 * 60 * 1000,
+  });
+
   const posts = data?.blogList?.items || [];
   const pageInfo = data?.blogList?.page_info;
   const totalPages = pageInfo?.total_pages || 1;
   const categories = categoriesData?.blogCategory?.categories || [];
+  const archivedBlogs = archivedData?.archivedBlog?.archived_blogs || [];
 
   const handlePageChange = (page: number) => {
     setSearchParams({ page: String(page) });
@@ -131,6 +138,24 @@ export default function BlogListPage() {
                 ))}
               </ul>
             </div>
+            {archivedBlogs.length > 0 && (
+              <div className="bg-white rounded-lg border border-gray-200 p-4 mt-4">
+                <h2 className="font-semibold text-gray-700 mb-3">Lưu trữ</h2>
+                <ul className="space-y-1">
+                  {archivedBlogs.map((archive: any) => (
+                    <li key={archive.date}>
+                      <Link
+                        to={`/blog/search?date=${archive.date}`}
+                        className="text-sm text-[#0272BA] hover:underline flex justify-between"
+                      >
+                        <span>{archive.name}</span>
+                        <span className="text-gray-400">({archive.blog_count})</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </aside>
         )}
 
