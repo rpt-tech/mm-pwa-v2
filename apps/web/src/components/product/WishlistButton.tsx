@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Heart } from 'lucide-react';
+import { toast } from 'sonner';
 import { useAuthStore } from '@/stores/authStore';
 import { useUIStore } from '@/stores/uiStore';
 import { gqlClient } from '@/lib/graphql-client';
@@ -8,6 +9,7 @@ import { ADD_TO_WISHLIST, REMOVE_FROM_WISHLIST } from '@/queries/account';
 
 interface WishlistButtonProps {
   productSku: string;
+  wishlistItemId?: string;
   isInWishlist?: boolean;
   size?: 'sm' | 'md' | 'lg';
   showLabel?: boolean;
@@ -15,6 +17,7 @@ interface WishlistButtonProps {
 
 export default function WishlistButton({
   productSku,
+  wishlistItemId,
   isInWishlist = false,
   size = 'md',
   showLabel = false,
@@ -28,23 +31,33 @@ export default function WishlistButton({
   const addToWishlistMutation = useMutation({
     mutationFn: (sku: string) =>
       gqlClient.request(ADD_TO_WISHLIST, {
+        wishlistId: '0',
         items: [{ sku, quantity: 1 }],
       }),
     onSuccess: () => {
       setInWishlist(true);
       queryClient.invalidateQueries({ queryKey: ['wishlist'] });
+      toast.success('Đã thêm vào danh sách yêu thích');
+    },
+    onError: () => {
+      toast.error('Không thể thêm vào danh sách yêu thích');
     },
   });
 
-  // Remove from wishlist mutation
+  // Remove from wishlist mutation — uses wishlistItemId when available
   const removeFromWishlistMutation = useMutation({
-    mutationFn: (sku: string) =>
+    mutationFn: (itemId: string) =>
       gqlClient.request(REMOVE_FROM_WISHLIST, {
-        items: [sku],
+        wishlistId: '0',
+        wishlistItemsIds: [itemId],
       }),
     onSuccess: () => {
       setInWishlist(false);
       queryClient.invalidateQueries({ queryKey: ['wishlist'] });
+      toast.success('Đã xóa khỏi danh sách yêu thích');
+    },
+    onError: () => {
+      toast.error('Không thể xóa sản phẩm');
     },
   });
 
@@ -58,7 +71,13 @@ export default function WishlistButton({
     }
 
     if (inWishlist) {
-      removeFromWishlistMutation.mutate(productSku);
+      if (wishlistItemId) {
+        removeFromWishlistMutation.mutate(wishlistItemId);
+      } else {
+        // No item ID available — optimistically toggle UI only
+        setInWishlist(false);
+        queryClient.invalidateQueries({ queryKey: ['wishlist'] });
+      }
     } else {
       addToWishlistMutation.mutate(productSku);
     }

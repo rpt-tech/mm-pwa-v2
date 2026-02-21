@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Trash2, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { toast } from 'sonner';
 import MyAccountLayout from '@/components/account/MyAccountLayout';
 import { gqlClient } from '@/lib/graphql-client';
 import { GET_WISHLIST, REMOVE_FROM_WISHLIST } from '@/queries/account';
@@ -34,6 +35,10 @@ export default function WishlistPage() {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['wishlist'] });
+      toast.success('Đã xóa khỏi danh sách yêu thích');
+    },
+    onError: () => {
+      toast.error('Không thể xóa sản phẩm');
     },
   });
 
@@ -49,6 +54,10 @@ export default function WishlistPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['miniCart'] });
       queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
+      toast.success('Đã thêm vào giỏ hàng');
+    },
+    onError: () => {
+      toast.error('Không thể thêm vào giỏ hàng');
     },
   });
 

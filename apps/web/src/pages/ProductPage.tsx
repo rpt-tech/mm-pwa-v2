@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
+import { toast } from 'sonner';
 import { GET_PRODUCT_DETAIL, ADD_PRODUCT_TO_CART } from '@/queries/product';
 import { useTranslation } from 'react-i18next';
 import { useCartStore } from '@/stores/cartStore';
@@ -48,9 +49,12 @@ export default function ProductPage() {
     onSuccess: () => {
       fetchCart();
       setAddToCartError(null);
+      toast.success('Đã thêm vào giỏ hàng');
     },
     onError: (error: any) => {
-      setAddToCartError(error.message || 'Failed to add product to cart');
+      const msg = error.message || 'Failed to add product to cart';
+      setAddToCartError(msg);
+      toast.error(msg);
     },
   });
 

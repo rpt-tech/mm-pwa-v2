@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import DnrLabel from '@/components/product/DnrLabel';
 import WishlistButton from '@/components/product/WishlistButton';
 import { gqlClient } from '@/lib/graphql-client';
@@ -92,7 +93,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         cartItems: [{ sku: product.sku, quantity: 1 }],
       });
     },
-    onSuccess: () => fetchCart(),
+    onSuccess: () => {
+      fetchCart();
+      toast.success('Đã thêm vào giỏ hàng');
+    },
+    onError: () => {
+      toast.error('Không thể thêm vào giỏ hàng');
+    },
   });
 
   const handleAddToCart = async (e: React.MouseEvent) => {
