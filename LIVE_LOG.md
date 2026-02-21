@@ -482,3 +482,17 @@ All major structured data types implemented!
 [cont] CheckoutPage: use mutation response for shipping method auto-select — ✓ commit 66e3764
 [cont] CheckoutPage: pre-fill form from existing cart shipping address — ✓ commit 1fd8e46
 [cont] ProductPage + CategoryPage: add OG tags + canonical URL — ✓ commit e0f4cc4
+
+[Session 9 - 2026-02-21 continued]
+CmsPage 404: wait for URL resolver + use NotFoundPage — ✓ commit 2c283fc
+ProductImageCarousel: loading=eager main, loading=lazy thumbnails — ✓ commit 2c283fc
+ErrorBoundary component + App.tsx integration — ✓ commit 2c283fc
+PWA maskable icon + OOS variant filtering + allow_pickup badge — ✓ commit 25ed19b
+CheckoutPage: fix silent failure on missing orderNumber — ✓ commit 8b03170
+CategoryPage: breadcrumbs GQL + empty state + remove EN text — ✓ commit 8b03170
+SearchPage: SearchPopular on empty/no-results + fix EN meta — ✓ commit 4ba5203
+i18n: replace EN strings in 5 components — ✓ commit 41914ba
+OfflineBanner PWA component + Footer fallback fix — ✓ commit a5d4d64
+PWA icons + favicon + robots.txt — ✓ commit 8f99c93
+MM logos (MMLogo.svg + MMLogoFooter.svg) replace Vite defaults — ✓ commit 6aaf5ad
+Static assets: placeholder, bg-login, mCard + fix broken /images/logo.svg — ✓ commit 469a8a7

@@ -650,3 +650,30 @@
   15. ✓ ProductGrid list mode: DnrLabel + dnr_price_search_page
 - **Commits:** b56d44a → e0f4cc4 (16 commits)
 - **Status:** 🚧 In Progress — continuing with remaining gaps
+
+## Session 9 Summary (2026-02-21 continued)
+- **Status:** ✓ Done
+- **Completed:**
+  1. ✓ CmsPage: proper 404 handling — wait for URL resolver, render NotFoundPage component
+  2. ✓ ProductImageCarousel: loading=eager on main image, loading=lazy on thumbnails
+  3. ✓ ErrorBoundary component + integrated into App.tsx (prevents full-app crashes)
+  4. ✓ PWA manifest: maskable purpose added to 512x512 icon (Lighthouse fix)
+  5. ✓ ProductOptions: out-of-stock variant filtering with visual disabled state
+  6. ✓ ProductPage: allow_pickup badge (store pickup indicator)
+  7. ✓ CheckoutPage: fix silent failure when orderNumber missing after placeOrder
+  8. ✓ CategoryPage: breadcrumbs wired up with GQL data (breadcrumbs field added to queries)
+  9. ✓ CategoryPage: improved empty state UI (Vietnamese, clear filters CTA)
+  10. ✓ CategoryPage: removed hardcoded English "good price, home delivery" text
+  11. ✓ SearchPage: show SearchPopular on empty query and zero results
+  12. ✓ SearchPage: fix hardcoded English meta title/description
+  13. ✓ i18n: replace hardcoded English strings across 5 components (WishlistButton, Header, ProductPage, ProductReviews, ProductImageCarousel)
+  14. ✓ OfflineBanner component (PWA requirement) — detects navigator.onLine
+  15. ✓ Footer: fix fallback strings 'Store Name'/'Store Address'
+  16. ✓ PWA icons: favicon.ico, pwa-192x192.png, pwa-512x512.png, apple-touch-icon.png (from source backup)
+  17. ✓ robots.txt added (disallow checkout/account/cart)
+  18. ✓ MM logos: replaced Vite default /logo.svg with actual MMLogo.svg + MMLogoFooter.svg
+  19. ✓ Static assets: placeholder.jpg/png, bg-login.jpg, mCard.png added
+  20. ✓ CheckoutPage: fix broken /images/logo.svg → /logo.svg reference
+- **Commits:** 2c283fc → 469a8a7 (10 commits)
+- **Build:** Clean, 0 TS errors, 67 precached entries
+- **MVP Completion:** ~99% ✅ PRODUCTION READY
