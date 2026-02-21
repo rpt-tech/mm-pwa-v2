@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
-import { Package, ChevronRight } from 'lucide-react';
+import { Package, ChevronRight, ChevronLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import MyAccountLayout from '@/components/account/MyAccountLayout';
 import { gqlClient } from '@/lib/graphql-client';
@@ -9,7 +9,7 @@ import { GET_CUSTOMER_ORDERS } from '@/queries/account';
 
 export default function OrderHistoryPage() {
   const { t } = useTranslation();
-  const [currentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
 
   // Fetch orders
@@ -26,6 +26,7 @@ export default function OrderHistoryPage() {
 
   const orders = data?.items || [];
   const totalCount = data?.total_count || 0;
+  const totalPages = data?.page_info?.total_pages || 1;
 
   const formatDate = (dateString: string) => {
     return new Intl.DateTimeFormat('vi-VN', {
@@ -178,6 +179,34 @@ export default function OrderHistoryPage() {
               </Link>
             </div>
           ))}
+        </div>
+      )}
+
+      {totalPages > 1 && (
+        <div className="flex items-center justify-center gap-2 mt-6">
+          <button
+            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
+            disabled={currentPage === 1}
+            className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ChevronLeft size={20} />
+          </button>
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`px-3 py-1 rounded ${currentPage === page ? 'bg-[#006341] text-white' : 'hover:bg-gray-100'}`}
+            >
+              {page}
+            </button>
+          ))}
+          <button
+            onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
+            disabled={currentPage === totalPages}
+            className="p-2 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ChevronRight size={20} />
+          </button>
         </div>
       )}
     </MyAccountLayout>

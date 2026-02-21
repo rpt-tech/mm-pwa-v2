@@ -38,6 +38,12 @@ export default function AccountInformationPage() {
   const { token } = useAuthStore();
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [showVatFields, setShowVatFields] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' } | null>(null);
+
+  const showToast = (message: string, type: 'success' | 'error') => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 4000);
+  };
 
   const { data: customerData, isLoading, refetch } = useQuery({
     queryKey: ['customer'],
@@ -166,13 +172,13 @@ export default function AccountInformationPage() {
       }
 
       if (isChanged) {
-        alert(t('account.informationUpdated'));
+        showToast(t('account.informationUpdated', 'Thông tin đã được cập nhật'), 'success');
         setShowChangePassword(false);
       } else {
-        alert(t('account.noChanges'));
+        showToast(t('account.noChanges', 'Không có thay đổi nào'), 'success');
       }
     } catch (error: any) {
-      alert(error.message || 'Failed to update account information');
+      showToast(error.message || 'Cập nhật thông tin thất bại', 'error');
     }
   };
 
@@ -190,6 +196,12 @@ export default function AccountInformationPage() {
     <MyAccountLayout currentPage="accountInformation">
       <div className="max-w-2xl">
         <h1 className="text-2xl font-bold mb-6">{t('account.myProfile')}</h1>
+
+        {toast && (
+          <div className={`mb-4 px-4 py-3 rounded text-sm ${toast.type === 'success' ? 'bg-green-50 border border-green-200 text-green-700' : 'bg-red-50 border border-red-200 text-red-700'}`}>
+            {toast.message}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Full Name */}

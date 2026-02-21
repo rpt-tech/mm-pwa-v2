@@ -119,6 +119,7 @@ export default function AddressBookPage() {
   const handleConfirmDialog = (formValues: any) => {
     const address = {
       firstname: formValues.firstname,
+      lastname: formValues.lastname || '.',
       telephone: formValues.telephone,
       default_shipping: formValues.default_shipping || false,
       default_billing: formValues.default_shipping || false,
