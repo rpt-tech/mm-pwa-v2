@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { gqlClient } from '@/lib/graphql-client';
-import { GET_MINI_CART } from '@/queries/cart';
+import { GET_MINI_CART, CREATE_CART } from '@/queries/cart';
 
 interface CartItem {
   uid: string;
@@ -23,6 +23,7 @@ interface CartState {
   getItemByProductUid: (productUid: string) => CartItem | undefined;
   setItemCount: (count: number) => void;
   fetchCart: () => Promise<void>;
+  initCart: () => Promise<void>;
   reset: () => void;
 }
 
@@ -100,6 +101,19 @@ export const useCartStore = create<CartState>()(
           }
         } catch (error) {
           console.error('Failed to fetch cart:', error);
+        }
+      },
+
+      initCart: async () => {
+        if (get().cartId) return; // already have a cart
+        try {
+          const data: any = await gqlClient.request(CREATE_CART);
+          const newCartId = data?.cartId || data?.createEmptyCart;
+          if (newCartId) {
+            set({ cartId: newCartId });
+          }
+        } catch (error) {
+          console.error('Failed to create cart:', error);
         }
       },
 
