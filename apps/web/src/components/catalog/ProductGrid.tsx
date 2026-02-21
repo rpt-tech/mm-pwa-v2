@@ -26,7 +26,12 @@ interface Product {
   unit_ecom?: string;
   is_alcohol?: boolean;
   mm_product_type?: string;
-  product_label?: { label_id: string; name: string; image: string };
+  product_label?: Array<{
+    label_id: string;
+    label_priority: number;
+    product_image?: { type: number; url?: string; position?: string; display: boolean; text?: string; text_color?: string; text_size?: number; shape_type?: string; shape_color?: string; label_size?: number; label_size_mobile?: number; custom_css?: string };
+    category_image?: { type: number; url?: string; position?: string; display: boolean; text?: string; text_color?: string; text_size?: number; shape_type?: string; shape_color?: string; label_size?: number; label_size_mobile?: number; custom_css?: string };
+  }>;
   dnr_price?: any;
 }
 

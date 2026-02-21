@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import DnrLabel from '@/components/product/DnrLabel';
 import WishlistButton from '@/components/product/WishlistButton';
+import ProductLabel from '@/components/catalog/ProductLabel';
 import { gqlClient } from '@/lib/graphql-client';
 import { ADD_PRODUCT_TO_CART } from '@/queries/product';
 import { useCartStore } from '@/stores/cartStore';
@@ -51,11 +52,38 @@ interface Product {
   unit_ecom?: string;
   is_alcohol?: boolean;
   mm_product_type?: string;
-  product_label?: {
+  product_label?: Array<{
     label_id: string;
-    name: string;
-    image: string;
-  };
+    label_priority: number;
+    product_image?: {
+      type: number;
+      url?: string;
+      position?: string;
+      display: boolean;
+      text?: string;
+      text_color?: string;
+      text_size?: number;
+      shape_type?: string;
+      shape_color?: string;
+      label_size?: number;
+      label_size_mobile?: number;
+      custom_css?: string;
+    };
+    category_image?: {
+      type: number;
+      url?: string;
+      position?: string;
+      display: boolean;
+      text?: string;
+      text_color?: string;
+      text_size?: number;
+      shape_type?: string;
+      shape_color?: string;
+      label_size?: number;
+      label_size_mobile?: number;
+      custom_css?: string;
+    };
+  }>;
   dnr_price?: any;
 }
 
@@ -129,16 +157,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             -{discountPercent}%
           </div>
         )}
-        {product.product_label && (
-          <div className="absolute top-2 right-2">
-            {product.product_label.image ? (
-              <img src={product.product_label.image} alt={product.product_label.name} className="h-8" />
-            ) : (
-              <span className="bg-[#0272BA] text-white text-xs px-1.5 py-0.5 rounded">
-                {product.product_label.name}
-              </span>
-            )}
-          </div>
+        {product.product_label && product.product_label.length > 0 && (
+          <ProductLabel
+            labelData={product.product_label}
+            currentPage="category_image"
+            percent={discountPercent}
+            amount={hasDiscount ? regularPrice - finalPrice : 0}
+            currencyCode={priceData.final_price.currency}
+          />
         )}
         {isOutOfStock && (
           <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
