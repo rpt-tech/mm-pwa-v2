@@ -85,6 +85,7 @@ interface Product {
     };
   }>;
   dnr_price?: any;
+  dnr_price_search_page?: any;
 }
 
 interface ProductCardProps {
@@ -188,9 +189,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         )}
 
         {/* DNR Label */}
-        {product.dnr_price && (
+        {(product.dnr_price_search_page || product.dnr_price) && (
           <div className="mb-1.5">
-            <DnrLabel dnrData={product.dnr_price} />
+            <DnrLabel dnrData={product.dnr_price_search_page || product.dnr_price} />
           </div>
         )}
 
