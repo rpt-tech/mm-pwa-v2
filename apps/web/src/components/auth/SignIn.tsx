@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { analytics } from '@/lib/analytics';
 import { gqlClient } from '@/lib/graphql-client';
 import { useAuthStore } from '@/stores/authStore';
+import SocialLogin from '@/components/auth/SocialLogin';
 import {
   SIGN_IN_MUTATION,
   GET_CUSTOMER_QUERY,
@@ -204,6 +205,7 @@ export const SignIn = ({
           </button>
         </div>
       </form>
+      <SocialLogin onSuccess={() => { onClose?.(); navigate(redirectUrl); }} onError={(msg) => setError(msg)} />
     </div>
   );
 };

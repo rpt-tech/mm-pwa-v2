@@ -210,3 +210,17 @@ export interface StoreConfigResponse {
     customer_access_token_lifetime: number;
   };
 }
+
+// Social Login
+export const SOCIAL_LOGIN_MUTATION = gql`
+  mutation SocialLogin($provider: String!, $token: String!) {
+    socialLogin(input: { provider: $provider, token: $token }) {
+      token
+      customer {
+        email
+        firstname
+        lastname
+      }
+    }
+  }
+`;
