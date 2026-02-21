@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import Navigation from '@/components/navigation/Navigation';
@@ -10,14 +10,21 @@ import { useCartStore } from '@/stores/cartStore';
 import OrganizationStructuredData from '@/components/seo/OrganizationStructuredData';
 import WebSiteStructuredData from '@/components/seo/WebSiteStructuredData';
 import AdvancedPopup from '@/components/common/AdvancedPopup';
+import { analytics } from '@/lib/analytics';
 
 export default function MainLayout() {
   const { isAuthModalOpen, closeAuthModal, authModalView } = useUIStore();
   const { initCart } = useCartStore();
+  const location = useLocation();
 
   useEffect(() => {
     initCart();
   }, []);
+
+  // Track page views
+  useEffect(() => {
+    analytics.pageView(location.pathname + location.search);
+  }, [location.pathname, location.search]);
 
   return (
     <div className="flex flex-col min-h-screen">
