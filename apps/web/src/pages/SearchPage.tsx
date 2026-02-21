@@ -1,8 +1,8 @@
 import { useState, useMemo, useEffect } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
-import { PRODUCT_SEARCH, GET_PAGE_SIZE, GET_SEARCH_PAGE_META } from '@/queries/catalog';
+import { PRODUCT_SEARCH, GET_PAGE_SIZE, GET_SEARCH_PAGE_META, SEARCH_QUERY_DESCRIPTION, GET_SEARCH_TERM_DATA } from '@/queries/catalog';
 import { useTranslation } from 'react-i18next';
 import { gqlClient } from '@/lib/graphql-client';
 import { analytics } from '@/lib/analytics';
@@ -10,6 +10,7 @@ import ProductCard from '@/components/catalog/ProductCard';
 
 export default function SearchPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const searchTerm = searchParams.get('query') || '';
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
@@ -24,6 +25,18 @@ export default function SearchPage() {
     if (searchTerm) analytics.search(searchTerm);
   }, [searchTerm]);
 
+  // Handle search term redirect (Magento configured redirects)
+  const { data: searchTermData } = useQuery({
+    queryKey: ['searchTermData', searchTerm],
+    queryFn: () => gqlClient.request(GET_SEARCH_TERM_DATA, { search: searchTerm }),
+    enabled: !!searchTerm,
+    staleTime: 300000,
+  });
+  useEffect(() => {
+    const redirect = searchTermData?.searchTerm?.redirect;
+    if (redirect) navigate(redirect, { replace: true });
+  }, [searchTermData, navigate]);
+
   // Get page size
   const { data: pageSizeData } = useQuery({
     queryKey: ['pageSize'],
@@ -37,6 +50,15 @@ export default function SearchPage() {
     queryFn: () => gqlClient.request(GET_SEARCH_PAGE_META),
     staleTime: 300000,
   });
+
+  // Get search query description (CMS-managed SEO text)
+  const { data: descriptionData } = useQuery({
+    queryKey: ['searchQueryDescription', searchTerm],
+    queryFn: () => gqlClient.request(SEARCH_QUERY_DESCRIPTION, { keyword: searchTerm }),
+    enabled: !!searchTerm,
+    staleTime: 300000,
+  });
+  const searchDescription = descriptionData?.searchQueryDescription?.description || '';
 
   const pageSize = pageSizeData?.storeConfig?.grid_per_page || 24;
 
@@ -196,6 +218,9 @@ export default function SearchPage() {
         <p className="text-gray-600">
           {t('searchPage.totalPages', `${totalCount} items`)}
         </p>
+        {searchDescription && (
+          <div className="mt-3 text-sm text-gray-600 prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: searchDescription }} />
+        )}
       </div>
 
       <div className="flex gap-6">
