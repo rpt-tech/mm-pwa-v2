@@ -27,7 +27,7 @@ export default function Breadcrumbs({ items = [] }: BreadcrumbsProps) {
         <li>
           <Link
             to="/"
-            className="flex items-center text-gray-600 hover:text-blue-600 transition"
+            className="flex items-center text-gray-600 hover:text-[#0272BA] transition"
           >
             <Home className="w-4 h-4" />
             <span className="sr-only">{t('breadcrumbs.home', 'Home')}</span>
@@ -45,7 +45,7 @@ export default function Breadcrumbs({ items = [] }: BreadcrumbsProps) {
               ) : (
                 <Link
                   to={item.path}
-                  className="text-gray-600 hover:text-blue-600 transition"
+                  className="text-gray-600 hover:text-[#0272BA] transition"
                 >
                   {item.label}
                 </Link>

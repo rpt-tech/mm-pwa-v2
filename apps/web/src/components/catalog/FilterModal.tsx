@@ -46,7 +46,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
           </button>
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            className="px-4 py-2 bg-[#0272BA] text-white rounded-md hover:bg-[#005a9e]"
           >
             Apply Filters
           </button>

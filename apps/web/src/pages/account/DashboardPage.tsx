@@ -133,7 +133,7 @@ export default function DashboardPage() {
         <div className="bg-white border border-gray-200 rounded-lg p-6">
           <div className="flex items-center gap-4">
             <div className="bg-blue-100 p-3 rounded-lg">
-              <Package className="w-6 h-6 text-blue-600" />
+              <Package className="w-6 h-6 text-[#0272BA]" />
             </div>
             <div>
               <p className="text-sm text-gray-600">{t('account.totalOrders')}</p>

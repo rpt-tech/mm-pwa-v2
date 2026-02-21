@@ -171,7 +171,7 @@ export default function SearchPage() {
       <nav className="mb-6 text-sm">
         <ol className="flex items-center gap-2">
           <li>
-            <Link to="/" className="text-blue-600 hover:underline">
+            <Link to="/" className="text-[#0272BA] hover:underline">
               {t('global.home', 'Home')}
             </Link>
           </li>
@@ -381,7 +381,7 @@ export default function SearchPage() {
                     onClick={() => handlePageChange(pageNum)}
                     className={`px-4 py-2 border rounded ${
                       currentPage === pageNum
-                        ? 'bg-blue-600 text-white'
+                        ? 'bg-[#0272BA] text-white'
                         : 'hover:bg-gray-100'
                     }`}
                   >

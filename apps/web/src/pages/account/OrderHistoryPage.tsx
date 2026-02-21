@@ -42,7 +42,7 @@ export default function OrderHistoryPage() {
       case 'completed':
         return 'text-green-600 bg-green-50';
       case 'processing':
-        return 'text-blue-600 bg-blue-50';
+        return 'text-[#0272BA] bg-blue-50';
       case 'pending':
         return 'text-yellow-600 bg-yellow-50';
       case 'canceled':

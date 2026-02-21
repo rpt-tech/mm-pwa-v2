@@ -64,7 +64,7 @@ export default function OrderDetailPage() {
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
             {t('order.notFound', 'Order not found')}
           </h2>
-          <Link to="/account/orders" className="text-blue-600 hover:underline">
+          <Link to="/account/orders" className="text-[#0272BA] hover:underline">
             {t('order.backToOrders', 'Back to Orders')}
           </Link>
         </div>
@@ -111,7 +111,7 @@ export default function OrderDetailPage() {
                   <div className="flex-1">
                     <Link
                       to={`/${item.product_url_key}.html`}
-                      className="font-medium text-gray-800 hover:text-blue-600"
+                      className="font-medium text-gray-800 hover:text-[#0272BA]"
                     >
                       {item.product_name}
                     </Link>

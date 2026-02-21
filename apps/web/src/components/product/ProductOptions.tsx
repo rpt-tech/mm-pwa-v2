@@ -65,7 +65,7 @@ export default function ProductOptions({
                       onClick={() => handleOptionSelect(option.attribute_code, value.uid)}
                       className={`w-10 h-10 rounded-full border-2 transition-all ${
                         isSelected
-                          ? 'border-blue-600 ring-2 ring-blue-200'
+                          ? 'border-[#0272BA] ring-2 ring-[#0272BA]/30'
                           : 'border-gray-300 hover:border-gray-400'
                       }`}
                       style={{ backgroundColor: value.swatch_data.value }}
@@ -83,7 +83,7 @@ export default function ProductOptions({
                       onClick={() => handleOptionSelect(option.attribute_code, value.uid)}
                       className={`w-12 h-12 rounded-lg border-2 overflow-hidden transition-all ${
                         isSelected
-                          ? 'border-blue-600 ring-2 ring-blue-200'
+                          ? 'border-[#0272BA] ring-2 ring-[#0272BA]/30'
                           : 'border-gray-300 hover:border-gray-400'
                       }`}
                       title={value.label}
@@ -105,7 +105,7 @@ export default function ProductOptions({
                     onClick={() => handleOptionSelect(option.attribute_code, value.uid)}
                     className={`px-4 py-2 border rounded-lg text-sm font-medium transition-all ${
                       isSelected
-                        ? 'border-blue-600 bg-blue-50 text-blue-700'
+                        ? 'border-[#0272BA] bg-blue-50 text-[#0272BA]'
                         : 'border-gray-300 hover:border-gray-400 text-gray-700'
                     }`}
                   >
