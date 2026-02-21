@@ -300,7 +300,14 @@ export default function ProductPage() {
           )}
 
           <div className="flex items-center gap-4 mb-6">
-            <QuantityStepper value={quantity} onChange={setQuantity} min={1} max={99} disabled={isOutOfStock} />
+            <QuantityStepper
+              value={quantity}
+              onChange={setQuantity}
+              min={product.mm_product_type === 'F' ? 0.5 : 1}
+              max={99}
+              step={product.mm_product_type === 'F' ? 0.5 : 1}
+              disabled={isOutOfStock}
+            />
             <button
               onClick={handleAddToCart}
               disabled={isAddToCartDisabled || addToCartMutation.isPending}
