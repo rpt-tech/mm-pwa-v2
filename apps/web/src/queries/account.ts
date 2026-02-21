@@ -265,6 +265,7 @@ export const GET_ORDER_DETAILS = gql`
           number
           order_date
           status
+          status_code
           state
           carrier
           total {

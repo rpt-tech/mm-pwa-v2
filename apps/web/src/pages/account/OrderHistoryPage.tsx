@@ -47,18 +47,23 @@ export default function OrderHistoryPage() {
     }).format(new Date(dateString));
   };
 
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
+  const getStatusColor = (statusCode: string) => {
+    switch (statusCode?.toLowerCase()) {
       case 'complete':
       case 'completed':
         return 'text-green-600 bg-green-50';
       case 'processing':
         return 'text-[#0272BA] bg-blue-50';
       case 'pending':
+      case 'pending_payment':
         return 'text-yellow-600 bg-yellow-50';
       case 'canceled':
       case 'cancelled':
         return 'text-red-600 bg-red-50';
+      case 'holded':
+        return 'text-orange-600 bg-orange-50';
+      case 'closed':
+        return 'text-gray-600 bg-gray-100';
       default:
         return 'text-gray-600 bg-gray-50';
     }
@@ -123,7 +128,7 @@ export default function OrderHistoryPage() {
                     </span>
                     <span
                       className={`text-xs px-2 py-1 rounded ${getStatusColor(
-                        order.status
+                        order.status_code || order.state || order.status
                       )}`}
                     >
                       {order.status}

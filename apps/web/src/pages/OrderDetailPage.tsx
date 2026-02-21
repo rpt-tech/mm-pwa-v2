@@ -27,12 +27,14 @@ function formatDate(dateString: string) {
 function getStatusColor(status: string) {
   const statusMap: Record<string, string> = {
     pending: 'bg-yellow-100 text-yellow-800',
+    pending_payment: 'bg-yellow-100 text-yellow-800',
     processing: 'bg-blue-100 text-blue-800',
     complete: 'bg-green-100 text-green-800',
     canceled: 'bg-red-100 text-red-800',
+    holded: 'bg-orange-100 text-orange-800',
     closed: 'bg-gray-100 text-gray-800',
   };
-  return statusMap[status.toLowerCase()] || 'bg-gray-100 text-gray-800';
+  return statusMap[status?.toLowerCase()] || 'bg-gray-100 text-gray-800';
 }
 
 export default function OrderDetailPage() {
@@ -113,7 +115,7 @@ export default function OrderDetailPage() {
             <p className="text-gray-600 mt-1">{formatDate(order.order_date)}</p>
           </div>
           <div className="flex items-center gap-3">
-            <span className={`px-4 py-2 rounded-full text-sm font-semibold ${getStatusColor(order.status)}`}>
+            <span className={`px-4 py-2 rounded-full text-sm font-semibold ${getStatusColor(order.status_code || order.state || order.status)}`}>
               {order.status}
             </span>
             <button

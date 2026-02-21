@@ -554,21 +554,6 @@ export const SET_SHIPPING_METHOD = gql`
   }
 `;
 
-// Set payment method on cart
-export const SET_PAYMENT_METHOD = gql`
-  mutation SetPaymentMethodOnCart($cartId: String!, $paymentMethod: PaymentMethodInput!) {
-    setPaymentMethodOnCart(input: { cart_id: $cartId, payment_method: $paymentMethod }) {
-      cart {
-        id
-        selected_payment_method {
-          code
-          title
-        }
-      }
-    }
-  }
-`;
-
 // Place order (MM custom with orderV2)
 export const PLACE_ORDER = gql`
   mutation PlaceOrder($input: PlaceOrderInput!) {
