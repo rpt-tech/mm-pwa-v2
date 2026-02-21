@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { CheckCircle, XCircle, Clock, Package } from 'lucide-react';
 import { gqlClient } from '@/lib/graphql-client';
 import { gql } from 'graphql-request';
+import { analytics } from '@/lib/analytics';
 
 // Payment result query
 const PAYMENT_RESULT_QUERY = gql`
@@ -82,6 +83,22 @@ export default function OrderConfirmationPage() {
 
   const orderStatus = data?.status || 'pending';
   const order = data?.order;
+
+  // Track purchase event on success
+  useEffect(() => {
+    if (orderStatus === 'success' && order && extractedOrderNumber) {
+      analytics.purchase({
+        id: extractedOrderNumber,
+        total: order.grand_total || 0,
+        items: (order.items || []).map((item: any) => ({
+          sku: item.product_sku || '',
+          name: item.product_name || '',
+          price: item.product_sale_price?.value || 0,
+          quantity: item.quantity_ordered || 1,
+        })),
+      });
+    }
+  }, [orderStatus, order, extractedOrderNumber]);
 
   // Status icon and message
   const getStatusDisplay = () => {

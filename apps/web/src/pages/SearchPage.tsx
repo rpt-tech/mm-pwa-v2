@@ -1,10 +1,11 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
 import { PRODUCT_SEARCH, GET_PAGE_SIZE, GET_SEARCH_PAGE_META } from '@/queries/catalog';
 import { useTranslation } from 'react-i18next';
 import { gqlClient } from '@/lib/graphql-client';
+import { analytics } from '@/lib/analytics';
 import ProductCard from '@/components/catalog/ProductCard';
 
 export default function SearchPage() {
@@ -17,6 +18,11 @@ export default function SearchPage() {
   const [sortDirection, setSortDirection] = useState('DESC');
   const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
   const [brandFilter, setBrandFilter] = useState<string[]>([]);
+
+  // Track search event
+  useEffect(() => {
+    if (searchTerm) analytics.search(searchTerm);
+  }, [searchTerm]);
 
   // Get page size
   const { data: pageSizeData } = useQuery({

@@ -7,6 +7,7 @@ import { GET_PRODUCT_DETAIL, ADD_PRODUCT_TO_CART } from '@/queries/product';
 import { useTranslation } from 'react-i18next';
 import { useCartStore } from '@/stores/cartStore';
 import { gqlClient } from '@/lib/graphql-client';
+import { analytics } from '@/lib/analytics';
 import ProductImageCarousel from '@/components/product/ProductImageCarousel';
 import ProductLabel from '@/components/catalog/ProductLabel';
 import QuantityStepper from '@/components/product/QuantityStepper';
@@ -45,10 +46,15 @@ export default function ProductPage() {
   // Add to cart mutation
   const addToCartMutation = useMutation({
     mutationFn: (variables: any) => gqlClient.request(ADD_PRODUCT_TO_CART, variables),
-    onSuccess: () => {
+    onSuccess: (_, variables) => {
       fetchCart();
       setAddToCartError(null);
       toast.success('Đã thêm vào giỏ hàng');
+      if (product) {
+        const qty = variables?.cartItems?.[0]?.quantity || 1;
+        const price = product.price_range?.maximum_price?.final_price?.value || 0;
+        analytics.addToCart({ sku: product.sku, name: product.ecom_name || product.name, price, quantity: qty });
+      }
     },
     onError: (error: any) => {
       const msg = error.message || 'Failed to add product to cart';
