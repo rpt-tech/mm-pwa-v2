@@ -9,6 +9,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { useCartStore } from '@/stores/cartStore';
 import OrganizationStructuredData from '@/components/seo/OrganizationStructuredData';
 import WebSiteStructuredData from '@/components/seo/WebSiteStructuredData';
+import AdvancedPopup from '@/components/common/AdvancedPopup';
 
 export default function MainLayout() {
   const { isAuthModalOpen, closeAuthModal, authModalView } = useUIStore();
@@ -31,6 +32,7 @@ export default function MainLayout() {
       </main>
       <Footer />
       <MiniCart />
+      <AdvancedPopup />
       {isAuthModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg w-full max-w-md relative">
