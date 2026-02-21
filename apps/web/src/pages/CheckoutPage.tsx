@@ -18,6 +18,11 @@ import {
   SET_SHIPPING_METHOD,
   PLACE_ORDER,
   GET_CHECKOUT_DETAILS,
+  GET_DELIVERY_DATE_CONFIG,
+  GET_TIME_INTERVALS,
+  SET_VAT_INFORMATION,
+  GET_VAT_INFORMATION,
+  SET_CUSTOMER_NO,
 } from '@/queries/checkout';
 
 function formatPrice(value: number, currency = 'VND') {
@@ -188,6 +193,18 @@ function ShippingStep({
 }) {
   const queryClient = useQueryClient();
   const [selectedAddressId, setSelectedAddressId] = useState<number | null>(null);
+  // Delivery time state
+  const [selectedDate, setSelectedDate] = useState('');
+  const [selectedScheduleId, setSelectedScheduleId] = useState<number | null>(null);
+  const [selectedTimeIntervalId, setSelectedTimeIntervalId] = useState<number | null>(null);
+  const [deliveryComment, setDeliveryComment] = useState('');
+  // VAT state
+  const [showVat, setShowVat] = useState(false);
+  const [vatCompanyName, setVatCompanyName] = useState('');
+  const [vatTaxNumber, setVatTaxNumber] = useState('');
+  const [vatAddress, setVatAddress] = useState('');
+  // MCard state
+  const [mcardNumber, setMcardNumber] = useState('');
 
   const {
     register,
@@ -209,6 +226,47 @@ function ShippingStep({
 
   const addresses = customerData?.customer?.addresses || [];
 
+  // Delivery date config
+  const { data: deliveryConfigData } = useQuery({
+    queryKey: ['deliveryDateConfig'],
+    queryFn: () => gqlClient.request(GET_DELIVERY_DATE_CONFIG, { orderType: 1 }),
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const deliverySchedules = deliveryConfigData?.getDeliveryDateConfiguration?.schedules || [];
+  const deliveryEnabled = deliveryConfigData?.getDeliveryDateConfiguration?.enabled ?? false;
+
+  // Time intervals for selected schedule + date
+  const { data: timeIntervalsData } = useQuery({
+    queryKey: ['timeIntervals', selectedScheduleId, selectedDate],
+    queryFn: () => gqlClient.request(GET_TIME_INTERVALS, {
+      scheduleId: selectedScheduleId,
+      date: selectedDate,
+    }),
+    enabled: !!selectedScheduleId && !!selectedDate,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const timeIntervals = timeIntervalsData?.getTimeInterval || [];
+
+  // Saved VAT info for logged-in users
+  const { data: vatData } = useQuery({
+    queryKey: ['vatInformation'],
+    queryFn: () => gqlClient.request(GET_VAT_INFORMATION),
+    enabled: isLoggedIn,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  // Pre-fill VAT fields from saved data
+  useEffect(() => {
+    if (vatData?.vatInformation) {
+      const vat = vatData.vatInformation;
+      if (vat.company_name) setVatCompanyName(vat.company_name);
+      if (vat.company_vat_number) setVatTaxNumber(vat.company_vat_number);
+      if (vat.company_address) setVatAddress(vat.company_address);
+    }
+  }, [vatData]);
+
   // Auto-select default shipping address
   useEffect(() => {
     const defaultAddr = addresses.find((a: any) => a.default_shipping);
@@ -227,6 +285,27 @@ function ShippingStep({
   const setGuestEmailMutation = useMutation({
     mutationFn: (email: string) =>
       gqlClient.request(SET_GUEST_EMAIL, { cartId, email }),
+  });
+
+  const setVatMutation = useMutation({
+    mutationFn: () =>
+      gqlClient.request(SET_VAT_INFORMATION, {
+        input: {
+          cart_id: cartId,
+          vat_address: {
+            company_name: vatCompanyName,
+            company_vat_number: vatTaxNumber,
+            company_address: vatAddress,
+          },
+        },
+      }),
+  });
+
+  const setCustomerNoMutation = useMutation({
+    mutationFn: (customerNo: string) =>
+      gqlClient.request(SET_CUSTOMER_NO, {
+        input: { cart_id: cartId, customer_no: customerNo },
+      }),
   });
 
   const setShippingAddressMutation = useMutation({
@@ -260,20 +339,34 @@ function ShippingStep({
       const cart = queryClient.getQueryData<any>(['cartDetails', cartId]);
       const shippingAddr = cart?.cart?.shipping_addresses?.[0];
       const firstMethod = shippingAddr?.available_shipping_methods?.[0];
-      if (firstMethod) {
-        gqlClient.request(SET_SHIPPING_METHOD, {
-          cartId,
-          shippingMethods: [{
-            carrier_code: firstMethod.carrier_code,
-            method_code: firstMethod.method_code,
-          }],
-        }).then(() => {
-          queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
-          onNext();
-        });
-      } else {
+
+      const deliveryDate = selectedDate && selectedTimeIntervalId
+        ? { date: selectedDate, time_interval_id: selectedTimeIntervalId, comment: deliveryComment }
+        : undefined;
+
+      const shippingMethodPromise = firstMethod
+        ? gqlClient.request(SET_SHIPPING_METHOD, {
+            cartId,
+            shippingMethods: [{
+              carrier_code: firstMethod.carrier_code,
+              method_code: firstMethod.method_code,
+            }],
+            deliveryDate,
+          })
+        : Promise.resolve();
+
+      const vatPromise = showVat && vatCompanyName
+        ? setVatMutation.mutateAsync()
+        : Promise.resolve();
+
+      const mcardPromise = mcardNumber.trim()
+        ? setCustomerNoMutation.mutateAsync(mcardNumber.trim())
+        : Promise.resolve();
+
+      Promise.all([shippingMethodPromise, vatPromise, mcardPromise]).then(() => {
+        queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
         onNext();
-      }
+      });
     },
   });
 
@@ -284,7 +377,7 @@ function ShippingStep({
     setShippingAddressMutation.mutate(data);
   };
 
-  const isLoading = setShippingAddressMutation.isPending || setGuestEmailMutation.isPending;
+  const isLoading = setShippingAddressMutation.isPending || setGuestEmailMutation.isPending || setVatMutation.isPending || setCustomerNoMutation.isPending;
 
   return (
     <div>
@@ -447,6 +540,127 @@ function ShippingStep({
               <span>Có lỗi xảy ra. Vui lòng kiểm tra lại thông tin.</span>
             </div>
           )}
+
+          {/* Delivery Time */}
+          {deliveryEnabled && deliverySchedules.length > 0 && (
+            <div className="border border-gray-200 rounded-lg p-4">
+              <h3 className="text-sm font-semibold text-gray-700 mb-3">Thời gian giao hàng</h3>
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Ngày giao</label>
+                  <select
+                    value={selectedDate}
+                    onChange={(e) => {
+                      setSelectedDate(e.target.value);
+                      setSelectedTimeIntervalId(null);
+                      const opt = deliverySchedules.find((s: any) => s.value === e.target.value);
+                      setSelectedScheduleId(opt?.schedule_id ?? null);
+                    }}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#006341]"
+                  >
+                    <option value="">Chọn ngày giao hàng</option>
+                    {deliverySchedules.map((s: any) => (
+                      <option key={s.schedule_id} value={s.value}>{s.label}</option>
+                    ))}
+                  </select>
+                </div>
+                {selectedDate && timeIntervals.length > 0 && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">Khung giờ</label>
+                    <div className="grid grid-cols-2 gap-2">
+                      {timeIntervals.map((t: any) => (
+                        <label
+                          key={t.time_interval_id}
+                          className={`flex items-center gap-2 p-2 rounded-lg border cursor-pointer text-sm transition-colors
+                            ${selectedTimeIntervalId === t.time_interval_id
+                              ? 'border-[#006341] bg-green-50 text-[#006341]'
+                              : 'border-gray-200 hover:border-gray-300'}`}
+                        >
+                          <input
+                            type="radio"
+                            name="timeInterval"
+                            checked={selectedTimeIntervalId === t.time_interval_id}
+                            onChange={() => setSelectedTimeIntervalId(t.time_interval_id)}
+                            className="accent-[#006341]"
+                          />
+                          {t.label || `${t.from} - ${t.to}`}
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Ghi chú giao hàng</label>
+                  <input
+                    type="text"
+                    value={deliveryComment}
+                    onChange={(e) => setDeliveryComment(e.target.value)}
+                    placeholder="Ghi chú cho người giao hàng (tùy chọn)"
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#006341]"
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* MCard loyalty number */}
+          <div className="border border-gray-200 rounded-lg p-4">
+            <h3 className="text-sm font-semibold text-gray-700 mb-3">Thẻ MCard (tùy chọn)</h3>
+            <input
+              type="text"
+              value={mcardNumber}
+              onChange={(e) => setMcardNumber(e.target.value)}
+              placeholder="Nhập số thẻ MCard để tích điểm"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#006341]"
+            />
+          </div>
+
+          {/* VAT Invoice */}
+          <div className="border border-gray-200 rounded-lg p-4">
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={showVat}
+                onChange={(e) => setShowVat(e.target.checked)}
+                className="w-4 h-4 accent-[#006341]"
+              />
+              <span className="text-sm font-semibold text-gray-700">Xuất hóa đơn VAT</span>
+            </label>
+            {showVat && (
+              <div className="mt-3 space-y-3">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Tên công ty *</label>
+                  <input
+                    type="text"
+                    value={vatCompanyName}
+                    onChange={(e) => setVatCompanyName(e.target.value)}
+                    placeholder="Tên công ty"
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#006341]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Mã số thuế *</label>
+                  <input
+                    type="text"
+                    value={vatTaxNumber}
+                    onChange={(e) => setVatTaxNumber(e.target.value)}
+                    placeholder="Mã số thuế"
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#006341]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Địa chỉ công ty</label>
+                  <input
+                    type="text"
+                    value={vatAddress}
+                    onChange={(e) => setVatAddress(e.target.value)}
+                    placeholder="Địa chỉ công ty"
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#006341]"
+                  />
+                </div>
+              </div>
+            )}
+          </div>
 
           <button
             type="submit"

@@ -525,10 +525,10 @@ export const SET_BILLING_ADDRESS = gql`
   }
 `;
 
-// Set shipping method on cart
+// Set shipping method on cart (with optional delivery_date)
 export const SET_SHIPPING_METHOD = gql`
-  mutation SetShippingMethodsOnCart($cartId: String!, $shippingMethods: [ShippingMethodInput!]!) {
-    setShippingMethodsOnCart(input: { cart_id: $cartId, shipping_methods: $shippingMethods }) {
+  mutation SetShippingMethodsOnCart($cartId: String!, $shippingMethods: [ShippingMethodInput!]!, $deliveryDate: DeliveryDateInput) {
+    setShippingMethodsOnCart(input: { cart_id: $cartId, shipping_methods: $shippingMethods, delivery_date: $deliveryDate }) {
       cart {
         id
         shipping_addresses {
@@ -591,33 +591,69 @@ export const PLACE_ORDER = gql`
   }
 `;
 
-// Get Vietnam location data (custom MM endpoints)
-export const GET_CITIES = gql`
-  query GetCities {
-    getCities {
-      city_id
-      default_name
-      country_id
+// Get delivery date configuration
+export const GET_DELIVERY_DATE_CONFIG = gql`
+  query GetDeliveryDateConfiguration($orderType: Int) {
+    getDeliveryDateConfiguration(order_type: $orderType) {
+      id
+      enabled
+      schedules {
+        schedule_id
+        value
+        label
+      }
     }
   }
 `;
 
-export const GET_DISTRICTS = gql`
-  query GetDistricts($cityId: Int!) {
-    getDistrict(city_id: $cityId) {
-      district_id
-      default_name
-      city_id
+// Get time intervals for a schedule + date
+export const GET_TIME_INTERVALS = gql`
+  query GetTimeInterval($scheduleId: Int!, $date: String!) {
+    getTimeInterval(schedule_id: $scheduleId, date: $date) {
+      time_interval_id
+      from
+      to
+      label
     }
   }
 `;
 
-export const GET_WARDS = gql`
-  query GetWards($districtId: Int!) {
-    getWard(district_id: $districtId) {
-      ward_id
-      default_name
-      district_id
+// Set VAT information on cart
+export const SET_VAT_INFORMATION = gql`
+  mutation SetVatInformationOnCart($input: SetVatInformationOnCartInput!) {
+    setVatInformationOnCart(input: $input) {
+      cart {
+        vat_address {
+          customer_vat_id
+          company_name
+          company_vat_number
+          company_address
+        }
+      }
     }
   }
 `;
+
+// Get saved VAT information for customer
+export const GET_VAT_INFORMATION = gql`
+  query GetVatInformation {
+    vatInformation {
+      customer_vat_id
+      company_name
+      company_vat_number
+      company_address
+    }
+  }
+`;
+
+// Set MCard (customer_no) on cart
+export const SET_CUSTOMER_NO = gql`
+  mutation SetCustomerNoOnCart($input: SetCustomerNoOnCartInput!) {
+    setCustomerNoOnCart(input: $input) {
+      cart {
+        customer_no
+      }
+    }
+  }
+`;
+
