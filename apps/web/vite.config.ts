@@ -10,10 +10,10 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'apple-touch-icon.png'],
       manifest: {
-        name: 'MM Vietnam',
+        name: 'MM Mega Market',
         short_name: 'MM',
-        description: 'MM Vietnam - Online Shopping',
-        theme_color: '#1a56db',
+        description: 'MM Mega Market - Siêu thị trực tuyến',
+        theme_color: '#006341',
         background_color: '#ffffff',
         display: 'standalone',
         scope: '/',

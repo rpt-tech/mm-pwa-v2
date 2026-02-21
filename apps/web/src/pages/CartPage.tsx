@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { Trash2, ShoppingCart, Tag, ChevronRight, AlertCircle } from 'lucide-react';
 import { useCartStore } from '@/stores/cartStore';
 import { gqlClient } from '@/lib/graphql-client';
+import { analytics } from '@/lib/analytics';
 import {
   GET_CART_DETAILS,
   UPDATE_CART_ITEMS,
@@ -195,6 +196,7 @@ function PriceSummary({ cart }: { cart: any }) {
   const discounts = prices?.discounts || [];
   const appliedCoupons = cart?.applied_coupons || [];
   const taxes = prices?.applied_taxes || [];
+  const cartItems: any[] = cart?.items || [];
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 p-4 sticky top-4">
@@ -234,7 +236,18 @@ function PriceSummary({ cart }: { cart: any }) {
       </div>
 
       <button
-        onClick={() => navigate('/checkout')}
+        onClick={() => {
+          analytics.beginCheckout(
+            cartItems.map((item: any) => ({
+              sku: item.product?.sku || '',
+              name: item.product?.name || '',
+              price: item.prices?.price?.value || 0,
+              quantity: item.quantity || 1,
+            })),
+            grandTotal
+          );
+          navigate('/checkout');
+        }}
         className="mt-4 w-full bg-[#006341] text-white py-3 rounded font-semibold hover:bg-[#004d32] transition-colors flex items-center justify-center gap-2"
       >
         Tiến hành thanh toán
@@ -338,13 +351,21 @@ export default function CartPage() {
   });
 
   const removeItemMutation = useMutation({
-    mutationFn: (cartItemUid: string) =>
+    mutationFn: ({ cartItemUid }: { cartItemUid: string; sku?: string; name?: string; price?: number; quantity?: number }) =>
       gqlClient.request(REMOVE_ITEM_FROM_CART, { cartId, cartItemUid }),
-    onSuccess: (data) => {
+    onSuccess: (data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
       queryClient.invalidateQueries({ queryKey: ['miniCart'] });
       const newCount = data?.removeItemFromCart?.cart?.total_quantity ?? 0;
       setItemCount(newCount);
+      if (variables.sku) {
+        analytics.removeFromCart({
+          sku: variables.sku,
+          name: variables.name || '',
+          price: variables.price || 0,
+          quantity: variables.quantity || 1,
+        });
+      }
     },
   });
 
@@ -445,7 +466,13 @@ export default function CartPage() {
                   onQuantityChange={(uid, qty) =>
                     updateItemMutation.mutate({ uid, quantity: qty })
                   }
-                  onRemove={(uid) => removeItemMutation.mutate(uid)}
+                  onRemove={(uid) => removeItemMutation.mutate({
+                    cartItemUid: uid,
+                    sku: item.product?.sku,
+                    name: item.product?.name,
+                    price: item.prices?.price?.value,
+                    quantity: item.quantity,
+                  })}
                   isMutating={updateItemMutation.isPending || removeItemMutation.isPending}
                 />
               ))}

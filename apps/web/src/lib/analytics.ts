@@ -77,4 +77,35 @@ export const analytics = {
   signUp(method = 'email') {
     push({ event: 'sign_up', method });
   },
+
+  removeFromCart(product: { sku: string; name: string; price: number; quantity: number; currency?: string }) {
+    push({
+      event: 'remove_from_cart',
+      ecommerce: {
+        items: [{
+          item_id: product.sku,
+          item_name: product.name,
+          price: product.price,
+          quantity: product.quantity,
+          currency: product.currency || 'VND',
+        }],
+      },
+    });
+  },
+
+  beginCheckout(items: Array<{ sku: string; name: string; price: number; quantity: number }>, value?: number) {
+    push({
+      event: 'begin_checkout',
+      ecommerce: {
+        value: value || 0,
+        currency: 'VND',
+        items: items.map((item) => ({
+          item_id: item.sku,
+          item_name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+      },
+    });
+  },
 };
