@@ -629,3 +629,24 @@
   13. ✓ Social login (Facebook + Google) with SOCIAL_LOGIN_MUTATION
 - **Commits:** 5cc17c3 → a28ce52 (8 commits)
 - **Status:** 🚧 In Progress — continuing with remaining gaps
+
+## Session 8 Summary (2026-02-21 continued)
+- **Status:** ✓ Done
+- **Completed:**
+  1. ✓ unit_ecom added to all product contexts: cart, minicart, checkout, wishlist
+  2. ✓ minimum_price added to PRODUCT_FRAGMENT + GET_PRODUCT_DETAIL for configurable products
+  3. ✓ ProductCard + ProductGrid: "Từ" prefix for configurable product prices
+  4. ✓ ProductPage: similar_products section (MM-specific field)
+  5. ✓ OrderDetailPage: VAT information section
+  6. ✓ CheckoutPage: billing address = same_as_shipping (critical fix)
+  7. ✓ CheckoutPage: postcode standardized to 00000 (legacy standard)
+  8. ✓ CheckoutPage: shipping method auto-select uses mutation response (not stale cache)
+  9. ✓ CheckoutPage: pre-fill form from existing cart shipping address
+  10. ✓ ProductPage + CategoryPage: OG tags + canonical URL
+  11. ✓ status_code fix in OrderHistoryPage + OrderDetailPage (from session 8 start)
+  12. ✓ CANCEL_ORDER mutation + auto-cancel on payment failure
+  13. ✓ GET_ORDER_DETAILS enriched with delivery_code, delivery_status, delivery_information, promotion_message, vat_information
+  14. ✓ ProductCard DNR label uses dnr_price_search_page field
+  15. ✓ ProductGrid list mode: DnrLabel + dnr_price_search_page
+- **Commits:** b56d44a → e0f4cc4 (16 commits)
+- **Status:** 🚧 In Progress — continuing with remaining gaps

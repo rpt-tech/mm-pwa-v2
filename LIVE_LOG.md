@@ -466,3 +466,19 @@ All major structured data types implemented!
 [cont] OrderDetailPage: delivery status card + promotion_message banner — ✓ commit 28b07f9
 [cont] ProductCard: fix dnr_price_search_page field name mismatch — ✓ commit 82d6e45
 [cont] ProductGrid list mode: add DnrLabel + dnr_price_search_page — ✓ commit 73a620c
+[cont] catalog.ts: add minimum_price to PRODUCT_FRAGMENT — ✓ commit 93e27cc
+[cont] product.ts: add minimum_price to GET_PRODUCT_DETAIL — ✓ commit d43ca6a
+[cont] cart.ts: add unit_ecom to MiniCartFragment + CartPageFragment — ✓ commit 5c37256
+[cont] MiniCart: show unit_ecom in item display — ✓ commit 318dab4
+[cont] CheckoutPage: show unit_ecom in order summary items — ✓ commit 9b86cf5
+[cont] account.ts GET_WISHLIST: add unit_ecom field — ✓ commit 8eca81f
+[cont] WishlistPage: show unit_ecom in product display — ✓ commit 8eca81f
+[cont] ProductCard: add "Từ" prefix for configurable products — ✓ commit b42bc9e
+[cont] ProductGrid list mode: add "Từ" prefix for configurable products — ✓ commit b42bc9e
+[cont] ProductPage: add similar_products section — ✓ commit b42bc9e
+[cont] OrderDetailPage: add VAT information section — ✓ commit 2efcc1c
+[cont] CheckoutPage: set billing=same_as_shipping before place order — ✓ commit 2efcc1c
+[cont] CheckoutPage: fix postcode to 00000 (legacy standard) — ✓ commit 66e3764
+[cont] CheckoutPage: use mutation response for shipping method auto-select — ✓ commit 66e3764
+[cont] CheckoutPage: pre-fill form from existing cart shipping address — ✓ commit 1fd8e46
+[cont] ProductPage + CategoryPage: add OG tags + canonical URL — ✓ commit e0f4cc4
