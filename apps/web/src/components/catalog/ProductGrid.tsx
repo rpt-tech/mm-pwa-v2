@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import ProductCard from './ProductCard';
+import DnrLabel from '@/components/product/DnrLabel';
 
 interface Product {
   uid: string;
@@ -33,6 +34,7 @@ interface Product {
     category_image?: { type: number; url?: string; position?: string; display: boolean; text?: string; text_color?: string; text_size?: number; shape_type?: string; shape_color?: string; label_size?: number; label_size_mobile?: number; custom_css?: string };
   }>;
   dnr_price?: any;
+  dnr_price_search_page?: any;
 }
 
 interface ProductGridProps {
@@ -103,6 +105,11 @@ const ProductGrid: React.FC<ProductGridProps> = ({ products, isLoading, viewMode
                     </>
                   )}
                 </div>
+                {(product.dnr_price_search_page || product.dnr_price) && (
+                  <div className="mb-1">
+                    <DnrLabel dnrData={product.dnr_price_search_page || product.dnr_price} />
+                  </div>
+                )}
                 {product.stock_status === 'OUT_OF_STOCK' && (
                   <span className="text-sm text-red-600">Hết hàng</span>
                 )}
