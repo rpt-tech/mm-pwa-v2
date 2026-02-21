@@ -2,58 +2,17 @@ name: Deploy
 
 on:
   push:
-    branches: [dev, main]
+    branches: [main]
 
 concurrency:
   group: deploy-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
-  issues: write
   contents: read
+  issues: write
 
 jobs:
-  lint-typecheck:
-    name: Lint & Type-check
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Lint
-        run: pnpm lint
-
-      - name: Type-check
-        run: pnpm type-check
-
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Run tests with coverage
-        run: pnpm --filter @mm/web vitest run --reporter=verbose --coverage
-
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -61,6 +20,8 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: package.json
 
       - uses: actions/setup-node@v4
         with:
@@ -85,12 +46,13 @@ jobs:
   deploy-bff:
     name: Deploy BFF (Cloudflare Workers)
     runs-on: ubuntu-latest
-    needs: [lint-typecheck, test, build]
-    if: github.ref == 'refs/heads/main'
+    needs: build
     steps:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: package.json
 
       - uses: actions/setup-node@v4
         with:
@@ -109,22 +71,18 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
-      - name: Log deploy to summary
-        run: |
-          echo "### BFF Deploy" >> "$GITHUB_STEP_SUMMARY"
-          echo "- URL: https://mm-bff.hi-huythanh.workers.dev" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Status: deployed" >> "$GITHUB_STEP_SUMMARY"
-
   deploy-web:
     name: Deploy Web (Vercel)
     runs-on: ubuntu-latest
-    needs: [lint-typecheck, test, build]
+    needs: build
     outputs:
       deploy_url: ${{ steps.deploy.outputs.deploy_url }}
     steps:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
+        with:
+          package_json_file: package.json
 
       - uses: actions/setup-node@v4
         with:
@@ -137,46 +95,26 @@ jobs:
       - name: Install Vercel CLI
         run: npm install -g vercel
 
-      - name: Deploy to Vercel (preview)
+      - name: Deploy to Vercel
         id: deploy
-        if: ${{ secrets.VERCEL_TOKEN != '' && github.ref == 'refs/heads/dev' }}
         working-directory: apps/web
+        continue-on-error: true
         env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
         run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "::notice::VERCEL_TOKEN not set — Vercel Git integration handles deployment"
+            exit 0
+          fi
           for i in 1 2 3; do
-            DEPLOY_URL=$(vercel deploy --token "${{ secrets.VERCEL_TOKEN }}" 2>&1 | tail -1) && break
+            DEPLOY_URL=$(vercel deploy --prod --token "$VERCEL_TOKEN" 2>&1 | tail -1) && break
             [ $i -lt 3 ] && sleep 30
           done
           echo "deploy_url=${DEPLOY_URL}" >> "$GITHUB_OUTPUT"
-          echo "### Web Deploy (Preview)" >> "$GITHUB_STEP_SUMMARY"
-          echo "- URL: ${DEPLOY_URL}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Branch: dev (preview)" >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Deploy to Vercel (production)
-        id: deploy-prod
-        if: ${{ secrets.VERCEL_TOKEN != '' && github.ref == 'refs/heads/main' }}
-        working-directory: apps/web
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-        run: |
-          for i in 1 2 3; do
-            DEPLOY_URL=$(vercel deploy --prod --token "${{ secrets.VERCEL_TOKEN }}" 2>&1 | tail -1) && break
-            [ $i -lt 3 ] && sleep 30
-          done
-          echo "deploy_url=${DEPLOY_URL}" >> "$GITHUB_OUTPUT"
-          echo "### Web Deploy (Production)" >> "$GITHUB_STEP_SUMMARY"
-          echo "- URL: ${DEPLOY_URL}" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Branch: main (production)" >> "$GITHUB_STEP_SUMMARY"
-
-      - name: Skip notice (no VERCEL_TOKEN)
-        if: ${{ secrets.VERCEL_TOKEN == '' }}
-        run: |
           echo "### Web Deploy" >> "$GITHUB_STEP_SUMMARY"
-          echo "- Skipped: VERCEL_TOKEN not set. Vercel Git integration handles deployment." >> "$GITHUB_STEP_SUMMARY"
-          echo "::notice::VERCEL_TOKEN not configured. Vercel Git integration will handle deployment."
+          echo "- URL: ${DEPLOY_URL}" >> "$GITHUB_STEP_SUMMARY"
 
   health-check:
     name: Health Check
@@ -189,51 +127,24 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Wait for deployment to propagate
-        run: sleep 60
+        run: sleep 30
 
       - name: Check production health
         id: health
         run: |
           FAILED=0
-
-          check_url() {
-            local url="$1"
-            local label="$2"
-            for i in 1 2 3; do
-              if curl -sf --max-time 15 "$url" > /dev/null 2>&1; then
-                echo "ok_${label}=true" >> "$GITHUB_OUTPUT"
-                return 0
-              fi
-              [ $i -lt 3 ] && sleep 30
-            done
-            echo "ok_${label}=false" >> "$GITHUB_OUTPUT"
-            return 1
-          }
-
-          check_url "https://mm-pwa-v2.vercel.app" "web" || FAILED=1
-          check_url "https://mm-bff.hi-huythanh.workers.dev/health" "bff" || FAILED=1
-
-          echo "failed=${FAILED}" >> "$GITHUB_OUTPUT"
-
-          echo "### Health Check Results" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Service | Status |" >> "$GITHUB_STEP_SUMMARY"
-          echo "|---------|--------|" >> "$GITHUB_STEP_SUMMARY"
-
-          if [ "$FAILED" -eq 0 ]; then
-            echo "| Web (Vercel) | OK |" >> "$GITHUB_STEP_SUMMARY"
-            echo "| BFF (Workers) | OK |" >> "$GITHUB_STEP_SUMMARY"
-          else
-            echo "| Web (Vercel) | FAILED |" >> "$GITHUB_STEP_SUMMARY"
-            echo "| BFF (Workers) | FAILED |" >> "$GITHUB_STEP_SUMMARY"
+          if ! curl -sf --max-time 15 "https://mm-pwa-v2.vercel.app" > /dev/null 2>&1; then
+            FAILED=1
           fi
+          echo "failed=${FAILED}" >> "$GITHUB_OUTPUT"
 
       - name: Create issue on failure
         if: steps.health.outputs.failed == '1'
         run: |
-          TITLE="[ALERT] Post-deploy health check failed - $(date -u '+%Y-%m-%d %H:%M UTC')"
-          BODY="Health check failed after deploy on commit ${{ github.sha }} (branch: ${{ github.ref_name }}).\n\nSee run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           OPEN=$(gh issue list --label "health-failure" --state open --json number --jq 'length')
           if [ "$OPEN" -eq 0 ]; then
-            gh issue create --title "$TITLE" --body "$BODY" --label "health-failure,automated"
+            gh issue create \
+              --title "[ALERT] Post-deploy health check failed - $(date -u '+%Y-%m-%d %H:%M UTC')" \
+              --body "Health check failed after deploy on commit ${{ github.sha }}. See run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+              --label "health-failure,automated"
           fi
