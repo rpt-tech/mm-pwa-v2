@@ -6,21 +6,31 @@ import { Package, ChevronRight, ChevronLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import MyAccountLayout from '@/components/account/MyAccountLayout';
 import { gqlClient } from '@/lib/graphql-client';
-import { GET_CUSTOMER_ORDERS } from '@/queries/account';
+import { GET_CUSTOMER_ORDERS, GET_AVAILABLE_STATUS } from '@/queries/account';
 
 export default function OrderHistoryPage() {
   const { t } = useTranslation();
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedStatus, setSelectedStatus] = useState('');
   const pageSize = 10;
+
+  // Fetch available statuses for filter
+  const { data: statusData } = useQuery({
+    queryKey: ['availableOrderStatus'],
+    queryFn: async () => {
+      const result: any = await gqlClient.request(GET_AVAILABLE_STATUS);
+      return result.availableStatus as Array<{ status: string; label: string }>;
+    },
+    staleTime: 600000,
+  });
 
   // Fetch orders
   const { data, isLoading } = useQuery({
-    queryKey: ['customerOrders', currentPage],
+    queryKey: ['customerOrders', currentPage, selectedStatus],
     queryFn: async () => {
-      const result = await gqlClient.request(GET_CUSTOMER_ORDERS, {
-        currentPage,
-        pageSize,
-      });
+      const variables: any = { currentPage, pageSize };
+      if (selectedStatus) variables.filter = { status: { eq: selectedStatus } };
+      const result = await gqlClient.request(GET_CUSTOMER_ORDERS, variables);
       return result.customer.orders;
     },
   });
@@ -68,10 +78,22 @@ export default function OrderHistoryPage() {
   return (
     <MyAccountLayout currentPage="orders">
       <Helmet><title>Lịch sử đơn hàng | MM Mega Market</title></Helmet>
-      <div className="mb-6">
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <h2 className="text-2xl font-bold">
           {t('account.orderHistory')} ({totalCount})
         </h2>
+        {statusData && statusData.length > 0 && (
+          <select
+            value={selectedStatus}
+            onChange={(e) => { setSelectedStatus(e.target.value); setCurrentPage(1); }}
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-[#006341] focus:ring-1 focus:ring-[#006341] bg-white"
+          >
+            <option value="">Tất cả trạng thái</option>
+            {statusData.map((s) => (
+              <option key={s.status} value={s.status}>{s.label}</option>
+            ))}
+          </select>
+        )}
       </div>
 
       {orders.length === 0 ? (

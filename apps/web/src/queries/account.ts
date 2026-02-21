@@ -177,9 +177,9 @@ export const DELETE_CUSTOMER_ADDRESS = gql`
 
 // Get customer orders
 export const GET_CUSTOMER_ORDERS = gql`
-  query GetCustomerOrders($currentPage: Int = 1, $pageSize: Int = 10) {
+  query GetCustomerOrders($currentPage: Int = 1, $pageSize: Int = 10, $filter: CustomerOrdersFilterInput) {
     customer {
-      orders(currentPage: $currentPage, pageSize: $pageSize) {
+      orders(currentPage: $currentPage, pageSize: $pageSize, filter: $filter) {
         total_count
         items {
           id
@@ -461,6 +461,16 @@ export const REORDER_ITEMS = gql`
         message
         path
       }
+    }
+  }
+`;
+
+// Get available order statuses for filter
+export const GET_AVAILABLE_STATUS = gql`
+  query GetAvailableStatus {
+    availableStatus {
+      status
+      label
     }
   }
 `;
