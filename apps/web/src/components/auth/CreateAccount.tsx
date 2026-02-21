@@ -22,20 +22,20 @@ import { useCartStore } from '@/stores/cartStore';
 const phoneRegex = /^[0-9]{10,11}$/;
 
 const createAccountSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  telephone: z.string().regex(phoneRegex, 'Invalid phone number (10-11 digits)'),
+  email: z.string().email('Email không hợp lệ'),
+  telephone: z.string().regex(phoneRegex, 'Số điện thoại không hợp lệ (10-11 chữ số)'),
   password: z
     .string()
-    .min(8, 'Password must be at least 8 characters')
-    .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-    .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-    .regex(/[0-9]/, 'Password must contain at least one number'),
+    .min(8, 'Mật khẩu phải có ít nhất 8 ký tự')
+    .regex(/[A-Z]/, 'Mật khẩu phải có ít nhất 1 chữ hoa')
+    .regex(/[a-z]/, 'Mật khẩu phải có ít nhất 1 chữ thường')
+    .regex(/[0-9]/, 'Mật khẩu phải có ít nhất 1 chữ số'),
   confirmPassword: z.string(),
   agree: z.boolean().refine((val) => val === true, {
-    message: 'You must agree to the terms',
+    message: 'Bạn phải đồng ý với điều khoản sử dụng',
   }),
 }).refine((data) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
+  message: 'Mật khẩu xác nhận không khớp',
   path: ['confirmPassword'],
 });
 
@@ -150,7 +150,7 @@ export const CreateAccount = ({
     } catch (err: any) {
       console.error('Create account error:', err);
       setError(
-        err.response?.errors?.[0]?.message || 'Account creation failed. Please try again.'
+        err.response?.errors?.[0]?.message || 'Tạo tài khoản thất bại. Vui lòng thử lại.'
       );
     } finally {
       setIsSubmitting(false);
@@ -160,122 +160,97 @@ export const CreateAccount = ({
 
   return (
     <div className="create-account-form max-w-md mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-6">Register</h2>
+      <h2 className="text-2xl font-bold mb-1 text-gray-800">Đăng ký tài khoản</h2>
+      <p className="text-sm text-gray-500 mb-6">Tạo tài khoản MM Vietnam của bạn</p>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4 text-sm">
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-1">
-            Email
-          </label>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
           <input
             id="email"
             type="email"
             {...register('email')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter your email"
+            className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#0272BA] focus:ring-1 focus:ring-[#0272BA]"
+            placeholder="Nhập địa chỉ email"
             autoComplete="email"
           />
-          {errors.email && (
-            <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
         </div>
 
         <div>
-          <label htmlFor="telephone" className="block text-sm font-medium mb-1">
-            Telephone
-          </label>
+          <label htmlFor="telephone" className="block text-sm font-medium text-gray-700 mb-1">Số điện thoại</label>
           <input
             id="telephone"
             type="tel"
             {...register('telephone')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter your phone number"
+            className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#0272BA] focus:ring-1 focus:ring-[#0272BA]"
+            placeholder="Nhập số điện thoại"
             autoComplete="tel"
           />
-          {errors.telephone && (
-            <p className="text-red-600 text-sm mt-1">{errors.telephone.message}</p>
-          )}
+          {errors.telephone && <p className="text-red-500 text-xs mt-1">{errors.telephone.message}</p>}
         </div>
 
         <div>
-          <label htmlFor="password" className="block text-sm font-medium mb-1">
-            Password
-          </label>
+          <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Mật khẩu</label>
           <input
             id="password"
             type="password"
             {...register('password')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter password"
+            className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#0272BA] focus:ring-1 focus:ring-[#0272BA]"
+            placeholder="Nhập mật khẩu"
             autoComplete="new-password"
           />
-          {errors.password && (
-            <p className="text-red-600 text-sm mt-1">{errors.password.message}</p>
-          )}
+          {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password.message}</p>}
         </div>
 
         <div>
-          <label htmlFor="confirmPassword" className="block text-sm font-medium mb-1">
-            Confirm Password
-          </label>
+          <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">Xác nhận mật khẩu</label>
           <input
             id="confirmPassword"
             type="password"
             {...register('confirmPassword')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Confirm password"
+            className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#0272BA] focus:ring-1 focus:ring-[#0272BA]"
+            placeholder="Nhập lại mật khẩu"
             autoComplete="new-password"
           />
-          {errors.confirmPassword && (
-            <p className="text-red-600 text-sm mt-1">{errors.confirmPassword.message}</p>
-          )}
+          {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword.message}</p>}
         </div>
 
         <div>
-          <label className="flex items-start">
-            <input
-              type="checkbox"
-              {...register('agree')}
-              className="mt-1 mr-2"
-            />
-            <span className="text-sm">
-              Agree to{' '}
-              <a href="/faq/phap-ly-va-dieu-khoan-su-dung" className="text-blue-600 hover:underline">
-                the Terms of use
+          <label className="flex items-start gap-2 cursor-pointer">
+            <input type="checkbox" {...register('agree')} className="mt-0.5 w-4 h-4 accent-[#0272BA]" />
+            <span className="text-sm text-gray-600">
+              Tôi đồng ý với{' '}
+              <a href="/faq/phap-ly-va-dieu-khoan-su-dung" className="text-[#0272BA] hover:underline">
+                Điều khoản sử dụng
               </a>{' '}
-              and{' '}
-              <a href="/faq/chinh-sach-bao-mat" className="text-blue-600 hover:underline">
-                Privacy Policy
+              và{' '}
+              <a href="/faq/chinh-sach-bao-mat" className="text-[#0272BA] hover:underline">
+                Chính sách bảo mật
               </a>
             </span>
           </label>
-          {errors.agree && (
-            <p className="text-red-600 text-sm mt-1">{errors.agree.message}</p>
-          )}
+          {errors.agree && <p className="text-red-500 text-xs mt-1">{errors.agree.message}</p>}
         </div>
 
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="w-full bg-[#0272BA] text-white py-3 px-4 rounded-lg font-semibold hover:bg-[#005a9e] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
         >
-          {isSubmitting ? 'Creating account...' : 'Register'}
+          {isSubmitting ? 'Đang tạo tài khoản...' : 'Đăng ký'}
         </button>
 
-        <div className="text-center mt-4">
-          <span className="text-sm text-gray-600">You already have an account? </span>
-          <button
-            type="button"
-            onClick={onShowSignIn}
-            className="text-sm text-blue-600 hover:underline"
-          >
-            Sign in
+        <div className="text-center">
+          <span className="text-sm text-gray-600">Đã có tài khoản? </span>
+          <button type="button" onClick={onShowSignIn} className="text-sm text-[#0272BA] font-medium hover:underline">
+            Đăng nhập
           </button>
         </div>
       </form>

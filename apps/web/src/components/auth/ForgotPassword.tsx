@@ -10,7 +10,7 @@ import {
 } from '@/queries/auth';
 
 const forgotPasswordSchema = z.object({
-  email: z.string().email('Invalid email address'),
+  email: z.string().email('Email không hợp lệ'),
 });
 
 type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
@@ -60,7 +60,7 @@ export const ForgotPassword = ({
       console.error('Password reset error:', err);
       setError(
         err.response?.errors?.[0]?.message ||
-          'Failed to send reset email. Please try again.'
+          'Gửi email thất bại. Vui lòng thử lại.'
       );
     } finally {
       setIsSubmitting(false);
@@ -76,25 +76,19 @@ export const ForgotPassword = ({
     return (
       <div className="forgot-password-success max-w-md mx-auto p-6">
         <div className="bg-green-50 border border-green-200 rounded-lg p-6">
-          <h2 className="text-2xl font-bold text-green-800 mb-4">Check Your Email</h2>
-          <p className="text-green-700 mb-4">
-            We've sent a password reset link to <strong>{submittedEmail}</strong>
+          <h2 className="text-xl font-bold text-green-800 mb-3">Kiểm tra email của bạn</h2>
+          <p className="text-green-700 text-sm mb-2">
+            Chúng tôi đã gửi link đặt lại mật khẩu đến <strong>{submittedEmail}</strong>
           </p>
-          <p className="text-green-700 mb-6">
-            Please check your email and follow the instructions to reset your password.
+          <p className="text-green-700 text-sm mb-6">
+            Vui lòng kiểm tra email và làm theo hướng dẫn để đặt lại mật khẩu.
           </p>
           <div className="flex gap-3">
-            <button
-              onClick={handleClose}
-              className="flex-1 bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700"
-            >
-              Close
+            <button onClick={handleClose} className="flex-1 bg-[#0272BA] text-white py-2.5 px-4 rounded-lg text-sm font-semibold hover:bg-[#005a9e] transition-colors">
+              Đóng
             </button>
-            <button
-              onClick={onShowSignIn}
-              className="flex-1 bg-white text-green-600 border border-green-600 py-2 px-4 rounded-md hover:bg-green-50"
-            >
-              Back to Sign In
+            <button onClick={onShowSignIn} className="flex-1 bg-white text-[#0272BA] border border-[#0272BA] py-2.5 px-4 rounded-lg text-sm font-semibold hover:bg-blue-50 transition-colors">
+              Quay lại đăng nhập
             </button>
           </div>
         </div>
@@ -104,59 +98,42 @@ export const ForgotPassword = ({
 
   return (
     <div className="forgot-password-form max-w-md mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-2">Reset Password?</h2>
-      <p className="text-gray-600 mb-6">
-        Please enter your email to retrieve your password
+      <h2 className="text-2xl font-bold mb-1 text-gray-800">Quên mật khẩu?</h2>
+      <p className="text-sm text-gray-500 mb-6">
+        Nhập email của bạn để nhận link đặt lại mật khẩu
       </p>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
+        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4 text-sm">
           {error}
         </div>
       )}
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
-          <label htmlFor="email" className="block text-sm font-medium mb-1">
-            Email
-          </label>
+          <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
           <input
             id="email"
             type="email"
             {...register('email')}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter your email"
+            className="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:border-[#0272BA] focus:ring-1 focus:ring-[#0272BA]"
+            placeholder="Nhập địa chỉ email"
             autoComplete="email"
           />
-          {errors.email && (
-            <p className="text-red-600 text-sm mt-1">{errors.email.message}</p>
-          )}
+          {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email.message}</p>}
         </div>
 
-        <div className="flex gap-3">
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed"
-          >
-            {isSubmitting ? 'Sending...' : 'Send Reset Link'}
-          </button>
-          <button
-            type="button"
-            onClick={onShowSignIn}
-            className="flex-1 bg-white text-gray-700 border border-gray-300 py-2 px-4 rounded-md hover:bg-gray-50"
-          >
-            Cancel
-          </button>
-        </div>
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full bg-[#0272BA] text-white py-3 px-4 rounded-lg font-semibold hover:bg-[#005a9e] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+        >
+          {isSubmitting ? 'Đang gửi...' : 'Gửi link đặt lại mật khẩu'}
+        </button>
 
-        <div className="text-center mt-4">
-          <button
-            type="button"
-            onClick={onShowSignIn}
-            className="text-sm text-blue-600 hover:underline"
-          >
-            Back to Sign In
+        <div className="text-center">
+          <button type="button" onClick={onShowSignIn} className="text-sm text-[#0272BA] hover:underline">
+            Quay lại đăng nhập
           </button>
         </div>
       </form>
