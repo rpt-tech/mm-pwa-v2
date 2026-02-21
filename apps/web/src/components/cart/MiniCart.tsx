@@ -59,6 +59,9 @@ function MiniCartItem({ item, onRemove, isRemoving }: MiniCartItemProps) {
         >
           {displayName}
         </Link>
+        {product.unit_ecom && (
+          <p className="text-xs text-gray-500 mt-0.5">{product.unit_ecom}</p>
+        )}
 
         {selectedOptions.length > 0 && (
           <div className="mt-1 text-xs text-gray-500">
