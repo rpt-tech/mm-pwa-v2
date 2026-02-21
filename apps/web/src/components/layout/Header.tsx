@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { GET_AUTOCOMPLETE_RESULTS } from '@/queries/catalog';
+import { GET_AUTOCOMPLETE_RESULTS, GET_SEARCH_SUGGESTIONS } from '@/queries/catalog';
 import { gqlClient } from '@/lib/graphql-client';
 import { useIsDesktop } from '@/hooks/useMediaQuery';
 import { useUIStore } from '@/stores/uiStore';
@@ -39,6 +39,16 @@ export default function Header() {
   });
 
   const suggestions = autocompleteData?.products?.items || [];
+
+  // Search suggestions (categories/keywords)
+  const { data: suggestionsData } = useQuery({
+    queryKey: ['searchSuggestions', searchQuery],
+    queryFn: () => gqlClient.request(GET_SEARCH_SUGGESTIONS, { q: searchQuery, asmUid: '' }),
+    enabled: searchQuery.length >= 3,
+    staleTime: 30000,
+  });
+  const searchSuggestions: Array<{ type: string; title: string }> =
+    suggestionsData?.getSearchSuggestions?.suggestions || [];
 
   // Handle search submit
   const handleSearchSubmit = (e: React.FormEvent) => {
@@ -167,6 +177,25 @@ export default function Header() {
                     <div className="p-4 text-center text-gray-500 text-sm">{t('autocomplete.loading', 'Loading...')}</div>
                   ) : suggestions.length > 0 ? (
                     <div>
+                      {/* Category/keyword suggestions */}
+                      {searchSuggestions.length > 0 && (
+                        <div className="border-b">
+                          <div className="px-3 py-2 text-xs text-gray-400">{t('autocomplete.categories', 'Danh mục')}</div>
+                          {searchSuggestions.slice(0, 4).map((s, i) => (
+                            <button
+                              key={i}
+                              onClick={() => {
+                                navigate(`/search?query=${encodeURIComponent(s.title)}`);
+                                setIsAutocompleteOpen(false);
+                              }}
+                              className="w-full flex items-center gap-2 px-3 py-2 hover:bg-gray-50 text-left text-sm"
+                            >
+                              <Search size={14} className="text-gray-400 shrink-0" />
+                              <span>{s.title}</span>
+                            </button>
+                          ))}
+                        </div>
+                      )}
                       <div className="px-3 py-2 text-xs text-gray-400 border-b">{t('autocomplete.suggestions', 'Suggestions')}</div>
                       {suggestions.map((product: any) => (
                         <button

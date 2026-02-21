@@ -6,7 +6,6 @@ account_id = "3215d8c2be0ce3c84386a52aa03ad93b"
 [vars]
 MAGENTO_URL = "https://online.mmvietnam.com/graphql"
 
-# KV namespace for caching (create with: wrangler kv namespace create CACHE)
-# [[kv_namespaces]]
-# binding = "CACHE"
-# id = ""
+[[kv_namespaces]]
+binding = "CACHE"
+id = "3774759ebd2542de85757ccccae6c50f"
