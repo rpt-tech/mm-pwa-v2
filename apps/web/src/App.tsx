@@ -23,6 +23,7 @@ const ContactPage = lazy(() => import('@/pages/ContactPage'));
 const FaqPage = lazy(() => import('@/pages/FaqPage'));
 const GuestOrderPage = lazy(() => import('@/pages/GuestOrderPage'));
 const StoreLocatorPage = lazy(() => import('@/pages/StoreLocatorPage'));
+const QuickOrderPage = lazy(() => import('@/pages/QuickOrderPage'));
 const CmsPage = lazy(() => import('@/pages/CmsPage'));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
 
@@ -56,6 +57,7 @@ export default function App() {
           <Route path="faq" element={<FaqPage />} />
           <Route path="guest-order" element={<GuestOrderPage />} />
           <Route path="store-locator" element={<StoreLocatorPage />} />
+          <Route path="quick-order" element={<QuickOrderPage />} />
           <Route path=":urlKey" element={<CmsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
