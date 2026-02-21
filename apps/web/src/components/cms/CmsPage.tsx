@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { Helmet } from 'react-helmet-async';
 import { gqlClient } from '@/lib/graphql-client';
 import { GET_CMS_PAGE, GET_URL_RESOLVER } from '@/queries/cms';
 import RichContent from '@/components/cms/RichContent';
@@ -116,6 +117,11 @@ export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.Re
   return (
     <article className="cms-page">
       {isHome && <HomeSchema />}
+      <Helmet>
+        <title>{pageTitle || 'MM Vietnam'}</title>
+        {data.cmsPage.meta_description && <meta name="description" content={data.cmsPage.meta_description} />}
+        {data.cmsPage.meta_keywords && <meta name="keywords" content={data.cmsPage.meta_keywords} />}
+      </Helmet>
       {pageHeading(content_heading, pageTitle)}
       <div className="space-y-6 max-w-6xl mx-auto px-4 py-6">
         {isStructuredContent

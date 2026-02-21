@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
+import { Helmet } from 'react-helmet-async';
 import { GET_PRODUCT_DETAIL, ADD_PRODUCT_TO_CART } from '@/queries/product';
 import { useTranslation } from 'react-i18next';
 import { useCartStore } from '@/stores/cartStore';
@@ -105,15 +106,7 @@ export default function ProductPage() {
     (product?.__typename === 'ConfigurableProduct' &&
      Object.keys(selectedOptions).length !== product.configurable_options?.length);
 
-  useEffect(() => {
-    if (product) {
-      document.title = product.meta_title || product.name;
-      const metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc && product.meta_description) {
-        metaDesc.setAttribute('content', product.meta_description);
-      }
-    }
-  }, [product]);
+  // SEO handled via Helmet below
 
   if (isLoading) {
     return (
@@ -164,6 +157,12 @@ export default function ProductPage() {
 
   return (
     <div className="container mx-auto px-4 py-6">
+      {/* SEO Meta Tags */}
+      <Helmet>
+        <title>{product.meta_title || product.ecom_name || product.name}</title>
+        {product.meta_description && <meta name="description" content={product.meta_description} />}
+        {product.meta_keywords && <meta name="keywords" content={product.meta_keywords} />}
+      </Helmet>
       {/* SEO Structured Data */}
       <ProductStructuredData product={product} />
       <BreadcrumbStructuredData items={breadcrumbItems} />

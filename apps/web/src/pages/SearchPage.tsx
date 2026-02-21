@@ -1,6 +1,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { Helmet } from 'react-helmet-async';
 import { PRODUCT_SEARCH, GET_PAGE_SIZE, GET_SEARCH_PAGE_META } from '@/queries/catalog';
 import { useTranslation } from 'react-i18next';
 import { gqlClient } from '@/lib/graphql-client';
@@ -100,11 +101,7 @@ export default function SearchPage() {
     `${t('category.metaBuyNow', 'Buy now')} ${searchTerm} ${t('category.metaDescription', 'for your family at MM Mega Market fresh, safe, carefully packaged, fast delivery nationwide. Easy ordering.')}`;
 
   useEffect(() => {
-    document.title = metaTitle;
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) {
-      metaDesc.setAttribute('content', metaDescription);
-    }
+    // noop — Helmet handles title/meta
   }, [metaTitle, metaDescription]);
 
   // No search term
@@ -167,6 +164,10 @@ export default function SearchPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <Helmet>
+        <title>{metaTitle}</title>
+        <meta name="description" content={metaDescription} />
+      </Helmet>
       {/* Breadcrumb */}
       <nav className="mb-6 text-sm">
         <ol className="flex items-center gap-2">

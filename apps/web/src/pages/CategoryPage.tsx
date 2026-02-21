@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { Helmet } from 'react-helmet-async';
 import { GET_PRODUCTS, GET_CATEGORY_DATA, GET_CATEGORY_BY_URL_PATH, GET_FILTER_INPUTS } from '../queries/catalog';
 import ProductGrid from '../components/catalog/ProductGrid';
 import FilterSidebar from '../components/catalog/FilterSidebar';
@@ -185,6 +186,14 @@ const CategoryPage: React.FC = () => {
 
   return (
     <div className={`products-display-mode-${viewMode}`}>
+      {/* SEO Meta Tags */}
+      {category && (
+        <Helmet>
+          <title>{category.meta_title || category.name}</title>
+          {category.meta_description && <meta name="description" content={category.meta_description} />}
+          {category.meta_keywords && <meta name="keywords" content={category.meta_keywords} />}
+        </Helmet>
+      )}
       {/* Breadcrumbs would go here */}
 
       <article className="container mx-auto px-4 py-6">
