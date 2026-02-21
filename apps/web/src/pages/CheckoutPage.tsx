@@ -143,6 +143,9 @@ function OrderSummary({ cart, isCompact = false }: { cart: any; isCompact?: bool
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-xs text-gray-700 line-clamp-2">{displayName}</p>
+                  {product.unit_ecom && (
+                    <p className="text-xs text-gray-400">{product.unit_ecom}</p>
+                  )}
                 </div>
                 <span className="text-xs font-medium flex-shrink-0">
                   {formatPrice(rowTotal, itemCurrency)}
