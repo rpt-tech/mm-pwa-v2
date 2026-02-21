@@ -194,6 +194,10 @@ const CategoryPage: React.FC = () => {
           <title>{category.meta_title || category.name}</title>
           {category.meta_description && <meta name="description" content={category.meta_description} />}
           {category.meta_keywords && <meta name="keywords" content={category.meta_keywords} />}
+          <meta property="og:title" content={category.meta_title || category.name} />
+          {category.meta_description && <meta property="og:description" content={category.meta_description} />}
+          {category.image && <meta property="og:image" content={category.image} />}
+          <meta property="og:type" content="website" />
         </Helmet>
       )}
       {/* Breadcrumbs would go here */}
