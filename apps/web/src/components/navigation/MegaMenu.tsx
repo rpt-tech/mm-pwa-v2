@@ -23,7 +23,6 @@ export default function MegaMenu({ isOpen }: MegaMenuProps) {
     megaMenuData,
     activeCategoryId,
     categoryUrlSuffix,
-    hoveredItemId,
     setHoveredItem,
   } = useMegaMenu();
 
@@ -58,53 +57,39 @@ export default function MegaMenu({ isOpen }: MegaMenuProps) {
   return (
     <nav
       ref={mainNavRef}
-      className={`absolute left-0 right-0 bg-white border-t border-gray-200 shadow-lg transition-all duration-300 ${
+      className={`absolute left-0 right-0 bg-white border-t border-gray-100 shadow-xl z-50 transition-all duration-200 ${
         isOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
       }`}
     >
-      <div className="container mx-auto px-4 py-6">
-        <div className="grid grid-cols-4 gap-6">
+      <div className="container mx-auto px-4 lg:px-5 py-6">
+        <div className="grid grid-cols-5 gap-x-8 gap-y-4">
           {categories.map((category: Category) => (
             <div
               key={category.uid}
-              className="space-y-2"
               onMouseEnter={() => setHoveredItem(category.uid)}
               onMouseLeave={() => setHoveredItem(null)}
             >
               <Link
                 to={`/${category.url_path}${categoryUrlSuffix}`}
-                className={`block font-semibold text-gray-900 hover:text-blue-600 ${
-                  activeCategoryId === category.uid ? 'text-blue-600' : ''
+                className={`block font-semibold text-sm mb-2 pb-1 border-b border-gray-100 transition-colors ${
+                  activeCategoryId === category.uid
+                    ? 'text-[#0272BA]'
+                    : 'text-[#263F4F] hover:text-[#0272BA]'
                 }`}
               >
                 {category.name}
               </Link>
 
               {category.children && category.children.length > 0 && (
-                <ul className="space-y-1 pl-2">
+                <ul className="space-y-1">
                   {category.children.map((child: Category) => (
                     <li key={child.uid}>
                       <Link
                         to={`/${child.url_path}${categoryUrlSuffix}`}
-                        className="block text-sm text-gray-600 hover:text-blue-600"
+                        className="block text-xs text-gray-600 hover:text-[#0272BA] hover:underline py-0.5"
                       >
                         {child.name}
                       </Link>
-
-                      {child.children && child.children.length > 0 && hoveredItemId === category.uid && (
-                        <ul className="space-y-1 pl-3 mt-1">
-                          {child.children.map((subChild: Category) => (
-                            <li key={subChild.uid}>
-                              <Link
-                                to={`/${subChild.url_path}${categoryUrlSuffix}`}
-                                className="block text-xs text-gray-500 hover:text-blue-600"
-                              >
-                                {subChild.name}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
                     </li>
                   ))}
                 </ul>
