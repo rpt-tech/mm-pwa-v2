@@ -18,3 +18,8 @@ Action needed — GitHub repo → Settings → Secrets → Actions → add:
   - VERCEL_ORG_ID: Vercel team settings page
   - VERCEL_PROJECT_ID: apps/web/.vercel/project.json (run `vercel link` locally first)
 CLOUDFLARE_API_TOKEN: Already configured ✓
+
+[2026-02-21 08:30] BLOCKED: Vercel CLI v50 deploy fails with scope error
+Reason: Vercel CLI v50.17.1 ignores --scope flag when --token is provided in non-interactive mode. 
+Network calls to api.vercel.com also appear blocked in this WSL environment.
+Workaround: Push to main branch and let GitHub Actions CI/CD handle deployment, OR user runs deploy manually.

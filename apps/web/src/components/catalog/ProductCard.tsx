@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
+import { useMutation } from '@tanstack/react-query';
 import DnrLabel from '@/components/product/DnrLabel';
 import WishlistButton from '@/components/product/WishlistButton';
+import { gqlClient } from '@/lib/graphql-client';
+import { ADD_PRODUCT_TO_CART } from '@/queries/product';
+import { useCartStore } from '@/stores/cartStore';
 
 interface Product {
   uid: string;
@@ -8,6 +12,7 @@ interface Product {
   ecom_name?: string;
   sku: string;
   url_key: string;
+  __typename?: string;
   small_image?: {
     url: string;
   };
@@ -62,6 +67,7 @@ interface ProductCardProps {
  * Reusable product card for grids and carousels
  */
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const { cartId, fetchCart } = useCartStore();
   const priceData = product.price_range.minimum_price || product.price_range.maximum_price;
 
   if (!priceData) {
@@ -74,6 +80,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const discountPercent = hasDiscount
     ? Math.round(((regularPrice - finalPrice) / regularPrice) * 100)
     : 0;
+
+  const isSimple = product.__typename !== 'ConfigurableProduct';
+  const isOutOfStock = product.stock_status === 'OUT_OF_STOCK';
+
+  const addToCartMutation = useMutation({
+    mutationFn: () => gqlClient.request(ADD_PRODUCT_TO_CART, {
+      cartId,
+      cartItems: [{ sku: product.sku, quantity: 1 }],
+    }),
+    onSuccess: () => fetchCart(),
+  });
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (!cartId || isOutOfStock) return;
+    addToCartMutation.mutate();
+  };
 
   return (
     <Link
@@ -104,7 +127,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             )}
           </div>
         )}
-        {product.stock_status === 'OUT_OF_STOCK' && (
+        {isOutOfStock && (
           <div className="absolute inset-0 bg-white/60 flex items-center justify-center">
             <span className="bg-gray-600 text-white text-xs font-medium px-2 py-1 rounded">Hết hàng</span>
           </div>
@@ -150,6 +173,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <span className="text-yellow-400">★</span>
             <span>{(product.rating_summary / 20).toFixed(1)}</span>
           </div>
+        )}
+
+        {/* Quick Add to Cart - simple products only */}
+        {isSimple && !isOutOfStock && (
+          <button
+            onClick={handleAddToCart}
+            disabled={addToCartMutation.isPending}
+            className="mt-2 w-full bg-[#0272BA] text-white text-xs py-1.5 rounded hover:bg-[#005a9e] disabled:bg-gray-300 transition-colors opacity-0 group-hover:opacity-100"
+          >
+            {addToCartMutation.isPending ? '...' : 'Thêm vào giỏ'}
+          </button>
         )}
       </div>
     </Link>

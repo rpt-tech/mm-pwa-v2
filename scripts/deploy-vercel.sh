@@ -28,16 +28,16 @@ pnpm --filter @mm/web build
 echo "==> Linking Vercel project (if needed)..."
 if [[ ! -f "$WEB_DIR/.vercel/project.json" ]]; then
   npx vercel link \
-    --scope "$SCOPE" \
     --token "$VERCEL_TOKEN" \
+    --scope "$SCOPE" \
     --yes \
-    --cwd "$WEB_DIR"
+    --cwd "$WEB_DIR" || true
 fi
 
 echo "==> Deploying to Vercel production..."
 DEPLOY_URL=$(npx vercel deploy --prod \
-  --scope "$SCOPE" \
   --token "$VERCEL_TOKEN" \
+  --scope "$SCOPE" \
   --yes \
   --cwd "$WEB_DIR")
 
