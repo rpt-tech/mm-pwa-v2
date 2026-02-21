@@ -72,17 +72,32 @@ export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.Re
   const { content_heading, title, meta_title, content } = data.cmsPage;
   const pageTitle = meta_title || title;
 
-  const blocks = content ? JSON.parse(content) : [];
+  // Try to parse as JSON (structured PageBuilder data), fall back to HTML rendering
+  let blocks: any[] = [];
+  let isStructuredContent = false;
+  if (content) {
+    try {
+      const parsed = JSON.parse(content);
+      if (Array.isArray(parsed)) {
+        blocks = parsed;
+        isStructuredContent = true;
+      }
+    } catch {
+      // Content is HTML string (standard Magento PageBuilder) — use RichContent
+    }
+  }
 
   return (
     <article className="cms-page">
       {isHome && <HomeSchema />}
       {pageHeading(content_heading, pageTitle)}
       <div className="space-y-6 max-w-6xl mx-auto px-4 py-6">
-        {blocks.map((block: any, index: number) => (
-          <ContentTypeFactory key={block.content_type + index} data={block} />
-        ))}
-        <RichContent html={content} />
+        {isStructuredContent
+          ? blocks.map((block: any, index: number) => (
+              <ContentTypeFactory key={block.content_type + index} data={block} />
+            ))
+          : <RichContent html={content} />
+        }
         {isHome && <SearchPopular />}
       </div>
     </article>

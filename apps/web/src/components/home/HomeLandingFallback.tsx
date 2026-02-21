@@ -1,71 +1,104 @@
 import { Link } from 'react-router-dom';
 
-const cards = [
-  { title: 'Explore Categories', description: 'Browse curated categories and filters.', href: '/category' },
-  { title: 'Shop Products', description: 'See products with detailed reviews.', href: '/product' },
-  { title: 'Search Everything', description: 'Find what you need quickly via search.', href: '/search' },
-  { title: 'View Cart', description: 'Review your selections and update quantities.', href: '/cart' },
-  { title: 'Checkout Securely', description: 'Choose delivery, payment, and complete your order.', href: '/checkout' },
-  { title: 'Manage Account', description: 'Access dashboard, addresses, orders, wishlist.', href: '/account/dashboard' },
+const categories = [
+  { name: 'Thực phẩm tươi sống', href: '/category', icon: '🥩' },
+  { name: 'Rau củ quả', href: '/category', icon: '🥦' },
+  { name: 'Đồ uống', href: '/category', icon: '🥤' },
+  { name: 'Bánh kẹo', href: '/category', icon: '🍰' },
+  { name: 'Gia vị & Nước chấm', href: '/category', icon: '🧂' },
+  { name: 'Chăm sóc cá nhân', href: '/category', icon: '🧴' },
 ];
 
-const highlights = [
-  'Fast delivery across Vietnam with real-time slot selection.',
-  'Verified products with DNR / Alcohol handling built in.',
-  'Multiple payment methods: COD, Momo, VNPay, ZaloPay, plus COD.',
+const features = [
+  { icon: '🚚', title: 'Giao hàng nhanh', desc: 'Giao hàng tận nơi toàn quốc' },
+  { icon: '✅', title: 'Hàng chính hãng', desc: 'Cam kết 100% hàng thật' },
+  { icon: '💳', title: 'Thanh toán đa dạng', desc: 'COD, Momo, VNPay, ZaloPay' },
 ];
 
 export default function HomeLandingFallback() {
   return (
-    <div className="container mx-auto px-4 py-12 space-y-12">
-      <section className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-3xl p-10 shadow-lg">
-        <h1 className="text-4xl font-bold mb-4">Welcome to MM Vietnam</h1>
-        <p className="text-lg opacity-90 mb-6">
-          Discover curated categories, trusted products, and checkout with support for Vietnam-specific
-          delivery and payment flows.
-        </p>
-        <Link
-          to="/category"
-          className="inline-flex items-center gap-2 rounded-full bg-white text-blue-600 px-6 py-3 font-semibold shadow-lg shadow-blue-500/40"
-        >
-          Start browsing categories
-        </Link>
-      </section>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Banner */}
+      <div className="bg-[#0272BA] text-white">
+        <div className="container mx-auto px-4 py-12 lg:py-16">
+          <div className="max-w-2xl">
+            <h1 className="text-3xl lg:text-4xl font-bold mb-3">
+              Chào mừng đến MM Vietnam
+            </h1>
+            <p className="text-lg text-blue-100 mb-6">
+              Siêu thị trực tuyến với hàng nghìn sản phẩm chất lượng, giao hàng tận nơi trên toàn quốc.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                to="/category"
+                className="inline-flex items-center gap-2 bg-[#E82230] hover:bg-[#B2202A] text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+              >
+                Mua sắm ngay
+              </Link>
+              <Link
+                to="/search"
+                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-6 py-3 rounded-lg font-semibold transition-colors border border-white/30"
+              >
+                Tìm kiếm sản phẩm
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
 
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Why shop with us?</h2>
-        <ul className="grid gap-4 md:grid-cols-3">
-          {highlights.map((highlight) => (
-            <li
-              key={highlight}
-              className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm shadow-gray-200/70"
-            >
-              <p className="text-gray-700 leading-relaxed">{highlight}</p>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Expected journeys</h2>
-        <div className="grid gap-4 md:grid-cols-3">
-          {cards.map((card) => (
-            <Link
-              key={card.title}
-              to={card.href}
-              className="flex flex-col justify-between rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-            >
-              <div>
-                <h3 className="text-xl font-semibold mb-1 text-gray-900">{card.title}</h3>
-                <p className="text-gray-600 text-sm">{card.description}</p>
+      {/* Features */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="container mx-auto px-4 py-4">
+          <div className="grid grid-cols-3 gap-4">
+            {features.map((f) => (
+              <div key={f.title} className="flex items-center gap-3">
+                <span className="text-2xl">{f.icon}</span>
+                <div className="hidden sm:block">
+                  <p className="text-sm font-semibold text-gray-800">{f.title}</p>
+                  <p className="text-xs text-gray-500">{f.desc}</p>
+                </div>
               </div>
-              <span className="mt-4 inline-flex items-center text-blue-600 font-semibold">
-                Go to page →
-              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Categories */}
+      <div className="container mx-auto px-4 py-8">
+        <h2 className="text-xl font-bold text-gray-800 mb-4">Danh mục nổi bật</h2>
+        <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+          {categories.map((cat) => (
+            <Link
+              key={cat.name}
+              to={cat.href}
+              className="flex flex-col items-center gap-2 p-4 bg-white rounded-xl border border-gray-200 hover:border-[#0272BA] hover:shadow-md transition-all text-center"
+            >
+              <span className="text-3xl">{cat.icon}</span>
+              <span className="text-xs font-medium text-gray-700 leading-tight">{cat.name}</span>
             </Link>
           ))}
         </div>
-      </section>
+      </div>
+
+      {/* Quick Links */}
+      <div className="container mx-auto px-4 pb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {[
+            { label: 'Giỏ hàng', href: '/cart', color: 'bg-orange-50 border-orange-200 text-orange-700' },
+            { label: 'Thanh toán', href: '/checkout', color: 'bg-green-50 border-green-200 text-green-700' },
+            { label: 'Tài khoản', href: '/account/dashboard', color: 'bg-blue-50 border-blue-200 text-blue-700' },
+            { label: 'Đăng nhập', href: '/sign-in', color: 'bg-purple-50 border-purple-200 text-purple-700' },
+          ].map((link) => (
+            <Link
+              key={link.label}
+              to={link.href}
+              className={`flex items-center justify-center p-4 rounded-xl border font-medium text-sm transition-all hover:shadow-md ${link.color}`}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
