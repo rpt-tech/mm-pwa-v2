@@ -25,7 +25,7 @@ export default function ProductPage() {
   const { t } = useTranslation();
   const { '*': splat } = useParams();
   const urlKey = splat;
-  const { cartId, fetchCart } = useCartStore();
+  const { cartId, fetchCart, initCart } = useCartStore();
 
   const [quantity, setQuantity] = useState(1);
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>({});
@@ -56,7 +56,8 @@ export default function ProductPage() {
 
   // Handle add to cart
   const handleAddToCart = async () => {
-    if (!cartId || !product) return;
+    if (!product) return;
+    if (!cartId) await initCart();
 
     // Check if product is alcohol and user hasn't confirmed age
     if (product.is_alcohol && !sessionStorage.getItem('alcohol_age_confirmed')) {
@@ -70,7 +71,8 @@ export default function ProductPage() {
   };
 
   const proceedAddToCart = () => {
-    if (!cartId || !product) return;
+    const currentCartId = useCartStore.getState().cartId;
+    if (!currentCartId || !product) return;
 
     const cartItems: any = {
       sku: product.sku,
@@ -82,7 +84,7 @@ export default function ProductPage() {
     }
 
     addToCartMutation.mutate({
-      cartId,
+      cartId: currentCartId,
       cartItems: [cartItems],
     });
   };
