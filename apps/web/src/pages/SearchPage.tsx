@@ -5,6 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { PRODUCT_SEARCH, GET_PAGE_SIZE, GET_SEARCH_PAGE_META } from '@/queries/catalog';
 import { useTranslation } from 'react-i18next';
 import { gqlClient } from '@/lib/graphql-client';
+import ProductCard from '@/components/catalog/ProductCard';
 
 export default function SearchPage() {
   const { t } = useTranslation();
@@ -285,69 +286,7 @@ export default function SearchPage() {
           {/* Products Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
             {products.map((product: any) => (
-              <Link
-                key={product.uid}
-                to={`/product/${product.url_key}`}
-                className="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow"
-              >
-                {/* Product Image */}
-                <div className="relative aspect-square">
-                  <img
-                    src={product.small_image?.url}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                  />
-                  {product.price_range?.maximum_price?.discount?.amount_off > 0 && (
-                    <div className="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 rounded text-sm font-bold">
-                      -{Math.round(product.price_range.maximum_price.discount.amount_off)}%
-                    </div>
-                  )}
-                </div>
-
-                {/* Product Info */}
-                <div className="p-3">
-                  <h3 className="text-sm font-medium line-clamp-2 mb-2 min-h-[40px]">
-                    {product.ecom_name || product.name}
-                  </h3>
-
-                  {product.unit_ecom && (
-                    <p className="text-xs text-gray-500 mb-2">{product.unit_ecom}</p>
-                  )}
-
-                  <div className="flex flex-col gap-1">
-                    {product.price_range?.maximum_price?.discount?.amount_off > 0 ? (
-                      <>
-                        <span className="text-lg font-bold text-red-600">
-                          {new Intl.NumberFormat('vi-VN', {
-                            style: 'currency',
-                            currency: product.price_range.maximum_price.final_price.currency
-                          }).format(product.price_range.maximum_price.final_price.value)}
-                        </span>
-                        <span className="text-sm text-gray-500 line-through">
-                          {new Intl.NumberFormat('vi-VN', {
-                            style: 'currency',
-                            currency: product.price_range.maximum_price.regular_price.currency
-                          }).format(product.price_range.maximum_price.regular_price.value)}
-                        </span>
-                      </>
-                    ) : (
-                      <span className="text-lg font-bold text-gray-900">
-                        {new Intl.NumberFormat('vi-VN', {
-                          style: 'currency',
-                          currency: product.price?.regularPrice?.amount?.currency || 'VND'
-                        }).format(product.price?.regularPrice?.amount?.value || 0)}
-                      </span>
-                    )}
-                  </div>
-
-                  {product.stock_status === 'OUT_OF_STOCK' && (
-                    <p className="text-xs text-red-600 mt-2 font-semibold">
-                      {t('product.outOfStock', 'Out of stock')}
-                    </p>
-                  )}
-                </div>
-              </Link>
+              <ProductCard key={product.uid} product={product} />
             ))}
           </div>
 

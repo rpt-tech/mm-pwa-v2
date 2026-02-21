@@ -387,4 +387,23 @@ All major structured data types implemented!
 [09:30] HomeLandingFallback — add FlashsaleProducts for real product content — commit c8157a5
 [09:32] CmsPage — fix URL resolver to use url_path for category redirect — commit bd92693
 [09:35] checkout.ts — add city_code, district_code, ward_code, delivery_date, vat_address to checkout fragment — commit 80beb82
+[09:37] OrderDetailPage — add shipment tracking section — commit c964e3b
+[09:40] CartPage — add cross-sell products section — commit 581055c
+[09:42] ProductCard — fix add-to-cart cart init, use getState() — commit e1c2b97
+[09:44] ProductPage — fix add-to-cart cart init, use getState() — commit 65ec4dd
+
+## Session 4 (2026-02-21 continued)
+[09:05] WishlistPage — fix add-to-cart to use initCart + getState() — commit 7393d7c
+[09:10] Install sonner toast library — add Toaster to main.tsx — commit 684d05e
+[09:12] ProductCard, ProductPage, WishlistPage, WishlistButton — add toast notifications — commit 684d05e
+[09:15] WishlistButton — fix ADD_TO_WISHLIST to pass wishlistId:'0', fix REMOVE mutation — commit 684d05e
+[09:17] DescriptionTabs — create tabbed component for description/specs/reviews — commit 35fdd9c
+[09:18] ProductPage — integrate DescriptionTabs, remove separate sections — commit 35fdd9c
+[09:19] UpdateEmailPage — create /account/email page — commit 35fdd9c
+[09:20] CategoryPage — add category-top/bottom CmsBlock rendering — commit 35fdd9c
+[09:22] REORDER_ITEMS mutation — add to account.ts — commit 41d030d
+[09:23] OrderDetailPage — add reorder button with toast feedback — commit 41d030d
+[09:25] MiniCart — replace window.location.href with navigate() — commit aa46f90
+[09:26] cart.ts — fix comment mutation name: addCommentToCartItem → updateCommentOnCartItem — commit aa46f90
+[09:17] Push all commits to main — ✓ pushed
 [09:38] OrderDetailPage — add shipment tracking section — commit c964e3b
