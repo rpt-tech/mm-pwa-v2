@@ -11,7 +11,7 @@ import { useCartStore } from '@/stores/cartStore';
 export default function WishlistPage() {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
-  const { cartId } = useCartStore();
+  const { initCart } = useCartStore();
 
   // Fetch wishlist
   const { data, isLoading } = useQuery({
@@ -40,9 +40,9 @@ export default function WishlistPage() {
   // Add to cart mutation
   const addToCartMutation = useMutation({
     mutationFn: async ({ sku, quantity }: { sku: string; quantity: number }) => {
-      // Use existing cartId or it will be created by the backend
+      const currentCartId = useCartStore.getState().cartId;
       return await gqlClient.request(ADD_PRODUCT_TO_CART, {
-        cartId: cartId || '',
+        cartId: currentCartId || '',
         cartItems: [{ sku, quantity }],
       });
     },
@@ -56,7 +56,8 @@ export default function WishlistPage() {
     removeMutation.mutate(itemId);
   };
 
-  const handleAddToCart = (sku: string) => {
+  const handleAddToCart = async (sku: string) => {
+    if (!useCartStore.getState().cartId) await initCart();
     addToCartMutation.mutate({ sku, quantity: 1 });
   };
 
