@@ -11,6 +11,7 @@ import {
   REMOVE_ALL_CART_ITEMS,
   APPLY_COUPON_TO_CART,
   ADD_COMMENT_TO_CART_ITEM,
+  GET_CROSS_SELL_PRODUCTS,
 } from '@/queries/cart';
 import QuantityStepper from '@/components/product/QuantityStepper';
 import Breadcrumbs from '@/components/navigation/Breadcrumbs';
@@ -313,6 +314,16 @@ export default function CartPage() {
   const hasItems = items.length > 0;
   const totalQuantity = cart?.total_quantity ?? 0;
 
+  // Cross-sell products
+  const itemSkus = items.map((item: any) => item.product?.sku).filter(Boolean);
+  const { data: crossSellData } = useQuery({
+    queryKey: ['crossSell', itemSkus],
+    queryFn: () => gqlClient.request(GET_CROSS_SELL_PRODUCTS, { skus: itemSkus }),
+    enabled: itemSkus.length > 0,
+    staleTime: 5 * 60 * 1000,
+  });
+  const crossSellProducts = crossSellData?.products?.items?.flatMap((p: any) => p.crosssell_products || []) || [];
+
   const updateItemMutation = useMutation({
     mutationFn: ({ uid, quantity }: { uid: string; quantity: number }) =>
       gqlClient.request(UPDATE_CART_ITEMS, {
@@ -443,6 +454,47 @@ export default function CartPage() {
           {/* Price summary */}
           <div className="lg:col-span-1">
             <PriceSummary cart={cart} />
+          </div>
+        </div>
+      )}
+
+      {/* Cross-sell Products */}
+      {crossSellProducts.length > 0 && (
+        <div className="mt-8">
+          <h2 className="text-lg font-bold text-gray-800 mb-4">Sản phẩm liên quan</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            {crossSellProducts.slice(0, 6).map((product: any) => {
+              const finalPrice = product.price_range?.maximum_price?.final_price?.value || 0;
+              const regularPrice = product.price_range?.maximum_price?.regular_price?.value || 0;
+              const hasDiscount = finalPrice < regularPrice;
+              return (
+                <Link
+                  key={product.uid}
+                  to={`/product/${product.url_key}`}
+                  className="bg-white rounded-lg border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
+                >
+                  <div className="aspect-square">
+                    <img
+                      src={product.small_image?.url || '/placeholder.png'}
+                      alt={product.ecom_name || product.name}
+                      className="w-full h-full object-contain p-2"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="p-2">
+                    <p className="text-xs font-medium line-clamp-2 mb-1">{product.ecom_name || product.name}</p>
+                    <p className="text-sm font-bold text-red-600">
+                      {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(finalPrice)}
+                    </p>
+                    {hasDiscount && (
+                      <p className="text-xs text-gray-400 line-through">
+                        {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(regularPrice)}
+                      </p>
+                    )}
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       )}
