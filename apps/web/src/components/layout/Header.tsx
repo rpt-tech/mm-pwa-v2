@@ -7,8 +7,9 @@ import { useIsDesktop } from '@/hooks/useMediaQuery';
 import { useUIStore } from '@/stores/uiStore';
 import { useCartStore } from '@/stores/cartStore';
 import { useAuthStore } from '@/stores/authStore';
-import { ChevronDown, Search, X } from 'lucide-react';
+import { ChevronDown, Search, X, MapPin } from 'lucide-react';
 import MegaMenu from '@/components/navigation/MegaMenu';
+import StoreSwitcher from '@/components/common/StoreSwitcher';
 import { useTranslation } from 'react-i18next';
 
 export default function Header() {
@@ -21,6 +22,7 @@ export default function Header() {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [isAutocompleteOpen, setIsAutocompleteOpen] = useState(false);
+  const [isStoreSwitcherOpen, setIsStoreSwitcherOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<HTMLDivElement>(null);
 
@@ -301,6 +303,23 @@ export default function Header() {
                 {/* CMS Menu Links placeholder */}
                 <div className="flex-1" />
 
+                {/* Store Location Trigger */}
+                <button
+                  onClick={() => setIsStoreSwitcherOpen(true)}
+                  className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-[#0272BA] transition-colors"
+                >
+                  <MapPin size={14} />
+                  <span className="max-w-[120px] truncate">
+                    {(() => {
+                      try {
+                        const s = localStorage.getItem('store');
+                        const info = s ? JSON.parse(s)?.storeInformation : null;
+                        return info?.name || t('header.selectStore', 'Chọn cửa hàng');
+                      } catch { return t('header.selectStore', 'Chọn cửa hàng'); }
+                    })()}
+                  </span>
+                </button>
+
                 {/* Language Switcher */}
                 <select
                   className="px-2 py-1 border border-gray-300 rounded text-sm text-gray-700 focus:outline-none focus:border-[#0272BA]"
@@ -336,6 +355,9 @@ export default function Header() {
 
       {/* MegaMenu */}
       {isDesktop && isMegaMenuOpen && <MegaMenu isOpen={isMegaMenuOpen} />}
+
+      {/* Store Switcher */}
+      <StoreSwitcher isOpen={isStoreSwitcherOpen} onClose={() => setIsStoreSwitcherOpen(false)} />
     </header>
   );
 }
