@@ -10,9 +10,8 @@ import Pagination from '../components/ui/Pagination';
 import { gqlClient } from '@/lib/graphql-client';
 const PAGE_SIZE = 24;
 
-interface CategoryPageProps {}
 
-const CategoryPage: React.FC<CategoryPageProps> = () => {
+const CategoryPage: React.FC = () => {
   const { '*': splat } = useParams();
   const categoryId = splat;
   const [searchParams, setSearchParams] = useSearchParams();
