@@ -19,6 +19,7 @@ const ConfirmPasswordPage = lazy(() => import('@/pages/ConfirmPasswordPage'));
 const AccountPage = lazy(() => import('@/pages/AccountPage'));
 const BlogListPage = lazy(() => import('@/pages/BlogListPage'));
 const BlogDetailPage = lazy(() => import('@/pages/BlogDetailPage'));
+const BlogSearchPage = lazy(() => import('@/pages/BlogSearchPage'));
 const ContactPage = lazy(() => import('@/pages/ContactPage'));
 const FaqPage = lazy(() => import('@/pages/FaqPage'));
 const GuestOrderPage = lazy(() => import('@/pages/GuestOrderPage'));
@@ -52,6 +53,7 @@ export default function App() {
           <Route path="confirm-password" element={<ConfirmPasswordPage />} />
           <Route path="account/*" element={<AccountPage />} />
           <Route path="blog" element={<BlogListPage />} />
+          <Route path="blog/search" element={<BlogSearchPage />} />
           <Route path="blog/:urlKey" element={<BlogDetailPage />} />
           <Route path="contact" element={<ContactPage />} />
           <Route path="faq" element={<FaqPage />} />

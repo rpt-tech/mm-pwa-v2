@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import CmsBlock from '@/components/cms/CmsBlock';
+import Newsletter from '@/components/common/Newsletter';
 
 interface StoreInfo {
   name: string;
@@ -95,6 +96,11 @@ export default function Footer() {
       {/* Delivery Section - CMS Block */}
       <div className="max-w-[937px] mx-auto px-5 py-5">
         <CmsBlock identifiers={['footer_delivery']} />
+      </div>
+
+      {/* Newsletter */}
+      <div className="max-w-[937px] mx-auto px-5 pb-5">
+        <Newsletter />
       </div>
 
       {/* Copyright */}
