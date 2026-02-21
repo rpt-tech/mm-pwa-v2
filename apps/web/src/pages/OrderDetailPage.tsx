@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Package, MapPin, CreditCard } from 'lucide-react';
+import { ArrowLeft, Package, MapPin, CreditCard, Truck } from 'lucide-react';
 import { gqlClient } from '@/lib/graphql-client';
 import { GET_ORDER_DETAILS } from '@/queries/account';
 
@@ -225,6 +225,33 @@ export default function OrderDetailPage() {
                 <h2 className="text-lg font-semibold">{t('order.paymentMethod', 'Payment Method')}</h2>
               </div>
               <p className="text-sm text-gray-700">{order.payment_methods[0].name}</p>
+            </div>
+          )}
+
+          {/* Shipment Tracking */}
+          {order.shipments && order.shipments.length > 0 && (
+            <div className="bg-white rounded-lg border p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Truck size={20} className="text-[#006341]" />
+                <h2 className="text-lg font-semibold">{t('order.shipments', 'Shipments')}</h2>
+              </div>
+              {order.shipments.map((shipment: any) => (
+                <div key={shipment.id} className="mb-4 last:mb-0">
+                  <p className="text-sm font-medium text-gray-700 mb-2">
+                    {t('order.shipmentNumber', 'Shipment')} #{shipment.number}
+                  </p>
+                  {shipment.tracking && shipment.tracking.length > 0 && (
+                    <div className="space-y-1">
+                      {shipment.tracking.map((track: any, idx: number) => (
+                        <div key={idx} className="text-sm text-gray-600">
+                          <span className="font-medium">{track.carrier || track.title}:</span>{' '}
+                          <span className="font-mono">{track.number}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           )}
         </div>
