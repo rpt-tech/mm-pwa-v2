@@ -23,7 +23,7 @@ export default function DashboardPage() {
     return (
       <MyAccountLayout currentPage="dashboard">
         <div className="flex items-center justify-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#0272BA]"></div>
         </div>
       </MyAccountLayout>
     );
@@ -93,7 +93,7 @@ export default function DashboardPage() {
           </div>
           <Link
             to="/account/information"
-            className="text-primary hover:underline text-sm font-medium"
+            className="text-[#0272BA] hover:underline text-sm font-medium"
           >
             {t('common.update')}
           </Link>
@@ -123,7 +123,7 @@ export default function DashboardPage() {
           </div>
           <Link
             to="/account/addresses"
-            className="text-primary hover:underline text-sm font-medium"
+            className="text-[#0272BA] hover:underline text-sm font-medium"
           >
             {t('common.edit')}
           </Link>
@@ -187,7 +187,7 @@ export default function DashboardPage() {
           </div>
           <Link
             to="/account/orders"
-            className="block mt-4 text-center text-primary hover:underline text-sm font-medium"
+            className="block mt-4 text-center text-[#0272BA] hover:underline text-sm font-medium"
           >
             {t('account.viewAllOrders')}
           </Link>

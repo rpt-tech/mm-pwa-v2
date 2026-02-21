@@ -67,7 +67,7 @@ export default function AccountSidebar({ currentPage, isOpen, setIsOpen }: Accou
                   onClick={() => handleClick(key)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors ${
                     currentPage === key
-                      ? 'bg-primary text-white'
+                      ? 'bg-[#0272BA] text-white'
                       : 'text-gray-700 hover:bg-gray-100'
                   }`}
                 >

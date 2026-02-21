@@ -186,7 +186,7 @@ export default function AccountInformationPage() {
     return (
       <MyAccountLayout currentPage="accountInformation">
         <div className="flex justify-center items-center min-h-[400px]">
-          <Loader2 className="w-8 h-8 animate-spin text-primary" />
+          <Loader2 className="w-8 h-8 animate-spin text-[#0272BA]" />
         </div>
       </MyAccountLayout>
     );
@@ -213,7 +213,7 @@ export default function AccountInformationPage() {
               {...register('firstname')}
               type="text"
               id="firstname"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0272BA] focus:border-transparent"
               placeholder={t('account.fullName')}
             />
             {errors.firstname && (
@@ -231,7 +231,7 @@ export default function AccountInformationPage() {
                 {...register('email')}
                 type="email"
                 id="email"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0272BA] focus:border-transparent"
                 placeholder={t('account.email')}
               />
               {errors.email && (
@@ -247,7 +247,7 @@ export default function AccountInformationPage() {
                 {...register('telephone')}
                 type="tel"
                 id="telephone"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0272BA] focus:border-transparent"
                 placeholder={t('account.telephone')}
               />
               {errors.telephone && (
@@ -265,7 +265,7 @@ export default function AccountInformationPage() {
               {...register('customer_no')}
               type="text"
               id="customer_no"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0272BA] focus:border-transparent"
               placeholder={t('account.enterMcardCode')}
             />
             <p className="text-sm text-gray-500 mt-1">
@@ -285,7 +285,7 @@ export default function AccountInformationPage() {
               {...register('password')}
               type="password"
               id="password"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0272BA] focus:border-transparent"
               placeholder={t('account.enterPassword')}
             />
             {errors.password && (
@@ -298,7 +298,7 @@ export default function AccountInformationPage() {
             <button
               type="button"
               onClick={() => setShowChangePassword(!showChangePassword)}
-              className={`text-sm font-medium ${showChangePassword ? 'text-primary' : 'text-gray-600'} hover:text-primary`}
+              className={`text-sm font-medium ${showChangePassword ? 'text-[#0272BA]' : 'text-gray-600'} hover:text-[#0272BA]`}
             >
               {t('account.changePassword')}
             </button>
@@ -306,7 +306,7 @@ export default function AccountInformationPage() {
             <button
               type="button"
               onClick={() => setShowVatFields(!showVatFields)}
-              className={`text-sm font-medium ${showVatFields ? 'text-primary' : 'text-gray-600'} hover:text-primary`}
+              className={`text-sm font-medium ${showVatFields ? 'text-[#0272BA]' : 'text-gray-600'} hover:text-[#0272BA]`}
             >
               {t('account.exportCompanyInvoices')}
             </button>
@@ -324,7 +324,7 @@ export default function AccountInformationPage() {
                   {...register('newPassword')}
                   type="password"
                   id="newPassword"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0272BA] focus:border-transparent"
                   placeholder={t('account.enterNewPassword')}
                 />
                 {errors.newPassword && (
@@ -339,7 +339,7 @@ export default function AccountInformationPage() {
                   {...register('confirmPassword')}
                   type="password"
                   id="confirmPassword"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0272BA] focus:border-transparent"
                   placeholder={t('account.confirmPassword')}
                 />
                 {errors.confirmPassword && (
@@ -361,7 +361,7 @@ export default function AccountInformationPage() {
                   {...register('company_name')}
                   type="text"
                   id="company_name"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0272BA] focus:border-transparent"
                   placeholder={t('account.enterCompanyName')}
                 />
               </div>
@@ -373,7 +373,7 @@ export default function AccountInformationPage() {
                   {...register('company_vat_number')}
                   type="text"
                   id="company_vat_number"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0272BA] focus:border-transparent"
                   placeholder={t('account.enterCompanyTaxCode')}
                 />
               </div>
@@ -385,7 +385,7 @@ export default function AccountInformationPage() {
                   {...register('company_address')}
                   type="text"
                   id="company_address"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0272BA] focus:border-transparent"
                   placeholder={t('account.enterCompanyAddress')}
                 />
               </div>
@@ -397,7 +397,7 @@ export default function AccountInformationPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 bg-primary text-white py-3 rounded-lg font-medium hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="flex-1 bg-[#0272BA] text-white py-3 rounded-lg font-medium hover:bg-[#005a9e] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {isSubmitting && <Loader2 className="w-4 h-4 animate-spin" />}
               {t('account.saveInformation')}
