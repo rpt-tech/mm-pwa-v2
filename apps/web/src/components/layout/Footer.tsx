@@ -65,10 +65,10 @@ export default function Footer() {
             </Link>
             <div>
               <strong className="block text-base md:text-lg font-bold mb-2">
-                {storeInfo?.name || 'Store Name'}
+              {storeInfo?.name || 'MM Mega Market'}
               </strong>
               <p className="text-xs md:text-sm text-[#2A2F33] leading-5 mb-2">
-                {storeInfo?.address || 'Store Address'}
+                {storeInfo?.address || 'Việt Nam'}
               </p>
               <a
                 className="inline-block rounded-full bg-white px-3 py-2.5 text-[#2A2F33] text-xs font-medium"

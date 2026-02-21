@@ -12,6 +12,7 @@ import WebSiteStructuredData from '@/components/seo/WebSiteStructuredData';
 import AdvancedPopup from '@/components/common/AdvancedPopup';
 import PWAInstallBanner from '@/components/common/PWAInstallBanner';
 import ScrollToTop from '@/components/common/ScrollToTop';
+import OfflineBanner from '@/components/common/OfflineBanner';
 import { analytics } from '@/lib/analytics';
 
 export default function MainLayout() {
@@ -44,6 +45,7 @@ export default function MainLayout() {
       <AdvancedPopup />
       <PWAInstallBanner />
       <ScrollToTop />
+      <OfflineBanner />
       {isAuthModalOpen && (
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg w-full max-w-md relative">
