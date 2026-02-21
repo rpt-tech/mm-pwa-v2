@@ -134,6 +134,9 @@ export default function WishlistPage() {
                   >
                     {product.ecom_name || product.name}
                   </Link>
+                  {product.unit_ecom && (
+                    <p className="text-xs text-gray-500 mt-0.5">{product.unit_ecom}</p>
+                  )}
                   {product.art_no && (
                     <p className="text-xs text-gray-500 mt-1">SKU: {product.art_no}</p>
                   )}

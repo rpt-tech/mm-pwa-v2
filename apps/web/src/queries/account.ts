@@ -417,6 +417,7 @@ export const GET_WISHLIST = gql`
             sku
             art_no
             ecom_name
+            unit_ecom
             url_key
             thumbnail {
               url
