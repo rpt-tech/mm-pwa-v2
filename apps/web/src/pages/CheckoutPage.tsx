@@ -48,7 +48,7 @@ const addressSchema = z.object({
   ward_code: z.string().min(1, 'Vui lòng chọn Phường/Xã'),
   ward_name: z.string().optional(),
   country_code: z.string().default('VN'),
-  postcode: z.string().default('700000'),
+  postcode: z.string().default('00000'),
 });
 
 type AddressFormData = z.infer<typeof addressSchema>;
@@ -219,7 +219,7 @@ function ShippingStep({
     formState: { errors },
   } = useForm<AddressFormData>({
     resolver: zodResolver(addressSchema),
-    defaultValues: { country_code: 'VN', postcode: '700000' },
+    defaultValues: { country_code: 'VN', postcode: '00000' },
   });
 
   // Fetch customer addresses if logged in
@@ -321,7 +321,7 @@ function ShippingStep({
         street: [data.street],
         city: data.city_code, // city field receives city_code value
         country_code: data.country_code || 'VN',
-        postcode: data.postcode || '700000',
+        postcode: data.postcode || '00000',
         telephone: data.telephone,
         save_in_address_book: false,
         city_code: data.city_code,
@@ -345,12 +345,11 @@ function ShippingStep({
         return result;
       });
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
-      // Auto-select first available shipping method
-      const cart = queryClient.getQueryData<any>(['cartDetails', cartId]);
-      const shippingAddr = cart?.cart?.shipping_addresses?.[0];
-      const firstMethod = shippingAddr?.available_shipping_methods?.[0];
+      // Auto-select first available shipping method from mutation response
+      const shippingAddr = data?.setShippingAddressesOnCart?.cart?.shipping_addresses?.[0];
+      const firstMethod = shippingAddr?.available_shipping_methods?.find((m: any) => m.available) || shippingAddr?.available_shipping_methods?.[0];
 
       const deliveryDate = selectedDate && selectedTimeIntervalId
         ? { date: selectedDate, time_interval_id: selectedTimeIntervalId, comment: deliveryComment }
