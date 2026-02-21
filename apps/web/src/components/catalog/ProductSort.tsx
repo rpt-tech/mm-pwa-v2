@@ -10,34 +10,23 @@ interface ProductSortProps {
   isLoading: boolean;
 }
 
-const ProductSort: React.FC<ProductSortProps> = ({
-  sortFields,
-  currentSort,
-  onSortChange,
-  isLoading,
-}) => {
-  if (isLoading) {
-    return <div className="h-10 w-24 bg-gray-200 rounded animate-pulse" />;
-  }
+const ProductSort: React.FC<ProductSortProps> = ({ sortFields, currentSort, onSortChange, isLoading }) => {
+  if (isLoading) return <div className="h-8 w-40 bg-gray-200 rounded animate-pulse" />;
 
   return (
     <div className="flex items-center gap-2">
-      <label htmlFor="sort" className="text-sm font-semibold text-gray-700">
-        Sort by
-      </label>
+      <label htmlFor="sort" className="text-xs text-gray-500 whitespace-nowrap">Sắp xếp:</label>
       <select
         id="sort"
         value={`${currentSort.attribute}_${currentSort.direction}`}
-        onChange={(event) => {
-          const [attribute, direction] = event.target.value.split('_');
+        onChange={(e) => {
+          const [attribute, direction] = e.target.value.split('_');
           onSortChange(attribute || 'position', direction || 'ASC');
         }}
-        className="px-3 py-2 border border-gray-300 rounded"
+        className="text-sm px-2 py-1.5 border border-gray-300 rounded focus:outline-none focus:border-[#0272BA] text-gray-700"
       >
         {sortFields.map((field) => (
-          <option key={field.value} value={`${field.value}_ASC`}>
-            {field.label}
-          </option>
+          <option key={field.value} value={`${field.value}_ASC`}>{field.label}</option>
         ))}
       </select>
     </div>

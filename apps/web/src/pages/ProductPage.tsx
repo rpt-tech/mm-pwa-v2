@@ -140,8 +140,8 @@ export default function ProductPage() {
           <h1 className="text-2xl font-bold mb-4">
             {t('product.notFound', 'Product not found')}
           </h1>
-          <Link to="/" className="text-blue-600 hover:underline">
-            {t('global.backToHome', 'Back to home')}
+          <Link to="/" className="text-[#0272BA] hover:underline">
+            {t('global.backToHome', 'Về trang chủ')}
           </Link>
         </div>
       </div>
@@ -168,24 +168,22 @@ export default function ProductPage() {
       <ProductStructuredData product={product} />
       <BreadcrumbStructuredData items={breadcrumbItems} />
 
-      <nav className="mb-6 text-sm">
-        <ol className="flex items-center gap-2">
+      <nav className="mb-4 text-xs text-gray-500">
+        <ol className="flex items-center gap-1 flex-wrap">
           <li>
-            <Link to="/" className="text-blue-600 hover:underline">
-              {t('global.home', 'Home')}
-            </Link>
+            <Link to="/" className="text-[#0272BA] hover:underline">{t('global.home', 'Trang chủ')}</Link>
           </li>
           {product.main_category?.breadcrumbs?.map((crumb: any) => (
-            <li key={crumb.category_uid} className="flex items-center gap-2">
-              <span>/</span>
-              <Link to={`/${crumb.category_url_path}.html`} className="text-blue-600 hover:underline">
+            <li key={crumb.category_uid} className="flex items-center gap-1">
+              <span className="text-gray-300">/</span>
+              <Link to={`/${crumb.category_url_path}.html`} className="text-[#0272BA] hover:underline">
                 {crumb.category_name}
               </Link>
             </li>
           ))}
-          <li className="flex items-center gap-2">
-            <span>/</span>
-            <span className="text-gray-600">{product.ecom_name || product.name}</span>
+          <li className="flex items-center gap-1">
+            <span className="text-gray-300">/</span>
+            <span className="text-gray-600 line-clamp-1">{product.ecom_name || product.name}</span>
           </li>
         </ol>
       </nav>
@@ -278,9 +276,9 @@ export default function ProductPage() {
             <button
               onClick={handleAddToCart}
               disabled={isAddToCartDisabled || addToCartMutation.isPending}
-              className="flex-1 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+              className="flex-1 bg-[#0272BA] text-white px-6 py-3 rounded-lg font-semibold hover:bg-[#005a9e] disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
             >
-              {addToCartMutation.isPending ? t('product.adding', 'Adding...') : t('product.addToCart', 'Add to cart')}
+              {addToCartMutation.isPending ? t('product.adding', 'Đang thêm...') : t('common.addToCart', 'Thêm vào giỏ')}
             </button>
             <WishlistButton productSku={product.sku} size="lg" />
           </div>
