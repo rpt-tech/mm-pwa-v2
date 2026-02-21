@@ -8,6 +8,7 @@ import FilterSidebar from '../components/catalog/FilterSidebar';
 import FilterModal from '../components/catalog/FilterModal';
 import ProductSort from '../components/catalog/ProductSort';
 import Pagination from '../components/ui/Pagination';
+import { CmsBlock } from '@/components/cms/CmsBlock';
 import { gqlClient } from '@/lib/graphql-client';
 const PAGE_SIZE = 24;
 
@@ -231,6 +232,11 @@ const CategoryPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Category Top CMS Block */}
+        {category?.uid && (
+          <CmsBlock identifiers={[`category-top-${category.uid}`, 'category-top']} className="mb-4" />
+        )}
+
         {/* Main Content */}
         <div className="flex gap-6">
           {/* Sidebar - Desktop */}
@@ -337,6 +343,11 @@ const CategoryPage: React.FC = () => {
             )}
           </div>
         </div>
+
+        {/* Category Bottom CMS Block */}
+        {category?.uid && (
+          <CmsBlock identifiers={[`category-bottom-${category.uid}`, 'category-bottom']} className="mt-8" />
+        )}
 
         {/* Category Description */}
         {category?.description && (

@@ -15,10 +15,9 @@ import StockStatusMessage from '@/components/catalog/StockStatusMessage';
 import AlcoholDialog from '@/components/product/AlcoholDialog';
 import DnrLabel from '@/components/product/DnrLabel';
 import DnrBlock from '@/components/product/DnrBlock';
-import ProductReviews from '@/components/product/ProductReviews';
 import RelatedUpsellProducts from '@/components/product/RelatedUpsellProducts';
 import WishlistButton from '@/components/product/WishlistButton';
-import AdditionalAttributes from '@/components/product/AdditionalAttributes';
+import DescriptionTabs from '@/components/product/DescriptionTabs';
 import ProductStructuredData from '@/components/seo/ProductStructuredData';
 import BreadcrumbStructuredData from '@/components/seo/BreadcrumbStructuredData';
 
@@ -298,24 +297,8 @@ export default function ProductPage() {
         </div>
       </div>
 
-      {product.description?.html && (
-        <div className="mb-12">
-          <h2 className="text-2xl font-bold mb-4">{t('product.description', 'Product Description')}</h2>
-          <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: product.description.html }} />
-        </div>
-      )}
-
-      {/* Additional Attributes / Specifications */}
-      {product.additional_attributes && (
-        <div className="mb-12">
-          <AdditionalAttributes attributes={product.additional_attributes} />
-        </div>
-      )}
-
-      {/* Product Reviews */}
-      <div className="mb-12">
-        <ProductReviews sku={product.sku} productName={product.ecom_name || product.name} />
-      </div>
+      {/* Description, Specs, Reviews — tabbed */}
+      <DescriptionTabs product={product} />
 
       {/* Related and Upsell Products */}
       <div className="mb-12">

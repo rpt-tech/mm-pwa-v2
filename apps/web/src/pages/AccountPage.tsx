@@ -7,6 +7,7 @@ const AddressBookPage = lazy(() => import('./account/AddressBookPage'));
 const OrderHistoryPage = lazy(() => import('./account/OrderHistoryPage'));
 const OrderDetailPage = lazy(() => import('./OrderDetailPage'));
 const WishlistPage = lazy(() => import('./account/WishlistPage'));
+const UpdateEmailPage = lazy(() => import('./account/UpdateEmailPage'));
 
 export default function AccountPage() {
   return (
@@ -18,6 +19,7 @@ export default function AccountPage() {
       <Route path="orders" element={<OrderHistoryPage />} />
       <Route path="orders/:orderNumber" element={<OrderDetailPage />} />
       <Route path="wishlist" element={<WishlistPage />} />
+      <Route path="email" element={<UpdateEmailPage />} />
     </Routes>
   );
 }
