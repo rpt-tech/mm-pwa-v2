@@ -28,7 +28,7 @@ export default function ProductImageCarousel({ images }: ProductImageCarouselPro
   if (activeImages.length === 0) {
     return (
       <div className="aspect-square bg-gray-200 flex items-center justify-center rounded-lg">
-        <span className="text-gray-400">No image available</span>
+        <span className="text-gray-400">Không có hình ảnh</span>
       </div>
     );
   }
@@ -39,7 +39,7 @@ export default function ProductImageCarousel({ images }: ProductImageCarouselPro
   if (!currentImage) {
     return (
       <div className="aspect-square bg-gray-200 flex items-center justify-center rounded-lg">
-        <span className="text-gray-400">No image available</span>
+        <span className="text-gray-400">Không có hình ảnh</span>
       </div>
     );
   }

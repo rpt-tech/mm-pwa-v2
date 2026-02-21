@@ -106,7 +106,7 @@ export default function WishlistButton({
           ? 'bg-red-50 border-red-500 text-red-500 hover:bg-red-100'
           : 'bg-white border-gray-300 text-gray-600 hover:border-red-500 hover:text-red-500'
       } disabled:opacity-50 disabled:cursor-not-allowed ${showLabel ? 'gap-2 px-4 w-auto' : ''}`}
-      title={inWishlist ? 'Remove from wishlist' : 'Add to wishlist'}
+      title={inWishlist ? 'Xóa khỏi yêu thích' : 'Thêm vào yêu thích'}
     >
       <Heart
         size={iconSizes[size]}
@@ -114,7 +114,7 @@ export default function WishlistButton({
       />
       {showLabel && (
         <span className="text-sm font-medium">
-          {inWishlist ? 'In Wishlist' : 'Add to Wishlist'}
+          {inWishlist ? 'Đã yêu thích' : 'Yêu thích'}
         </span>
       )}
     </button>

@@ -90,7 +90,7 @@ export default function ProductReviews({ sku }: ProductReviewsProps) {
     <div className="border-t pt-8">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-bold">
-          {t('product.reviews', 'Reviews')} ({reviewCount})
+          {t('product.reviews', 'Đánh giá')} ({reviewCount})
         </h2>
         {isLoggedIn && !showReviewForm && (
           <button
@@ -186,7 +186,7 @@ export default function ProductReviews({ sku }: ProductReviewsProps) {
       {/* Reviews List */}
       {reviews.length === 0 ? (
         <p className="text-gray-600 text-center py-8">
-          {t('product.noReviews', 'No reviews yet. Be the first to review this product!')}
+          {t('product.noReviews', 'Chưa có đánh giá. Hãy là người đầu tiên đánh giá sản phẩm này!')}
         </p>
       ) : (
         <div className="space-y-6">

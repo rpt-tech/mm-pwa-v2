@@ -155,7 +155,7 @@ export default function ProductPage() {
       <div className="container mx-auto px-4 py-8">
         <div className="text-center">
           <h1 className="text-2xl font-bold mb-4">
-            {t('product.notFound', 'Product not found')}
+            {t('product.notFound', 'Không tìm thấy sản phẩm')}
           </h1>
           <Link to="/" className="text-[#0272BA] hover:underline">
             {t('global.backToHome', 'Về trang chủ')}
@@ -269,7 +269,7 @@ export default function ProductPage() {
                   <span key={i} className={`text-xl ${i < Math.round(product.rating_summary / 20) ? 'text-yellow-400' : 'text-gray-300'}`}>★</span>
                 ))}
               </div>
-              <span className="text-sm text-gray-600">({product.review_count || 0} {t('product.reviews', 'reviews')})</span>
+              <span className="text-sm text-gray-600">({product.review_count || 0} {t('product.reviews', 'đánh giá')})</span>
             </div>
           )}
 

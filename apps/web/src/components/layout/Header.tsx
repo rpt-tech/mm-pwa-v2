@@ -217,11 +217,11 @@ export default function Header() {
                         </button>
                       ))}
                       <button onClick={handleSearchSubmit} className="w-full p-3 text-center text-sm text-[#0272BA] hover:bg-gray-50 font-medium">
-                        {t('autocomplete.viewAll', `View all results for "${searchQuery}"`)}
+                        {t('autocomplete.viewAll', `Xem tất cả kết quả cho "${searchQuery}"`)}
                       </button>
                     </div>
                   ) : (
-                    <div className="p-4 text-center text-gray-500 text-sm">{t('autocomplete.emptyResult', 'No results were found.')}</div>
+                    <div className="p-4 text-center text-gray-500 text-sm">{t('autocomplete.emptyResult', 'Không tìm thấy kết quả.')}</div>
                   )}
                 </div>
               )}
@@ -236,7 +236,7 @@ export default function Header() {
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                     </svg>
-                    <span className="text-xs leading-tight">{t('wishlistTrigger.label', 'Wishlist')}</span>
+                    <span className="text-xs leading-tight">{t('wishlistTrigger.label', 'Yêu thích')}</span>
                   </Link>
 
                   {/* Account */}
@@ -250,7 +250,7 @@ export default function Header() {
                     <span className="text-xs leading-tight max-w-[80px] truncate">
                       {isLoggedIn && user?.firstname
                         ? user.firstname
-                        : t('accountTrigger.buttonFallback', 'My Account')}
+                        : t('accountTrigger.buttonFallback', 'Tài khoản')}
                     </span>
                   </Link>
                 </>
@@ -271,7 +271,7 @@ export default function Header() {
                     </span>
                   )}
                 </div>
-                <span className="text-xs leading-tight">{t('cartTrigger.label', 'My Cart')}</span>
+                <span className="text-xs leading-tight">{t('cartTrigger.label', 'Giỏ hàng')}</span>
               </button>
             </div>
           </div>
@@ -339,7 +339,7 @@ export default function Header() {
                   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 18 16">
                     <path d="M18 6.62C18 7.84 16.99 8.89 15.75 8.89c-1.24 0-2.25-1.05-2.25-2.27 0 1.22-1.01 2.27-2.25 2.27C10.01 8.89 9 7.84 9 6.62c0 1.22-1.01 2.27-2.25 2.27C5.51 8.89 4.5 7.84 4.5 6.62c0 1.22-1.01 2.27-2.25 2.27C1.01 8.89 0 7.84 0 6.62L1.8 2.67h14.4L18 6.62zM15.3 1.78H2.7C2.14 1.78 1.8 1.35 1.8.89 1.8.43 2.08 0 2.81 0h12.38C15.87 0 16.2.43 16.2.89c0 .46-.43.89-.9.89zM2.7 9.33v4h12.6v-4h.45c.14.05.3-.04.45 0-.04-.01.03.01 0 0-.02-.01.03 0 0 0-.08-.01.08.02 0 0-.08.01.16-.01 0 0-.08.01.26.01.45 0 .19 0 .26.03.45 0V15.11c0 .46-.43.89-.9.89H2.7c-.47 0-.9-.43-.9-.89V9.33c.18.03.26 0 .45 0 .09 0 .35.01.45 0-.08.01.08-.01 0 0-.02 0 .03.01 0 0-.02-.01.03 0 0 0-.08-.01.16.02 0 0z" />
                   </svg>
-                  {t('header.customerB2B', 'Business Customer')}
+                  {t('header.customerB2B', 'Khách hàng DN')}
                 </a>
               </>
             ) : (
