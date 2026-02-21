@@ -65,7 +65,7 @@ export default function RelatedUpsellProducts({ urlKey }: RelatedUpsellProductsP
               return (
                 <Link
                   key={item.uid}
-                  to={`/${item.url_key}${item.url_suffix || '.html'}`}
+                  to={`/product/${item.url_key}`}
                   className="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow border"
                 >
                   <div className="relative aspect-square">
@@ -131,7 +131,7 @@ export default function RelatedUpsellProducts({ urlKey }: RelatedUpsellProductsP
               return (
                 <Link
                   key={item.uid}
-                  to={`/${item.url_key}${item.url_suffix || '.html'}`}
+                  to={`/product/${item.url_key}`}
                   className="bg-white rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow border"
                 >
                   <div className="relative aspect-square">

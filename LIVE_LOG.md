@@ -373,3 +373,6 @@ All major structured data types implemented!
 [08:42] CmsPage — use category uid for redirect — commit 1acdc29
 [08:45] Header — fix search URL from /search.html to /search — commit 29e4fb0
 [08:50] BLOCKED: Vercel CLI v50 scope bug — cannot deploy via CLI — logged in BLOCKED.md
+[09:00] CategoryPage — support URL path lookup + category UID resolution — commit ef2e245
+[09:05] Navigation links — use /category/ prefix in MegaMenu, Navigation, ProductPage — commit 94aa2b7
+[09:08] Product links — use /product/ prefix in MiniCart, CartPage, SearchPage, OrderDetailPage — commit 1c8da68
