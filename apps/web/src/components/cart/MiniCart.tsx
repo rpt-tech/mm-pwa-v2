@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { X, ShoppingCart, Trash2 } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
@@ -101,6 +101,7 @@ export default function MiniCart() {
   const { isMiniCartOpen, closeMiniCart } = useUIStore();
   const { cartId, setItemCount } = useCartStore();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   // Fetch cart data
   const { data, isLoading, refetch } = useQuery({
@@ -228,7 +229,7 @@ export default function MiniCart() {
               <button
                 onClick={() => {
                   closeMiniCart();
-                  window.location.href = '/cart';
+                  navigate('/cart');
                 }}
                 className="flex-1 py-2 border-2 border-[#006341] text-[#006341] rounded font-medium text-sm hover:bg-[#006341] hover:text-white transition-colors"
               >
@@ -237,7 +238,7 @@ export default function MiniCart() {
               <button
                 onClick={() => {
                   closeMiniCart();
-                  window.location.href = '/checkout';
+                  navigate('/checkout');
                 }}
                 className="flex-1 py-2 bg-[#006341] text-white rounded font-medium text-sm hover:bg-[#004d32] transition-colors"
               >

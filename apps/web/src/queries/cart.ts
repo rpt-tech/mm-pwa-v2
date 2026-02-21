@@ -433,10 +433,10 @@ export const REMOVE_COUPON_FROM_CART = gql`
   ${CART_PAGE_FRAGMENT}
 `;
 
-// Add comment to cart item
+// Update comment on cart item
 export const ADD_COMMENT_TO_CART_ITEM = gql`
-  mutation AddCommentToCartItem($cartId: String!, $cartItemUid: ID!, $comment: String!) {
-    addCommentToCartItem(input: { cart_id: $cartId, cart_item_uid: $cartItemUid, comment: $comment }) {
+  mutation UpdateCommentOnCartItem($cartId: String!, $cartItemUid: ID!, $comment: String!) {
+    updateCommentOnCartItem(input: { cart_id: $cartId, cart_item_uid: $cartItemUid, comment: $comment }) {
       cart {
         id
         items {
