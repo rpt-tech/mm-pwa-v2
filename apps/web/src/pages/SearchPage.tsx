@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { gqlClient } from '@/lib/graphql-client';
 import { analytics } from '@/lib/analytics';
 import ProductCard from '@/components/catalog/ProductCard';
+import SearchPopular from '@/components/navbar/SearchPopular';
 
 export default function SearchPage() {
   const { t } = useTranslation();
@@ -125,25 +126,19 @@ export default function SearchPage() {
 
   // Meta tags
   const metaTitle = metaData?.storeConfig?.search_page_meta_title ||
-    `${searchTerm} ${t('category.metaTitle', 'good price, home delivery | MM Mega Market')}`;
+    `${searchTerm} - Tìm kiếm | MM Mega Market`;
 
   const metaDescription = metaData?.storeConfig?.search_page_meta_description ||
-    `${t('category.metaBuyNow', 'Buy now')} ${searchTerm} ${t('category.metaDescription', 'for your family at MM Mega Market fresh, safe, carefully packaged, fast delivery nationwide. Easy ordering.')}`;
+    `Mua ${searchTerm} giá tốt tại MM Mega Market. Giao hàng nhanh toàn quốc.`;
 
   // Helmet handles title/meta
 
-  // No search term
+  // No search term — show popular searches
   if (!searchTerm) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">
-            {t('searchPage.noResultImportant', 'No results found!')}
-          </h1>
-          <p className="text-gray-600">
-            {t('searchPage.noResult', 'No results found. The search term may be missing or invalid.')}
-          </p>
-        </div>
+        <h1 className="text-2xl font-bold mb-6 text-gray-800">Tìm kiếm sản phẩm</h1>
+        <SearchPopular />
       </div>
     );
   }
@@ -181,10 +176,13 @@ export default function SearchPage() {
   if (products.length === 0) {
     return (
       <div className="container mx-auto px-4 py-8">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">
-            {t('searchPage.noResultHtml', 'No results found for')} <strong>"{searchTerm}"</strong>
+        <div className="text-center py-8">
+          <div className="text-5xl mb-4">🔍</div>
+          <h1 className="text-xl font-semibold text-gray-800 mb-2">
+            Không tìm thấy kết quả cho <strong>"{searchTerm}"</strong>
           </h1>
+          <p className="text-gray-500 text-sm mb-6">Thử tìm với từ khóa khác hoặc xem các từ khóa phổ biến</p>
+          <SearchPopular />
         </div>
       </div>
     );
