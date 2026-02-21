@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useQuery } from '@tanstack/react-query';
+import { Helmet } from 'react-helmet-async';
 import { Package, ChevronRight, ChevronLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import MyAccountLayout from '@/components/account/MyAccountLayout';
@@ -66,6 +67,7 @@ export default function OrderHistoryPage() {
 
   return (
     <MyAccountLayout currentPage="orders">
+      <Helmet><title>Lịch sử đơn hàng | MM Mega Market</title></Helmet>
       <div className="mb-6">
         <h2 className="text-2xl font-bold">
           {t('account.orderHistory')} ({totalCount})

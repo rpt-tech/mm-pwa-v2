@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Helmet } from 'react-helmet-async';
 import { Trash2, ShoppingCart } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -83,6 +84,7 @@ export default function WishlistPage() {
 
   return (
     <MyAccountLayout currentPage="wishlist">
+      <Helmet><title>Danh sách yêu thích | MM Mega Market</title></Helmet>
       <div className="mb-6">
         <h2 className="text-2xl font-bold">
           {t('account.wishlist')} ({wishlist.items_count})

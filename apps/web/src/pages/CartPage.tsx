@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { Helmet } from 'react-helmet-async';
 import { Trash2, ShoppingCart, Tag, ChevronRight, AlertCircle } from 'lucide-react';
 import { useCartStore } from '@/stores/cartStore';
 import { gqlClient } from '@/lib/graphql-client';
@@ -392,6 +393,9 @@ export default function CartPage() {
 
   return (
     <div className="container mx-auto px-4 py-4 max-w-6xl">
+      <Helmet>
+        <title>Giỏ hàng | MM Mega Market</title>
+      </Helmet>
       <Breadcrumbs />
 
       <h1 className="text-xl font-bold text-gray-800 mb-4">

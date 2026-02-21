@@ -407,3 +407,24 @@ All major structured data types implemented!
 [09:26] cart.ts — fix comment mutation name: addCommentToCartItem → updateCommentOnCartItem — commit aa46f90
 [09:17] Push all commits to main — ✓ pushed
 [09:38] OrderDetailPage — add shipment tracking section — commit c964e3b
+
+## Session 5 (2026-02-21)
+[10:00] Session resume — read PROGRESS.md, STEERING.md, audit results — continue from ProductLabel fix
+[10:02] ProductCard — fix product_label interface to match actual GQL array shape, use ProductLabel component — commit 95a11cc
+[10:05] Checkout — add DeliveryTime picker, VAT invoice toggle, MCard field — commit 7fc42d6
+[10:10] Blog — create queries/blog.ts, BlogListPage, BlogDetailPage with sidebar/pagination/view tracking — commit 1315df6
+[10:15] Contact — create ContactPage with form validation and info section — commit d1bfd26
+[10:16] FAQ — create FaqPage with accordion sections and CMS block integration — commit d1bfd26
+[10:20] GuestOrderPage — create guest order tracking at /guest-order — commit fb58e3c
+[10:22] Push all commits to main — ✓ pushed fb58e3c
+[10:25] StoreLocatorPage — create store locator with city filter and Google Maps links — commit bb9c6c9
+[10:28] Newsletter + AdvancedPopup — create components, integrate popup into MainLayout — commit 15a0288
+[10:30] QuickOrderPage — create B2B multi-line SKU order form — commit 981434b
+[10:31] App.tsx — register quick-order route, TypeScript clean — commit 981434b
+[10:35] UpdatePhonePage — create /account/phone with UPDATE_CUSTOMER mutation — commit 24e9a00
+[10:36] BlogSearchPage — create /blog/search with searchNews query — commit 24e9a00
+[10:37] Newsletter — integrate into Footer — commit 24e9a00
+[10:38] CheckoutPage — add Helmet title — commit 24e9a00
+[10:40] Header — add SuggestCategory (keyword/category suggestions) to autocomplete dropdown — commit 347bed0
+[10:42] BFF — create KV namespace (3774759e), enable 5-min caching for public queries — commit 347bed0
+[10:43] BFF — deploy to Cloudflare Workers with KV binding — ✓ deployed

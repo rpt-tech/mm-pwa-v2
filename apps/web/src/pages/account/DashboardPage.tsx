@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { Helmet } from 'react-helmet-async';
 import MyAccountLayout from '@/components/account/MyAccountLayout';
 import { gqlClient } from '@/lib/graphql-client';
 import { GET_CUSTOMER } from '@/queries/account';
@@ -63,6 +64,7 @@ export default function DashboardPage() {
 
   return (
     <MyAccountLayout currentPage="dashboard">
+      <Helmet><title>Tài khoản của tôi | MM Mega Market</title></Helmet>
       {isMobile && (
         <h2 className="text-xl font-semibold mb-4 flex items-center gap-2">
           <button

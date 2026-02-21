@@ -1,8 +1,12 @@
+import { Helmet } from 'react-helmet-async';
 import { AuthModal } from '@/components/auth';
 
 export default function SignInPage() {
   return (
     <div className="container mx-auto px-4 py-8">
+      <Helmet>
+        <title>Đăng nhập | MM Mega Market</title>
+      </Helmet>
       <AuthModal initialView="SIGN_IN" />
     </div>
   );
