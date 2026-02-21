@@ -1,0 +1,86 @@
+name: Health Monitor
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  health-check:
+    name: Health Check
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+      contents: read
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run health checks
+        id: health
+        run: |
+          FAILED=0
+          WEB_STATUS="OK"
+          BFF_STATUS="OK"
+          MAGENTO_STATUS="OK"
+
+          # Check web frontend
+          if ! curl -sf --max-time 15 "https://mm-pwa-v2.vercel.app" > /dev/null 2>&1; then
+            WEB_STATUS="FAILED"
+            FAILED=1
+          fi
+
+          # Check BFF health endpoint (expects "ok" in response)
+          BFF_RESPONSE=$(curl -sf --max-time 15 "https://mm-bff.hi-huythanh.workers.dev/health" 2>/dev/null || echo "")
+          if [ -z "$BFF_RESPONSE" ] || ! echo "$BFF_RESPONSE" | grep -qi "ok"; then
+            BFF_STATUS="FAILED"
+            FAILED=1
+          fi
+
+          # Check Magento GraphQL (POST introspection)
+          MAGENTO_RESPONSE=$(curl -sf --max-time 15 \
+            -X POST \
+            -H "Content-Type: application/json" \
+            -d '{"query":"{ __typename }"}' \
+            "https://online.mmvietnam.com/graphql" 2>/dev/null || echo "")
+          if [ -z "$MAGENTO_RESPONSE" ]; then
+            MAGENTO_STATUS="FAILED"
+            FAILED=1
+          fi
+
+          echo "failed=${FAILED}" >> "$GITHUB_OUTPUT"
+          echo "web_status=${WEB_STATUS}" >> "$GITHUB_OUTPUT"
+          echo "bff_status=${BFF_STATUS}" >> "$GITHUB_OUTPUT"
+          echo "magento_status=${MAGENTO_STATUS}" >> "$GITHUB_OUTPUT"
+
+          # Job summary
+          echo "### Health Monitor - $(date -u '+%Y-%m-%d %H:%M UTC')" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Service | URL | Status |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|---------|-----|--------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Web (Vercel) | https://mm-pwa-v2.vercel.app | ${WEB_STATUS} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| BFF (Workers) | https://mm-bff.hi-huythanh.workers.dev/health | ${BFF_STATUS} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Magento GraphQL | https://online.mmvietnam.com/graphql | ${MAGENTO_STATUS} |" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Create issue on failure
+        if: steps.health.outputs.failed == '1'
+        run: |
+          OPEN=$(gh issue list --label "health-failure" --state open --json number --jq 'length')
+          if [ "$OPEN" -eq 0 ]; then
+            TITLE="[ALERT] Production health check failed - $(date -u '+%Y-%m-%d %H:%M UTC')"
+            BODY="## Health Check Failure\n\n| Service | Status |\n|---------|--------|\n| Web (Vercel) | ${{ steps.health.outputs.web_status }} |\n| BFF (Workers) | ${{ steps.health.outputs.bff_status }} |\n| Magento GraphQL | ${{ steps.health.outputs.magento_status }} |\n\nSee run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            gh issue create \
+              --title "$TITLE" \
+              --body "$BODY" \
+              --label "health-failure,automated"
+          fi
+
+      - name: Close resolved issues
+        if: steps.health.outputs.failed == '0'
+        run: |
+          OPEN_ISSUES=$(gh issue list --label "health-failure" --state open --json number --jq '.[].number')
+          for ISSUE in $OPEN_ISSUES; do
+            gh issue comment "$ISSUE" --body "Health restored as of $(date -u '+%Y-%m-%d %H:%M UTC'). All services are responding normally."
+            gh issue close "$ISSUE"
+          done

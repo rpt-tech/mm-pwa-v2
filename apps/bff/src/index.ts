@@ -14,7 +14,13 @@ app.use('/*', cors({
 }));
 
 // Health check
-app.get('/health', (c) => c.json({ status: 'ok', timestamp: Date.now() }));
+app.get('/health', (c) => c.json({
+  status: 'ok',
+  version: '1.0.0',
+  timestamp: Date.now(),
+  uptime: 'running',
+  env: 'production',
+}));
 
 // GraphQL proxy to Magento
 app.post('/graphql', async (c) => {

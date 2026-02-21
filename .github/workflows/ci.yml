@@ -2,13 +2,20 @@ name: CI
 
 on:
   push:
-    branches: [dev, main]
+    branches: ['**']
   pull_request:
-    branches: [main]
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  lint-typecheck-test:
-    name: Lint / Type-check / Test
+  lint-typecheck:
+    name: Lint & Type-check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -31,14 +38,9 @@ jobs:
       - name: Type-check
         run: pnpm type-check
 
-      - name: Test
-        run: pnpm --filter @mm/web vitest run --reporter=verbose
-
-  deploy-bff:
-    name: Deploy BFF (Cloudflare Workers)
+  test:
+    name: Test
     runs-on: ubuntu-latest
-    needs: lint-typecheck-test
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
       - uses: actions/checkout@v4
 
@@ -54,7 +56,71 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Deploy BFF to Cloudflare Workers
-        run: pnpm bff:deploy
+      - name: Run tests with coverage
+        run: pnpm --filter @mm/web vitest run --reporter=verbose --coverage
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-${{ github.sha }}
+          path: apps/web/coverage/
+          retention-days: 7
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          VITE_MAGENTO_URL: https://online.mmvietnam.com/graphql
+
+      - name: Check bundle size
+        id: bundle-size
+        run: |
+          DIST_DIR="apps/web/dist/assets"
+          if [ -d "$DIST_DIR" ]; then
+            TOTAL_JS_BYTES=$(find "$DIST_DIR" -name "*.js" -exec wc -c {} + 2>/dev/null | tail -1 | awk '{print $1}')
+            TOTAL_JS_GZIP=$(find "$DIST_DIR" -name "*.js" -exec gzip -c {} \; 2>/dev/null | wc -c)
+            TOTAL_JS_GZIP_KB=$((TOTAL_JS_GZIP / 1024))
+            echo "js_gzip_kb=${TOTAL_JS_GZIP_KB}" >> "$GITHUB_OUTPUT"
+            echo "### Bundle Size Report" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "| Metric | Value |" >> "$GITHUB_STEP_SUMMARY"
+            echo "|--------|-------|" >> "$GITHUB_STEP_SUMMARY"
+            echo "| JS (gzip) | ${TOTAL_JS_GZIP_KB} KB |" >> "$GITHUB_STEP_SUMMARY"
+            if [ "$TOTAL_JS_GZIP_KB" -gt 350 ]; then
+              echo "" >> "$GITHUB_STEP_SUMMARY"
+              echo "> [!WARNING]" >> "$GITHUB_STEP_SUMMARY"
+              echo "> JS bundle (gzip) exceeds 350 KB threshold: **${TOTAL_JS_GZIP_KB} KB**" >> "$GITHUB_STEP_SUMMARY"
+              echo "::warning::JS bundle (gzip) is ${TOTAL_JS_GZIP_KB} KB, exceeds 350 KB threshold"
+            else
+              echo "" >> "$GITHUB_STEP_SUMMARY"
+              echo "> [!NOTE]" >> "$GITHUB_STEP_SUMMARY"
+              echo "> Bundle size is within threshold." >> "$GITHUB_STEP_SUMMARY"
+            fi
+          else
+            echo "::warning::dist/assets directory not found, skipping bundle size check"
+          fi
+
+      - name: Upload dist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: apps/web/dist/
+          retention-days: 7
