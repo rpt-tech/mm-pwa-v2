@@ -142,14 +142,23 @@ export default function OrderDetailPage() {
             <div className="space-y-4">
               {order.items.map((item: any) => (
                 <div key={item.id} className="flex gap-4 pb-4 border-b last:border-b-0">
+                  {item.product?.thumbnail?.url && (
+                    <div className="w-16 h-16 flex-shrink-0 rounded overflow-hidden bg-gray-100">
+                      <img
+                        src={item.product.thumbnail.url}
+                        alt={item.product.ecom_name || item.product_name}
+                        className="w-full h-full object-contain"
+                      />
+                    </div>
+                  )}
                   <div className="flex-1">
                     <Link
                       to={`/product/${item.product_url_key}`}
                       className="font-medium text-gray-800 hover:text-[#0272BA]"
                     >
-                      {item.product_name}
+                      {item.product?.ecom_name || item.product_name}
                     </Link>
-                    <p className="text-sm text-gray-600 mt-1">SKU: {item.product_sku}</p>
+                    <p className="text-sm text-gray-500 mt-0.5">SKU: {item.product_sku}</p>
                     {item.selected_options && item.selected_options.length > 0 && (
                       <div className="text-sm text-gray-600 mt-1">
                         {item.selected_options.map((opt: any, idx: number) => (
@@ -161,7 +170,7 @@ export default function OrderDetailPage() {
                       </div>
                     )}
                     <div className="flex gap-4 text-sm text-gray-600 mt-2">
-                      <span>{t('order.qty', 'Qty')}: {item.quantity_ordered}</span>
+                      <span>{t('order.qty', 'Qty')}: {item.quantity_ordered} {item.product?.unit_ecom || ''}</span>
                       {item.quantity_shipped > 0 && (
                         <span className="text-green-600">
                           {t('order.shipped', 'Shipped')}: {item.quantity_shipped}
@@ -187,6 +196,32 @@ export default function OrderDetailPage() {
 
         {/* Sidebar */}
         <div className="space-y-6">
+          {/* Delivery Status */}
+          {order.delivery_status && (
+            <div className="bg-white rounded-lg border p-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Truck size={20} className="text-[#006341]" />
+                <h2 className="text-lg font-semibold">Trạng thái giao hàng</h2>
+              </div>
+              <span className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(order.delivery_code || '')}`}>
+                {order.delivery_status}
+              </span>
+              {order.delivery_information?.delivery_date && (
+                <p className="text-sm text-gray-600 mt-2">
+                  Ngày giao: {order.delivery_information.delivery_date}
+                  {order.delivery_information.delivery_from && ` (${order.delivery_information.delivery_from} - ${order.delivery_information.delivery_to})`}
+                </p>
+              )}
+            </div>
+          )}
+
+          {/* Promotion Message */}
+          {order.promotion_message && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+              <p className="text-sm text-green-700">{order.promotion_message}</p>
+            </div>
+          )}
+
           {/* Order Summary */}
           <div className="bg-white rounded-lg border p-6">
             <h2 className="text-xl font-semibold mb-4">{t('order.summary', 'Order Summary')}</h2>

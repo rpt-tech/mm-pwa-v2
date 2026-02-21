@@ -268,6 +268,20 @@ export const GET_ORDER_DETAILS = gql`
           status_code
           state
           carrier
+          delivery_code
+          delivery_status
+          delivery_information {
+            delivery_date
+            delivery_from
+            delivery_to
+          }
+          promotion_message
+          vat_information {
+            company_address
+            company_name
+            company_vat_number
+            customer_vat_id
+          }
           total {
             grand_total {
               value
@@ -309,6 +323,14 @@ export const GET_ORDER_DETAILS = gql`
             selected_options {
               label
               value
+            }
+            product {
+              uid
+              ecom_name
+              unit_ecom
+              thumbnail {
+                url
+              }
             }
           }
           billing_address {
