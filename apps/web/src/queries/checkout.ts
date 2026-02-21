@@ -106,6 +106,9 @@ export const CHECKOUT_PAGE_FRAGMENT = gql`
       lastname
       street
       city
+      city_code
+      district_code
+      ward_code
       region {
         code
         label
@@ -137,6 +140,19 @@ export const CHECKOUT_PAGE_FRAGMENT = gql`
         method_code
         method_title
       }
+    }
+    delivery_date {
+      date
+      time_interval_id
+      comment
+      from
+      to
+    }
+    vat_address {
+      customer_vat_id
+      company_name
+      company_vat_number
+      company_address
     }
   }
 `;
