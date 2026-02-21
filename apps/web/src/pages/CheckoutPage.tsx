@@ -415,6 +415,7 @@ function ShippingStep({
           {/* Vietnam Location Cascade */}
           <VietnamLocationCascade
             cityCode={watch('city_code')}
+            districtCode={watch('district_code')}
             wardCode={watch('ward_code')}
             onCityChange={(cityCode, cityName) => {
               setValue('city_code', cityCode);
