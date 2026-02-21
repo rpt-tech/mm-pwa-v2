@@ -17,6 +17,8 @@ const CreateAccountPage = lazy(() => import('@/pages/CreateAccountPage'));
 const ForgotPasswordPage = lazy(() => import('@/pages/ForgotPasswordPage'));
 const ConfirmPasswordPage = lazy(() => import('@/pages/ConfirmPasswordPage'));
 const AccountPage = lazy(() => import('@/pages/AccountPage'));
+const BlogListPage = lazy(() => import('@/pages/BlogListPage'));
+const BlogDetailPage = lazy(() => import('@/pages/BlogDetailPage'));
 const CmsPage = lazy(() => import('@/pages/CmsPage'));
 const NotFoundPage = lazy(() => import('@/pages/NotFoundPage'));
 
@@ -44,6 +46,8 @@ export default function App() {
           <Route path="forgot-password" element={<ForgotPasswordPage />} />
           <Route path="confirm-password" element={<ConfirmPasswordPage />} />
           <Route path="account/*" element={<AccountPage />} />
+          <Route path="blog" element={<BlogListPage />} />
+          <Route path="blog/:urlKey" element={<BlogDetailPage />} />
           <Route path=":urlKey" element={<CmsPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
