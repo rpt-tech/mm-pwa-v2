@@ -743,17 +743,20 @@ function PaymentStep({
       const orderNumber = orderV2?.number;
       const payUrl = orderV2?.payment_methods?.[0]?.pay_url;
 
-      if (orderNumber) {
-        queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
-        queryClient.invalidateQueries({ queryKey: ['miniCart'] });
+      if (!orderNumber) {
+        setError('Đặt hàng thất bại. Vui lòng thử lại hoặc liên hệ hỗ trợ.');
+        return;
+      }
 
-        // If payment redirect URL exists (Momo, VNPay, ZaloPay), redirect to payment gateway
-        if (payUrl) {
-          window.location.href = payUrl;
-        } else {
-          // Otherwise go to confirmation page
-          onPlaceOrder(orderNumber);
-        }
+      queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
+      queryClient.invalidateQueries({ queryKey: ['miniCart'] });
+
+      // If payment redirect URL exists (Momo, VNPay, ZaloPay), redirect to payment gateway
+      if (payUrl) {
+        window.location.href = payUrl;
+      } else {
+        // Otherwise go to confirmation page
+        onPlaceOrder(orderNumber);
       }
     },
     onError: (err: any) => {

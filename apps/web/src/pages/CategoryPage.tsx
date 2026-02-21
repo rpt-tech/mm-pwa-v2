@@ -11,6 +11,7 @@ import ProductSort from '../components/catalog/ProductSort';
 import Pagination from '../components/ui/Pagination';
 import { CmsBlock } from '@/components/cms/CmsBlock';
 import { gqlClient } from '@/lib/graphql-client';
+import Breadcrumbs from '@/components/navigation/Breadcrumbs';
 const PAGE_SIZE = 24;
 
 
@@ -200,7 +201,18 @@ const CategoryPage: React.FC = () => {
           <meta property="og:type" content="website" />
         </Helmet>
       )}
-      {/* Breadcrumbs would go here */}
+      {/* Breadcrumbs */}
+      {category && (
+        <Breadcrumbs
+          items={[
+            ...(category.breadcrumbs?.map((crumb: any) => ({
+              label: crumb.category_name,
+              path: `/category/${crumb.category_url_path || crumb.category_url_key}`,
+            })) || []),
+            { label: category.name },
+          ]}
+        />
+      )}
 
       <article className="container mx-auto px-4 py-6">
         {/* Category Image */}
@@ -222,9 +234,6 @@ const CategoryPage: React.FC = () => {
             ) : (
               <>
                 {category?.name}
-                <span className="text-lg font-normal text-gray-600 ml-2">
-                  good price, home delivery
-                </span>
               </>
             )}
           </h1>
@@ -232,7 +241,7 @@ const CategoryPage: React.FC = () => {
             {isLoading ? (
               <div className="h-4 w-32 bg-gray-200 animate-pulse rounded" />
             ) : (
-              totalCount > 0 && <span>{totalCount} Results</span>
+              totalCount > 0 && <span>{totalCount} sản phẩm</span>
             )}
           </div>
         </div>
@@ -331,8 +340,18 @@ const CategoryPage: React.FC = () => {
 
             {/* No Products */}
             {!isLoading && products.length === 0 && (
-              <div className="text-center py-12">
-                <p className="text-xl text-gray-600">No products found</p>
+              <div className="text-center py-16">
+                <div className="text-5xl mb-4">🔍</div>
+                <p className="text-xl font-medium text-gray-700 mb-2">Không tìm thấy sản phẩm</p>
+                <p className="text-gray-500 text-sm">Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm</p>
+                {Object.keys(filters).length > 1 && (
+                  <button
+                    onClick={handleClearFilters}
+                    className="mt-4 px-4 py-2 text-sm text-[#0272BA] border border-[#0272BA] rounded-lg hover:bg-blue-50 transition-colors"
+                  >
+                    Xóa tất cả bộ lọc
+                  </button>
+                )}
               </div>
             )}
 

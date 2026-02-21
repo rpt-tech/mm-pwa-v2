@@ -176,6 +176,14 @@ export const GET_CATEGORY_DATA = gql`
         meta_title
         meta_keywords
         meta_description
+        breadcrumbs {
+          category_id
+          category_uid
+          category_name
+          category_url_path
+          category_url_key
+          category_level
+        }
       }
     }
   }
@@ -196,6 +204,14 @@ export const GET_CATEGORY_BY_URL_PATH = gql`
         meta_title
         meta_keywords
         meta_description
+        breadcrumbs {
+          category_id
+          category_uid
+          category_name
+          category_url_path
+          category_url_key
+          category_level
+        }
       }
     }
   }
