@@ -573,3 +573,48 @@
 **Build Status:** ✓ Clean build, 2088 modules
 **Commits:** bfa91ba → c964e3b (11 commits)
 **Status:** 🚧 In Progress — continuing bug fixes and feature completion
+
+## Session 5 Summary (2026-02-21)
+- **Status:** ✓ Done
+- **Completed:**
+  1. ✓ ProductLabel fix — correct interface matching GQL array shape
+  2. ✓ CheckoutPage — DeliveryTime picker, VAT invoice toggle, MCard field
+  3. ✓ BlogListPage + BlogDetailPage — with sidebar, pagination, view tracking
+  4. ✓ ContactPage — form validation + info section
+  5. ✓ FaqPage — accordion sections + CMS blocks
+  6. ✓ GuestOrderPage — guest order tracking at /guest-order
+  7. ✓ StoreLocatorPage — city filter + Google Maps links
+  8. ✓ Newsletter component — integrated into Footer
+  9. ✓ AdvancedPopup — campaign popup with delay, integrated into MainLayout
+  10. ✓ QuickOrderPage — B2B multi-line SKU order form at /quick-order
+  11. ✓ BlogSearchPage — /blog/search with searchNews query
+  12. ✓ UpdatePhonePage — /account/phone
+  13. ✓ StoreSwitcher — geolocation + city/ward cascade to find nearest store
+  14. ✓ AccountChip — user firstname in header when logged in
+  15. ✓ Helmet titles on CheckoutPage, DashboardPage, OrderHistoryPage, WishlistPage
+  16. ✓ SuggestCategory — keyword/category suggestions in autocomplete dropdown
+  17. ✓ BFF KV caching — 5-min cache for public queries (KV: 3774759e)
+  18. ✓ GTM integration — GTM-KXH7R829 in index.html
+  19. ✓ GA4 analytics — dataLayer utility + page_view, add_to_cart, purchase, search events
+  20. ✓ MagentoRoute — wildcard route renders CmsPage for multi-segment URLs
+- **Commits:** 95a11cc → 63f7449 (20 commits)
+- **Status:** 🚧 In Progress — continuing with remaining gaps
+
+## Session 6 Summary (2026-02-21 continued)
+- **Status:** ✓ Done
+- **Completed:**
+  1. ✓ Antsomi CDP scripts (insight.js + webpush.js) in index.html
+  2. ✓ view_item analytics on ProductPage product load
+  3. ✓ login/signUp analytics events in SignIn/CreateAccount
+  4. ✓ Helmet on AccountInformationPage + AddressBookPage
+  5. ✓ PWA theme_color → #006341 (MM green)
+  6. ✓ remove_from_cart + begin_checkout GA4 events
+  7. ✓ Search query description (SEARCH_QUERY_DESCRIPTION)
+  8. ✓ Search term redirect (GET_SEARCH_TERM_DATA)
+  9. ✓ Coupon remove button (REMOVE_COUPON_FROM_CART)
+  10. ✓ Price change warning banner (CHECK_PRICE_CHANGE)
+  11. ✓ Archived blog sidebar in BlogListPage
+  12. ✓ PWA install prompt banner + usePWAInstall hook
+  13. ✓ Social login (Facebook + Google) with SOCIAL_LOGIN_MUTATION
+- **Commits:** 5cc17c3 → a28ce52 (8 commits)
+- **Status:** 🚧 In Progress — continuing with remaining gaps

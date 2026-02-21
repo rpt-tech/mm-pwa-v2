@@ -428,3 +428,18 @@ All major structured data types implemented!
 [10:40] Header — add SuggestCategory (keyword/category suggestions) to autocomplete dropdown — commit 347bed0
 [10:42] BFF — create KV namespace (3774759e), enable 5-min caching for public queries — commit 347bed0
 [10:43] BFF — deploy to Cloudflare Workers with KV binding — ✓ deployed
+
+[Session 6 - 2026-02-21]
+[cont] Antsomi CDP scripts (insight.js + webpush.js) added to index.html — ✓ commit 5cc17c3
+[cont] view_item analytics on ProductPage — ✓ commit 5cc17c3
+[cont] login/signUp analytics in SignIn/CreateAccount — ✓ commit 5cc17c3
+[cont] Helmet on AccountInformationPage + AddressBookPage — ✓ commit 5cc17c3
+[cont] PWA theme_color → #006341 (MM green) in vite.config.ts + index.html — ✓ commit c3289a1
+[cont] remove_from_cart + begin_checkout analytics events — ✓ commit c3289a1
+[cont] Search query description (SEARCH_QUERY_DESCRIPTION) in SearchPage — ✓ commit e1e26c9
+[cont] Search term redirect (GET_SEARCH_TERM_DATA) in SearchPage — ✓ commit e1e26c9
+[cont] Coupon remove button (REMOVE_COUPON_FROM_CART) in CartPage — ✓ commit 9c905ba
+[cont] Price change warning banner (CHECK_PRICE_CHANGE) in CartPage — ✓ commit 853b0d2
+[cont] Archived blog sidebar in BlogListPage — ✓ commit 2cd6448
+[cont] PWA install prompt banner + usePWAInstall hook — ✓ commit fa9734c
+[cont] Social login (Facebook + Google) with SOCIAL_LOGIN_MUTATION — ✓ commit a28ce52
