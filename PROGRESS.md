@@ -555,3 +555,21 @@
 - Deploy to Vercel staging
 - QA testing with real backend
 - Optional enhancements: DeliveryTime, VAT toggle, SocialLogin
+
+## Session 3 Summary (2026-02-21)
+**Completed:**
+1. ✓ Guest cart initialization (initCart in cartStore + MainLayout)
+2. ✓ HelmetProvider + SEO meta tags on ProductPage, CategoryPage, CmsPage, SearchPage
+3. ✓ AddEditAddressDialog: district_code pre-populated on edit
+4. ✓ WishlistPage: correct cart query key invalidation
+5. ✓ loyalty_points added to GET_CUSTOMER query
+6. ✓ Order history: product thumbnails, ecom_name, status_code
+7. ✓ ColumnLine ContentType renderer
+8. ✓ HomeLandingFallback: FlashsaleProducts for real content
+9. ✓ CmsPage URL resolver: use url_path for category redirect
+10. ✓ Checkout fragment: city_code, district_code, ward_code, delivery_date, vat_address
+11. ✓ OrderDetailPage: shipment tracking section
+
+**Build Status:** ✓ Clean build, 2088 modules
+**Commits:** bfa91ba → c964e3b (11 commits)
+**Status:** 🚧 In Progress — continuing bug fixes and feature completion

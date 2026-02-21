@@ -376,3 +376,15 @@ All major structured data types implemented!
 [09:00] CategoryPage — support URL path lookup + category UID resolution — commit ef2e245
 [09:05] Navigation links — use /category/ prefix in MegaMenu, Navigation, ProductPage — commit 94aa2b7
 [09:08] Product links — use /product/ prefix in MiniCart, CartPage, SearchPage, OrderDetailPage — commit 1c8da68
+[09:10] cartStore — add initCart() for guest cart creation — commit bfa91ba
+[09:12] MainLayout — call initCart() on mount for guest cart init — commit bfa91ba
+[09:15] HelmetProvider — add to main.tsx, add Helmet SEO tags to ProductPage, CategoryPage, CmsPage, SearchPage — commit 15c0ab6
+[09:20] AddEditAddressDialog — add district_code to form, pre-populate on edit — commit d3a3c83
+[09:22] WishlistPage — fix cart query key invalidation (cart → miniCart/cartDetails) — commit ddd6f05
+[09:23] account.ts — add loyalty_points to GET_CUSTOMER query — commit ddd6f05
+[09:25] account.ts — add product thumbnails, ecom_name, status_code to order history query — commit b6a30fd
+[09:27] ColumnLine ContentType — create component, register in ContentTypeFactory — commit ce1e2e7
+[09:30] HomeLandingFallback — add FlashsaleProducts for real product content — commit c8157a5
+[09:32] CmsPage — fix URL resolver to use url_path for category redirect — commit bd92693
+[09:35] checkout.ts — add city_code, district_code, ward_code, delivery_date, vat_address to checkout fragment — commit 80beb82
+[09:38] OrderDetailPage — add shipment tracking section — commit c964e3b
