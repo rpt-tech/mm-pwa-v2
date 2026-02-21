@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /checkout
+Disallow: /account
+Disallow: /cart
+
+Sitemap: https://online.mmvietnam.com/sitemap.xml
