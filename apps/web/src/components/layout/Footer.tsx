@@ -56,7 +56,7 @@ export default function Footer() {
           <div className="flex gap-2.5 md:block mb-2.5 md:mb-0">
             <Link to="/" className="block md:mb-5">
               <img
-                src="/logo.svg"
+                src="/logo-footer.svg"
                 alt="Mega Market"
                 className="max-h-[66px] md:max-h-[88px] w-[90px] md:w-[120px] object-contain"
                 width={isDNSC ? 136 : 120}
