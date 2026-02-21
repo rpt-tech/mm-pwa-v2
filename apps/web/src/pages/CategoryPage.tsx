@@ -229,14 +229,17 @@ const CategoryPage: React.FC = () => {
           {/* Products */}
           <div className="flex-1">
             {/* Toolbar */}
-            <div className="flex items-center justify-between mb-4 flex-wrap gap-4">
+            <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
               <div className="flex items-center gap-2">
                 {/* Filter Button - Mobile */}
                 <button
                   onClick={() => setIsFilterModalOpen(true)}
-                  className="lg:hidden px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-50"
+                  className="lg:hidden flex items-center gap-1.5 px-3 py-1.5 border border-gray-300 rounded text-sm hover:border-[#0272BA] hover:text-[#0272BA] transition-colors"
                 >
-                  Filters
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h18M7 12h10M11 20h2" />
+                  </svg>
+                  Bộ lọc
                 </button>
 
                 {/* Sort */}
@@ -249,28 +252,32 @@ const CategoryPage: React.FC = () => {
               </div>
 
               {/* View Mode Toggle */}
-              <div className="flex gap-2">
+              <div className="flex gap-1 border border-gray-200 rounded overflow-hidden">
                 <button
                   onClick={() => toggleViewMode('grid')}
-                  className={`px-3 py-2 rounded ${
-                    viewMode === 'grid'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 text-gray-700'
+                  className={`px-3 py-1.5 text-sm transition-colors ${
+                    viewMode === 'grid' ? 'bg-[#0272BA] text-white' : 'text-gray-500 hover:bg-gray-50'
                   }`}
                   aria-label="Grid View"
+                  title="Lưới"
                 >
-                  Grid
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
+                    <rect x="0" y="0" width="7" height="7" rx="1" /><rect x="9" y="0" width="7" height="7" rx="1" />
+                    <rect x="0" y="9" width="7" height="7" rx="1" /><rect x="9" y="9" width="7" height="7" rx="1" />
+                  </svg>
                 </button>
                 <button
                   onClick={() => toggleViewMode('list')}
-                  className={`px-3 py-2 rounded ${
-                    viewMode === 'list'
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 text-gray-700'
+                  className={`px-3 py-1.5 text-sm transition-colors ${
+                    viewMode === 'list' ? 'bg-[#0272BA] text-white' : 'text-gray-500 hover:bg-gray-50'
                   }`}
                   aria-label="List View"
+                  title="Danh sách"
                 >
-                  List
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 16 16">
+                    <rect x="0" y="0" width="16" height="3" rx="1" /><rect x="0" y="6" width="16" height="3" rx="1" />
+                    <rect x="0" y="12" width="16" height="3" rx="1" />
+                  </svg>
                 </button>
               </div>
             </div>
