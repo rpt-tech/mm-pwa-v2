@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
@@ -42,6 +42,18 @@ export default function ProductPage() {
   });
 
   const product = data?.products?.items?.[0];
+
+  // Track view_item
+  useEffect(() => {
+    if (product) {
+      analytics.viewItem({
+        sku: product.sku,
+        name: product.ecom_name || product.name,
+        price: product.price_range?.maximum_price?.final_price?.value || 0,
+        currency: product.price_range?.maximum_price?.final_price?.currency || 'VND',
+      });
+    }
+  }, [product?.sku]);
 
   // Add to cart mutation
   const addToCartMutation = useMutation({

@@ -14,6 +14,34 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KXH7R829');</script>
     <!-- End Google Tag Manager -->
+    <!-- Antsomi CDP Web Insight -->
+    <script type="text/javascript">
+      var _portalId = "564892373";
+      var _propId = "565018647";
+      var _ATM_TRACKING_ASSOCIATE_UTM = 1;
+      var _cdp365Analytics = { first_party_domain: ".mmvietnam.com" };
+      (function() {
+        var w = window;
+        if (w.web_event) return;
+        var a = window.web_event = function() { a.queue.push(arguments); };
+        a.propId = _propId;
+        a.track = a;
+        a.queue = [];
+        var e = document.createElement("script");
+        e.type = "text/javascript"; e.async = true; e.src = "//st-a.cdp.asia/insight.js";
+        var t = document.getElementsByTagName("script")[0];
+        t.parentNode.insertBefore(e, t);
+      })();
+    </script>
+    <!-- Antsomi Web Push -->
+    <script src="https://st-a.cdp.asia/webpush.js" async></script>
+    <script>
+      window.AntsomiPush = window.AntsomiPush || [];
+      AntsomiPush.push(function() {
+        AntsomiPush.init({ portalId: 564892373, appId: "9a48a327-0a7b-4fa5-b903-1cec3d5907d8" });
+      });
+    </script>
+    <!-- End Antsomi CDP -->
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->

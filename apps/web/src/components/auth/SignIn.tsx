@@ -3,6 +3,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { analytics } from '@/lib/analytics';
 import { gqlClient } from '@/lib/graphql-client';
 import { useAuthStore } from '@/stores/authStore';
 import {
@@ -89,6 +90,7 @@ export const SignIn = ({
 
       // Login user
       login(token, customerResult.customer, tokenLifetime);
+      analytics.login('email');
 
       // Handle cart merging
       if (sourceCartId) {

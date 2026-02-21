@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Plus, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import MyAccountLayout from '@/components/account/MyAccountLayout';
 import AddressCard from '@/components/account/AddressCard';
 import AddEditAddressDialog from '@/components/account/AddEditAddressDialog';
@@ -179,6 +180,7 @@ export default function AddressBookPage() {
 
   return (
     <MyAccountLayout currentPage="addressBook">
+      <Helmet><title>Sổ địa chỉ | MM Mega Market</title></Helmet>
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-2xl font-bold">{t('account.addressBook')}</h2>
         <button

@@ -4,6 +4,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { Helmet } from 'react-helmet-async';
 import MyAccountLayout from '@/components/account/MyAccountLayout';
 import { gqlClient } from '@/lib/graphql-client';
 import { GET_CUSTOMER, UPDATE_CUSTOMER, CHANGE_PASSWORD } from '@/queries/account';
@@ -194,6 +195,7 @@ export default function AccountInformationPage() {
 
   return (
     <MyAccountLayout currentPage="accountInformation">
+      <Helmet><title>Thông tin tài khoản | MM Mega Market</title></Helmet>
       <div className="max-w-2xl">
         <h1 className="text-2xl font-bold mb-6">{t('account.myProfile')}</h1>
 
