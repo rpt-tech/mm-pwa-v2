@@ -12,6 +12,7 @@ import {
   REMOVE_ITEM_FROM_CART,
   REMOVE_ALL_CART_ITEMS,
   APPLY_COUPON_TO_CART,
+  REMOVE_COUPON_FROM_CART,
   ADD_COMMENT_TO_CART_ITEM,
   GET_CROSS_SELL_PRODUCTS,
 } from '@/queries/cart';
@@ -261,7 +262,7 @@ function PriceSummary({ cart }: { cart: any }) {
   );
 }
 
-function CouponSection({ cartId }: { cartId: string }) {
+function CouponSection({ cartId, appliedCoupons = [] }: { cartId: string; appliedCoupons?: any[] }) {
   const [couponCode, setCouponCode] = useState('');
   const [error, setError] = useState('');
   const queryClient = useQueryClient();
@@ -279,28 +280,48 @@ function CouponSection({ cartId }: { cartId: string }) {
     },
   });
 
+  const removeMutation = useMutation({
+    mutationFn: () => gqlClient.request(REMOVE_COUPON_FROM_CART, { cartId }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
+    },
+  });
+
   return (
     <div className="mt-4 p-4 bg-gray-50 rounded-lg">
       <div className="flex items-center gap-2 mb-2">
         <Tag size={16} className="text-[#006341]" />
         <span className="text-sm font-medium">Mã giảm giá</span>
       </div>
-      <div className="flex gap-2">
-        <input
-          type="text"
-          value={couponCode}
-          onChange={(e) => { setCouponCode(e.target.value.toUpperCase()); setError(''); }}
-          placeholder="Nhập mã giảm giá"
-          className="flex-1 border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-[#006341]"
-        />
-        <button
-          onClick={() => applyMutation.mutate()}
-          disabled={!couponCode || applyMutation.isPending}
-          className="px-4 py-2 bg-[#006341] text-white text-sm rounded hover:bg-[#004d32] disabled:opacity-50 transition-colors"
-        >
-          Áp dụng
-        </button>
-      </div>
+      {appliedCoupons.length > 0 ? (
+        <div className="flex items-center justify-between bg-green-50 border border-green-200 rounded px-3 py-2">
+          <span className="text-sm text-green-700 font-medium">{appliedCoupons[0].code}</span>
+          <button
+            onClick={() => removeMutation.mutate()}
+            disabled={removeMutation.isPending}
+            className="text-xs text-red-500 hover:underline disabled:opacity-50"
+          >
+            Xóa
+          </button>
+        </div>
+      ) : (
+        <div className="flex gap-2">
+          <input
+            type="text"
+            value={couponCode}
+            onChange={(e) => { setCouponCode(e.target.value.toUpperCase()); setError(''); }}
+            placeholder="Nhập mã giảm giá"
+            className="flex-1 border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-[#006341]"
+          />
+          <button
+            onClick={() => applyMutation.mutate()}
+            disabled={!couponCode || applyMutation.isPending}
+            className="px-4 py-2 bg-[#006341] text-white text-sm rounded hover:bg-[#004d32] disabled:opacity-50 transition-colors"
+          >
+            Áp dụng
+          </button>
+        </div>
+      )}
       {error && (
         <div className="mt-1 flex items-center gap-1 text-xs text-red-500">
           <AlertCircle size={12} />
@@ -478,7 +499,7 @@ export default function CartPage() {
               ))}
 
               {/* Coupon code */}
-              <CouponSection cartId={cartId} />
+              <CouponSection cartId={cartId} appliedCoupons={cart?.applied_coupons || []} />
             </div>
           </div>
 
