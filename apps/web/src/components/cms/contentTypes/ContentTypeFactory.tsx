@@ -8,6 +8,7 @@ import { Banner } from './Banner';
 import { Row } from './Row';
 import { Column } from './Column';
 import { ColumnGroup } from './ColumnGroup';
+import { ColumnLine } from './ColumnLine';
 import { Html } from './Html';
 import { Image } from './Image';
 import { Text } from './Text';
@@ -33,6 +34,9 @@ export const ContentTypeFactory: React.FC<{ data: ContentTypeData }> = ({ data }
 
     case 'column-group':
       return <ColumnGroup {...props as any} />;
+
+    case 'column-line':
+      return <ColumnLine {...props as any} />;
 
     case 'column':
       return <Column {...props as any} />;
