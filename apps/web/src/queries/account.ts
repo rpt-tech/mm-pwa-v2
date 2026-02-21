@@ -447,3 +447,20 @@ export const REMOVE_FROM_WISHLIST = gql`
     }
   }
 `;
+
+// Reorder items from a previous order
+export const REORDER_ITEMS = gql`
+  mutation ReorderItems($orderNumber: String!) {
+    reorderItems(orderNumber: $orderNumber) {
+      cart {
+        id
+        total_quantity
+      }
+      userInputErrors {
+        code
+        message
+        path
+      }
+    }
+  }
+`;

@@ -1,9 +1,11 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Package, MapPin, CreditCard, Truck } from 'lucide-react';
+import { ArrowLeft, Package, MapPin, CreditCard, Truck, RefreshCw } from 'lucide-react';
+import { toast } from 'sonner';
 import { gqlClient } from '@/lib/graphql-client';
-import { GET_ORDER_DETAILS } from '@/queries/account';
+import { GET_ORDER_DETAILS, REORDER_ITEMS } from '@/queries/account';
+import { useCartStore } from '@/stores/cartStore';
 
 function formatPrice(value: number, currency = 'VND') {
   if (currency === 'VND') {
@@ -37,11 +39,31 @@ export default function OrderDetailPage() {
   const { t } = useTranslation();
   const { orderNumber } = useParams<{ orderNumber: string }>();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const { fetchCart } = useCartStore();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['orderDetails', orderNumber],
     queryFn: () => gqlClient.request(GET_ORDER_DETAILS, { orderNumber }),
     enabled: !!orderNumber,
+  });
+
+  const reorderMutation = useMutation({
+    mutationFn: () => gqlClient.request(REORDER_ITEMS, { orderNumber }),
+    onSuccess: (data) => {
+      const errors = data?.reorderItems?.userInputErrors || [];
+      if (errors.length > 0) {
+        toast.warning(`Đặt lại đơn hàng: ${errors[0].message}`);
+      } else {
+        toast.success('Đã thêm sản phẩm vào giỏ hàng');
+      }
+      fetchCart();
+      queryClient.invalidateQueries({ queryKey: ['miniCart'] });
+      navigate('/cart');
+    },
+    onError: () => {
+      toast.error('Không thể đặt lại đơn hàng');
+    },
   });
 
   const order = data?.customer?.orders?.items?.[0];
@@ -90,9 +112,19 @@ export default function OrderDetailPage() {
             </h1>
             <p className="text-gray-600 mt-1">{formatDate(order.order_date)}</p>
           </div>
-          <span className={`px-4 py-2 rounded-full text-sm font-semibold ${getStatusColor(order.status)}`}>
-            {order.status}
-          </span>
+          <div className="flex items-center gap-3">
+            <span className={`px-4 py-2 rounded-full text-sm font-semibold ${getStatusColor(order.status)}`}>
+              {order.status}
+            </span>
+            <button
+              onClick={() => reorderMutation.mutate()}
+              disabled={reorderMutation.isPending}
+              className="flex items-center gap-2 px-4 py-2 bg-[#0272BA] text-white rounded-lg text-sm font-medium hover:bg-[#005a9e] disabled:opacity-50 transition-colors"
+            >
+              <RefreshCw size={16} className={reorderMutation.isPending ? 'animate-spin' : ''} />
+              {reorderMutation.isPending ? 'Đang xử lý...' : 'Đặt lại'}
+            </button>
+          </div>
         </div>
       </div>
 
