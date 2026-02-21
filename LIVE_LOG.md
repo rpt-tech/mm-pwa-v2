@@ -443,3 +443,26 @@ All major structured data types implemented!
 [cont] Archived blog sidebar in BlogListPage — ✓ commit 2cd6448
 [cont] PWA install prompt banner + usePWAInstall hook — ✓ commit fa9734c
 [cont] Social login (Facebook + Google) with SOCIAL_LOGIN_MUTATION — ✓ commit a28ce52
+
+[Session 7 - 2026-02-21]
+[cont] ScrollToTop component (fixed bottom-right, shows after 400px scroll) — ✓ created
+[cont] ScrollToTop integrated into MainLayout — ✓ done
+[cont] GET_AVAILABLE_STATUS query added to account.ts — ✓ done
+[cont] GET_CUSTOMER_ORDERS filter variable support (CustomerOrdersFilterInput) — ✓ done
+[cont] OrderHistoryPage status filter dropdown (live statuses from API) — ✓ commit 127d427
+[cont] XSS sanitization (DOMPurify) on CategoryPage, ProductPage, SearchPage, DescriptionTabs — ✓ commit fa582d3
+[cont] Mobile header CMS menu links (header_menu_links_v2 CmsBlock) — ✓ commit fa582d3
+[cont] is_subscribed field in GET_CUSTOMER + UPDATE_CUSTOMER + AccountInformationPage — ✓ commit 3cb56f6
+[cont] VITE_MEDIA_BASE_URL env var in ProductImageCarousel — ✓ commit 3cb56f6
+[cont] Delete unused checkout/payment/PaymentMethods.tsx duplicate — ✓ commit b56d44a
+[cont] OrderHistoryPage: use status_code for getStatusColor (not human label) — ✓ commit b56d44a
+[cont] OrderDetailPage: same status_code fix + holded/pending_payment cases — ✓ commit b56d44a
+[cont] GET_ORDER_DETAILS: add status_code field — ✓ commit b56d44a
+[cont] Remove unused SET_PAYMENT_METHOD export from checkout.ts — ✓ commit b56d44a
+[cont] CANCEL_ORDER mutation added to account.ts — ✓ commit 83be84d
+[cont] OrderConfirmationPage: auto-cancel pending order when payment fails — ✓ commit 83be84d
+[cont] GET_ORDER_DETAILS: add delivery_code, delivery_status, delivery_information, promotion_message, vat_information, product thumbnail/ecom_name/unit_ecom — ✓ commit 28b07f9
+[cont] OrderDetailPage: product thumbnails + ecom_name + unit_ecom in items — ✓ commit 28b07f9
+[cont] OrderDetailPage: delivery status card + promotion_message banner — ✓ commit 28b07f9
+[cont] ProductCard: fix dnr_price_search_page field name mismatch — ✓ commit 82d6e45
+[cont] ProductGrid list mode: add DnrLabel + dnr_price_search_page — ✓ commit 73a620c

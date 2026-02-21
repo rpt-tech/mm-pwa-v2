@@ -33,6 +33,19 @@ export const PRODUCT_FRAGMENT = gql`
       }
     }
     price_range {
+      minimum_price {
+        final_price {
+          currency
+          value
+        }
+        regular_price {
+          currency
+          value
+        }
+        discount {
+          amount_off
+        }
+      }
       maximum_price {
         final_price {
           currency
