@@ -67,7 +67,7 @@ interface ProductCardProps {
  * Reusable product card for grids and carousels
  */
 export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const { cartId, fetchCart } = useCartStore();
+  const { fetchCart, initCart } = useCartStore();
   const priceData = product.price_range.minimum_price || product.price_range.maximum_price;
 
   if (!priceData) {
@@ -85,16 +85,22 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const isOutOfStock = product.stock_status === 'OUT_OF_STOCK';
 
   const addToCartMutation = useMutation({
-    mutationFn: () => gqlClient.request(ADD_PRODUCT_TO_CART, {
-      cartId,
-      cartItems: [{ sku: product.sku, quantity: 1 }],
-    }),
+    mutationFn: () => {
+      const currentCartId = useCartStore.getState().cartId;
+      return gqlClient.request(ADD_PRODUCT_TO_CART, {
+        cartId: currentCartId,
+        cartItems: [{ sku: product.sku, quantity: 1 }],
+      });
+    },
     onSuccess: () => fetchCart(),
   });
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
-    if (!cartId || isOutOfStock) return;
+    if (isOutOfStock) return;
+    if (!useCartStore.getState().cartId) {
+      await initCart();
+    }
     addToCartMutation.mutate();
   };
 
