@@ -43,6 +43,21 @@ export const GET_CUSTOMER = gql`
         default_shipping
         default_billing
       }
+      orders(currentPage: 1, pageSize: 3) {
+        total_count
+        items {
+          id
+          number
+          order_date
+          status
+          total {
+            grand_total {
+              value
+              currency
+            }
+          }
+        }
+      }
     }
   }
 `;
