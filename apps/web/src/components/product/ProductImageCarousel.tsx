@@ -61,6 +61,7 @@ export default function ProductImageCarousel({ images }: ProductImageCarouselPro
           alt={currentImage.label || 'Product image'}
           className="w-full h-full object-contain cursor-zoom-in"
           onClick={() => setIsLightboxOpen(true)}
+          loading="eager"
         />
 
         {/* Navigation Arrows */}
@@ -108,6 +109,7 @@ export default function ProductImageCarousel({ images }: ProductImageCarouselPro
                 src={`${baseUrl}${image.file}`}
                 alt={image.label || `Thumbnail ${index + 1}`}
                 className="w-full h-full object-cover"
+                loading="lazy"
               />
             </button>
           ))}

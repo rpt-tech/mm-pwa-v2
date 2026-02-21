@@ -3,6 +3,7 @@ import { Suspense, lazy, useEffect } from 'react';
 import MainLayout from '@/components/layout/MainLayout';
 import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { useAuthStore } from '@/stores/authStore';
+import ErrorBoundary from '@/components/common/ErrorBoundary';
 
 // Lazy-loaded pages
 const HomePage = lazy(() => import('@/pages/HomePage'));
@@ -36,35 +37,37 @@ export default function App() {
   }, [initializeAuth]);
 
   return (
-    <Suspense fallback={<LoadingIndicator />}>
-      <Routes>
-        <Route element={<MainLayout />}>
-          <Route index element={<HomePage />} />
-          <Route path="category/*" element={<CategoryPage />} />
-          <Route path="product/*" element={<ProductPage />} />
-          <Route path="search" element={<SearchPage />} />
-          <Route path="cart" element={<CartPage />} />
-          <Route path="checkout" element={<CheckoutPage />} />
-          <Route path="checkout/confirmation" element={<OrderConfirmationPage />} />
-          <Route path="sign-in" element={<SignInPage />} />
-          <Route path="create-account" element={<CreateAccountPage />} />
-          <Route path="forgot-password" element={<ForgotPasswordPage />} />
-          <Route path="confirm-password" element={<ConfirmPasswordPage />} />
-          <Route path="account/*" element={<AccountPage />} />
-          <Route path="blog" element={<BlogListPage />} />
-          <Route path="blog/search" element={<BlogSearchPage />} />
-          <Route path="blog/:urlKey" element={<BlogDetailPage />} />
-          <Route path="contact" element={<ContactPage />} />
-          <Route path="faq" element={<FaqPage />} />
-          <Route path="guest-order" element={<GuestOrderPage />} />
-          <Route path="store-locator" element={<StoreLocatorPage />} />
-          <Route path="quick-order" element={<QuickOrderPage />} />
-          {/* Single-segment CMS pages */}
-          <Route path=":urlKey" element={<CmsPage />} />
-          {/* Multi-segment CMS pages (e.g. /some/cms/page) — URL resolver handles routing */}
-          <Route path="*" element={<CmsPage />} />
-        </Route>
-      </Routes>
-    </Suspense>
+    <ErrorBoundary>
+      <Suspense fallback={<LoadingIndicator />}>
+        <Routes>
+          <Route element={<MainLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="category/*" element={<CategoryPage />} />
+            <Route path="product/*" element={<ProductPage />} />
+            <Route path="search" element={<SearchPage />} />
+            <Route path="cart" element={<CartPage />} />
+            <Route path="checkout" element={<CheckoutPage />} />
+            <Route path="checkout/confirmation" element={<OrderConfirmationPage />} />
+            <Route path="sign-in" element={<SignInPage />} />
+            <Route path="create-account" element={<CreateAccountPage />} />
+            <Route path="forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="confirm-password" element={<ConfirmPasswordPage />} />
+            <Route path="account/*" element={<AccountPage />} />
+            <Route path="blog" element={<BlogListPage />} />
+            <Route path="blog/search" element={<BlogSearchPage />} />
+            <Route path="blog/:urlKey" element={<BlogDetailPage />} />
+            <Route path="contact" element={<ContactPage />} />
+            <Route path="faq" element={<FaqPage />} />
+            <Route path="guest-order" element={<GuestOrderPage />} />
+            <Route path="store-locator" element={<StoreLocatorPage />} />
+            <Route path="quick-order" element={<QuickOrderPage />} />
+            {/* Single-segment CMS pages */}
+            <Route path=":urlKey" element={<CmsPage />} />
+            {/* Multi-segment CMS pages (e.g. /some/cms/page) — URL resolver handles routing */}
+            <Route path="*" element={<CmsPage />} />
+          </Route>
+        </Routes>
+      </Suspense>
+    </ErrorBoundary>
   );
 }

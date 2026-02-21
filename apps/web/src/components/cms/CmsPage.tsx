@@ -8,6 +8,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import HomeSchema from '@/components/home/HomeSchema';
 import SearchPopular from '@/components/navbar/SearchPopular';
 import ContentTypeFactory from '@/components/cms/contentTypes/ContentTypeFactory';
+import NotFoundPage from '@/pages/NotFoundPage';
 
 interface CmsPageData {
   cmsPage: {
@@ -44,7 +45,7 @@ export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.Re
   });
 
   // URL resolver — runs when CMS page not found, to check if it's a category/product
-  const { data: resolverData } = useQuery({
+  const { data: resolverData, isLoading: resolverLoading } = useQuery({
     queryKey: ['urlResolver', rawIdentifier],
     queryFn: async () => {
       return gqlClient.request(GET_URL_RESOLVER, { url: rawIdentifier });
@@ -89,12 +90,20 @@ export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.Re
       return <HomeSchema />; // ensure schema even if home data missing
     }
 
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold text-red-600">Page Not Found</h1>
-        <p className="mt-4">The page you are looking for does not exist.</p>
-      </div>
-    );
+    // Wait for URL resolver to finish — it may redirect to category/product
+    if (resolverLoading) {
+      return (
+        <div className="container mx-auto px-4 py-8">
+          <div className="animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-1/3 mb-4"></div>
+            <div className="h-4 bg-gray-200 rounded w-2/3"></div>
+          </div>
+        </div>
+      );
+    }
+
+    // URL resolver returned nothing — genuine 404
+    return <NotFoundPage />;
   }
 
   const { content_heading, title, meta_title, content } = data.cmsPage;
