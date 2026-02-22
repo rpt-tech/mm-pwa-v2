@@ -702,3 +702,21 @@
 - **Status:** ✓ Done
 - **Notes:** Added 5 new content type components: Heading (h1-h6), Buttons (flex container), ButtonItem (link/button), Divider (hr), Block (embedded CMS block). Also added `slide` case to ContentTypeFactory (reuses Banner). ContentTypeFactory now handles 17 content types total. Commit 39087bd.
 - **Completed:** 2026-02-22 03:15
+
+## AEGIS Phase 1 — Features #1-#6
+- **Status:** ✓ Done
+- **Notes:** 6/10 Phase 1 features completed in parallel:
+  - #1 Stray files cleanup ✓
+  - #2 Smoke tests (17/17 pass) ✓
+  - #3 React.memo on ProductCard + useMemo in ProductGrid ✓
+  - #4 ProductCardSkeleton loading state ✓
+  - #5 CategoryPage BreadcrumbStructuredData + meta description ✓
+  - #6 BackToTopButton on CategoryPage + SearchPage ✓
+  - #8 Wishlist toasts — in progress (agent a1fabac)
+  - #9 pagebuilderParser tests — in progress (agent a93d21e)
+- **Completed:** 2026-02-22 07:00
+
+## #17 Playwright E2E Smoke Tests
+- **Status:** ✓ Done
+- **Notes:** 15/15 tests pass against production https://mm-pwa-v2.vercel.app. Fixed: CSS selector syntax (use .or() chaining), 404 async wait (waitForFunction), sign-in strict mode (.first()). All 20/20 Phase 1+2 features complete.
+- **Completed:** 2026-02-22 07:00

@@ -452,10 +452,10 @@
       "expand test coverage",
       "run playwright test"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T07:00:00Z"
   },
   {
     "id": 18,
@@ -510,10 +510,10 @@
       "fix CLS/LCP issues",
       "re-run"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T08:00:00.000Z"
   },
   {
     "id": 20,
