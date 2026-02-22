@@ -44,7 +44,7 @@ export default function ProductPage() {
   // Fetch product details
   const { data, isLoading, error } = useQuery({
     queryKey: ['productDetail', urlKey],
-    queryFn: () => gqlClient.request(GET_PRODUCT_DETAIL, { urlKey: urlKey?.replace('.html', '') }),
+    queryFn: () => gqlClient.request(GET_PRODUCT_DETAIL, { urlKey: (urlKey || '')?.replace('.html', '') }),
     enabled: !!urlKey,
   });
 

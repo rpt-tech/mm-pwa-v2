@@ -23,8 +23,8 @@ const PAGE_SIZE = 24;
 
 const CategoryPage: React.FC = () => {
   const { '*': splat } = useParams();
-  // Strip .html suffix if present
-  const rawId = splat?.replace(/\.html$/, '') || '';
+  // Strip .html suffix if present — handle null splat
+  const rawId = (splat || '')?.replace(/\.html$/, '') || '';
   // Detect if it's a base64 UID (contains = or is short alphanumeric) vs URL path
   const isUid = /^[A-Za-z0-9+/]+=*$/.test(rawId) && rawId.length <= 20;
   const categoryId = rawId;
