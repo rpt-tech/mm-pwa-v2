@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { toast } from 'sonner';
 import { ChevronRight, CheckCircle, AlertCircle, Package, CreditCard, MapPin } from 'lucide-react';
 import { useCartStore } from '@/stores/cartStore';
 import { useAuthStore } from '@/stores/authStore';
@@ -387,6 +388,9 @@ function ShippingStep({
       Promise.all([shippingMethodPromise, vatPromise, mcardPromise]).then(() => {
         queryClient.invalidateQueries({ queryKey: ['cartDetails'] });
         onNext();
+      }).catch((error) => {
+        console.error('Error setting checkout data:', error);
+        toast.error('Failed to update checkout information');
       });
     },
   });

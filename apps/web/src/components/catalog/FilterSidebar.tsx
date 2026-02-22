@@ -102,7 +102,8 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({
                 <div className="pb-3 space-y-1.5">
                   {isPrice ? (
                     filter.options.map((option) => {
-                      const [from, to] = option.value.split('_');
+                      const parts = option.value.split('_');
+                      const [from, to] = parts.length === 2 ? parts : ['0', '0'];
                       const isSelected =
                         selectedFilters[filter.attribute_code]?.from === from &&
                         selectedFilters[filter.attribute_code]?.to === to;

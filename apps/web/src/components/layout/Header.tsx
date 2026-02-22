@@ -25,6 +25,7 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState('');
   const [isAutocompleteOpen, setIsAutocompleteOpen] = useState(false);
   const [isStoreSwitcherOpen, setIsStoreSwitcherOpen] = useState(false);
+  const [logoFailed, setLogoFailed] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const autocompleteRef = useRef<HTMLDivElement>(null);
 
@@ -113,18 +114,16 @@ export default function Header() {
 
             {/* Logo */}
             <Link to="/" className="flex items-center shrink-0">
-              <img
-                src="/logo.svg"
-                alt="MM Vietnam"
-                className="h-10 max-h-10"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none';
-                  const span = document.createElement('span');
-                  span.className = 'text-white font-bold text-xl';
-                  span.textContent = 'MM Vietnam';
-                  e.currentTarget.parentNode?.appendChild(span);
-                }}
-              />
+              {logoFailed ? (
+                <span className="text-white font-bold text-xl">MM Vietnam</span>
+              ) : (
+                <img
+                  src="/logo.svg"
+                  alt="MM Vietnam"
+                  className="h-10 max-h-10"
+                  onError={() => setLogoFailed(true)}
+                />
+              )}
             </Link>
 
             {/* Search Bar with Autocomplete */}
