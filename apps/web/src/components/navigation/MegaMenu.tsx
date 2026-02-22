@@ -1,6 +1,7 @@
 import { useMegaMenu } from '@/hooks/useMegaMenu';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
+import { useUIStore } from '@/stores/uiStore';
 
 // Magento url_path already includes "category/" prefix — strip it to avoid /category/category/...
 const toCategoryPath = (urlPath?: string) =>
@@ -22,6 +23,7 @@ interface Category {
 
 export default function MegaMenu({ isOpen }: MegaMenuProps) {
   const mainNavRef = useRef<HTMLDivElement>(null);
+  const { closeDrawer } = useUIStore();
   const {
     loading,
     megaMenuData,
@@ -74,6 +76,7 @@ export default function MegaMenu({ isOpen }: MegaMenuProps) {
             >
               <Link
                 to={toCategoryPath(category.url_path)}
+                onClick={() => closeDrawer()}
                 className={`block font-semibold text-sm mb-2 pb-1 border-b border-gray-100 transition-colors ${
                   activeCategoryId === category.uid
                     ? 'text-[#0272BA]'
@@ -89,6 +92,7 @@ export default function MegaMenu({ isOpen }: MegaMenuProps) {
                     <li key={child.uid}>
                       <Link
                         to={toCategoryPath(child.url_path)}
+                        onClick={() => closeDrawer()}
                         className="block text-xs text-gray-600 hover:text-[#0272BA] hover:underline py-0.5"
                       >
                         {child.name}
