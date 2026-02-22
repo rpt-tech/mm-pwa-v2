@@ -12,6 +12,10 @@ import Pagination from '../components/ui/Pagination';
 import { CmsBlock } from '@/components/cms/CmsBlock';
 import { gqlClient } from '@/lib/graphql-client';
 import Breadcrumbs from '@/components/navigation/Breadcrumbs';
+
+// Magento url_path already includes "category/" prefix — strip it to avoid double prefix
+const toCategoryPath = (urlPath?: string) =>
+  `/category/${(urlPath || '').replace(/^category\//, '')}`;
 const PAGE_SIZE = 24;
 
 
@@ -33,11 +37,13 @@ const CategoryPage: React.FC = () => {
   const sortDirection = searchParams.get('sort_direction') || 'ASC';
 
   // Fetch category data - by UID or URL path
+  // Magento stores url_path as "category/slug" — prepend prefix for the query
+  const urlPathForQuery = isUid ? categoryId : `category/${categoryId}`;
   const { data: categoryData, isLoading: categoryLoading } = useQuery({
     queryKey: ['category', categoryId],
     queryFn: () => isUid
       ? gqlClient.request(GET_CATEGORY_DATA, { id: categoryId })
-      : gqlClient.request(GET_CATEGORY_BY_URL_PATH, { urlPath: categoryId }),
+      : gqlClient.request(GET_CATEGORY_BY_URL_PATH, { urlPath: urlPathForQuery }),
     enabled: !!categoryId,
   });
 
@@ -207,7 +213,7 @@ const CategoryPage: React.FC = () => {
           items={[
             ...(category.breadcrumbs?.map((crumb: any) => ({
               label: crumb.category_name,
-              path: `/category/${crumb.category_url_path || crumb.category_url_key}`,
+              path: toCategoryPath(crumb.category_url_path || crumb.category_url_key),
             })) || []),
             { label: category.name },
           ]}

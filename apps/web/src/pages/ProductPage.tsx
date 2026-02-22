@@ -13,6 +13,10 @@ import ProductImageCarousel from '@/components/product/ProductImageCarousel';
 import ProductLabel from '@/components/catalog/ProductLabel';
 import QuantityStepper from '@/components/product/QuantityStepper';
 import ProductOptions from '@/components/product/ProductOptions';
+
+// Magento url_path already includes "category/" prefix — strip it to avoid double prefix
+const toCategoryPath = (urlPath?: string) =>
+  `/category/${(urlPath || '').replace(/^category\//, '')}`;
 import StockStatusMessage from '@/components/catalog/StockStatusMessage';
 import AlcoholDialog from '@/components/product/AlcoholDialog';
 import DnrLabel from '@/components/product/DnrLabel';
@@ -204,7 +208,7 @@ export default function ProductPage() {
           {product.main_category?.breadcrumbs?.map((crumb: any) => (
             <li key={crumb.category_uid} className="flex items-center gap-1">
               <span className="text-gray-300">/</span>
-              <Link to={`/category/${crumb.category_url_path}`} className="text-[#0272BA] hover:underline">
+              <Link to={toCategoryPath(crumb.category_url_path)} className="text-[#0272BA] hover:underline">
                 {crumb.category_name}
               </Link>
             </li>

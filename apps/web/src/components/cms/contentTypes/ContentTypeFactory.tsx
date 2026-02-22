@@ -24,33 +24,43 @@ import { Block } from './Block';
 
 export interface ContentTypeData {
   contentType: string;
+  children?: ContentTypeData[];
   [key: string]: any;
+}
+
+/** Recursively render children from parsed PageBuilder data */
+function renderChildren(children?: ContentTypeData[]): React.ReactNode {
+  if (!children || children.length === 0) return null;
+  return children.map((child, i) => (
+    <ContentTypeFactory key={`${child.contentType}-${i}`} data={child} />
+  ));
 }
 
 /**
  * Renders a PageBuilder content type based on its type
  */
 export const ContentTypeFactory: React.FC<{ data: ContentTypeData }> = ({ data }) => {
-  const { contentType, ...props } = data;
+  const { contentType, children, ...props } = data;
+  const renderedChildren = renderChildren(children);
 
   switch (contentType) {
     case 'row':
-      return <Row {...props as any} />;
+      return <Row {...props as any}>{renderedChildren}</Row>;
 
     case 'column-group':
-      return <ColumnGroup {...props as any} />;
+      return <ColumnGroup {...props as any}>{renderedChildren}</ColumnGroup>;
 
     case 'column-line':
-      return <ColumnLine {...props as any} />;
+      return <ColumnLine {...props as any}>{renderedChildren}</ColumnLine>;
 
     case 'column':
-      return <Column {...props as any} />;
+      return <Column {...props as any}>{renderedChildren}</Column>;
 
     case 'banner':
       return <Banner {...props as any} />;
 
     case 'slider':
-      return <SliderComponent {...props as any} />;
+      return <SliderComponent {...props as any}>{renderedChildren}</SliderComponent>;
 
     case 'html':
       return <Html {...props as any} />;
@@ -74,7 +84,7 @@ export const ContentTypeFactory: React.FC<{ data: ContentTypeData }> = ({ data }
       return <Heading {...props as any} />;
 
     case 'buttons':
-      return <Buttons {...props as any} />;
+      return <Buttons {...props as any}>{renderedChildren}</Buttons>;
 
     case 'button-item':
       return <ButtonItem {...props as any} />;
@@ -90,7 +100,9 @@ export const ContentTypeFactory: React.FC<{ data: ContentTypeData }> = ({ data }
       return <Banner {...props as any} />;
 
     default:
-      console.warn(`Unknown content type: ${contentType}`);
+      if (typeof window !== 'undefined' && (window as any).__DEV__) {
+        console.warn(`Unknown content type: ${contentType}`);
+      }
       return null;
   }
 };

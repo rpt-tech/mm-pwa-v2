@@ -2,6 +2,10 @@ import { useMegaMenu } from '@/hooks/useMegaMenu';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 
+// Magento url_path already includes "category/" prefix — strip it to avoid /category/category/...
+const toCategoryPath = (urlPath?: string) =>
+  `/category/${(urlPath || '').replace(/^category\//, '')}`;
+
 interface MegaMenuProps {
   isOpen: boolean;
 }
@@ -69,7 +73,7 @@ export default function MegaMenu({ isOpen }: MegaMenuProps) {
               onMouseLeave={() => setHoveredItem(null)}
             >
               <Link
-                to={`/category/${category.url_path}`}
+                to={toCategoryPath(category.url_path)}
                 className={`block font-semibold text-sm mb-2 pb-1 border-b border-gray-100 transition-colors ${
                   activeCategoryId === category.uid
                     ? 'text-[#0272BA]'
@@ -84,7 +88,7 @@ export default function MegaMenu({ isOpen }: MegaMenuProps) {
                   {category.children.map((child: Category) => (
                     <li key={child.uid}>
                       <Link
-                        to={`/category/${child.url_path}`}
+                        to={toCategoryPath(child.url_path)}
                         className="block text-xs text-gray-600 hover:text-[#0272BA] hover:underline py-0.5"
                       >
                         {child.name}

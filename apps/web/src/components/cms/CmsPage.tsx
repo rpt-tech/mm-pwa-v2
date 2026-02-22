@@ -9,6 +9,7 @@ import HomeSchema from '@/components/home/HomeSchema';
 import SearchPopular from '@/components/navbar/SearchPopular';
 import ContentTypeFactory from '@/components/cms/contentTypes/ContentTypeFactory';
 import NotFoundPage from '@/pages/NotFoundPage';
+import { parsePageBuilderHtml } from '@/lib/pagebuilderParser';
 
 interface CmsPageData {
   cmsPage: {
@@ -59,8 +60,9 @@ export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.Re
     if (!resolverData?.urlResolver) return;
     const { type, relative_url, url_path, url_key } = resolverData.urlResolver;
     if (type === 'CATEGORY') {
-      // Prefer url_path (full path), fall back to relative_url
-      const categoryPath = url_path || url_key || relative_url;
+      // url_path from Magento already includes "category/" prefix — strip it
+      const rawPath = url_path || url_key || relative_url || '';
+      const categoryPath = rawPath.replace(/^category\//, '');
       navigate(`/category/${categoryPath}`, { replace: true });
     } else if (type === 'PRODUCT') {
       const productKey = url_key || relative_url;
@@ -109,10 +111,12 @@ export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.Re
   const { content_heading, title, meta_title, content } = data.cmsPage;
   const pageTitle = meta_title || title;
 
-  // Try to parse as JSON (structured PageBuilder data), fall back to HTML rendering
+  // Try to parse as PageBuilder HTML → structured component tree
+  // Falls back to raw HTML rendering via RichContent
   let blocks: any[] = [];
   let isStructuredContent = false;
   if (content) {
+    // First try JSON (custom structured format)
     try {
       const parsed = JSON.parse(content);
       if (Array.isArray(parsed)) {
@@ -120,7 +124,12 @@ export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.Re
         isStructuredContent = true;
       }
     } catch {
-      // Content is HTML string (standard Magento PageBuilder) — use RichContent
+      // Standard Magento PageBuilder HTML — parse data-content-type tree
+      const parsed = parsePageBuilderHtml(content);
+      if (parsed && parsed.length > 0) {
+        blocks = parsed;
+        isStructuredContent = true;
+      }
     }
   }
 
