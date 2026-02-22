@@ -517,3 +517,7 @@ Static assets: placeholder, bg-login, mCard + fix broken /images/logo.svg — �
 [04:48] Update Vercel env var VITE_MAGENTO_URL via API + update deploy.yml + push to main+dev
 [04:52] Trigger Vercel deploy hook → dpl_Cw8ydoXCb4xLoPoxqPgDUqbrwMQF READY production
 [04:55] Verify new bundle index-DYnnjAjT.js — MAGENTO_URL=https://mm-bff.hi-huythanh.workers.dev/graphql ✓ — production fixed
+[05:10] Diagnose homepage CSS issues: 4 root causes found (DOMPurify strips style, no pagebuilder CSS, entity-encoded html blocks, data-background-images not processed)
+[05:15] Fix RichContent: ADD_TAGS style, processPageBuilderHtml (decode entities + bg images), FORCE_BODY
+[05:16] Add pagebuilder CSS to index.css (column, slide-wrapper, banner-wrapper, buttons, slider)
+[05:20] Deploy dpl_Gb7zvjuoeKN9Qx3MvudT4EpZwHyJ READY production — bundle index-B8X4NE78.js ✓
