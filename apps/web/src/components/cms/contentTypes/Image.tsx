@@ -22,6 +22,8 @@ interface ImageProps {
   paddingBottom?: string;
   paddingLeft?: string;
   cssClasses?: string[];
+  /** Set true for above-fold images (e.g. hero banners) to boost LCP */
+  priority?: boolean;
 }
 
 /**
@@ -49,7 +51,8 @@ export const Image: React.FC<ImageProps> = ({
   paddingRight,
   paddingBottom,
   paddingLeft,
-  cssClasses = []
+  cssClasses = [],
+  priority = false,
 }) => {
   const isMobile = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
   const imageSrc = isMobile && mobileImage ? mobileImage : desktopImage;
@@ -76,7 +79,8 @@ export const Image: React.FC<ImageProps> = ({
       alt={altText}
       title={title}
       className="max-w-full h-auto"
-      loading="lazy"
+      loading={priority ? 'eager' : 'lazy'}
+      fetchPriority={priority ? 'high' : 'auto'}
     />
   );
 

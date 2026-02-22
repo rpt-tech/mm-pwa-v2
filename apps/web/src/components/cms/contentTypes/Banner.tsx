@@ -32,6 +32,8 @@ interface BannerProps {
   paddingBottom?: string;
   paddingLeft?: string;
   cssClasses?: string[];
+  /** Set true for the first/hero banner to boost LCP via fetchpriority */
+  priority?: boolean;
 }
 
 /**
@@ -69,7 +71,8 @@ export const Banner: React.FC<BannerProps> = ({
   paddingRight,
   paddingBottom,
   paddingLeft,
-  cssClasses = []
+  cssClasses = [],
+  priority = false,
 }) => {
   const [hovered, setHovered] = React.useState(false);
 
@@ -145,6 +148,17 @@ export const Banner: React.FC<BannerProps> = ({
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
+      {/* Hidden img for LCP hinting when this is the hero banner */}
+      {priority && image && (
+        <img
+          src={image}
+          alt=""
+          aria-hidden="true"
+          fetchPriority="high"
+          loading="eager"
+          style={{ position: 'absolute', width: 0, height: 0, opacity: 0, pointerEvents: 'none' }}
+        />
+      )}
       <div className={overlayClass} style={overlayStyles}>
         <div
           className="banner-content"
