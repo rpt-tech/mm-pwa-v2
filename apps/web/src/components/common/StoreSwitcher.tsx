@@ -76,20 +76,20 @@ export default function StoreSwitcher({ isOpen, onClose }: StoreSwitcherProps) {
 
   const { data: citiesData } = useQuery({
     queryKey: ['cities'],
-    queryFn: () => gqlClient.request(GET_CITIES, { country_id: 'VN', is_new_administrative: 1 }),
+    queryFn: () => gqlClient.request(GET_CITIES, { countryId: 'VN' }),
     staleTime: 10 * 60 * 1000,
     enabled: isOpen,
   });
 
   const { data: wardsData } = useQuery({
     queryKey: ['wards', cityCode],
-    queryFn: () => gqlClient.request(GET_WARDS, { city_code: cityCode }),
+    queryFn: () => gqlClient.request(GET_WARDS, { cityCode }),
     enabled: !!cityCode && isOpen,
     staleTime: 5 * 60 * 1000,
   });
 
-  const cities = citiesData?.getCities?.cities || [];
-  const wards = wardsData?.getWard?.wards || [];
+  const cities = citiesData?.cities || [];
+  const wards = wardsData?.wards || [];
 
   const handleSearch = async () => {
     if (!cityCode) return;
