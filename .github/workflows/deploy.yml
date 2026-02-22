@@ -109,7 +109,11 @@ jobs:
             exit 0
           fi
           for i in 1 2 3; do
-            DEPLOY_URL=$(vercel deploy --prod --token "$VERCEL_TOKEN" 2>&1 | tail -1) && break
+            DEPLOY_URL=$(vercel deploy --prod \
+              --token "$VERCEL_TOKEN" \
+              --scope admin-rpts-projects \
+              --yes \
+              2>&1 | grep -E "^https://" | tail -1) && break
             [ $i -lt 3 ] && sleep 30
           done
           echo "deploy_url=${DEPLOY_URL}" >> "$GITHUB_OUTPUT"
