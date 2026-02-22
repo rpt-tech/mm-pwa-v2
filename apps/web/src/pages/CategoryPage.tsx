@@ -12,6 +12,8 @@ import Pagination from '../components/ui/Pagination';
 import { CmsBlock } from '@/components/cms/CmsBlock';
 import { gqlClient } from '@/lib/graphql-client';
 import Breadcrumbs from '@/components/navigation/Breadcrumbs';
+import BreadcrumbStructuredData from '@/components/seo/BreadcrumbStructuredData';
+import BackToTopButton from '@/components/common/BackToTopButton';
 
 // Magento url_path already includes "category/" prefix — strip it to avoid double prefix
 const toCategoryPath = (urlPath?: string) =>
@@ -199,13 +201,32 @@ const CategoryPage: React.FC = () => {
       {category && (
         <Helmet>
           <title>{category.meta_title || category.name}</title>
-          {category.meta_description && <meta name="description" content={category.meta_description} />}
+          <meta
+            name="description"
+            content={
+              category.meta_description ||
+              (descriptionText ? descriptionText.slice(0, 160) : `${category.name} - Mua sắm tại MM Mega Market`)
+            }
+          />
           {category.meta_keywords && <meta name="keywords" content={category.meta_keywords} />}
           <meta property="og:title" content={category.meta_title || category.name} />
           {category.meta_description && <meta property="og:description" content={category.meta_description} />}
           {category.image && <meta property="og:image" content={category.image} />}
           <meta property="og:type" content="website" />
         </Helmet>
+      )}
+      {/* Breadcrumb Structured Data */}
+      {category && (
+        <BreadcrumbStructuredData
+          items={[
+            { name: 'Trang chủ', url: '/' },
+            ...(category.breadcrumbs?.map((crumb: any) => ({
+              name: crumb.category_name,
+              url: toCategoryPath(crumb.category_url_path || crumb.category_url_key),
+            })) || []),
+            { name: category.name, url: toCategoryPath(category.url_path || category.url_key) },
+          ]}
+        />
       )}
       {/* Breadcrumbs */}
       {category && (
@@ -412,6 +433,7 @@ const CategoryPage: React.FC = () => {
         onFilterChange={handleFilterChange}
         onClearAll={handleClearFilters}
       />
+      <BackToTopButton />
     </div>
   );
 };
