@@ -106,6 +106,7 @@ const ProductCardComponent: React.FC<ProductCardProps> = ({ product }) => {
   const isInCompare = compareItems.some((p) => p.uid === product.uid);
   const compareDisabled = !isInCompare && compareItems.length >= 3;
   const priceData = product.price_range.minimum_price || product.price_range.maximum_price;
+  const [quickViewOpen, setQuickViewOpen] = useState(false);
 
   const addToCartMutation = useMutation({
     mutationFn: () => {
@@ -148,10 +149,14 @@ const ProductCardComponent: React.FC<ProductCardProps> = ({ product }) => {
   };
 
   return (
-    <Link
-      to={`/product/${product.url_key}`}
-      className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md hover:border-[#0272BA]/30 transition-all"
-    >
+    <>
+      {quickViewOpen && (
+        <ProductQuickView urlKey={product.url_key} onClose={() => setQuickViewOpen(false)} />
+      )}
+      <Link
+        to={`/product/${product.url_key}`}
+        className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md hover:border-[#0272BA]/30 transition-all"
+      >
       {/* Product Image */}
       <div className="relative bg-gray-50 aspect-square overflow-hidden" style={{ aspectRatio: '1 / 1' }}>
         <img
@@ -184,6 +189,20 @@ const ProductCardComponent: React.FC<ProductCardProps> = ({ product }) => {
         {/* Wishlist Button */}
         <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <WishlistButton productSku={product.sku} size="sm" />
+        </div>
+        {/* Quick View Button */}
+        <div className="absolute bottom-2 left-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setQuickViewOpen(true);
+            }}
+            title="Xem nhanh"
+            aria-label="Xem nhanh sản phẩm"
+            className="w-7 h-7 rounded-full bg-white shadow flex items-center justify-center hover:bg-[#0272BA] hover:text-white text-gray-600 transition-colors"
+          >
+            <Eye size={14} />
+          </button>
         </div>
         {/* Compare Checkbox */}
         <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -272,6 +291,7 @@ const ProductCardComponent: React.FC<ProductCardProps> = ({ product }) => {
         )}
       </div>
     </Link>
+    </>
   );
 };
 
