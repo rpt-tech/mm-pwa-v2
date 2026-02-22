@@ -535,3 +535,8 @@ Static assets: placeholder, bg-login, mCard + fix broken /images/logo.svg — �
 [07:15] #19 Lighthouse CI baseline — Chrome unavailable in WSL, PSI quota exhausted; applied CWV fixes: preconnect hints, fetchpriority on CMS images/banners, updated .lighthouserc.json thresholds — commit
 [08:25] FEATURE #17: Playwright e2e smoke tests — PASS: 15/15 tests — fixed CSS selector syntax, 404 async wait, sign-in strict mode — all 20 features complete
 [08:41] INVESTIGATION: Production issues — homepage data, CategoryPage chunk fetch, menu closing, menu URLs
+[08:49] FEATURE #21: rebuild CategoryPage chunk — PASS — committed 58271c5 — pushed to dev
+[08:50] FEATURE #22: close menu after category selection — PASS — committed 049b444 — pushed to dev
+[08:51] FEATURE #23: fix schema URLs to use current domain — PASS — committed 83d1c67 — pushed to dev
+[08:52] FEATURE #24: verify homepage data rendering — PASS — FlashsaleProducts handles errors gracefully — committed c7bd3bc — pushed to dev
+[08:52] PHASE 3 PRODUCTION FIXES: 4/4 features complete — all production issues addressed
