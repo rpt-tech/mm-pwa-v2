@@ -27,6 +27,7 @@ const GuestOrderPage = lazy(() => import('@/pages/GuestOrderPage'));
 const StoreLocatorPage = lazy(() => import('@/pages/StoreLocatorPage'));
 const QuickOrderPage = lazy(() => import('@/pages/QuickOrderPage'));
 const CmsPage = lazy(() => import('@/pages/CmsPage'));
+const TrackOrderPage = lazy(() => import('@/pages/TrackOrderPage'));
 
 export default function App() {
   const initializeAuth = useAuthStore((state) => state.initializeAuth);
@@ -59,6 +60,7 @@ export default function App() {
             <Route path="contact" element={<ContactPage />} />
             <Route path="faq" element={<FaqPage />} />
             <Route path="guest-order" element={<GuestOrderPage />} />
+            <Route path="track-order" element={<TrackOrderPage />} />
             <Route path="store-locator" element={<StoreLocatorPage />} />
             <Route path="quick-order" element={<QuickOrderPage />} />
             {/* Single-segment CMS pages */}
