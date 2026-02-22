@@ -11,6 +11,7 @@ import { ChevronDown, Search, X, MapPin } from 'lucide-react';
 import MegaMenu from '@/components/navigation/MegaMenu';
 import StoreSwitcher from '@/components/common/StoreSwitcher';
 import CmsBlock from '@/components/cms/CmsBlock';
+import SearchAutocomplete from '@/components/navbar/SearchAutocomplete';
 import { useTranslation } from 'react-i18next';
 
 export default function Header() {
@@ -169,6 +170,17 @@ export default function Header() {
                   </div>
                 </div>
               </form>
+
+              {/* AI Search Autocomplete — shows when GQL dropdown is closed */}
+              {!isAutocompleteOpen && searchQuery.length >= 2 && (
+                <SearchAutocomplete
+                  query={searchQuery}
+                  onSelect={(term) => {
+                    setSearchQuery(term);
+                    setIsAutocompleteOpen(false);
+                  }}
+                />
+              )}
 
               {/* Autocomplete Dropdown */}
               {isAutocompleteOpen && searchQuery.length >= 3 && (
