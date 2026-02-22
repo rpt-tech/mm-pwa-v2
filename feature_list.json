@@ -176,10 +176,10 @@
       "add width/height attrs and aspect-ratio",
       "build check"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T07:10:00.000Z"
   },
   {
     "id": 8,
@@ -202,10 +202,10 @@
       "read WishlistButton.tsx",
       "add toast.success/error calls"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-21T09:03:23.000Z"
   },
   {
     "id": 9,
@@ -230,10 +230,10 @@
       "write test cases",
       "run vitest --run"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T07:10:00.000Z"
   },
   {
     "id": 10,
@@ -257,10 +257,10 @@
       "add useInfiniteQuery variant",
       "add IntersectionObserver trigger"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T07:20:00.000Z"
   },
   {
     "id": 11,
