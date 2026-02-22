@@ -18,12 +18,36 @@ const addressSchema = z.object({
 
 type AddressFormData = z.infer<typeof addressSchema>;
 
+interface CustomAttribute {
+  attribute_code: string;
+  value: string;
+}
+
+interface InitialAddressValues {
+  firstname?: string;
+  telephone?: string;
+  street?: string[];
+  is_new_administrative?: boolean;
+  custom_attributes?: CustomAttribute[];
+  default_shipping?: boolean;
+}
+
+interface AddressFormValues {
+  firstname: string;
+  telephone: string;
+  street: string[];
+  city_code: string;
+  district_code?: string;
+  ward_code: string;
+  default_shipping: boolean;
+}
+
 interface AddEditAddressDialogProps {
   isOpen: boolean;
   isEditMode: boolean;
-  initialValues?: any;
+  initialValues?: InitialAddressValues;
   onCancel: () => void;
-  onConfirm: (values: any) => void;
+  onConfirm: (values: AddressFormValues) => void;
   isBusy: boolean;
 }
 
@@ -65,13 +89,13 @@ export default function AddEditAddressDialog({
   useEffect(() => {
     if (isOpen && initialValues) {
       const cityCodeValue = initialValues.is_new_administrative
-        ? initialValues.custom_attributes?.find((attr: any) => attr.attribute_code === 'city_code')?.value || ''
+        ? initialValues.custom_attributes?.find((attr: CustomAttribute) => attr.attribute_code === 'city_code')?.value || ''
         : '';
       const districtCodeValue = initialValues.is_new_administrative
-        ? initialValues.custom_attributes?.find((attr: any) => attr.attribute_code === 'district_code')?.value || ''
+        ? initialValues.custom_attributes?.find((attr: CustomAttribute) => attr.attribute_code === 'district_code')?.value || ''
         : '';
       const wardCodeValue = initialValues.is_new_administrative
-        ? initialValues.custom_attributes?.find((attr: any) => attr.attribute_code === 'ward_code')?.value || ''
+        ? initialValues.custom_attributes?.find((attr: CustomAttribute) => attr.attribute_code === 'ward_code')?.value || ''
         : '';
 
       reset({

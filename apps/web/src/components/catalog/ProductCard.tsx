@@ -100,20 +100,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const { fetchCart, initCart } = useCartStore();
   const priceData = product.price_range.minimum_price || product.price_range.maximum_price;
 
-  if (!priceData) {
-    return null;
-  }
-
-  const finalPrice = priceData.final_price.value;
-  const regularPrice = priceData.regular_price.value;
-  const hasDiscount = finalPrice < regularPrice;
-  const discountPercent = hasDiscount
-    ? Math.round(((regularPrice - finalPrice) / regularPrice) * 100)
-    : 0;
-
-  const isSimple = product.__typename !== 'ConfigurableProduct';
-  const isOutOfStock = product.stock_status === 'OUT_OF_STOCK';
-
   const addToCartMutation = useMutation({
     mutationFn: () => {
       const currentCartId = useCartStore.getState().cartId;
@@ -130,6 +116,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       toast.error('Không thể thêm vào giỏ hàng');
     },
   });
+
+  if (!priceData) {
+    return null;
+  }
+
+  const finalPrice = priceData.final_price.value;
+  const regularPrice = priceData.regular_price.value;
+  const hasDiscount = finalPrice < regularPrice;
+  const discountPercent = hasDiscount
+    ? Math.round(((regularPrice - finalPrice) / regularPrice) * 100)
+    : 0;
+
+  const isSimple = product.__typename !== 'ConfigurableProduct';
+  const isOutOfStock = product.stock_status === 'OUT_OF_STOCK';
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();

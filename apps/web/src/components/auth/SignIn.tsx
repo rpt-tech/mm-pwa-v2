@@ -29,8 +29,8 @@ const signInSchema = z.object({
 type SignInFormData = z.infer<typeof signInSchema>;
 
 interface SignInProps {
-  onShowCreateAccount: (email?: string) => void;
-  onShowForgotPassword: (email?: string) => void;
+  onShowCreateAccount: (_email?: string) => void;
+  onShowForgotPassword: (_email?: string) => void;
   onClose?: () => void;
   redirectUrl?: string;
 }

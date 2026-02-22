@@ -8,7 +8,7 @@ import { User, MapPin, ShoppingBag, Heart, LogOut } from 'lucide-react';
 interface AccountSidebarProps {
   currentPage: string;
   isOpen: boolean;
-  setIsOpen: (open: boolean) => void;
+  setIsOpen: (_open: boolean) => void;
 }
 
 interface NavLink {

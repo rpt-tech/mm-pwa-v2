@@ -56,10 +56,11 @@ export const ForgotPassword = ({
 
       setSubmittedEmail(data.email);
       setIsSuccess(true);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Password reset error:', err);
+      const gqlErr = err as { response?: { errors?: { message: string }[] } };
       setError(
-        err.response?.errors?.[0]?.message ||
+        gqlErr.response?.errors?.[0]?.message ||
           'Gửi email thất bại. Vui lòng thử lại.'
       );
     } finally {

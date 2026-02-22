@@ -74,24 +74,16 @@ export default function OrderConfirmationPage() {
     retry: 1,
   });
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#006341]"></div>
-      </div>
-    );
-  }
-
-  const orderStatus = data?.status || 'pending';
-  const order = data?.order;
-
-  // Auto-cancel order when payment fails
+  // Auto-cancel order when payment fails — must be before any early return
   const cancelMutation = useMutation({
     mutationFn: (orderId: string) =>
       gqlClient.request(CANCEL_ORDER, {
         input: { order_id: atob(orderId), reason: 'Payment failed' },
       }),
   });
+
+  const orderStatus = data?.status || 'pending';
+  const order = data?.order;
 
   useEffect(() => {
     if (orderStatus === 'failed' && order?.id && !cancelMutation.isSuccess && !cancelMutation.isPending) {
@@ -114,6 +106,14 @@ export default function OrderConfirmationPage() {
       });
     }
   }, [orderStatus, order, extractedOrderNumber]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#006341]"></div>
+      </div>
+    );
+  }
 
   // Status icon and message
   const getStatusDisplay = () => {

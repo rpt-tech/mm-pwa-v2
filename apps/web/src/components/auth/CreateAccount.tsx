@@ -149,10 +149,11 @@ export const CreateAccount = ({
       // Close modal and redirect
       onClose?.();
       navigate('/');
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Create account error:', err);
+      const gqlErr = err as { response?: { errors?: { message: string }[] } };
       setError(
-        err.response?.errors?.[0]?.message || 'Tạo tài khoản thất bại. Vui lòng thử lại.'
+        gqlErr.response?.errors?.[0]?.message || 'Tạo tài khoản thất bại. Vui lòng thử lại.'
       );
     } finally {
       setIsSubmitting(false);
