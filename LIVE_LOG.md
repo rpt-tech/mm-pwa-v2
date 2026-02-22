@@ -512,3 +512,8 @@ Static assets: placeholder, bg-login, mCard + fix broken /images/logo.svg — �
 [03:00] Verify API: cities(VN)=34 cities ✓, wards(79)=168 wards ✓, storeView(HCM ward)=1 store ✓ — StoreSwitcher fully functional
 [03:05] Add missing PageBuilder content types: Heading, Buttons, ButtonItem, Divider, Block, slide — ✓ 5 new files, ContentTypeFactory now 17 types — commit 39087bd pushed main+dev
 [03:10] Update MIGRATION_PLAN.md status overview — ✓ phases 3-8 updated to reflect actual completion — commit pending
+[04:45] Root cause found: Magento CORS does not allow 'Store' header → all browser GraphQL requests fail with "Failed to fetch"
+[04:47] Fix: change VITE_MAGENTO_URL to BFF URL (https://mm-bff.hi-huythanh.workers.dev/graphql) — BFF proxies with correct headers
+[04:48] Update Vercel env var VITE_MAGENTO_URL via API + update deploy.yml + push to main+dev
+[04:52] Trigger Vercel deploy hook → dpl_Cw8ydoXCb4xLoPoxqPgDUqbrwMQF READY production
+[04:55] Verify new bundle index-DYnnjAjT.js — MAGENTO_URL=https://mm-bff.hi-huythanh.workers.dev/graphql ✓ — production fixed
