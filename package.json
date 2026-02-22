@@ -9,7 +9,7 @@
     "lint": "pnpm --filter @mm/web lint",
     "type-check": "pnpm --filter @mm/web type-check",
     "bff:dev": "pnpm --filter @mm/bff dev",
-    "bff:deploy": "pnpm --filter @mm/bff deploy"
+    "bff:deploy": "pnpm --filter @mm/bff wrangler deploy"
   },
   "engines": {
     "node": ">=20",
