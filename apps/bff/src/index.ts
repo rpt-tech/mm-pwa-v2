@@ -35,6 +35,69 @@ const CACHEABLE_OPERATIONS = [
   'GetPopup',
 ];
 
+// Operations that deal with products / categories — longer CDN cache
+const PRODUCT_CATEGORY_OPERATIONS = [
+  'GetProducts',
+  'GetCategoryData',
+  'GetFilterInputs',
+  'GetFlashSaleProducts',
+  'GetPopularKeywords',
+  'categoryList',
+  'products',
+  'GET_PRODUCTS',
+  'GET_CATEGORY',
+];
+
+// Mutations / auth / cart — must never be cached
+const NO_STORE_OPERATIONS = [
+  'addProductsToCart',
+  'removeItemFromCart',
+  'updateCartItems',
+  'placeOrder',
+  'generateCustomerToken',
+  'revokeCustomerToken',
+  'createCustomer',
+  'createEmptyCart',
+  'mergeCarts',
+  'setBillingAddressOnCart',
+  'setShippingAddressesOnCart',
+  'setShippingMethodsOnCart',
+  'setPaymentMethodOnCart',
+  'applyCouponToCart',
+  'removeCouponFromCart',
+  'changeCustomerPassword',
+  'updateCustomer',
+];
+
+function getCacheControlHeader(body: string, authHeader: string | undefined): string {
+  // Authenticated requests and mutations must never be stored
+  if (authHeader) return 'no-store';
+  try {
+    const parsed = JSON.parse(body);
+    const op: string = parsed.operationName || '';
+    const query: string = parsed.query || '';
+
+    // Check for no-store operations first (mutations take priority)
+    if (NO_STORE_OPERATIONS.some((name) => op === name || query.includes(`mutation ${name}`))) {
+      return 'no-store';
+    }
+    // Detect any mutation by keyword when operationName is absent
+    if (!op && query.trimStart().startsWith('mutation')) {
+      return 'no-store';
+    }
+
+    // Product / category queries get a longer CDN TTL
+    if (PRODUCT_CATEGORY_OPERATIONS.some((name) => op.startsWith(name) || op === name)) {
+      return 's-maxage=60, stale-while-revalidate=300';
+    }
+
+    // All other queries get a shorter TTL
+    return 's-maxage=30, stale-while-revalidate=120';
+  } catch {
+    return 'no-store';
+  }
+}
+
 function isCacheable(body: string, authHeader: string | undefined): boolean {
   if (authHeader) return false;
   try {
@@ -86,6 +149,7 @@ app.post('/graphql', async (c) => {
         status: 200,
         headers: {
           'Content-Type': 'application/json',
+          'Cache-Control': getCacheControlHeader(body, auth),
           'X-Cache': 'HIT',
           'X-Cache-Version': deployVer,
         },
@@ -115,6 +179,7 @@ app.post('/graphql', async (c) => {
       status: response.status,
       headers: {
         'Content-Type': 'application/json',
+        'Cache-Control': getCacheControlHeader(body, auth),
         'X-Cache': 'MISS',
         'X-Cache-Version': deployVer,
       },
@@ -131,7 +196,10 @@ app.post('/graphql', async (c) => {
   const data = await response.text();
   return new Response(data, {
     status: response.status,
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'Cache-Control': getCacheControlHeader(body, auth),
+    },
   });
 });
 
