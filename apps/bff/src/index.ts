@@ -4,12 +4,17 @@ import { cors } from 'hono/cors';
 type Bindings = {
   MAGENTO_URL: string;
   CACHE: KVNamespace;
+  DEPLOY_VERSION?: string;
 };
 
 const app = new Hono<{ Bindings: Bindings }>();
 
 // Cache TTL in seconds for public queries
 const CACHE_TTL = 300; // 5 minutes
+
+// Build-time deploy version — injected via wrangler vars or defaults to timestamp
+// This ensures every new deploy gets a fresh cache namespace automatically
+const DEPLOY_VERSION = (globalThis as any).__DEPLOY_VERSION__ || Date.now().toString().slice(0, 8);
 
 // Queries that are safe to cache (no auth, no mutations)
 const CACHEABLE_OPERATIONS = [
@@ -31,7 +36,7 @@ const CACHEABLE_OPERATIONS = [
 ];
 
 function isCacheable(body: string, authHeader: string | undefined): boolean {
-  if (authHeader) return false; // Never cache authenticated requests
+  if (authHeader) return false;
   try {
     const parsed = JSON.parse(body);
     const operationName = parsed.operationName || '';
@@ -47,10 +52,11 @@ app.use('/*', cors({
   allowHeaders: ['Content-Type', 'Authorization', 'Store'],
 }));
 
-// Health check
+// Health check — exposes deploy version so we can verify cache busting
 app.get('/health', (c) => c.json({
   status: 'ok',
   version: '1.0.0',
+  deployVersion: c.env.DEPLOY_VERSION || DEPLOY_VERSION,
   timestamp: Date.now(),
   uptime: 'running',
   env: 'production',
@@ -70,7 +76,10 @@ app.post('/graphql', async (c) => {
 
   // Try cache for public queries
   if (c.env.CACHE && isCacheable(body, auth)) {
-    const cacheKey = `gql:${store}:${btoa(body).slice(0, 200)}`;
+    // Include deploy version in cache key — new deploy = new keys, old entries expire naturally
+    const deployVer = c.env.DEPLOY_VERSION || DEPLOY_VERSION;
+    const cacheKey = `gql:v${deployVer}:${store}:${btoa(body).slice(0, 180)}`;
+
     const cached = await c.env.CACHE.get(cacheKey);
     if (cached) {
       return new Response(cached, {
@@ -78,6 +87,7 @@ app.post('/graphql', async (c) => {
         headers: {
           'Content-Type': 'application/json',
           'X-Cache': 'HIT',
+          'X-Cache-Version': deployVer,
         },
       });
     }
@@ -90,7 +100,6 @@ app.post('/graphql', async (c) => {
 
     const data = await response.text();
 
-    // Only cache successful responses without errors
     if (response.ok) {
       try {
         const parsed = JSON.parse(data);
@@ -107,6 +116,7 @@ app.post('/graphql', async (c) => {
       headers: {
         'Content-Type': 'application/json',
         'X-Cache': 'MISS',
+        'X-Cache-Version': deployVer,
       },
     });
   }

@@ -25,22 +25,39 @@ export default defineConfig({
         ],
       },
       workbox: {
+        // Activate new SW immediately — no waiting for old tabs to close
+        skipWaiting: true,
+        clientsClaim: true,
+        // Auto-delete caches from old SW versions on activation
+        cleanupOutdatedCaches: true,
         globPatterns: ['**/*.{js,css,html,ico,png,svg,woff2}'],
         runtimeCaching: [
           {
-            urlPattern: /^https:\/\/online\.mmvietnam\.com\/graphql/,
+            // BFF GraphQL — NetworkFirst, short TTL, 5s timeout fallback to cache
+            urlPattern: /^https:\/\/mm-bff\.hi-huythanh\.workers\.dev\/graphql/,
             handler: 'NetworkFirst',
             options: {
               cacheName: 'graphql-cache',
-              expiration: { maxEntries: 50, maxAgeSeconds: 300 },
+              networkTimeoutSeconds: 5,
+              expiration: { maxEntries: 50, maxAgeSeconds: 60 },
             },
           },
           {
-            urlPattern: /^https:\/\/online\.mmvietnam\.com\/media\//,
+            // Magento + mmpro media images — CacheFirst, 30-day TTL
+            urlPattern: /^https:\/\/(online\.mmvietnam\.com|mmpro\.vn)\/media\//,
             handler: 'CacheFirst',
             options: {
               cacheName: 'image-cache',
-              expiration: { maxEntries: 200, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              expiration: { maxEntries: 300, maxAgeSeconds: 60 * 60 * 24 * 30 },
+            },
+          },
+          {
+            // Other external images (wysiwyg, etc) — StaleWhileRevalidate
+            urlPattern: /^https:\/\/mmpro\.vn\//,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'external-cache',
+              expiration: { maxEntries: 100, maxAgeSeconds: 60 * 60 * 24 * 7 },
             },
           },
         ],
