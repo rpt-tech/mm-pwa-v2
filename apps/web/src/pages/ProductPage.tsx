@@ -178,7 +178,7 @@ export default function ProductPage() {
     { name: t('global.home', 'Home'), url: '/' },
     ...(product.main_category?.breadcrumbs?.map((crumb: any) => ({
       name: crumb.category_name,
-      url: `/category/${crumb.category_url_path}`,
+    url: toCategoryPath(crumb.category_url_path),
     })) || []),
     { name: product.ecom_name || product.name, url: `/product/${product.url_key}` },
   ];
