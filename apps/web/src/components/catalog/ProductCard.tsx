@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -96,7 +97,7 @@ interface ProductCardProps {
  * ProductCard component
  * Reusable product card for grids and carousels
  */
-export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+const ProductCardComponent: React.FC<ProductCardProps> = ({ product }) => {
   const { fetchCart, initCart } = useCartStore();
   const priceData = product.price_range.minimum_price || product.price_range.maximum_price;
 
@@ -232,5 +233,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     </Link>
   );
 };
+
+export const ProductCard = React.memo(ProductCardComponent);
 
 export default ProductCard;
