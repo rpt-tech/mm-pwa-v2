@@ -521,3 +521,14 @@ Static assets: placeholder, bg-login, mCard + fix broken /images/logo.svg — �
 [05:15] Fix RichContent: ADD_TAGS style, processPageBuilderHtml (decode entities + bg images), FORCE_BODY
 [05:16] Add pagebuilder CSS to index.css (column, slide-wrapper, banner-wrapper, buttons, slider)
 [05:20] Deploy dpl_Gb7zvjuoeKN9Qx3MvudT4EpZwHyJ READY production — bundle index-B8X4NE78.js ✓
+[12:14] Commit SW cache-bust + BFF KV versioning — ✓ 5d0d3d1 — push to main+dev
+[12:15] Push to main+dev — ✓ GitHub Actions all passed (CI + Deploy) — trigger Vercel hook
+[12:15] Trigger Vercel deploy hook — ✓ dpl_98DWMywqXvGifUsDXLe6HHuxmg5Z READY PROMOTED — BFF manual deploy
+[12:17] BFF manual deploy (wrangler) — ✓ v0f6cf0cd live, deployVersion in /health — all done
+[06:20] fix: SW auto-reload + mobile nav toCategoryPath + ProductPage structured data breadcrumb — ✓ committed 824a233 + pushed — Vercel auto-deploy triggered
+[06:35] Merge main→dev, push to dev — ✓ triggered production deploy — Vercel build failed (workbox-window missing)
+[06:38] Add workbox-window as direct dep — ✓ pnpm add, committed 198ef4d — push to dev
+[06:42] Vercel production deploy 198ef4d — ✓ READY, bundle index-qV1wWcyQ.js — all fixes confirmed in prod
+[06:42] Verified in prod: ___widget_flashsale ✓, hasVisibleContent ✓, toCategoryPath ✓, SW onNeedRefresh ✓
+[06:49] FEATURE #1: cleanup stray files — PASS — NEXT: #2 expand tests
+[06:54] FEATURE #2: expand smoke tests — PASS: 17/17 tests — NEXT: #3,#4,#5,#6,#8 parallel
