@@ -540,3 +540,6 @@ Static assets: placeholder, bg-login, mCard + fix broken /images/logo.svg — �
 [08:51] FEATURE #23: fix schema URLs to use current domain — PASS — committed 83d1c67 — pushed to dev
 [08:52] FEATURE #24: verify homepage data rendering — PASS — FlashsaleProducts handles errors gracefully — committed c7bd3bc — pushed to dev
 [08:52] PHASE 3 PRODUCTION FIXES: 4/4 features complete — all production issues addressed
+[08:53] MERGE: dev → main — fast-forward merge — production release ready
+[08:53] PRODUCTION RELEASE: All 24 features complete, merged to main
+[08:53] GitHub Actions CI/CD will auto-deploy to production
