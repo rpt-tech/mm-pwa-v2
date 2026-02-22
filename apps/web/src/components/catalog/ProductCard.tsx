@@ -147,12 +147,14 @@ const ProductCardComponent: React.FC<ProductCardProps> = ({ product }) => {
       className="group block bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-md hover:border-[#0272BA]/30 transition-all"
     >
       {/* Product Image */}
-      <div className="relative bg-gray-50 aspect-square overflow-hidden">
+      <div className="relative bg-gray-50 aspect-square overflow-hidden" style={{ aspectRatio: '1 / 1' }}>
         <img
           src={product.small_image?.url || '/placeholder.png'}
           alt={product.ecom_name || product.name}
           className="w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-300"
           loading="lazy"
+          width={300}
+          height={300}
         />
         {hasDiscount && (
           <div className="absolute top-2 left-2 bg-[#E82230] text-white text-xs font-bold px-1.5 py-0.5 rounded">
