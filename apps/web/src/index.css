@@ -19,3 +19,141 @@ body {
   min-width: 320px;
   min-height: 100vh;
 }
+
+/* ============================================================
+   Magento PageBuilder CSS
+   Required for rendering CMS pages with PageBuilder content
+   ============================================================ */
+
+/* Column layout */
+.pagebuilder-column-group {
+  display: flex;
+  flex-wrap: wrap;
+}
+.pagebuilder-column-line {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.pagebuilder-column {
+  box-sizing: border-box;
+}
+
+/* Responsive: stack columns on mobile */
+@media (max-width: 768px) {
+  .pagebuilder-column-group,
+  .pagebuilder-column-line {
+    flex-direction: column;
+  }
+  .pagebuilder-column {
+    width: 100% !important;
+  }
+  .pagebuilder-mobile-hidden {
+    display: none !important;
+  }
+}
+@media (min-width: 769px) {
+  .pagebuilder-mobile-only {
+    display: none !important;
+  }
+}
+
+/* Slide / Banner */
+.pagebuilder-slide-wrapper,
+.pagebuilder-banner-wrapper {
+  position: relative;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+}
+.pagebuilder-overlay,
+.pagebuilder-poster-overlay {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.pagebuilder-poster-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+.pagebuilder-banner-button,
+.pagebuilder-slide-button {
+  display: inline-block;
+  margin-top: 1rem;
+}
+
+/* Buttons */
+.pagebuilder-button-primary {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  background-color: #0272BA;
+  color: #fff;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+}
+.pagebuilder-button-primary:hover {
+  background-color: #005a9e;
+}
+.pagebuilder-button-secondary {
+  display: inline-block;
+  padding: 0.5rem 1.5rem;
+  background-color: transparent;
+  color: #0272BA;
+  border: 2px solid #0272BA;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.pagebuilder-button-link {
+  display: inline-block;
+  color: #0272BA;
+  text-decoration: underline;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* Slider */
+.pagebuilder-slider {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Rich content reset — remove prose max-width constraint for PageBuilder */
+.pagebuilder-content {
+  max-width: none !important;
+}
+.pagebuilder-content p {
+  margin: 0;
+}
+
+/* Slick carousel overrides for PageBuilder sliders */
+.pagebuilder-content .slick-slide img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.pagebuilder-content .slick-dots {
+  bottom: 12px;
+}
+.pagebuilder-content .slick-dots li button:before {
+  color: #fff;
+  opacity: 0.7;
+  font-size: 10px;
+}
+.pagebuilder-content .slick-dots li.slick-active button:before {
+  opacity: 1;
+  color: #fff;
+}
