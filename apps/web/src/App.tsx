@@ -4,6 +4,7 @@ import MainLayout from '@/components/layout/MainLayout';
 import LoadingIndicator from '@/components/ui/LoadingIndicator';
 import { useAuthStore } from '@/stores/authStore';
 import ErrorBoundary from '@/components/common/ErrorBoundary';
+import CompareBar from '@/components/catalog/CompareBar';
 
 // Lazy-loaded pages
 const HomePage = lazy(() => import('@/pages/HomePage'));
@@ -28,6 +29,7 @@ const StoreLocatorPage = lazy(() => import('@/pages/StoreLocatorPage'));
 const QuickOrderPage = lazy(() => import('@/pages/QuickOrderPage'));
 const CmsPage = lazy(() => import('@/pages/CmsPage'));
 const TrackOrderPage = lazy(() => import('@/pages/TrackOrderPage'));
+const ComparePage = lazy(() => import('@/pages/ComparePage'));
 
 export default function App() {
   const initializeAuth = useAuthStore((state) => state.initializeAuth);
@@ -63,6 +65,7 @@ export default function App() {
             <Route path="track-order" element={<TrackOrderPage />} />
             <Route path="store-locator" element={<StoreLocatorPage />} />
             <Route path="quick-order" element={<QuickOrderPage />} />
+            <Route path="compare" element={<ComparePage />} />
             {/* Single-segment CMS pages */}
             <Route path=":urlKey" element={<CmsPage />} />
             {/* Multi-segment CMS pages (e.g. /some/cms/page) — URL resolver handles routing */}
@@ -70,6 +73,7 @@ export default function App() {
           </Route>
         </Routes>
       </Suspense>
+      <CompareBar />
     </ErrorBoundary>
   );
 }

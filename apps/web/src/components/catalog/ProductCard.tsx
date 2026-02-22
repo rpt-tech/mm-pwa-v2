@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { Eye } from 'lucide-react';
 import DnrLabel from '@/components/product/DnrLabel';
 import WishlistButton from '@/components/product/WishlistButton';
 import ProductLabel from '@/components/catalog/ProductLabel';
+import ProductQuickView from '@/components/catalog/ProductQuickView';
 import { gqlClient } from '@/lib/graphql-client';
 import { ADD_PRODUCT_TO_CART } from '@/queries/product';
 import { useCartStore } from '@/stores/cartStore';
+import { useCompareStore } from '@/stores/compareStore';
 
 interface Product {
   uid: string;
@@ -99,6 +102,9 @@ interface ProductCardProps {
  */
 const ProductCardComponent: React.FC<ProductCardProps> = ({ product }) => {
   const { fetchCart, initCart } = useCartStore();
+  const { items: compareItems, addToCompare, removeFromCompare } = useCompareStore();
+  const isInCompare = compareItems.some((p) => p.uid === product.uid);
+  const compareDisabled = !isInCompare && compareItems.length >= 3;
   const priceData = product.price_range.minimum_price || product.price_range.maximum_price;
 
   const addToCartMutation = useMutation({
@@ -178,6 +184,39 @@ const ProductCardComponent: React.FC<ProductCardProps> = ({ product }) => {
         {/* Wishlist Button */}
         <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
           <WishlistButton productSku={product.sku} size="sm" />
+        </div>
+        {/* Compare Checkbox */}
+        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              if (isInCompare) {
+                removeFromCompare(product.uid);
+              } else if (!compareDisabled) {
+                addToCompare({
+                  uid: product.uid,
+                  url_key: product.url_key,
+                  name: product.name,
+                  ecom_name: product.ecom_name,
+                  small_image: product.small_image,
+                  price_range: product.price_range,
+                  sku: product.sku,
+                });
+              }
+            }}
+            disabled={compareDisabled}
+            title={compareDisabled ? 'Tối đa 3 sản phẩm' : isInCompare ? 'Bỏ so sánh' : 'So sánh'}
+            className={`w-6 h-6 rounded border-2 flex items-center justify-center text-xs transition-colors ${
+              isInCompare
+                ? 'bg-[#0272BA] border-[#0272BA] text-white'
+                : compareDisabled
+                ? 'bg-gray-100 border-gray-300 text-gray-300 cursor-not-allowed'
+                : 'bg-white border-gray-400 text-transparent hover:border-[#0272BA]'
+            }`}
+            aria-label="So sánh"
+          >
+            {isInCompare ? '✓' : ''}
+          </button>
         </div>
       </div>
 
