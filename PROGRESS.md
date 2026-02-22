@@ -677,3 +677,28 @@
 - **Commits:** 2c283fc → 469a8a7 (10 commits)
 - **Build:** Clean, 0 TS errors, 67 precached entries
 - **MVP Completion:** ~99% ✅ PRODUCTION READY
+
+## Production Deploy (Session 10)
+- **Status:** ✓ Done
+- **Web URL:** https://mm-pwa-v2.vercel.app (HTTP 200)
+- **BFF URL:** https://mm-bff.hi-huythanh.workers.dev/health (HTTP 200)
+- **Deploy ID:** dpl_CDfAiqxjfZnqUEJV9JhXsVZsCvWa (Vercel, sha 56138b74)
+- **BFF:** mm-bff worker updated 2026-02-21 09:58 UTC
+- **Notes:** Pushed main→dev to trigger Vercel Git integration (production branch = dev). Both web and BFF confirmed live.
+- **Completed:** 2026-02-21 15:47
+
+## Production Fix - VITE_MAGENTO_URL + Store Code
+- **Status:** ✓ Done
+- **Staging URL:** https://mm-pwa-v2.vercel.app
+- **Notes:** Root cause of empty content: VITE_MAGENTO_URL was never set in Vercel project env vars (MAGENTO_URL=undefined in bundle). Fixed by adding env var via Vercel API + triggering fresh deploy. New bundle index-CavGHT5H.js confirmed: MAGENTO_URL=https://online.mmvietnam.com/graphql + b2c_10010_vi default store code.
+- **Completed:** 2026-02-22 02:47
+
+## StoreSwitcher City/Ward Display Fix
+- **Status:** ✓ Done
+- **Notes:** City/Ward GraphQL types return `name` field (not `city`/`ward`). Fixed StoreSwitcher.tsx: c.city→c.name, w.ward→w.name. Verified API: 34 cities, 168 wards for HCM, storeView returns stores with distance. Commit 0a88476.
+- **Completed:** 2026-02-22 02:55
+
+## Missing PageBuilder ContentTypes
+- **Status:** ✓ Done
+- **Notes:** Added 5 new content type components: Heading (h1-h6), Buttons (flex container), ButtonItem (link/button), Divider (hr), Block (embedded CMS block). Also added `slide` case to ContentTypeFactory (reuses Banner). ContentTypeFactory now handles 17 content types total. Commit 39087bd.
+- **Completed:** 2026-02-22 03:15

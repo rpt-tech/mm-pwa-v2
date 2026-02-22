@@ -496,3 +496,19 @@ OfflineBanner PWA component + Footer fallback fix — ✓ commit a5d4d64
 PWA icons + favicon + robots.txt — ✓ commit 8f99c93
 MM logos (MMLogo.svg + MMLogoFooter.svg) replace Vite defaults — ✓ commit 6aaf5ad
 Static assets: placeholder, bg-login, mCard + fix broken /images/logo.svg — ✓ commit 469a8a7
+[15:40] Session 10 start — resume deploy task from session 9 — push main→dev
+[15:41] git push origin main:dev — ✓ triggered Vercel production deploy — wait for READY
+[15:44] Vercel deploy dpl_CDfAiqxjfZnqUEJV9JhXsVZsCvWa READY — alias mm-pwa-v2.vercel.app confirmed — production live
+[15:45] BFF mm-bff.hi-huythanh.workers.dev/health — ✓ HTTP 200 {"status":"ok"} — both services live
+[15:47] Production deploy complete — Web: https://mm-pwa-v2.vercel.app (HTTP 200) — BFF: https://mm-bff.hi-huythanh.workers.dev/health (HTTP 200)
+[02:30] Session 11 start — resume: production bundle stale (index-BGIb1Bku.js missing b2c_10010_vi fix) — investigate
+[02:32] Local build → index-DEiirEZ6.js with b2c_10010_vi ✓ — Vercel serving old bundle — root cause: VITE_MAGENTO_URL not set in Vercel env vars
+[02:35] Trigger forceNew deploy via Vercel API (dpl_2sZDMb2vrCPeVWXF3e9L9Xy6DKzG) — READY, PROMOTED — but MAGENTO_URL=void 0 in bundle
+[02:42] Add VITE_MAGENTO_URL + VITE_API_BASE_URL to Vercel project env vars via API — ✓ created
+[02:43] Trigger new deploy dpl_5V5uHRG4EDGZ4JTVftpjmEJeQPbr — READY, PROMOTED to production
+[02:47] Verify new bundle index-CavGHT5H.js — MAGENTO_URL=https://online.mmvietnam.com/graphql ✓, b2c_10010_vi ✓ — production fixed
+[02:55] Fix StoreSwitcher city/ward display (c.city→c.name, w.ward→w.name) — ✓ committed 0a88476 — pushed to main+dev
+[02:57] Verify production bundle index-fovVLXh1.js — ✓ contains x.name fix, b2c_10010_vi, online.mmvietnam.com — all fixes live
+[03:00] Verify API: cities(VN)=34 cities ✓, wards(79)=168 wards ✓, storeView(HCM ward)=1 store ✓ — StoreSwitcher fully functional
+[03:05] Add missing PageBuilder content types: Heading, Buttons, ButtonItem, Divider, Block, slide — ✓ 5 new files, ContentTypeFactory now 17 types — commit 39087bd pushed main+dev
+[03:10] Update MIGRATION_PLAN.md status overview — ✓ phases 3-8 updated to reflect actual completion — commit pending
