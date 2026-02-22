@@ -133,6 +133,13 @@ export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.Re
     }
   }
 
+  // If all blocks are invisible (html type with only script/style tags — e.g. SEO JSON-LD),
+  // don't render a content wrapper at all — just inject SEO tags
+  const hasVisibleContent = blocks.some(b =>
+    b.contentType !== 'html' ||
+    !b.html?.trim().match(/^(<script|<style)/i)
+  );
+
   return (
     <article className="cms-page">
       {isHome && <HomeSchema />}
@@ -141,16 +148,18 @@ export const CmsPage: React.FC<{ identifier?: string; fallbackElement?: React.Re
         {data.cmsPage.meta_description && <meta name="description" content={data.cmsPage.meta_description} />}
         {data.cmsPage.meta_keywords && <meta name="keywords" content={data.cmsPage.meta_keywords} />}
       </Helmet>
-      {pageHeading(content_heading, pageTitle)}
-      <div className="space-y-6 max-w-6xl mx-auto px-4 py-6">
-        {isStructuredContent
-          ? blocks.map((block: any, index: number) => (
-              <ContentTypeFactory key={block.content_type + index} data={block} />
-            ))
-          : <RichContent html={content} />
-        }
-        {isHome && <SearchPopular />}
-      </div>
+      {hasVisibleContent && pageHeading(content_heading, pageTitle)}
+      {hasVisibleContent && (
+        <div className="cms-page-content">
+          {isStructuredContent
+            ? blocks.map((block: any, index: number) => (
+                <ContentTypeFactory key={block.contentType + index} data={block} />
+              ))
+            : <RichContent html={content} />
+          }
+          {isHome && <SearchPopular />}
+        </div>
+      )}
     </article>
   );
 };
