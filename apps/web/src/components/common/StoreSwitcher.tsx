@@ -210,7 +210,7 @@ export default function StoreSwitcher({ isOpen, onClose }: StoreSwitcherProps) {
             >
               <option value="">Chọn Tỉnh/Thành phố</option>
               {cities.map((c: any) => (
-                <option key={c.city_code} value={c.city_code}>{c.city}</option>
+                <option key={c.city_code} value={c.city_code}>{c.name}</option>
               ))}
             </select>
           </div>
@@ -223,7 +223,7 @@ export default function StoreSwitcher({ isOpen, onClose }: StoreSwitcherProps) {
             >
               <option value="">Chọn Phường/Xã (tùy chọn)</option>
               {wards.map((w: any) => (
-                <option key={w.ward_code} value={w.ward_code}>{w.ward}</option>
+                <option key={w.ward_code} value={w.ward_code}>{w.name}</option>
               ))}
             </select>
           )}
