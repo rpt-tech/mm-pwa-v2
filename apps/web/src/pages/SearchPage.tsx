@@ -9,6 +9,7 @@ import { gqlClient } from '@/lib/graphql-client';
 import { analytics } from '@/lib/analytics';
 import ProductCard from '@/components/catalog/ProductCard';
 import SearchPopular from '@/components/navbar/SearchPopular';
+import BackToTopButton from '@/components/common/BackToTopButton';
 
 export default function SearchPage() {
   const { t } = useTranslation();
@@ -369,6 +370,7 @@ export default function SearchPage() {
           )}
         </div>
       </div>
+      <BackToTopButton />
     </div>
   );
 }
