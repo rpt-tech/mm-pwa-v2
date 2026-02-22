@@ -543,3 +543,8 @@ Static assets: placeholder, bg-login, mCard + fix broken /images/logo.svg — �
 [08:53] MERGE: dev → main — fast-forward merge — production release ready
 [08:53] PRODUCTION RELEASE: All 24 features complete, merged to main
 [08:53] GitHub Actions CI/CD will auto-deploy to production
+[08:54] HOTFIX: null safety on splat params — fix "Cannot read properties of null" error
+[08:54] CategoryPage.tsx: handle null splat before .replace()
+[08:54] ProductPage.tsx: handle null urlKey before .replace()
+[08:54] Build pass ✓ — committed 9072b0f — pushed to main + dev
+[08:54] Production hotfix deployed
