@@ -23,6 +23,8 @@ import DnrLabel from '@/components/product/DnrLabel';
 import DnrBlock from '@/components/product/DnrBlock';
 import RelatedUpsellProducts from '@/components/product/RelatedUpsellProducts';
 import WishlistButton from '@/components/product/WishlistButton';
+import RecentlyViewedProducts from '@/components/product/RecentlyViewedProducts';
+import { addRecentlyViewed } from '@/hooks/useRecentlyViewed';
 import DescriptionTabs from '@/components/product/DescriptionTabs';
 import ProductStructuredData from '@/components/seo/ProductStructuredData';
 import BreadcrumbStructuredData from '@/components/seo/BreadcrumbStructuredData';
@@ -48,7 +50,7 @@ export default function ProductPage() {
 
   const product = data?.products?.items?.[0];
 
-  // Track view_item
+  // Track view_item + record recently viewed
   useEffect(() => {
     if (product) {
       analytics.viewItem({
@@ -56,6 +58,14 @@ export default function ProductPage() {
         name: product.ecom_name || product.name,
         price: product.price_range?.maximum_price?.final_price?.value || 0,
         currency: product.price_range?.maximum_price?.final_price?.currency || 'VND',
+      });
+      addRecentlyViewed({
+        uid: product.uid,
+        url_key: product.url_key,
+        name: product.name,
+        ecom_name: product.ecom_name,
+        small_image: product.small_image,
+        price_range: product.price_range,
       });
     }
   }, [product?.sku]);
@@ -381,6 +391,9 @@ export default function ProductPage() {
       <div className="mb-12">
         <RelatedUpsellProducts urlKey={urlKey?.replace('.html', '') || ''} />
       </div>
+
+      {/* Recently Viewed Products */}
+      <RecentlyViewedProducts currentUid={product.uid} />
 
       {/* Alcohol age confirmation dialog */}
       <AlcoholDialog
