@@ -285,10 +285,10 @@
       "check all imports are lazy",
       "run build and check chunk sizes"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T07:55:00.000Z"
   },
   {
     "id": 12,
@@ -315,10 +315,10 @@
       "create CompareBar component",
       "create ComparePage"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T07:45:00.000Z"
   },
   {
     "id": 13,
@@ -342,10 +342,10 @@
       "integrate into ProductPage",
       "create RecentlyViewedProducts component"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T07:30:00.000Z"
   },
   {
     "id": 14,
@@ -369,10 +369,10 @@
       "add cache headers per query type",
       "deploy BFF"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T07:40:00.000Z"
   },
   {
     "id": 15,
@@ -397,10 +397,10 @@
       "add trigger to ProductCard",
       "wire up GET_PRODUCT_DETAIL query"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T07:50:00.000Z"
   },
   {
     "id": 16,
@@ -423,10 +423,10 @@
       "create scripts/generate-sitemap.sh",
       "update robots.txt"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T07:25:00.000Z"
   },
   {
     "id": 17,
@@ -480,10 +480,10 @@
       "create SearchAutocomplete component",
       "integrate with AI search API"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T07:35:00.000Z"
   },
   {
     "id": 19,
@@ -538,9 +538,9 @@
       "add route to App.tsx",
       "reuse GuestOrderPage query logic"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T07:30:00.000Z"
   }
 ]
