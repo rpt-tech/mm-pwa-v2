@@ -3,13 +3,13 @@
     "file": "apps/bff/src/index.ts",
     "exports": "",
     "description": "",
-    "lines": 138
+    "lines": 206
   },
   {
     "file": "apps/web/src/App.tsx",
     "exports": "App",
     "description": "",
-    "lines": 73
+    "lines": 79
   },
   {
     "file": "apps/web/src/components/account/AccountSidebar.tsx",
@@ -78,6 +78,12 @@
     "lines": 256
   },
   {
+    "file": "apps/web/src/components/catalog/CompareBar.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 69
+  },
+  {
     "file": "apps/web/src/components/catalog/FilterModal.tsx",
     "exports": "",
     "description": "",
@@ -99,19 +105,31 @@
     "file": "apps/web/src/components/catalog/ProductCard.tsx",
     "exports": "ProductCard",
     "description": "",
-    "lines": 236
+    "lines": 300
+  },
+  {
+    "file": "apps/web/src/components/catalog/ProductCardSkeleton.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 29
   },
   {
     "file": "apps/web/src/components/catalog/ProductGrid.tsx",
     "exports": "",
     "description": "",
-    "lines": 136
+    "lines": 137
   },
   {
     "file": "apps/web/src/components/catalog/ProductLabel.tsx",
     "exports": "",
     "description": "",
     "lines": 217
+  },
+  {
+    "file": "apps/web/src/components/catalog/ProductQuickView.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 181
   },
   {
     "file": "apps/web/src/components/catalog/ProductSort.tsx",
@@ -159,7 +177,7 @@
     "file": "apps/web/src/components/cms/contentTypes/Banner.tsx",
     "exports": "Banner",
     "description": "",
-    "lines": 179
+    "lines": 193
   },
   {
     "file": "apps/web/src/components/cms/contentTypes/Block.tsx",
@@ -231,7 +249,7 @@
     "file": "apps/web/src/components/cms/contentTypes/Image.tsx",
     "exports": "Image",
     "description": "",
-    "lines": 102
+    "lines": 106
   },
   {
     "file": "apps/web/src/components/cms/contentTypes/ProductRecommendationCT.tsx",
@@ -268,6 +286,12 @@
     "exports": "AdvancedPopup",
     "description": "",
     "lines": 91
+  },
+  {
+    "file": "apps/web/src/components/common/BackToTopButton.tsx",
+    "exports": "BackToTopButton",
+    "description": "",
+    "lines": 24
   },
   {
     "file": "apps/web/src/components/common/ErrorBoundary.tsx",
@@ -327,13 +351,19 @@
     "file": "apps/web/src/components/layout/Header.tsx",
     "exports": "Header",
     "description": "",
-    "lines": 362
+    "lines": 374
   },
   {
     "file": "apps/web/src/components/layout/MainLayout.tsx",
     "exports": "MainLayout",
     "description": "",
     "lines": 67
+  },
+  {
+    "file": "apps/web/src/components/navbar/SearchAutocomplete.tsx",
+    "exports": "SearchAutocomplete",
+    "description": "",
+    "lines": 125
   },
   {
     "file": "apps/web/src/components/navbar/SearchPopular.tsx",
@@ -420,6 +450,12 @@
     "lines": 70
   },
   {
+    "file": "apps/web/src/components/product/RecentlyViewedProducts.tsx",
+    "exports": "RecentlyViewedProducts",
+    "description": "",
+    "lines": 59
+  },
+  {
     "file": "apps/web/src/components/product/RelatedUpsellProducts.tsx",
     "exports": "RelatedUpsellProducts",
     "description": "",
@@ -490,6 +526,12 @@
     "exports": "usePWAInstall",
     "description": "",
     "lines": 47
+  },
+  {
+    "file": "apps/web/src/hooks/useRecentlyViewed.ts",
+    "exports": "addRecentlyViewed,useRecentlyViewed",
+    "description": "",
+    "lines": 62
   },
   {
     "file": "apps/web/src/i18n/config.ts",
@@ -573,7 +615,7 @@
     "file": "apps/web/src/pages/CategoryPage.tsx",
     "exports": "",
     "description": "",
-    "lines": 419
+    "lines": 498
   },
   {
     "file": "apps/web/src/pages/CheckoutPage.tsx",
@@ -586,6 +628,12 @@
     "exports": "",
     "description": "",
     "lines": 3
+  },
+  {
+    "file": "apps/web/src/pages/ComparePage.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 109
   },
   {
     "file": "apps/web/src/pages/ConfirmPasswordPage.tsx",
@@ -651,7 +699,7 @@
     "file": "apps/web/src/pages/ProductPage.tsx",
     "exports": "ProductPage",
     "description": "",
-    "lines": 394
+    "lines": 407
   },
   {
     "file": "apps/web/src/pages/QuickOrderPage.tsx",
@@ -663,7 +711,7 @@
     "file": "apps/web/src/pages/SearchPage.tsx",
     "exports": "SearchPage",
     "description": "",
-    "lines": 374
+    "lines": 376
   },
   {
     "file": "apps/web/src/pages/SignInPage.tsx",
@@ -676,6 +724,12 @@
     "exports": "StoreLocatorPage",
     "description": "",
     "lines": 151
+  },
+  {
+    "file": "apps/web/src/pages/TrackOrderPage.tsx",
+    "exports": "TrackOrderPage",
+    "description": "",
+    "lines": 233
   },
   {
     "file": "apps/web/src/pages/account/AccountInformationPage.tsx",
@@ -798,10 +852,22 @@
     "lines": 126
   },
   {
+    "file": "apps/web/src/stores/compareStore.ts",
+    "exports": "useCompareStore",
+    "description": "",
+    "lines": 47
+  },
+  {
     "file": "apps/web/src/stores/uiStore.ts",
     "exports": "useUIStore",
     "description": "",
     "lines": 60
+  },
+  {
+    "file": "apps/web/src/test/pagebuilderParser.test.ts",
+    "exports": "",
+    "description": "",
+    "lines": 463
   },
   {
     "file": "apps/web/src/test/setup.ts",
@@ -814,5 +880,11 @@
     "exports": "",
     "description": "",
     "lines": 71
+  },
+  {
+    "file": "apps/web/src/test/smoke.test.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 160
   }
 ]

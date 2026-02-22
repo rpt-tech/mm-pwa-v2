@@ -1,4 +1,4 @@
-# AEGIS.md — Autonomous Engineering Framework v5.2
+# AEGIS.md — Autonomous Engineering Framework v5.3
 # Bạn CHỈ CẦN sửa phần [YÊU CẦU] bên dưới. Mọi thứ khác AI tự xử lý.
 
 ## ── YÊU CẦU CỦA BẠN (viết tự nhiên, càng chi tiết càng tốt) ──
@@ -60,7 +60,7 @@ Viết như đang nói chuyện với 1 senior developer.]
 # ║  PHẦN DƯỚI ĐÂY KHÔNG CẦN SỬA — ĐÂY LÀ BRAIN CỦA AGENT  ║
 # ╚══════════════════════════════════════════════════════════════╝
 
-## AGENT PROTOCOL v5.1
+## AGENT PROTOCOL v5.3
 
 ### Phase 0: Bootstrap (Initializer Agent — session đầu tiên)
 
@@ -185,51 +185,9 @@ Thực hiện tuần tự, không bỏ bước nào:
      - [x] NEXTAUTH_SECRET — detected
      ```
 
-5. **Tạo init.sh**: Bootstrap dev environment (install deps, check tools, start dev server nếu cần)
-   - init.sh PHẢI idempotent — check trước khi tạo:
-   ```bash
-   # Mỗi step phải safe khi chạy lại
-   [ -d node_modules ] || npm install
-   [ -f .env ] || cp .env.example .env
-   git rev-parse --git-dir >/dev/null 2>&1 || git init
-   ```
-
-   **[EXISTING MODE]** init.sh thông minh hơn — validate thay vì overwrite:
-   ```bash
-   #!/usr/bin/env bash
-   set -e
-
-   # 1. Install deps nếu chưa có
-   [ -d node_modules ] || npm install
-
-   # 2. .env: KHÔNG overwrite nếu đã tồn tại — chỉ validate keys còn thiếu
-   if [ -f .env ]; then
-     echo "[init] .env exists — validating required keys..."
-     MISSING_KEYS=""
-     # Đọc .env.example để biết keys nào cần
-     if [ -f .env.example ]; then
-       while IFS= read -r line; do
-         key=$(echo "$line" | grep -oP '^[A-Z_]+(?==)' || true)
-         [ -z "$key" ] && continue
-         if ! grep -q "^${key}=.\+" .env 2>/dev/null; then
-           MISSING_KEYS="$MISSING_KEYS $key"
-         fi
-       done < .env.example
-     fi
-     if [ -n "$MISSING_KEYS" ]; then
-       echo "[init] WARNING: Missing .env keys:$MISSING_KEYS"
-       echo "[init] Add these to .env or NEEDS.md"
-     else
-       echo "[init] .env OK — all required keys present"
-     fi
-   else
-     [ -f .env.example ] && cp .env.example .env || touch .env
-     echo "[init] Created .env from template"
-   fi
-
-   # 3. Git init nếu chưa có
-   git rev-parse --git-dir >/dev/null 2>&1 || git init
-   ```
+5. **Tạo init.sh**: Bootstrap dev environment — xem scripts-spec.md cho full code
+   - init.sh PHẢI idempotent — check trước khi tạo
+   - **[EXISTING MODE]** validate thay vì overwrite .env
 
 6. **Tạo governance files** (skip nếu đã tồn tại — idempotent):
    - PROGRESS.md (empty template)
@@ -238,13 +196,14 @@ Thực hiện tuần tự, không bỏ bước nào:
    - BLOCKED.md (empty)
    - COST_TRACKER.md (empty template với header)
    - WORKERS.md (empty — dùng cho multi-agent mode)
+   - WALKTHROUGH.md (user-facing documentation — mô tả sản phẩm đã build, cách cài đặt, sử dụng)
 
 7. **Tạo CLAUDE.md** (đây là persistent memory — Claude Code đọc tự động mỗi session):
    ```markdown
    # CLAUDE.md — AEGIS Persistent Memory
 
    ## Project Identity
-   This is an AEGIS v5.2 autonomous coding project.
+   This is an AEGIS v5.3 autonomous coding project.
    Read AEGIS.md at every session start.
 
    ## Role Detection
@@ -305,7 +264,7 @@ Thực hiện tuần tự, không bỏ bước nào:
    <!-- Do NOT recreate: [list of already-implemented features] -->
    <!-- ENV keys present: [comma-separated list — no values] -->
 
-   ## Semantic Memory (v5.2)
+   ## Semantic Memory (v5.2+)
    <!-- Index lives at .memory/index.json — rebuilt async after each feature pass -->
    <!-- Before implementing any feature: bash scripts/memory-search.sh "query" -->
    <!-- This finds existing files/exports to reuse instead of duplicating -->
@@ -367,70 +326,11 @@ Thực hiện tuần tự, không bỏ bước nào:
    Then log to LIVE_LOG.md: "[HH:MM] ROLLBACK: reset to checkpoint/pre-feature-$ARGUMENTS"
    ```
 
-8e. **Tạo scripts/memory-index.sh** (v5.2: build semantic memory index từ src/):
-   ```bash
-   #!/usr/bin/env bash
-   # Build memory index — chạy async sau mỗi feature pass
-   # Output: .memory/index.json (file paths + exports + descriptions)
-   ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-   MDIR="$ROOT/.memory"
-   mkdir -p "$MDIR"
+8e. **Tạo scripts/memory-index.sh** — build semantic memory index từ src/ (xem scripts-spec.md)
 
-   INDEX="[]"
-   while IFS= read -r file; do
-     rel="${file#$ROOT/}"
-     # Extract exported symbols (TS/JS/Python)
-     exports=$(grep -oP \
-       '(?<=export\s)(default\s+)?(function|class|const|async function)\s+\K\w+|(?<=^def |^class )\w+' \
-       "$file" 2>/dev/null | head -8 | paste -sd ',' -)
-     # First meaningful comment or JSDoc
-     desc=$(grep -m1 -oP '(?<=//\s{0,2}|/\*\*?\s{0,2}|\#\s{0,2})\K[A-Z].{15,100}' \
-       "$file" 2>/dev/null | head -1 || echo "")
-     size=$(wc -l < "$file" 2>/dev/null || echo 0)
-     entry=$(jq -n \
-       --arg f "$rel" --arg e "$exports" --arg d "$desc" --argjson s "$size" \
-       '{file:$f,exports:$e,description:$d,lines:$s}')
-     INDEX=$(printf '%s' "$INDEX" | jq ". + [$entry]")
-   done < <(find "$ROOT/src" "$ROOT/app" "$ROOT/lib" "$ROOT/pages" "$ROOT/api" \
-     -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.js" -o -name "*.jsx" \
-               -o -name "*.py" -o -name "*.go" -o -name "*.rs" \) \
-     2>/dev/null | grep -v node_modules | grep -v __pycache__ | head -300)
+8f. **Tạo scripts/memory-search.sh** — query memory index trước khi implement (xem scripts-spec.md)
 
-   printf '%s' "$INDEX" | jq '.' > "$MDIR/index.json"
-   COUNT=$(printf '%s' "$INDEX" | jq 'length')
-   echo "[memory] Indexed $COUNT files → .memory/index.json"
-   ```
-
-8f. **Tạo scripts/memory-search.sh** (v5.2: query memory index trước khi implement feature):
-   ```bash
-   #!/usr/bin/env bash
-   # Search memory index — agent dùng trước khi implement mỗi feature
-   # Usage: bash scripts/memory-search.sh "auth user login"
-   # Returns: top matching files với exports + descriptions
-   QUERY="${*:-}"
-   ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
-   INDEX="$ROOT/.memory/index.json"
-
-   [ -f "$INDEX" ] || { echo "No index. Run: bash scripts/memory-index.sh"; exit 1; }
-   [ -z "$QUERY" ] && { echo "Usage: $0 'query terms'"; exit 1; }
-
-   # Split query into terms, search across file/exports/description
-   TERMS=$(echo "$QUERY" | tr ' ' '\n' | jq -R . | jq -s .)
-   jq --argjson terms "$TERMS" '
-     [.[] | . as $item |
-       ($terms | map(
-         . as $t |
-         (($item.file // "") | ascii_downcase | contains($t | ascii_downcase)) or
-         (($item.exports // "") | ascii_downcase | contains($t | ascii_downcase)) or
-         (($item.description // "") | ascii_downcase | contains($t | ascii_downcase))
-       ) | map(if . then 1 else 0 end) | add) as $score |
-       select($score > 0) |
-       {score: $score, file: $item.file, exports: $item.exports, description: $item.description}
-     ] | sort_by(-.score) | .[:8]
-   ' "$INDEX"
-   ```
-
-9. **Tạo scripts/agent-watchdog.sh** (xem script đầy đủ bên dưới — v5: thrashing detection + --continue timeout)
+9. **Tạo scripts/resilient-watchdog.sh** (xem "Session Recovery Protocol" bên dưới — v5.3: API error classification + kill-and-fresh-restart + platform-aware)
 
 10. **Tạo scripts/health-check.sh** (xem script bên dưới)
 
@@ -677,31 +577,79 @@ Mỗi feature trong feature_list.json có field `retry_count` (default: 0).
   ```
 - Tiếp tục với feature tiếp theo — không dừng lại
 
-**Phát hiện session loop (watchdog):**
-- Nếu git log không có commit mới sau 20 phút → watchdog ghi cảnh báo vào LIVE_LOG.md
-- Nếu không có commit mới sau 40 phút → watchdog restart session
+**Phát hiện session stall (watchdog):**
+- Nếu không có output mới sau 20 phút (STALL_TIMEOUT=1200s) → watchdog KILL session + spawn fresh
+- Xem "Session Recovery Protocol" bên dưới để biết chi tiết kill+fresh flow
 
 **Phát hiện thrashing (nhiều commits nhưng 0 features pass):**
 - Nếu > 10 commits trong 30 phút nhưng không feature nào mới passes=true → THRASHING
-- Watchdog ghi cảnh báo, force restart với fresh context (không dùng --continue)
+- Watchdog KILL session + spawn fresh với cảnh báo chọn approach khác
 - Agent mới sẽ đọc .last_state.json và chọn approach khác
 
-```bash
-check_thrashing() {
-  local recent_commits=$(git -C "$WORKDIR" log --since="30 minutes ago" --oneline 2>/dev/null | wc -l)
-  local recent_passes=$(jq '[.[]|select(.passes==true and .completed_at!=null)]|length' "$WORKDIR/feature_list.json" 2>/dev/null)
-  # So sánh với snapshot trước đó
-  local prev_passes=$(cat "$WORKDIR/.thrash_check" 2>/dev/null || echo 0)
-  local new_passes=$((recent_passes - prev_passes))
-  echo "$recent_passes" > "$WORKDIR/.thrash_check"
+Full `check_thrashing()` code → xem **scripts-spec.md** section `resilient-watchdog.sh`.
 
-  if [ "$recent_commits" -gt 10 ] && [ "$new_passes" -eq 0 ]; then
-    log "THRASHING: $recent_commits commits in 30min, 0 new features passed"
-    return 1  # thrashing detected
-  fi
-  return 0
-}
+---
+
+### Session Recovery Protocol (v5.3 — QUAN TRỌNG)
+
+Khi Claude API trả lỗi 500/429/529, session hiện tại bị "hỏng" — `--continue` KHÔNG giúp được vì:
+1. Reload cùng conversation context đã corrupt (500)
+2. `--continue` trên Windows/MINGW64 hay bị freeze (GitHub #7455)
+3. Fresh session đọc lại CLAUDE.md → có đầy đủ instructions
+
+**Nguyên tắc: LUÔN KILL + FRESH. KHÔNG BAO GIỜ dùng `--continue`.**
+
+#### Error Classification
+
+| Error | Detect Pattern | Action | Wait Time |
+|-------|---------------|--------|-----------|
+| 500 Server Error | `API Error: 500`, `api_error`, `Internal Server Error`, `displayModel is not defined` | **KILL + FRESH** | 60s, exponential backoff (×2 mỗi lần, cap 600s) |
+| 429 Rate Limit | `rate_limit`, `rate_limit_error`, `429`, `Too Many Requests` | **KILL + FRESH** | 90s, tăng dần đến 300s. Nếu >30 phút liên tục → alert user |
+| 529 Overloaded | `overloaded`, `overloaded_error`, `529` | **KILL + FRESH** | 30s, exponential đến 300s. Max chờ 1 giờ |
+| 413 Too Large | `request_too_large`, `too large`, `413` | **KILL + FRESH** | 10s (context phải reset ngay) |
+| 401/403 Auth | `authentication_error`, `permission_error` | **STOP WATCHDOG** | N/A — cần user fix credentials |
+| Stall (no output 20min) | Log file không thay đổi >1200s | **KILL + FRESH** | 5s |
+| Thrashing | >10 commits/30min, 0 features pass | **KILL + FRESH** | 5s + cảnh báo chọn approach khác |
+
+#### Watchdog Flow
+
 ```
+Watchdog loop (scripts/resilient-watchdog.sh):
+  1. Save .last_state.json
+  2. Check thrashing → add warning to prompt if detected
+  3. Spawn fresh claude -p (NEVER --continue) → pipe output to log
+  4. Monitor log every 10s: detect_error() scans for 500/429/529/413/AUTH patterns
+  5. On error detected → kill_claude() (platform-aware) → get_wait_time() → sleep → wait_for_api() → restart
+  6. On clean exit → check pending features → restart if remaining
+  7. Rate limit: max 8 restarts/hour, pause 30min if exceeded
+  8. Budget check after each session
+```
+
+**Platform-aware process kill:**
+- WSL/Linux: `kill -- -$PID` (process group) + `pkill -9 -P $PID`
+- Git Bash: `taskkill //PID $pid //T //F` (Windows process tree kill)
+
+**Fresh session prompt** injects context:
+- Đọc AEGIS.md, BLUEPRINT.md, .last_state.json, feature_list.json, LIVE_LOG.md, STEERING.md, BLOCKED.md
+- KHÔNG làm lại features đã passes=true
+- Nếu partial changes → đánh giá hoàn thành tiếp hoặc rollback checkpoint
+
+**Full script code → xem scripts-spec.md** (resilient-watchdog.sh, resilient-worker.sh)
+
+#### Multi-Agent Platform Support
+
+- WSL/Linux: tmux panes, mỗi worker wrap bởi `resilient-worker.sh`
+- Git Bash: background processes (không có tmux), log files
+
+#### Tại sao KHÔNG dùng `--continue`
+
+| Vấn đề | Chi tiết |
+|---------|----------|
+| Session corrupt | 500 error corrupt conversation state → `--continue` reload cùng state hỏng |
+| Windows freeze | `--continue` sau Ctrl+C/kill hay bị freeze terminal (GitHub #7455) |
+| Không đọc lại CLAUDE.md | `--continue` không re-read CLAUDE.md → mất instructions mới |
+| State đã persist | `.last_state.json` + `feature_list.json` + `LIVE_LOG.md` = đủ context |
+| Predictable hơn | Fresh session luôn chạy Session Start Protocol đầy đủ 11 bước |
 
 ---
 
@@ -795,21 +743,9 @@ LOCKFILE="STEERING.lock"
 
 ### Log Rotation Protocol
 
-**LIVE_LOG.md rotation:**
-```bash
-rotate_log() {
-  local log="LIVE_LOG.md"
-  local lines=$(wc -l < "$log" 2>/dev/null || echo 0)
-  if [ "$lines" -gt 500 ]; then
-    mkdir -p logs
-    mv "$log" "logs/LIVE_LOG_$(date +%Y%m%d_%H%M%S).md"
-    echo "# LIVE_LOG.md — rotated $(date)" > "$log"
-    echo "[$(date +%H:%M)] Log rotated (was ${lines} lines)" >> "$log"
-  fi
-}
-```
+**LIVE_LOG.md rotation:** Khi > 500 lines → move sang `logs/LIVE_LOG_<timestamp>.md`, tạo mới. Gọi sau mỗi feature hoàn thành.
 
-Gọi `rotate_log` sau mỗi feature hoàn thành.
+Full `rotate_log()` code → xem **scripts-spec.md** section `resilient-watchdog.sh`.
 
 ---
 
@@ -849,8 +785,80 @@ Khi tất cả features của phase hiện tại đã passes=true:
 2. Tạo 10-20 features mới cho phase đó, append vào feature_list.json
 3. Ghi vào LIVE_LOG.md: `[HH:MM] PHASE N complete → generated M features for phase N+1`
 4. Deploy staging cho phase vừa xong
-5. Re-evaluate: nếu features mới >= MIN_FEATURES_FOR_MULTI → switch sang multi-agent mode
-6. Bắt đầu phase mới
+5. **Update WALKTHROUGH.md** — thêm features vừa hoàn thành vào user guide (xem protocol bên dưới)
+6. Re-evaluate: nếu features mới >= MIN_FEATURES_FOR_MULTI → switch sang multi-agent mode
+7. Bắt đầu phase mới
+
+---
+
+### WALKTHROUGH.md — End-User Documentation Protocol
+
+**Mục đích:** WALKTHROUGH.md là tài liệu DÀNH CHO NGƯỜI DÙNG SẢN PHẨM (không phải cho developer/agent). Khi user nhận kết quả, họ mở file này để biết AI đã build gì và cách sử dụng.
+
+**Tạo lần đầu:** Phase 0 Bootstrap (step 6) — template cơ bản.
+
+**Update khi nào:**
+- Sau MỖI phase hoàn thành (tất cả features passes=true)
+- Khi deploy staging/production thành công
+- Khi có thay đổi lớn qua STEERING.md (add feature, change approach)
+
+**Cấu trúc WALKTHROUGH.md:**
+```markdown
+# [Tên Sản Phẩm] — Hướng Dẫn Sử Dụng
+
+> Auto-generated by AEGIS. Cập nhật lần cuối: [timestamp]
+
+## Tổng Quan
+[Mô tả ngắn sản phẩm là gì, cho ai dùng, giải quyết vấn đề gì]
+
+## Cài Đặt & Chạy
+[Từng bước: clone, install, env setup, start dev/prod]
+- Prerequisites: Node.js >= X, etc.
+- `npm install`
+- Copy `.env.example` → `.env`, điền credentials
+- `npm run dev` → http://localhost:3000
+
+## Các Tính Năng Đã Hoàn Thành
+
+### Phase 1: [Tên Phase]
+- ✅ Feature #1: [Mô tả] — Cách dùng: [hướng dẫn cụ thể]
+- ✅ Feature #2: [Mô tả] — Cách dùng: [hướng dẫn cụ thể]
+- ❌ Feature #7: [Mô tả] — BLOCKED: [lý do, xem BLOCKED.md]
+
+### Phase 2: [Tên Phase]
+- ✅ Feature #8: ...
+[Cập nhật sau mỗi phase]
+
+## Tech Stack
+[Framework, database, hosting, key packages — lấy từ BLUEPRINT.md]
+
+## Cấu Trúc Project
+[File tree chính với giải thích: src/pages/, src/api/, src/components/, etc.]
+
+## API Endpoints (nếu có)
+[Bảng: Method | Path | Mô tả | Auth required?]
+
+## Environment Variables
+[Bảng: KEY | Mô tả | Bắt buộc? | Ví dụ — lấy từ NEEDS.md]
+
+## Deploy
+[Hướng dẫn deploy: platform, commands, URLs]
+- Staging: [URL]
+- Production: [URL]
+
+## Known Issues & Limitations
+[Từ BLOCKED.md — features chưa hoàn thành và lý do]
+
+## Changelog
+[Log theo phase: Phase 1 done [date] — N features, Phase 2 done [date] — M features]
+```
+
+**Quy tắc viết:**
+- Viết cho END USER, không phải developer — ngôn ngữ đơn giản, có ví dụ cụ thể
+- Mỗi feature phải có "Cách dùng" — không chỉ liệt kê mà hướng dẫn sử dụng
+- Lấy thông tin từ: BLUEPRINT.md (architecture), feature_list.json (features), NEEDS.md (env vars), BLOCKED.md (issues)
+- Cập nhật KHÔNG overwrite toàn bộ — chỉ append/update sections thay đổi
+- Ngôn ngữ: theo config trong AEGIS.md (vi/en/both)
 
 ---
 
@@ -1057,194 +1065,20 @@ Khi merge worker branches có conflict:
 
 #### scripts/multi-agent.sh
 
-```bash
-#!/usr/bin/env bash
-# AEGIS v5 Multi-Agent Orchestrator Script
-# Usage: bash scripts/multi-agent.sh [NUM_WORKERS]
+**Full script code → xem scripts-spec.md**
 
-set -euo pipefail
-WORKDIR="$(cd "$(dirname "$0")/.." && pwd)"
-cd "$WORKDIR"
-
-NUM_WORKERS=${1:-3}
-LOG="$WORKDIR/LIVE_LOG.md"
-SESSION="agent"
-HEARTBEAT_TIMEOUT=300   # 5 phút không heartbeat → worker dead
-
-export ANTHROPIC_MODEL=claude-opus-4-6
-export CLAUDE_CODE_EFFORT_LEVEL=high
-
-log() { echo "[$(date +%H:%M)] MULTI: $*" | tee -a "$LOG"; }
-
-# ── Cleanup old worktrees ──
-cleanup() {
-  log "Cleaning up worktrees..."
-  for i in $(seq 1 "$NUM_WORKERS"); do
-    git worktree remove ".worktrees/worker-$i" --force 2>/dev/null || true
-    git branch -D "worker-$i" 2>/dev/null || true
-  done
-  rm -rf .worktrees
-}
-trap cleanup EXIT
-
-# ── Create worktrees (idempotent) ──
-log "Creating $NUM_WORKERS worktrees..."
-mkdir -p .worktrees
-for i in $(seq 1 "$NUM_WORKERS"); do
-  [ -d ".worktrees/worker-$i" ] && continue  # idempotent: skip if exists
-  git worktree add ".worktrees/worker-$i" -b "worker-$i" dev 2>/dev/null || \
-    git worktree add ".worktrees/worker-$i" "worker-$i" 2>/dev/null || true
-  # Copy essential files
-  cp CLAUDE.md ".worktrees/worker-$i/CLAUDE.md" 2>/dev/null || true
-  cp BLUEPRINT.md ".worktrees/worker-$i/BLUEPRINT.md" 2>/dev/null || true
-  cp feature_list.json ".worktrees/worker-$i/feature_list.json" 2>/dev/null || true
-  log "Worktree worker-$i ready"
-done
-
-# ── Orchestrator assigns features (dependency-aware topological sort) ──
-log "Launching orchestrator to assign features (dependency-aware)..."
-claude --model claude-opus-4-6 --dangerously-skip-permissions \
-  -p "Đọc AEGIS.md. Bạn là ORCHESTRATOR AGENT trong multi-agent mode v5.
-Có $NUM_WORKERS workers tại .worktrees/worker-1 đến worker-$NUM_WORKERS.
-
-Nhiệm vụ:
-1. Đọc feature_list.json → lấy tất cả features pending (passes=false, blocked=false)
-2. Topological sort theo depends_on:
-   - Wave 1: features với depends_on=[] (independent)
-   - Wave 2+: features mà dependencies đã ở wave trước
-3. CHỈ assign wave 1 features cho lần chạy này
-4. Phân features cho $NUM_WORKERS workers theo category (giảm conflict)
-5. Tạo WORKER_ID file trong mỗi .worktrees/worker-N/ với format:
-   WORKER_NUM=N
-   BRANCH=worker-N
-   ASSIGNED_FEATURES=[id1,id2,...]
-   CATEGORY=category_name
-   WAVE=1
-6. Cập nhật WORKERS.md với assignment table
-7. KHÔNG spawn workers — script sẽ làm bước đó
-8. Exit khi xong assignment."
-
-# ── Spawn workers in tmux panes ──
-log "Spawning $NUM_WORKERS workers in tmux..."
-for i in $(seq 1 "$NUM_WORKERS"); do
-  WDIR="$WORKDIR/.worktrees/worker-$i"
-  if [ ! -f "$WDIR/WORKER_ID" ]; then
-    log "Worker $i has no WORKER_ID — skipping"
-    continue
-  fi
-
-  tmux split-window -t "$SESSION" -h \
-    "cd '$WDIR' && claude --model claude-opus-4-6 --dangerously-skip-permissions \
-      -p 'Đọc CLAUDE.md. Bạn là WORKER AGENT.
-Đọc WORKER_ID để biết features assigned.
-Respect depends_on order. Tạo checkpoint trước mỗi feature.
-Start heartbeat: while true; do date +%s > HEARTBEAT; sleep 60; done &
-Với MỖI feature: checkpoint → implement → test → commit vào branch worker-$i.
-Nếu feature fail 3 lần: rollback checkpoint, mark blocked, move on.
-Ghi progress vào WORKER_LOG.md.
-Khi xong TẤT CẢ features → exit.' \
-    ; echo 'Worker $i done' >> '$WORKDIR/LIVE_LOG.md'"
-
-  tmux select-layout -t "$SESSION" tiled  # auto-arrange panes
-  log "Worker $i spawned"
-  sleep 2  # stagger starts
-done
-
-log "All workers spawned. Monitoring with heartbeat..."
-
-# ── Monitor workers (v5: heartbeat detection + respawn) ──
-while true; do
-  sleep 120  # check every 2 min (faster than v4's 5 min)
-  ALL_DONE=true
-  for i in $(seq 1 "$NUM_WORKERS"); do
-    WDIR="$WORKDIR/.worktrees/worker-$i"
-    [ -d "$WDIR" ] || continue
-
-    # Check if worker is still running (heartbeat is primary signal)
-    WORKER_ALIVE=false
-    if [ -f "$WDIR/HEARTBEAT" ]; then
-      LAST_BEAT=$(cat "$WDIR/HEARTBEAT")
-      NOW=$(date +%s)
-      ELAPSED=$(( NOW - LAST_BEAT ))
-      [ "$ELAPSED" -lt "$HEARTBEAT_TIMEOUT" ] && WORKER_ALIVE=true
-    elif [ -f "$WDIR/WORKER_ID" ]; then
-      # No heartbeat file yet — assume alive if recently spawned
-      WORKER_ALIVE=true
-    fi
-
-    if $WORKER_ALIVE; then
-      ALL_DONE=false
-      COMMITS=$(cd "$WDIR" && git log --oneline "worker-$i" ^dev 2>/dev/null | wc -l)
-      log "Worker $i: running ($COMMITS commits)"
-    else
-      # Worker dead or finished — check if all assigned features done
-      ASSIGNED_DONE=$(cd "$WDIR" && grep -c "PASS" WORKER_LOG.md 2>/dev/null || echo 0)
-      ASSIGNED_TOTAL=$(grep -oP 'ASSIGNED_FEATURES=\[\K[^\]]+' "$WDIR/WORKER_ID" 2>/dev/null | tr ',' '\n' | wc -l)
-      if [ "$ASSIGNED_DONE" -lt "$ASSIGNED_TOTAL" ]; then
-        log "Worker $i: DEAD ($ASSIGNED_DONE/$ASSIGNED_TOTAL done) — respawning"
-        tmux split-window -t "$SESSION" -h \
-          "cd '$WDIR' && claude --model claude-opus-4-6 --dangerously-skip-permissions \
-            -p 'Đọc CLAUDE.md. Bạn là WORKER AGENT. Đọc WORKER_ID. Continue coding unfinished features. Start heartbeat.'"
-        tmux select-layout -t "$SESSION" tiled
-      else
-        log "Worker $i: finished ($ASSIGNED_DONE/$ASSIGNED_TOTAL done)"
-      fi
-    fi
-  done
-
-  if $ALL_DONE; then
-    log "All workers finished. Starting wave merge..."
-    break
-  fi
-done
-
-# ── Wave merge ──
-log "Merging worker branches into dev..."
-git checkout dev
-for i in $(seq 1 "$NUM_WORKERS"); do
-  if git rev-parse --verify "worker-$i" >/dev/null 2>&1; then
-    COMMITS=$(git log --oneline "worker-$i" ^dev | wc -l)
-    if [ "$COMMITS" -gt 0 ]; then
-      log "Merging worker-$i ($COMMITS commits)..."
-      if git merge "worker-$i" --no-edit; then
-        log "worker-$i merged OK"
-      else
-        log "worker-$i CONFLICT — launching orchestrator to resolve"
-        claude --model claude-opus-4-6 --dangerously-skip-permissions \
-          -p "Git merge conflict. Resolve all conflicts, keeping both sides' intent. Run 'git add .' then 'git commit --no-edit' when done."
-      fi
-      # v5: Run build+test after EACH worker merge (catch conflicts early)
-      if ! npm run build 2>&1 >/dev/null; then
-        log "Build fail after merging worker-$i — launching fix"
-        claude --model claude-opus-4-6 --dangerously-skip-permissions \
-          -p "Build fail after merging worker-$i. Fix errors, commit, exit."
-      fi
-    fi
-  fi
-done
-
-# ── Post-merge verification ──
-log "Running full build + test after all merges..."
-if npm run build 2>&1 && npm test 2>&1; then
-  log "Post-merge build+test PASS ✓"
-  git push origin dev
-else
-  log "Post-merge build+test FAIL — launching fix agent"
-  claude --model claude-opus-4-6 --dangerously-skip-permissions \
-    -p "Build hoặc test fail sau khi merge workers. Fix tất cả errors, commit, rồi exit."
-fi
-
-# ── Update governance ──
-log "Updating feature_list.json from worker results..."
-claude --model claude-opus-4-6 --dangerously-skip-permissions \
-  -p "Đọc WORKER_LOG.md từ mỗi .worktrees/worker-*/.
-Cập nhật feature_list.json: set passes=true cho features đã pass, tăng retry_count cho features fail.
-Cập nhật PROGRESS.md và WORKERS.md.
-Commit: 'chore: update governance after multi-agent wave'.
-Exit khi xong."
-
-log "Wave complete. Cleaning up worktrees..."
-# cleanup runs via trap
+Flow:
+```
+1. Cleanup old worktrees → create fresh worktrees từ dev branch
+2. Copy CLAUDE.md, BLUEPRINT.md, feature_list.json vào mỗi worktree
+3. Orchestrator agent assigns features (topological sort theo depends_on)
+4. Spawn workers (platform-aware: tmux on WSL, background on Git Bash)
+   — Mỗi worker wrap bởi resilient-worker.sh (kill+fresh on error)
+5. Monitor heartbeat mỗi 2 phút, respawn dead workers
+6. Wave merge: worker-N → dev (tuần tự, build+test sau mỗi merge)
+7. Post-merge verification: full build+test → push dev
+8. Update governance files từ WORKER_LOG.md
+9. Cleanup worktrees (trap EXIT)
 ```
 
 #### Khi nào dùng Single vs Multi
@@ -1293,40 +1127,11 @@ deploy_flow():
   log "DEPLOYED to production"
 ```
 
-**Vercel (Frontend) — staging first:**
-```bash
-cd [frontend-dir]
-# Deploy staging (không có --prod)
-STAGING_URL=$(npx vercel deploy --token "$VERCEL_TOKEN" --yes 2>&1 | grep -o 'https://[^ ]*')
-echo "Staging: $STAGING_URL"
-
-# Health check staging
-curl -sf "$STAGING_URL/api/health" || { echo "Staging health check FAIL"; exit 1; }
-
-# Promote to production
-npx vercel deploy --prod --token "$VERCEL_TOKEN" --yes
-```
-
-**Cloudflare Workers (API):**
-```bash
-cd [api-dir]
-# Deploy staging env
-CLOUDFLARE_API_TOKEN=$CF_TOKEN npx wrangler deploy --env staging
-# Test staging
-curl -sf "https://staging-api.example.com/health" || exit 1
-# Deploy production
-CLOUDFLARE_API_TOKEN=$CF_TOKEN npx wrangler deploy
-```
-
-**Cloudflare Pages:**
-```bash
-npx wrangler pages deploy [build-dir] --project-name [name] --branch staging
-# Verify → then deploy main branch
-npx wrangler pages deploy [build-dir] --project-name [name]
-```
-
-**GitHub Actions CI/CD:**
-Tạo .github/workflows/deploy.yml tự động deploy khi push main.
+**Deploy commands per platform → xem scripts-spec.md**
+- Vercel: `vercel deploy` (staging) → health check → `vercel deploy --prod`
+- Cloudflare Workers: `wrangler deploy --env staging` → test → `wrangler deploy`
+- Cloudflare Pages: `wrangler pages deploy --branch staging` → verify → deploy main
+- GitHub Actions: tạo .github/workflows/deploy.yml
 
 ---
 

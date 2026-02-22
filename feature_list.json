@@ -542,5 +542,109 @@
     "retry_count": 0,
     "blocked": false,
     "completed_at": "2026-02-22T07:30:00.000Z"
+  },
+  {
+    "id": 21,
+    "phase": 3,
+    "priority": 1,
+    "category": "bugfix",
+    "description": "Fix CategoryPage dynamic import error — rebuild chunk with correct hash",
+    "depends_on": [],
+    "supervision_level": "auto",
+    "existing_context": "Production error: Failed to fetch CategoryPage-CMmjkqYp.js. Local build has CategoryPage-DTc_t0O1.js. Need rebuild + redeploy.",
+    "acceptance_criteria": [
+      "npm run build succeeds",
+      "CategoryPage chunk hash matches production bundle",
+      "Vercel deploy completes",
+      "Production CategoryPage loads without 404"
+    ],
+    "steps": [
+      "npm run build",
+      "Verify dist/assets/CategoryPage-*.js exists",
+      "Deploy to Vercel",
+      "Verify production bundle loads"
+    ],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 22,
+    "phase": 3,
+    "priority": 2,
+    "category": "bugfix",
+    "description": "Fix menu not closing after category selection — add closeMenu on Link click",
+    "depends_on": [],
+    "supervision_level": "auto",
+    "existing_context": "MegaMenu.tsx has Link components but no closeMenu callback. Header.tsx manages isMegaMenuOpen via uiStore.",
+    "acceptance_criteria": [
+      "MegaMenu Link components close menu after navigation",
+      "npm run build passes",
+      "Smoke test: navigate category → menu closes",
+      "No console errors"
+    ],
+    "steps": [
+      "Read MegaMenu.tsx",
+      "Add onClick handler to close menu on Link click",
+      "Test in dev mode",
+      "Build + test"
+    ],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 23,
+    "phase": 3,
+    "priority": 3,
+    "category": "bugfix",
+    "description": "Fix menu links pointing to old site — update schema URLs to use current domain",
+    "depends_on": [],
+    "supervision_level": "auto",
+    "existing_context": "HomeSchema.tsx, ProductImageCarousel.tsx, ProductPage.tsx have hardcoded online.mmvietnam.com URLs. Should use current domain or relative paths.",
+    "acceptance_criteria": [
+      "HomeSchema uses current domain or relative URLs",
+      "ProductPage canonical uses current domain",
+      "ProductImageCarousel uses env var for media base URL",
+      "npm run build passes"
+    ],
+    "steps": [
+      "Update HomeSchema.tsx URLs",
+      "Update ProductPage.tsx canonical",
+      "Verify ProductImageCarousel uses VITE_MEDIA_BASE_URL",
+      "Build + test"
+    ],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 24,
+    "phase": 3,
+    "priority": 4,
+    "category": "bugfix",
+    "description": "Verify homepage data rendering — check FlashsaleProducts query and error handling",
+    "depends_on": [],
+    "supervision_level": "auto",
+    "existing_context": "Homepage renders HomeLandingFallback + CmsPage. FlashsaleProducts queries BFF. Need to verify query works and handles errors gracefully.",
+    "acceptance_criteria": [
+      "FlashsaleProducts query returns data or gracefully handles error",
+      "Homepage renders without blank sections",
+      "No console errors on homepage",
+      "Smoke test passes"
+    ],
+    "steps": [
+      "Test FlashsaleProducts query in dev",
+      "Check error handling in component",
+      "Verify homepage renders in production",
+      "Run smoke test"
+    ],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
   }
 ]

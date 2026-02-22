@@ -534,3 +534,4 @@ Static assets: placeholder, bg-login, mCard + fix broken /images/logo.svg — �
 [06:54] FEATURE #2: expand smoke tests — PASS: 17/17 tests — NEXT: #3,#4,#5,#6,#8 parallel
 [07:15] #19 Lighthouse CI baseline — Chrome unavailable in WSL, PSI quota exhausted; applied CWV fixes: preconnect hints, fetchpriority on CMS images/banners, updated .lighthouserc.json thresholds — commit
 [08:25] FEATURE #17: Playwright e2e smoke tests — PASS: 15/15 tests — fixed CSS selector syntax, 404 async wait, sign-in strict mode — all 20 features complete
+[08:41] INVESTIGATION: Production issues — homepage data, CategoryPage chunk fetch, menu closing, menu URLs
