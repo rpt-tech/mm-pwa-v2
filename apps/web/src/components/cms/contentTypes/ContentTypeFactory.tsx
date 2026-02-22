@@ -16,6 +16,11 @@ import SliderComponent from './Slider';
 import ProductsCarousel from './ProductsCarousel';
 import FlashsaleProductsCT from './FlashsaleProductsCT';
 import ProductRecommendationCT from './ProductRecommendationCT';
+import { Heading } from './Heading';
+import { Buttons } from './Buttons';
+import { ButtonItem } from './ButtonItem';
+import { Divider } from './Divider';
+import { Block } from './Block';
 
 export interface ContentTypeData {
   contentType: string;
@@ -64,6 +69,25 @@ export const ContentTypeFactory: React.FC<{ data: ContentTypeData }> = ({ data }
 
     case 'product-recommendation':
       return <ProductRecommendationCT {...props as any} />;
+
+    case 'heading':
+      return <Heading {...props as any} />;
+
+    case 'buttons':
+      return <Buttons {...props as any} />;
+
+    case 'button-item':
+      return <ButtonItem {...props as any} />;
+
+    case 'divider':
+      return <Divider {...props as any} />;
+
+    case 'block':
+      return <Block {...props as any} />;
+
+    // slide is a banner inside a slider
+    case 'slide':
+      return <Banner {...props as any} />;
 
     default:
       console.warn(`Unknown content type: ${contentType}`);
