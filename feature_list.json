@@ -564,10 +564,10 @@
       "Deploy to Vercel",
       "Verify production bundle loads"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T08:51:00Z"
   },
   {
     "id": 22,
@@ -590,10 +590,10 @@
       "Test in dev mode",
       "Build + test"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T08:51:00Z"
   },
   {
     "id": 23,
@@ -616,10 +616,10 @@
       "Verify ProductImageCarousel uses VITE_MEDIA_BASE_URL",
       "Build + test"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T08:51:00Z"
   },
   {
     "id": 24,
@@ -642,9 +642,9 @@
       "Verify homepage renders in production",
       "Run smoke test"
     ],
-    "passes": false,
+    "passes": true,
     "retry_count": 0,
     "blocked": false,
-    "completed_at": null
+    "completed_at": "2026-02-22T08:52:00Z"
   }
 ]
