@@ -200,7 +200,7 @@ export default function ProductPage() {
         <title>{product.meta_title || product.ecom_name || product.name}</title>
         {product.meta_description && <meta name="description" content={product.meta_description} />}
         {product.meta_keywords && <meta name="keywords" content={product.meta_keywords} />}
-        {product.canonical_url && <link rel="canonical" href={`https://online.mmvietnam.com/${product.canonical_url}`} />}
+        {product.canonical_url && <link rel="canonical" href={`${typeof window !== 'undefined' ? window.location.origin : 'https://mm-pwa-v2.vercel.app'}/${product.canonical_url}`} />}
         <meta property="og:title" content={product.meta_title || product.ecom_name || product.name} />
         {product.meta_description && <meta property="og:description" content={product.meta_description} />}
         {product.small_image?.url && <meta property="og:image" content={product.small_image.url} />}
