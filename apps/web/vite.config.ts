@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 import path from 'path';
+// build: 2026-02-22 06:11 — cache bust
 
 export default defineConfig({
   plugins: [
