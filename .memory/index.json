@@ -1,0 +1,818 @@
+[
+  {
+    "file": "apps/bff/src/index.ts",
+    "exports": "",
+    "description": "",
+    "lines": 138
+  },
+  {
+    "file": "apps/web/src/App.tsx",
+    "exports": "App",
+    "description": "",
+    "lines": 73
+  },
+  {
+    "file": "apps/web/src/components/account/AccountSidebar.tsx",
+    "exports": "AccountSidebar",
+    "description": "",
+    "lines": 126
+  },
+  {
+    "file": "apps/web/src/components/account/AddEditAddressDialog.tsx",
+    "exports": "AddEditAddressDialog",
+    "description": "",
+    "lines": 266
+  },
+  {
+    "file": "apps/web/src/components/account/AddressCard.tsx",
+    "exports": "AddressCard",
+    "description": "",
+    "lines": 126
+  },
+  {
+    "file": "apps/web/src/components/account/MyAccountLayout.tsx",
+    "exports": "MyAccountLayout",
+    "description": "",
+    "lines": 50
+  },
+  {
+    "file": "apps/web/src/components/auth/AuthModal.tsx",
+    "exports": "AuthModal",
+    "description": "",
+    "lines": 52
+  },
+  {
+    "file": "apps/web/src/components/auth/CreateAccount.tsx",
+    "exports": "CreateAccount",
+    "description": "",
+    "lines": 262
+  },
+  {
+    "file": "apps/web/src/components/auth/ForgotPassword.tsx",
+    "exports": "ForgotPassword",
+    "description": "",
+    "lines": 143
+  },
+  {
+    "file": "apps/web/src/components/auth/SignIn.tsx",
+    "exports": "SignIn",
+    "description": "",
+    "lines": 211
+  },
+  {
+    "file": "apps/web/src/components/auth/SocialLogin.tsx",
+    "exports": "SocialLogin",
+    "description": "",
+    "lines": 125
+  },
+  {
+    "file": "apps/web/src/components/auth/index.ts",
+    "exports": "",
+    "description": "",
+    "lines": 4
+  },
+  {
+    "file": "apps/web/src/components/cart/MiniCart.tsx",
+    "exports": "MiniCart",
+    "description": "",
+    "lines": 256
+  },
+  {
+    "file": "apps/web/src/components/catalog/FilterModal.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 59
+  },
+  {
+    "file": "apps/web/src/components/catalog/FilterSidebar.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 162
+  },
+  {
+    "file": "apps/web/src/components/catalog/FlashsaleProducts.tsx",
+    "exports": "FlashsaleProducts",
+    "description": "",
+    "lines": 205
+  },
+  {
+    "file": "apps/web/src/components/catalog/ProductCard.tsx",
+    "exports": "ProductCard",
+    "description": "",
+    "lines": 236
+  },
+  {
+    "file": "apps/web/src/components/catalog/ProductGrid.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 136
+  },
+  {
+    "file": "apps/web/src/components/catalog/ProductLabel.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 217
+  },
+  {
+    "file": "apps/web/src/components/catalog/ProductSort.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 36
+  },
+  {
+    "file": "apps/web/src/components/catalog/StockStatusMessage.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 20
+  },
+  {
+    "file": "apps/web/src/components/checkout/PaymentMethods.tsx",
+    "exports": "PaymentMethods",
+    "description": "",
+    "lines": 124
+  },
+  {
+    "file": "apps/web/src/components/checkout/VietnamLocationCascade.tsx",
+    "exports": "VietnamLocationCascade",
+    "description": "",
+    "lines": 196
+  },
+  {
+    "file": "apps/web/src/components/cms/CmsBlock.tsx",
+    "exports": "CmsBlock",
+    "description": "",
+    "lines": 63
+  },
+  {
+    "file": "apps/web/src/components/cms/CmsPage.tsx",
+    "exports": "CmsPage",
+    "description": "",
+    "lines": 177
+  },
+  {
+    "file": "apps/web/src/components/cms/RichContent.tsx",
+    "exports": "RichContent",
+    "description": "",
+    "lines": 108
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/Banner.tsx",
+    "exports": "Banner",
+    "description": "",
+    "lines": 179
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/Block.tsx",
+    "exports": "Block",
+    "description": "",
+    "lines": 41
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/ButtonItem.tsx",
+    "exports": "ButtonItem",
+    "description": "",
+    "lines": 88
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/Buttons.tsx",
+    "exports": "Buttons",
+    "description": "",
+    "lines": 66
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/Column.tsx",
+    "exports": "Column",
+    "description": "",
+    "lines": 84
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/ColumnGroup.tsx",
+    "exports": "ColumnGroup",
+    "description": "",
+    "lines": 80
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/ColumnLine.tsx",
+    "exports": "ColumnLine",
+    "description": "",
+    "lines": 17
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/ContentTypeFactory.tsx",
+    "exports": "ContentTypeFactory",
+    "description": "",
+    "lines": 110
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/Divider.tsx",
+    "exports": "Divider",
+    "description": "",
+    "lines": 62
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/FlashsaleProductsCT.tsx",
+    "exports": "FlashsaleProductsCT",
+    "description": "",
+    "lines": 275
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/Heading.tsx",
+    "exports": "Heading",
+    "description": "",
+    "lines": 66
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/Html.tsx",
+    "exports": "Html",
+    "description": "",
+    "lines": 112
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/Image.tsx",
+    "exports": "Image",
+    "description": "",
+    "lines": 102
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/ProductRecommendationCT.tsx",
+    "exports": "ProductRecommendationCT",
+    "description": "",
+    "lines": 377
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/ProductsCarousel.tsx",
+    "exports": "ProductsCarousel",
+    "description": "",
+    "lines": 254
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/Row.tsx",
+    "exports": "Row",
+    "description": "",
+    "lines": 141
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/Slider.tsx",
+    "exports": "SliderComponent",
+    "description": "",
+    "lines": 96
+  },
+  {
+    "file": "apps/web/src/components/cms/contentTypes/Text.tsx",
+    "exports": "Text",
+    "description": "",
+    "lines": 67
+  },
+  {
+    "file": "apps/web/src/components/common/AdvancedPopup.tsx",
+    "exports": "AdvancedPopup",
+    "description": "",
+    "lines": 91
+  },
+  {
+    "file": "apps/web/src/components/common/ErrorBoundary.tsx",
+    "exports": "ErrorBoundary",
+    "description": "",
+    "lines": 76
+  },
+  {
+    "file": "apps/web/src/components/common/Newsletter.tsx",
+    "exports": "Newsletter",
+    "description": "",
+    "lines": 67
+  },
+  {
+    "file": "apps/web/src/components/common/OfflineBanner.tsx",
+    "exports": "OfflineBanner",
+    "description": "",
+    "lines": 28
+  },
+  {
+    "file": "apps/web/src/components/common/PWAInstallBanner.tsx",
+    "exports": "PWAInstallBanner",
+    "description": "",
+    "lines": 35
+  },
+  {
+    "file": "apps/web/src/components/common/ScrollToTop.tsx",
+    "exports": "ScrollToTop",
+    "description": "",
+    "lines": 24
+  },
+  {
+    "file": "apps/web/src/components/common/StoreSwitcher.tsx",
+    "exports": "StoreSwitcher",
+    "description": "",
+    "lines": 293
+  },
+  {
+    "file": "apps/web/src/components/home/HomeLandingFallback.tsx",
+    "exports": "HomeLandingFallback",
+    "description": "",
+    "lines": 110
+  },
+  {
+    "file": "apps/web/src/components/home/HomeSchema.tsx",
+    "exports": "HomeSchema",
+    "description": "",
+    "lines": 21
+  },
+  {
+    "file": "apps/web/src/components/layout/Footer.tsx",
+    "exports": "Footer",
+    "description": "",
+    "lines": 114
+  },
+  {
+    "file": "apps/web/src/components/layout/Header.tsx",
+    "exports": "Header",
+    "description": "",
+    "lines": 362
+  },
+  {
+    "file": "apps/web/src/components/layout/MainLayout.tsx",
+    "exports": "MainLayout",
+    "description": "",
+    "lines": 67
+  },
+  {
+    "file": "apps/web/src/components/navbar/SearchPopular.tsx",
+    "exports": "SearchPopular",
+    "description": "",
+    "lines": 33
+  },
+  {
+    "file": "apps/web/src/components/navigation/Breadcrumbs.tsx",
+    "exports": "Breadcrumbs",
+    "description": "",
+    "lines": 79
+  },
+  {
+    "file": "apps/web/src/components/navigation/MegaMenu.tsx",
+    "exports": "MegaMenu",
+    "description": "",
+    "lines": 106
+  },
+  {
+    "file": "apps/web/src/components/navigation/Navigation.tsx",
+    "exports": "Navigation",
+    "description": "",
+    "lines": 122
+  },
+  {
+    "file": "apps/web/src/components/product/AdditionalAttributes.tsx",
+    "exports": "AdditionalAttributes",
+    "description": "",
+    "lines": 60
+  },
+  {
+    "file": "apps/web/src/components/product/AlcoholCheckoutDialog.tsx",
+    "exports": "AlcoholCheckoutDialog",
+    "description": "",
+    "lines": 65
+  },
+  {
+    "file": "apps/web/src/components/product/AlcoholDialog.tsx",
+    "exports": "AlcoholDialog",
+    "description": "",
+    "lines": 86
+  },
+  {
+    "file": "apps/web/src/components/product/DescriptionTabs.tsx",
+    "exports": "DescriptionTabs",
+    "description": "",
+    "lines": 62
+  },
+  {
+    "file": "apps/web/src/components/product/DnrBlock.tsx",
+    "exports": "DnrBlock",
+    "description": "",
+    "lines": 50
+  },
+  {
+    "file": "apps/web/src/components/product/DnrLabel.tsx",
+    "exports": "DnrLabel",
+    "description": "",
+    "lines": 60
+  },
+  {
+    "file": "apps/web/src/components/product/ProductImageCarousel.tsx",
+    "exports": "ProductImageCarousel",
+    "description": "",
+    "lines": 163
+  },
+  {
+    "file": "apps/web/src/components/product/ProductOptions.tsx",
+    "exports": "ProductOptions",
+    "description": "",
+    "lines": 172
+  },
+  {
+    "file": "apps/web/src/components/product/ProductReviews.tsx",
+    "exports": "ProductReviews",
+    "description": "",
+    "lines": 237
+  },
+  {
+    "file": "apps/web/src/components/product/QuantityStepper.tsx",
+    "exports": "QuantityStepper",
+    "description": "",
+    "lines": 70
+  },
+  {
+    "file": "apps/web/src/components/product/RelatedUpsellProducts.tsx",
+    "exports": "RelatedUpsellProducts",
+    "description": "",
+    "lines": 183
+  },
+  {
+    "file": "apps/web/src/components/product/WishlistButton.tsx",
+    "exports": "WishlistButton",
+    "description": "",
+    "lines": 122
+  },
+  {
+    "file": "apps/web/src/components/seo/BreadcrumbStructuredData.tsx",
+    "exports": "BreadcrumbStructuredData",
+    "description": "",
+    "lines": 51
+  },
+  {
+    "file": "apps/web/src/components/seo/OrganizationStructuredData.tsx",
+    "exports": "OrganizationStructuredData",
+    "description": "",
+    "lines": 49
+  },
+  {
+    "file": "apps/web/src/components/seo/ProductStructuredData.tsx",
+    "exports": "ProductStructuredData",
+    "description": "",
+    "lines": 90
+  },
+  {
+    "file": "apps/web/src/components/seo/WebSiteStructuredData.tsx",
+    "exports": "WebSiteStructuredData",
+    "description": "",
+    "lines": 45
+  },
+  {
+    "file": "apps/web/src/components/ui/LoadingIndicator.tsx",
+    "exports": "LoadingIndicator",
+    "description": "",
+    "lines": 7
+  },
+  {
+    "file": "apps/web/src/components/ui/Pagination.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 60
+  },
+  {
+    "file": "apps/web/src/hooks/useAuth.ts",
+    "exports": "useAuth,useRequireAuth",
+    "description": "",
+    "lines": 36
+  },
+  {
+    "file": "apps/web/src/hooks/useMediaQuery.ts",
+    "exports": "useMediaQuery,useIsDesktop,useIsMobile",
+    "description": "",
+    "lines": 27
+  },
+  {
+    "file": "apps/web/src/hooks/useMegaMenu.ts",
+    "exports": "useMegaMenu",
+    "description": "",
+    "lines": 129
+  },
+  {
+    "file": "apps/web/src/hooks/usePWAInstall.ts",
+    "exports": "usePWAInstall",
+    "description": "",
+    "lines": 47
+  },
+  {
+    "file": "apps/web/src/i18n/config.ts",
+    "exports": "",
+    "description": "",
+    "lines": 28
+  },
+  {
+    "file": "apps/web/src/lib/analytics.ts",
+    "exports": "analytics",
+    "description": "",
+    "lines": 111
+  },
+  {
+    "file": "apps/web/src/lib/gql.ts",
+    "exports": "gql",
+    "description": "",
+    "lines": 3
+  },
+  {
+    "file": "apps/web/src/lib/graphql-client.ts",
+    "exports": "getStoreCode,gqlClient,setAuthToken,clearAuthToken,getAuthToken",
+    "description": "",
+    "lines": 46
+  },
+  {
+    "file": "apps/web/src/lib/graphql/fragments.ts",
+    "exports": "PRODUCT_FRAGMENT",
+    "description": "",
+    "lines": 102
+  },
+  {
+    "file": "apps/web/src/lib/graphql/queries.ts",
+    "exports": "GET_PRODUCTS,ADD_TO_CART,UPDATE_CART_ITEMS,CREATE_CART,GET_CART",
+    "description": "",
+    "lines": 90
+  },
+  {
+    "file": "apps/web/src/lib/pagebuilderParser.ts",
+    "exports": "parsePageBuilderHtml",
+    "description": "",
+    "lines": 357
+  },
+  {
+    "file": "apps/web/src/main.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 45
+  },
+  {
+    "file": "apps/web/src/pages/AccountPage.tsx",
+    "exports": "AccountPage",
+    "description": "",
+    "lines": 27
+  },
+  {
+    "file": "apps/web/src/pages/BlogDetailPage.tsx",
+    "exports": "BlogDetailPage",
+    "description": "",
+    "lines": 171
+  },
+  {
+    "file": "apps/web/src/pages/BlogListPage.tsx",
+    "exports": "BlogListPage",
+    "description": "",
+    "lines": 235
+  },
+  {
+    "file": "apps/web/src/pages/BlogSearchPage.tsx",
+    "exports": "BlogSearchPage",
+    "description": "",
+    "lines": 178
+  },
+  {
+    "file": "apps/web/src/pages/CartPage.tsx",
+    "exports": "CartPage",
+    "description": "",
+    "lines": 572
+  },
+  {
+    "file": "apps/web/src/pages/CategoryPage.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 419
+  },
+  {
+    "file": "apps/web/src/pages/CheckoutPage.tsx",
+    "exports": "CheckoutPage",
+    "description": "",
+    "lines": 947
+  },
+  {
+    "file": "apps/web/src/pages/CmsPage.tsx",
+    "exports": "",
+    "description": "",
+    "lines": 3
+  },
+  {
+    "file": "apps/web/src/pages/ConfirmPasswordPage.tsx",
+    "exports": "ConfirmPasswordPage",
+    "description": "",
+    "lines": 193
+  },
+  {
+    "file": "apps/web/src/pages/ContactPage.tsx",
+    "exports": "ContactPage",
+    "description": "",
+    "lines": 174
+  },
+  {
+    "file": "apps/web/src/pages/CreateAccountPage.tsx",
+    "exports": "CreateAccountPage",
+    "description": "",
+    "lines": 9
+  },
+  {
+    "file": "apps/web/src/pages/FaqPage.tsx",
+    "exports": "FaqPage",
+    "description": "",
+    "lines": 147
+  },
+  {
+    "file": "apps/web/src/pages/ForgotPasswordPage.tsx",
+    "exports": "ForgotPasswordPage",
+    "description": "",
+    "lines": 9
+  },
+  {
+    "file": "apps/web/src/pages/GuestOrderPage.tsx",
+    "exports": "GuestOrderPage",
+    "description": "",
+    "lines": 216
+  },
+  {
+    "file": "apps/web/src/pages/HomePage.tsx",
+    "exports": "HomePage",
+    "description": "",
+    "lines": 20
+  },
+  {
+    "file": "apps/web/src/pages/NotFoundPage.tsx",
+    "exports": "NotFoundPage",
+    "description": "",
+    "lines": 47
+  },
+  {
+    "file": "apps/web/src/pages/OrderConfirmationPage.tsx",
+    "exports": "OrderConfirmationPage",
+    "description": "",
+    "lines": 227
+  },
+  {
+    "file": "apps/web/src/pages/OrderDetailPage.tsx",
+    "exports": "OrderDetailPage",
+    "description": "",
+    "lines": 349
+  },
+  {
+    "file": "apps/web/src/pages/ProductPage.tsx",
+    "exports": "ProductPage",
+    "description": "",
+    "lines": 394
+  },
+  {
+    "file": "apps/web/src/pages/QuickOrderPage.tsx",
+    "exports": "QuickOrderPage",
+    "description": "",
+    "lines": 153
+  },
+  {
+    "file": "apps/web/src/pages/SearchPage.tsx",
+    "exports": "SearchPage",
+    "description": "",
+    "lines": 374
+  },
+  {
+    "file": "apps/web/src/pages/SignInPage.tsx",
+    "exports": "SignInPage",
+    "description": "",
+    "lines": 13
+  },
+  {
+    "file": "apps/web/src/pages/StoreLocatorPage.tsx",
+    "exports": "StoreLocatorPage",
+    "description": "",
+    "lines": 151
+  },
+  {
+    "file": "apps/web/src/pages/account/AccountInformationPage.tsx",
+    "exports": "AccountInformationPage",
+    "description": "",
+    "lines": 426
+  },
+  {
+    "file": "apps/web/src/pages/account/AddressBookPage.tsx",
+    "exports": "AddressBookPage",
+    "description": "",
+    "lines": 265
+  },
+  {
+    "file": "apps/web/src/pages/account/DashboardPage.tsx",
+    "exports": "DashboardPage",
+    "description": "",
+    "lines": 200
+  },
+  {
+    "file": "apps/web/src/pages/account/OrderHistoryPage.tsx",
+    "exports": "OrderHistoryPage",
+    "description": "",
+    "lines": 251
+  },
+  {
+    "file": "apps/web/src/pages/account/UpdateEmailPage.tsx",
+    "exports": "UpdateEmailPage",
+    "description": "",
+    "lines": 98
+  },
+  {
+    "file": "apps/web/src/pages/account/UpdatePhonePage.tsx",
+    "exports": "UpdatePhonePage",
+    "description": "",
+    "lines": 94
+  },
+  {
+    "file": "apps/web/src/pages/account/WishlistPage.tsx",
+    "exports": "WishlistPage",
+    "description": "",
+    "lines": 203
+  },
+  {
+    "file": "apps/web/src/queries/account.ts",
+    "exports": "GET_CUSTOMER,UPDATE_CUSTOMER,UPDATE_CUSTOMER_EMAIL,CHANGE_PASSWORD,GET_CUSTOMER_ADDRESSES_PAGINATED,CREATE_CUSTOMER_ADDRESS,UPDATE_CUSTOMER_ADDRESS,DELETE_CUSTOMER_ADDRESS",
+    "description": "",
+    "lines": 514
+  },
+  {
+    "file": "apps/web/src/queries/auth.ts",
+    "exports": "SIGN_IN_MUTATION,CREATE_ACCOUNT_MUTATION,SIGN_IN_AFTER_CREATE_MUTATION,GET_CUSTOMER_QUERY,REQUEST_PASSWORD_RESET_EMAIL_MUTATION,RESET_PASSWORD_MUTATION,CREATE_CART_MUTATION,MERGE_CARTS_MUTATION",
+    "description": "",
+    "lines": 226
+  },
+  {
+    "file": "apps/web/src/queries/blog.ts",
+    "exports": "GET_BLOG_LIST,GET_BLOG_DETAIL,INCREASE_BLOG_VIEW,GET_SEARCH_NEWS,GET_BLOG_CATEGORIES,GET_ARCHIVED_BLOG",
+    "description": "",
+    "lines": 98
+  },
+  {
+    "file": "apps/web/src/queries/cart.ts",
+    "exports": "MINI_CART_ITEM_FRAGMENT,CART_PAGE_ITEM_FRAGMENT,MINI_CART_FRAGMENT,CART_PAGE_FRAGMENT,GET_CART_DETAILS,GET_MINI_CART,GET_CART_ITEMS_COUNT,CREATE_CART",
+    "description": "",
+    "lines": 498
+  },
+  {
+    "file": "apps/web/src/queries/catalog.ts",
+    "exports": "PRODUCT_FRAGMENT,GET_PRODUCTS,GET_CATEGORY_DATA,GET_CATEGORY_BY_URL_PATH,GET_PRODUCT_FILTERS_BY_CATEGORY,GET_CATEGORY_AVAILABLE_SORT_METHODS,GET_FILTER_INPUTS,PRODUCT_SEARCH",
+    "description": "",
+    "lines": 473
+  },
+  {
+    "file": "apps/web/src/queries/checkout.ts",
+    "exports": "GET_PAYMENT_METHODS,SET_PAYMENT_METHOD_ON_CART,CHECKOUT_PAGE_FRAGMENT,ITEMS_REVIEW_FRAGMENT,GET_CUSTOMER_ADDRESSES,GET_CHECKOUT_DETAILS,GET_ORDER_DETAILS,SET_GUEST_EMAIL",
+    "description": "",
+    "lines": 646
+  },
+  {
+    "file": "apps/web/src/queries/cms.ts",
+    "exports": "GET_CMS_PAGE,GET_CMS_BLOCKS,GET_URL_RESOLVER",
+    "description": "",
+    "lines": 65
+  },
+  {
+    "file": "apps/web/src/queries/location.ts",
+    "exports": "GET_CITIES,GET_DISTRICTS,GET_WARDS",
+    "description": "",
+    "lines": 34
+  },
+  {
+    "file": "apps/web/src/queries/navigation.ts",
+    "exports": "GET_MEGA_MENU,GET_STORE_CONFIG,GET_ROOT_CATEGORY_ID",
+    "description": "",
+    "lines": 50
+  },
+  {
+    "file": "apps/web/src/queries/product.ts",
+    "exports": "PRODUCT_DETAILS_FRAGMENT,GET_PRODUCT_DETAIL,ADD_PRODUCT_TO_CART,GET_RELATED_UPSELL_PRODUCTS,GET_PRODUCT_REVIEWS,CREATE_PRODUCT_REVIEW",
+    "description": "",
+    "lines": 469
+  },
+  {
+    "file": "apps/web/src/queries/searchPopular.ts",
+    "exports": "GET_POPULAR_KEYWORDS",
+    "description": "",
+    "lines": 16
+  },
+  {
+    "file": "apps/web/src/stores/authStore.ts",
+    "exports": "useAuthStore",
+    "description": "",
+    "lines": 106
+  },
+  {
+    "file": "apps/web/src/stores/cartStore.ts",
+    "exports": "useCartStore",
+    "description": "",
+    "lines": 126
+  },
+  {
+    "file": "apps/web/src/stores/uiStore.ts",
+    "exports": "useUIStore",
+    "description": "",
+    "lines": 60
+  },
+  {
+    "file": "apps/web/src/test/setup.ts",
+    "exports": "",
+    "description": "",
+    "lines": 37
+  },
+  {
+    "file": "apps/web/src/test/smoke.test.ts",
+    "exports": "",
+    "description": "",
+    "lines": 71
+  }
+]

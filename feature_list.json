@@ -1,0 +1,423 @@
+[
+  {
+    "id": 1,
+    "phase": 1,
+    "priority": 1,
+    "category": "cleanup",
+    "description": "Remove stray files (apps/web/EXIT:, apps/web/echo, apps/web/graphql) left by previous agent sessions",
+    "depends_on": [],
+    "supervision_level": "auto",
+    "existing_context": "Stray files visible in git status — not tracked but pollute working directory",
+    "acceptance_criteria": [
+      "apps/web/EXIT: does not exist",
+      "apps/web/echo does not exist",
+      "apps/web/graphql does not exist",
+      "git status shows clean working tree (only expected files)"
+    ],
+    "steps": ["rm stray files", "verify git status"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 2,
+    "phase": 1,
+    "priority": 2,
+    "category": "testing",
+    "description": "Expand smoke test coverage: add tests for CategoryPage render, ProductPage render, CartPage render, and auth flow",
+    "depends_on": [1],
+    "supervision_level": "auto",
+    "existing_context": "apps/web/src/test/smoke.test.ts exists but minimal. Vitest + Testing Library already configured.",
+    "acceptance_criteria": [
+      "npm test passes with exit code 0",
+      "At least 10 test cases covering: HomePage, CategoryPage, ProductPage, CartPage, SignIn, CreateAccount",
+      "No console.error in test output"
+    ],
+    "steps": ["read existing smoke.test.ts", "add test cases", "run vitest --run"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 3,
+    "phase": 1,
+    "priority": 3,
+    "category": "performance",
+    "description": "Add React.memo and useMemo optimizations to ProductCard and ProductGrid to prevent unnecessary re-renders",
+    "depends_on": [1],
+    "supervision_level": "auto",
+    "existing_context": "apps/web/src/components/catalog/ProductCard.tsx and ProductGrid.tsx — no memoization currently",
+    "acceptance_criteria": [
+      "ProductCard wrapped with React.memo",
+      "ProductGrid uses useMemo for filtered/sorted product list",
+      "npm run build passes",
+      "No TypeScript errors"
+    ],
+    "steps": ["read ProductCard.tsx", "read ProductGrid.tsx", "add React.memo + useMemo", "build check"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 4,
+    "phase": 1,
+    "priority": 4,
+    "category": "ux",
+    "description": "Add skeleton loading states to CategoryPage product grid (replace animate-pulse divs with proper ProductCard skeletons)",
+    "depends_on": [1],
+    "supervision_level": "auto",
+    "existing_context": "CategoryPage.tsx has basic animate-pulse skeleton. ProductCard.tsx exists.",
+    "acceptance_criteria": [
+      "CategoryPage shows ProductCard-shaped skeletons (image + title + price placeholders) while loading",
+      "Skeleton count matches expected grid columns (2 mobile, 4 tablet, 6 desktop)",
+      "No layout shift when real cards load",
+      "npm run build passes"
+    ],
+    "steps": ["create ProductCardSkeleton component", "integrate into CategoryPage loading state"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 5,
+    "phase": 1,
+    "priority": 5,
+    "category": "seo",
+    "description": "Add CategoryPage structured data (BreadcrumbList JSON-LD) and fix missing meta description on category pages",
+    "depends_on": [1],
+    "supervision_level": "auto",
+    "existing_context": "CategoryPage.tsx has Helmet but no structured data. BreadcrumbStructuredData component exists in seo/.",
+    "acceptance_criteria": [
+      "CategoryPage renders BreadcrumbStructuredData with correct items",
+      "CategoryPage Helmet includes meta description from category.description or fallback",
+      "npm run build passes"
+    ],
+    "steps": ["read CategoryPage.tsx", "add BreadcrumbStructuredData", "add meta description"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 6,
+    "phase": 1,
+    "priority": 6,
+    "category": "ux",
+    "description": "Add 'Back to top' button that appears after scrolling 300px on CategoryPage and SearchPage",
+    "depends_on": [1],
+    "supervision_level": "auto",
+    "existing_context": "ScrollToTop.tsx exists (scrolls on route change). Need a visible button for long pages.",
+    "acceptance_criteria": [
+      "Button appears after 300px scroll on CategoryPage and SearchPage",
+      "Smooth scroll to top on click",
+      "Button hidden on mobile (or shown as floating action button)",
+      "npm run build passes"
+    ],
+    "steps": ["create BackToTopButton component", "integrate into CategoryPage and SearchPage"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 7,
+    "phase": 1,
+    "priority": 7,
+    "category": "performance",
+    "description": "Implement image lazy loading with IntersectionObserver for ProductCard images (replace loading=lazy with custom hook for better control)",
+    "depends_on": [3],
+    "supervision_level": "auto",
+    "existing_context": "ProductCard.tsx uses <img loading='lazy'>. Can enhance with blur-up placeholder.",
+    "acceptance_criteria": [
+      "ProductCard images use loading='lazy' with explicit width/height to prevent CLS",
+      "Add aspect-ratio CSS to image containers to prevent layout shift",
+      "npm run build passes"
+    ],
+    "steps": ["read ProductCard.tsx", "add width/height attrs and aspect-ratio", "build check"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 8,
+    "phase": 1,
+    "priority": 8,
+    "category": "ux",
+    "description": "Add toast notification for wishlist add/remove actions with undo option",
+    "depends_on": [1],
+    "supervision_level": "auto",
+    "existing_context": "WishlistButton.tsx exists. sonner toast already installed and used for cart actions.",
+    "acceptance_criteria": [
+      "Adding to wishlist shows success toast 'Đã thêm vào danh sách yêu thích'",
+      "Removing from wishlist shows toast 'Đã xóa khỏi danh sách yêu thích'",
+      "Error shows error toast",
+      "npm run build passes"
+    ],
+    "steps": ["read WishlistButton.tsx", "add toast.success/error calls"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 9,
+    "phase": 1,
+    "priority": 9,
+    "category": "testing",
+    "description": "Add Vitest unit tests for pagebuilderParser.ts — test all 17 content types parse correctly",
+    "depends_on": [2],
+    "supervision_level": "auto",
+    "existing_context": "apps/web/src/lib/pagebuilderParser.ts — complex parser, no tests. Vitest configured.",
+    "acceptance_criteria": [
+      "Test file apps/web/src/test/pagebuilderParser.test.ts created",
+      "Tests cover: row, column, banner, slider, html, heading, buttons, divider, block",
+      "Tests cover: ___widget_flashsale and ___widget_product_recommendation shortcodes in Html.tsx",
+      "All tests pass with vitest --run"
+    ],
+    "steps": ["read pagebuilderParser.ts", "read Html.tsx", "write test cases", "run vitest --run"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 10,
+    "phase": 1,
+    "priority": 10,
+    "category": "ux",
+    "description": "Add infinite scroll option to CategoryPage as alternative to pagination (toggle via URL param ?scroll=infinite)",
+    "depends_on": [4],
+    "supervision_level": "auto",
+    "existing_context": "CategoryPage.tsx uses Pagination component. TanStack Query useInfiniteQuery available.",
+    "acceptance_criteria": [
+      "When ?scroll=infinite in URL, CategoryPage uses IntersectionObserver to load next page",
+      "Default behavior (pagination) unchanged",
+      "Loading spinner shown at bottom while fetching",
+      "npm run build passes"
+    ],
+    "steps": ["read CategoryPage.tsx", "add useInfiniteQuery variant", "add IntersectionObserver trigger"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 11,
+    "phase": 2,
+    "priority": 1,
+    "category": "performance",
+    "description": "Add route-level code splitting verification — ensure all pages are lazy-loaded and bundle analyzer shows correct chunk sizes",
+    "depends_on": [1, 2],
+    "supervision_level": "auto",
+    "existing_context": "App.tsx uses React.lazy for all pages. vite.config.ts has manualChunks. Need to verify no accidental eager imports.",
+    "acceptance_criteria": [
+      "All page components in App.tsx use React.lazy",
+      "npm run build output shows separate chunk per page",
+      "Main bundle (index.js) < 200KB gzipped",
+      "No page component imported eagerly in main bundle"
+    ],
+    "steps": ["read App.tsx", "check all imports are lazy", "run build and check chunk sizes"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 12,
+    "phase": 2,
+    "priority": 2,
+    "category": "ux",
+    "description": "Add product comparison feature: allow users to compare up to 3 products side-by-side (floating compare bar + compare page)",
+    "depends_on": [1, 3],
+    "supervision_level": "auto",
+    "existing_context": "No comparison feature exists. ProductCard.tsx is the entry point. Need new compareStore (Zustand) + ComparePage.",
+    "acceptance_criteria": [
+      "ProductCard has 'Compare' checkbox/button",
+      "Floating bar shows when 2+ products selected (max 3)",
+      "ComparePage at /compare shows products side-by-side with key attributes",
+      "Compare state persists in sessionStorage",
+      "npm run build passes"
+    ],
+    "steps": ["create compareStore", "add compare button to ProductCard", "create CompareBar component", "create ComparePage"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 13,
+    "phase": 2,
+    "priority": 3,
+    "category": "ux",
+    "description": "Add recently viewed products feature: track last 10 viewed products in localStorage, show in ProductPage sidebar and dedicated section",
+    "depends_on": [1],
+    "supervision_level": "auto",
+    "existing_context": "ProductPage.tsx tracks analytics viewItem. No recently viewed UI. Need recentlyViewedStore or localStorage hook.",
+    "acceptance_criteria": [
+      "Viewing a product saves it to localStorage (max 10, FIFO)",
+      "ProductPage shows 'Sản phẩm đã xem' section with last 5 products",
+      "Section only shows if >= 2 products viewed",
+      "npm run build passes"
+    ],
+    "steps": ["create useRecentlyViewed hook", "integrate into ProductPage", "create RecentlyViewedProducts component"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 14,
+    "phase": 2,
+    "priority": 4,
+    "category": "performance",
+    "description": "Add BFF response caching headers and implement stale-while-revalidate for category/product GraphQL queries",
+    "depends_on": [1],
+    "supervision_level": "auto",
+    "existing_context": "BFF at apps/bff/src/index.ts has KV cache. Frontend TanStack Query has staleTime=5min. Can improve with smarter cache headers.",
+    "acceptance_criteria": [
+      "BFF returns Cache-Control: s-maxage=60, stale-while-revalidate=300 for product/category queries",
+      "BFF returns Cache-Control: no-store for cart/checkout/auth mutations",
+      "Vercel edge cache picks up s-maxage headers",
+      "wrangler deploy succeeds"
+    ],
+    "steps": ["read apps/bff/src/index.ts", "add cache headers per query type", "deploy BFF"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 15,
+    "phase": 2,
+    "priority": 5,
+    "category": "ux",
+    "description": "Add product quick-view modal: clicking product image on CategoryPage opens a modal with key product info + add-to-cart without navigating away",
+    "depends_on": [3, 4],
+    "supervision_level": "auto",
+    "existing_context": "ProductCard.tsx links to ProductPage. No quick-view. AdvancedPopup.tsx exists as modal base. GET_PRODUCT_DETAIL query exists.",
+    "acceptance_criteria": [
+      "ProductCard has quick-view button (eye icon) on hover",
+      "Clicking opens modal with: image, name, price, options (if configurable), add-to-cart button",
+      "Modal closes on backdrop click or X button",
+      "npm run build passes"
+    ],
+    "steps": ["create ProductQuickView component", "add trigger to ProductCard", "wire up GET_PRODUCT_DETAIL query"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 16,
+    "phase": 2,
+    "priority": 6,
+    "category": "seo",
+    "description": "Add sitemap.xml generation script and robots.txt update for production domain",
+    "depends_on": [1],
+    "supervision_level": "auto",
+    "existing_context": "robots.txt exists at apps/web/public/robots.txt. No sitemap. Magento has sitemap API.",
+    "acceptance_criteria": [
+      "scripts/generate-sitemap.sh fetches category/product URLs from Magento and generates sitemap.xml",
+      "robots.txt updated with Sitemap: https://online.mmvietnam.com/sitemap.xml reference",
+      "Script runs without errors",
+      "npm run build passes"
+    ],
+    "steps": ["create scripts/generate-sitemap.sh", "update robots.txt"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 17,
+    "phase": 2,
+    "priority": 7,
+    "category": "testing",
+    "description": "Add Playwright e2e smoke tests: homepage loads, category navigation works, product page loads, add to cart flow",
+    "depends_on": [2, 9],
+    "supervision_level": "auto",
+    "existing_context": "playwright.config.ts exists at root. e2e/smoke.spec.ts exists but may be minimal. Production URL: https://mm-pwa-v2.vercel.app",
+    "acceptance_criteria": [
+      "e2e/smoke.spec.ts has tests for: homepage, category page, product page, search",
+      "Tests run against production URL",
+      "npx playwright test passes (or at least 80% pass rate)",
+      "Test report generated"
+    ],
+    "steps": ["read e2e/smoke.spec.ts", "read playwright.config.ts", "expand test coverage", "run playwright test"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 18,
+    "phase": 2,
+    "priority": 8,
+    "category": "ux",
+    "description": "Add search autocomplete/suggestions dropdown in Header search bar using AI search API",
+    "depends_on": [1],
+    "supervision_level": "auto",
+    "existing_context": "Header.tsx has search input. VITE_AI_SEARCH_URL and VITE_AI_SEARCH_KEY are configured. SearchPopular.tsx exists.",
+    "acceptance_criteria": [
+      "Typing 2+ chars in search shows dropdown with up to 5 suggestions",
+      "Suggestions fetched from VITE_AI_SEARCH_URL with debounce 300ms",
+      "Clicking suggestion navigates to /search?q=term",
+      "Dropdown closes on Escape or outside click",
+      "npm run build passes"
+    ],
+    "steps": ["read Header.tsx", "create SearchAutocomplete component", "integrate with AI search API"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 19,
+    "phase": 2,
+    "priority": 9,
+    "category": "performance",
+    "description": "Add Lighthouse CI baseline and fix any Core Web Vitals issues (LCP, CLS, FID) identified in current production build",
+    "depends_on": [7, 11],
+    "supervision_level": "auto",
+    "existing_context": ".lighthouserc.json exists. .github/workflows/lighthouse.yml exists. Need to run against production and fix issues.",
+    "acceptance_criteria": [
+      "Lighthouse performance score >= 70 on mobile",
+      "LCP < 2.5s",
+      "CLS < 0.1",
+      "FID/INP < 200ms",
+      "Lighthouse CI passes in GitHub Actions"
+    ],
+    "steps": ["run lighthouse against production", "identify top issues", "fix CLS/LCP issues", "re-run"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  },
+  {
+    "id": 20,
+    "phase": 2,
+    "priority": 10,
+    "category": "ux",
+    "description": "Add order tracking page accessible without login: /track-order with order number + email input, shows order status",
+    "depends_on": [1],
+    "supervision_level": "auto",
+    "existing_context": "GuestOrderPage.tsx exists for guest order lookup. OrderDetailPage.tsx exists for logged-in users. Need public tracking page.",
+    "acceptance_criteria": [
+      "Route /track-order renders TrackOrderPage",
+      "Form accepts order number + email",
+      "On submit, fetches order status via GuestOrderPage query",
+      "Shows order status, items, delivery info",
+      "npm run build passes"
+    ],
+    "steps": ["create TrackOrderPage.tsx", "add route to App.tsx", "reuse GuestOrderPage query logic"],
+    "passes": false,
+    "retry_count": 0,
+    "blocked": false,
+    "completed_at": null
+  }
+]

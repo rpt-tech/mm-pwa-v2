@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AEGIS v5.2 — Autonomous Engineering Framework</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #08090b;
+      --s1: #0f1114;
+      --s2: #171b21;
+      --s3: #1e2430;
+      --border: #2a3040;
+      --t1: #eae8e4;
+      --t2: #a0a8b8;
+      --t3: #606878;
+      --amber: #f5a623;
+      --cyan: #2dd4bf;
+      --violet: #a78bfa;
+      --rose: #fb7185;
+      --lime: #a3e635;
+      --blue: #60a5fa;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--t1);
+      font-family: 'Outfit', sans-serif;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased
+    }
+
+    .wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 2.5rem 1.5rem 5rem
+    }
+
+    .hero {
+      padding: 3rem 0 2.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2.5rem
+    }
+
+    .hero .tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .6rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--amber);
+      border: 1px solid rgba(245, 166, 35, .3);
+      padding: .2rem .7rem;
+      border-radius: 2px;
+      margin-bottom: 1.2rem
+    }
+
+    .hero h1 {
+      font-family: 'Newsreader', serif;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: .6rem
+    }
+
+    .hero h1 b {
+      font-weight: 600;
+      color: var(--amber)
+    }
+
+    .hero p {
+      color: var(--t2);
+      font-size: .95rem;
+      max-width: 580px
+    }
+
+    .step {
+      margin: 3rem 0;
+      padding: 2rem 0 0
+    }
+
+    .step-head {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: .75rem;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem;
+      letter-spacing: .1em;
+      color: var(--bg);
+      background: var(--amber);
+      padding: .2rem .55rem;
+      border-radius: 2px;
+      font-weight: 600
+    }
+
+    .step-num.g {
+      background: var(--lime);
+      color: #111
+    }
+
+    .step-num.c {
+      background: var(--cyan);
+      color: #111
+    }
+
+    .step-num.v {
+      background: var(--violet)
+    }
+
+    .step-num.r {
+      background: var(--rose);
+      color: #111
+    }
+
+    .step-num.b {
+      background: var(--blue);
+      color: #111
+    }
+
+    .step-title {
+      font-family: 'Newsreader', serif;
+      font-size: 1.5rem;
+      font-weight: 400
+    }
+
+    h3 {
+      font-size: .95rem;
+      font-weight: 600;
+      color: var(--cyan);
+      margin: 1.75rem 0 .6rem
+    }
+
+    h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--violet);
+      margin: 1.5rem 0 .5rem
+    }
+
+    p {
+      margin-bottom: .85rem;
+      font-size: .92rem
+    }
+
+    pre {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.1rem 1.3rem;
+      overflow-x: auto;
+      margin: .8rem 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .73rem;
+      line-height: 1.9;
+      color: #c4cad6;
+      position: relative
+    }
+
+    pre .label {
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: .55rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--t3);
+      background: var(--s2);
+      padding: .2rem .6rem;
+      border-radius: 0 5px 0 4px;
+      border-left: 1px solid var(--border);
+      border-bottom: 1px solid var(--border)
+    }
+
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+      background: var(--s2);
+      padding: .12rem .35rem;
+      border-radius: 3px;
+      color: var(--cyan)
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      color: inherit
+    }
+
+    .cm {
+      color: #546178
+    }
+
+    .kw {
+      color: #f97583
+    }
+
+    .st {
+      color: #9ecbff
+    }
+
+    .fn {
+      color: #b392f0
+    }
+
+    .vr {
+      color: #79b8ff
+    }
+
+    .note {
+      background: var(--s1);
+      border-left: 3px solid var(--amber);
+      padding: .9rem 1.1rem;
+      margin: 1rem 0;
+      border-radius: 0 4px 4px 0;
+      font-size: .88rem
+    }
+
+    .note.warn {
+      border-left-color: var(--rose);
+      background: rgba(251, 113, 133, .04)
+    }
+
+    .note.ok {
+      border-left-color: var(--lime);
+      background: rgba(163, 230, 53, .04)
+    }
+
+    .note.info {
+      border-left-color: var(--blue);
+      background: rgba(96, 165, 250, .04)
+    }
+
+    .note b {
+      color: var(--amber)
+    }
+
+    .note.warn b {
+      color: var(--rose)
+    }
+
+    .note.ok b {
+      color: var(--lime)
+    }
+
+    .note.info b {
+      color: var(--blue)
+    }
+
+    .tree {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.1rem 1.4rem;
+      margin: .8rem 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .7rem;
+      line-height: 2.1;
+      color: var(--t3)
+    }
+
+    .tree .d {
+      color: var(--cyan);
+      font-weight: 500
+    }
+
+    .tree .f {
+      color: var(--t1)
+    }
+
+    .tree .h {
+      color: var(--amber);
+      font-weight: 600
+    }
+
+    .tree .dim {
+      color: #3a4050
+    }
+
+    .tree .new {
+      color: var(--lime);
+      font-weight: 600
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: .8rem 0;
+      font-size: .85rem
+    }
+
+    th {
+      text-align: left;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .65rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: var(--t3);
+      padding: .65rem .6rem;
+      border-bottom: 1px solid var(--border)
+    }
+
+    td {
+      padding: .65rem .6rem;
+      border-bottom: 1px solid rgba(42, 48, 64, .4);
+      vertical-align: top
+    }
+
+    td code {
+      font-size: .7rem
+    }
+
+    .prompt-box {
+      background: linear-gradient(135deg, rgba(245, 166, 35, .06), rgba(45, 212, 191, .04));
+      border: 1px solid rgba(245, 166, 35, .2);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1rem 0
+    }
+
+    .prompt-box .label-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .6rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: .6rem;
+      display: block
+    }
+
+    .prompt-box .example {
+      font-family: 'Newsreader', serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--t1);
+      line-height: 1.6
+    }
+
+    .steer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: .8rem;
+      margin: .8rem 0
+    }
+
+    .steer-card {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .9rem 1rem
+    }
+
+    .steer-card .icon {
+      font-size: 1.1rem;
+      margin-bottom: .3rem
+    }
+
+    .steer-card .cmd {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .72rem;
+      color: var(--cyan);
+      margin-bottom: .3rem
+    }
+
+    .steer-card .desc {
+      font-size: .78rem;
+      color: var(--t2)
+    }
+
+    .diff-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: .8rem;
+      margin: .8rem 0
+    }
+
+    .diff-box {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .9rem 1rem
+    }
+
+    .diff-box .diff-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .6rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: .5rem
+    }
+
+    .diff-box.old .diff-label {
+      color: var(--rose)
+    }
+
+    .diff-box.new .diff-label {
+      color: var(--lime)
+    }
+
+    .diff-box ul {
+      list-style: none;
+      font-size: .8rem;
+      color: var(--t2)
+    }
+
+    .diff-box ul li {
+      padding: .15rem 0
+    }
+
+    .diff-box.old ul li::before {
+      content: "✗ ";
+      color: var(--rose)
+    }
+
+    .diff-box.new ul li::before {
+      content: "✓ ";
+      color: var(--lime)
+    }
+
+    footer {
+      margin-top: 3rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: .75rem;
+      color: var(--t3)
+    }
+
+    .feat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: .75rem;
+      margin: 1rem 0
+    }
+
+    .feat-card {
+      background: var(--s1);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1rem 1.1rem
+    }
+
+    .feat-card .fc-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .58rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: .5rem;
+      display: block
+    }
+
+    .feat-card .fc-title {
+      font-size: .88rem;
+      font-weight: 600;
+      color: var(--t1);
+      margin-bottom: .35rem
+    }
+
+    .feat-card .fc-desc {
+      font-size: .78rem;
+      color: var(--t2);
+      line-height: 1.55
+    }
+
+    .feat-card.cyan { border-left: 3px solid var(--cyan) }
+    .feat-card.amber { border-left: 3px solid var(--amber) }
+    .feat-card.violet { border-left: 3px solid var(--violet) }
+    .feat-card.lime { border-left: 3px solid var(--lime) }
+    .feat-card.rose { border-left: 3px solid var(--rose) }
+    .feat-card.blue { border-left: 3px solid var(--blue) }
+
+    @media(max-width:640px) {
+      .feat-grid { grid-template-columns: 1fr }
+    }
+
+    @media(max-width:640px) {
+      .wrap {
+        padding: 1rem
+      }
+
+      pre {
+        font-size: .65rem;
+        padding: .75rem
+      }
+
+      .steer-grid {
+        grid-template-columns: 1fr
+      }
+
+      .diff-grid {
+        grid-template-columns: 1fr
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <div class="hero">
+      <div class="tag">AEGIS v5.2 — Autonomous Engineering Framework</div>
+      <h1>Viết một câu.<br><b>AI tự làm hết.</b></h1>
+      <p>Framework autonomous coding chạy nhiều ngày. User chỉ cần 1 prompt ban đầu. Mọi thứ khác AI tự xử lý — checkpoint/rollback, dependency graph, thrashing detection, staging deploy, worker heartbeat, <strong>multi-agent parallel</strong>, Stop hook, supervision_level, existing codebase mode, và <strong>semantic memory index</strong>.</p>
+    </div>
+
+    <!-- FEATURES -->
+    <div class="step">
+      <div class="step-head">
+        <span class="step-num">FEATURES</span>
+        <span class="step-title">Toàn bộ tính năng của framework</span>
+      </div>
+
+      <h3>Autonomous Execution</h3>
+      <div class="feat-grid">
+        <div class="feat-card cyan">
+          <span class="fc-label">Core Loop</span>
+          <div class="fc-title">Coding loop tự động</div>
+          <div class="fc-desc">Agent chọn feature → implement → build/test → commit → lặp lại. Không cần người ngồi canh. Chạy liên tục nhiều ngày.</div>
+        </div>
+        <div class="feat-card cyan">
+          <span class="fc-label">Feature Queue</span>
+          <div class="fc-title">feature_list.json với dependency graph</div>
+          <div class="fc-desc"><code>depends_on</code> field + topological sort. Feature chỉ được pick khi tất cả dependencies đã pass. Orchestrator dùng để assign cho workers.</div>
+        </div>
+        <div class="feat-card cyan">
+          <span class="fc-label">Multi-Agent</span>
+          <div class="fc-title">Parallel workers với git worktrees</div>
+          <div class="fc-desc">Orchestrator + N workers, mỗi worker có git worktree riêng. Auto-switch khi ≥20 features pending. Workers commit vào branches riêng, orchestrator merge.</div>
+        </div>
+        <div class="feat-card cyan">
+          <span class="fc-label">Phase Management</span>
+          <div class="fc-title">Auto-generate phases tiếp theo</div>
+          <div class="fc-desc">Khi hết features, agent tự generate phase tiếp theo dựa trên BLUEPRINT.md. Không cần user can thiệp giữa các phases.</div>
+        </div>
+      </div>
+
+      <h3>Resilience & Recovery</h3>
+      <div class="feat-grid">
+        <div class="feat-card amber">
+          <span class="fc-label">Checkpoint</span>
+          <div class="fc-title">Git tag trước mỗi feature</div>
+          <div class="fc-desc"><code>git tag checkpoint/pre-feature-N</code> trước khi bắt đầu. Nếu feature blocked sau 3 retries → auto rollback về checkpoint sạch.</div>
+        </div>
+        <div class="feat-card amber">
+          <span class="fc-label">Loop Detection</span>
+          <div class="fc-title">Thrashing detection</div>
+          <div class="fc-desc">&gt;10 commits trong 30 phút với 0 feature mới pass → phát hiện thrashing → fresh restart thay vì tiếp tục loop vô ích.</div>
+        </div>
+        <div class="feat-card amber">
+          <span class="fc-label">Watchdog</span>
+          <div class="fc-title">Auto-restart + budget guard</div>
+          <div class="fc-desc">Stall 40 phút → force restart. API crash → restart với context recovery. Hết credit → chờ 15 phút retry. Budget exceeded → dừng an toàn.</div>
+        </div>
+        <div class="feat-card amber">
+          <span class="fc-label">State Snapshot</span>
+          <div class="fc-title">.last_state.json cross-session</div>
+          <div class="fc-desc">Ghi trạng thái hiện tại trước mỗi feature. Session mới đọc lại → biết chính xác đang làm gì, không mất context khi restart.</div>
+        </div>
+        <div class="feat-card amber">
+          <span class="fc-label">Worker Heartbeat</span>
+          <div class="fc-title">Dead worker detection</div>
+          <div class="fc-desc">Worker ghi HEARTBEAT file mỗi 60s. Orchestrator detect nếu &gt;300s không update → respawn worker tự động.</div>
+        </div>
+        <div class="feat-card amber">
+          <span class="fc-label">--continue Timeout</span>
+          <div class="fc-title">Corrupt session guard</div>
+          <div class="fc-desc">Sau --continue, nếu 10 phút không có commit mới → kill session corrupt, fresh start thay vì tiếp tục session hỏng.</div>
+        </div>
+      </div>
+
+      <h3>Memory & Context</h3>
+      <div class="feat-grid">
+        <div class="feat-card violet">
+          <span class="fc-label">Persistent Memory</span>
+          <div class="fc-title">CLAUDE.md — auto-read mỗi session</div>
+          <div class="fc-desc">Claude Code đọc CLAUDE.md tự động khi start. Chứa: role detection, session protocol, non-negotiable rules, common mistakes, codebase context.</div>
+        </div>
+        <div class="feat-card violet">
+          <span class="fc-label">Semantic Memory</span>
+          <div class="fc-title">.memory/index.json — v5.2</div>
+          <div class="fc-desc">Index toàn bộ src/ (file paths, exports, descriptions). Agent search trước khi implement → tìm code liên quan, tránh duplicate. Rebuild async sau mỗi feature pass.</div>
+        </div>
+        <div class="feat-card violet">
+          <span class="fc-label">Codebase Scan</span>
+          <div class="fc-title">CODEBASE_SCAN.md — existing mode</div>
+          <div class="fc-desc">Bootstrap scan toàn bộ codebase hiện có: tech stack, entry points, existing features, ENV keys present/missing. Agent không rebuild những gì đã có.</div>
+        </div>
+        <div class="feat-card violet">
+          <span class="fc-label">Common Mistakes</span>
+          <div class="fc-title">Self-learning error memory</div>
+          <div class="fc-desc">Khi gặp lỗi lặp lại, agent tự append vào CLAUDE.md "Common Mistakes" section. Các session sau đọc lại → không lặp lỗi cũ.</div>
+        </div>
+      </div>
+
+      <h3>Quality Gates</h3>
+      <div class="feat-grid">
+        <div class="feat-card lime">
+          <span class="fc-label">Build + Test</span>
+          <div class="fc-title">passes=true chỉ khi exit code 0</div>
+          <div class="fc-desc">Feature chỉ được commit khi build pass VÀ test pass. Không có exception. Fail → retry_count++, sau 3 lần → blocked + rollback.</div>
+        </div>
+        <div class="feat-card lime">
+          <span class="fc-label">Integration Tests</span>
+          <div class="fc-title">Sau mỗi 5 features hoặc cuối category</div>
+          <div class="fc-desc">Chạy integration test suite sau mỗi 5 features hoặc khi hoàn thành một category. Phát hiện regression sớm trước khi tích lũy.</div>
+        </div>
+        <div class="feat-card lime">
+          <span class="fc-label">Lint Hook</span>
+          <div class="fc-title">PostToolUse async lint</div>
+          <div class="fc-desc"><code>.claude/settings.json</code> hook chạy <code>tsc --noEmit</code> async sau mỗi Write/Edit. Không block agent nhưng log lỗi vào LIVE_LOG.md.</div>
+        </div>
+        <div class="feat-card lime">
+          <span class="fc-label">Stop Hook</span>
+          <div class="fc-title">Ngăn agent dừng sớm</div>
+          <div class="fc-desc">Claude Code Stop hook kiểm tra feature_list.json trước khi cho phép agent exit. Còn pending features → agent tiếp tục thay vì dừng.</div>
+        </div>
+      </div>
+
+      <h3>Human-in-the-Loop Controls</h3>
+      <div class="feat-grid">
+        <div class="feat-card rose">
+          <span class="fc-label">Supervision Level</span>
+          <div class="fc-title">Two-speed workflow per feature</div>
+          <div class="fc-desc"><code>"auto"</code>: agent tự commit. <code>"supervised"</code>: agent dừng trước commit, ghi vào NEEDS.md, chờ <code>approve #ID</code> trong STEERING.md. Dùng cho payment, security, core logic.</div>
+        </div>
+        <div class="feat-card rose">
+          <span class="fc-label">STEERING.md</span>
+          <div class="fc-title">Real-time control từ phone/SSH</div>
+          <div class="fc-desc">Viết lệnh vào STEERING.md bất kỳ lúc nào: fix bug, skip feature, add feature, change direction, cung cấp credentials, pause, approve supervised.</div>
+        </div>
+        <div class="feat-card rose">
+          <span class="fc-label">Slash Commands</span>
+          <div class="fc-title">/status /unblock /rollback</div>
+          <div class="fc-desc">Custom Claude Code slash commands. <code>/status</code>: health dashboard. <code>/unblock N</code>: reset blocked feature. <code>/rollback N</code>: git reset về checkpoint.</div>
+        </div>
+        <div class="feat-card rose">
+          <span class="fc-label">NEEDS.md</span>
+          <div class="fc-title">AI hỏi, bạn trả lời khi nào tiện</div>
+          <div class="fc-desc">AI liệt kê credentials cần thiết nhưng không chờ. Code với mock data trước. Existing mode: chỉ hỏi keys thực sự còn thiếu (keys đã có trong .env → [x] ngay).</div>
+        </div>
+      </div>
+
+      <h3>Cost Management</h3>
+      <div class="feat-grid">
+        <div class="feat-card blue">
+          <span class="fc-label">Budget Guard</span>
+          <div class="fc-title">MAX_COST_USD hard cap</div>
+          <div class="fc-desc">Watchdog ước tính cost mỗi session (~$9/session Opus 4.6). Vượt MAX_COST_USD → tạo file BUDGET_EXCEEDED → dừng an toàn. Tăng cap hoặc xóa file để tiếp tục.</div>
+        </div>
+        <div class="feat-card blue">
+          <span class="fc-label">Alert Threshold</span>
+          <div class="fc-title">ALERT_COST_USD warning</div>
+          <div class="fc-desc">Khi đạt ALERT_COST_USD (default $30), ghi cảnh báo vào LIVE_LOG.md. Bạn biết trước khi đến hard cap.</div>
+        </div>
+        <div class="feat-card blue">
+          <span class="fc-label">Cost Tracker</span>
+          <div class="fc-title">COST_TRACKER.md session log</div>
+          <div class="fc-desc">Ghi ước tính cost mỗi session. Xem lại để biết project đã tốn bao nhiêu và còn bao nhiêu budget.</div>
+        </div>
+      </div>
+
+      <h3>Deploy Pipeline</h3>
+      <div class="feat-grid">
+        <div class="feat-card cyan">
+          <span class="fc-label">Staging First</span>
+          <div class="fc-title">Staging → health check → production</div>
+          <div class="fc-desc">Không deploy thẳng production. Deploy staging → chạy health check → nếu pass → promote production. Fail → rollback staging, không ảnh hưởng production.</div>
+        </div>
+        <div class="feat-card cyan">
+          <span class="fc-label">Multi-target</span>
+          <div class="fc-title">Vercel, Cloudflare, Modal, Supabase</div>
+          <div class="fc-desc">Hỗ trợ: Vercel (frontend), Cloudflare Workers (API), Modal (compute), Supabase (DB), Cloudflare R2 (storage). Cấu hình trong AEGIS.md.</div>
+        </div>
+        <div class="feat-card cyan">
+          <span class="fc-label">GitHub Actions</span>
+          <div class="fc-title">CI/CD pipeline tự động</div>
+          <div class="fc-desc">Bootstrap tạo .github/workflows/ với build, test, deploy jobs. Tích hợp với staging/production pipeline.</div>
+        </div>
+      </div>
+
+      <h3>Existing Codebase Support</h3>
+      <div class="feat-grid">
+        <div class="feat-card violet">
+          <span class="fc-label">Auto-detect</span>
+          <div class="fc-title">PROJECT_MODE: auto</div>
+          <div class="fc-desc">Tự detect existing codebase: có src/, .env, node_modules, hoặc git history → existing mode. Không cần config thủ công.</div>
+        </div>
+        <div class="feat-card violet">
+          <span class="fc-label">Deep Scan</span>
+          <div class="fc-title">Codebase exploration trước khi plan</div>
+          <div class="fc-desc">Scan file tree, đọc entry points, core logic files, git history. Identify: framework, DB layer, auth method, existing features. Tạo CODEBASE_SCAN.md.</div>
+        </div>
+        <div class="feat-card violet">
+          <span class="fc-label">.env-aware</span>
+          <div class="fc-title">Validate thay vì overwrite</div>
+          <div class="fc-desc">init.sh không overwrite .env hiện có. Đọc keys present/missing, báo cáo thiếu gì. NEEDS.md chỉ hỏi keys thực sự chưa có giá trị.</div>
+        </div>
+        <div class="feat-card violet">
+          <span class="fc-label">Extend, not rebuild</span>
+          <div class="fc-title">feature_list.json chỉ chứa features MỚI</div>
+          <div class="fc-desc">Cross-reference với CODEBASE_SCAN.md "Existing Features". Không tạo lại những gì đã implement. Features mới có <code>existing_context</code> field.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 00 -->
+    <div class="step">
+      <div class="step-head">
+        <span class="step-num">00</span>
+        <span class="step-title">Cài đặt một lần duy nhất</span>
+      </div>
+
+      <pre><span class="label">terminal</span>
+<span class="cm"># 1. Cài Claude Code</span>
+npm install -g @anthropic-ai/claude-code   <span class="cm"># hoặc brew install claude-code</span>
+
+<span class="cm"># 2. Cài tmux</span>
+brew install tmux                          <span class="cm"># macOS</span>
+sudo apt install tmux                      <span class="cm"># Ubuntu/WSL</span>
+
+<span class="cm"># 3. Cài jq (dùng để parse feature_list.json)</span>
+brew install jq                            <span class="cm"># macOS</span>
+sudo apt install jq                        <span class="cm"># Ubuntu/WSL</span>
+
+<span class="cm"># 4. Verify</span>
+claude --version                           <span class="cm"># cần >= 2.x</span>
+claude doctor
+
+<span class="cm"># 5. Set Opus 4.6 làm default</span>
+<span class="kw">export</span> ANTHROPIC_MODEL=claude-opus-4-6
+<span class="kw">export</span> CLAUDE_CODE_EFFORT_LEVEL=high
+<span class="cm"># Thêm 2 dòng trên vào ~/.bashrc hoặc ~/.zshrc</span></pre>
+    </div>
+
+    <!-- Step 01 -->
+    <div class="step">
+      <div class="step-head">
+        <span class="step-num">01</span>
+        <span class="step-title">Tạo AEGIS.md — Chỉ 1 file</span>
+      </div>
+
+      <p>Tạo folder project mới (hoặc <code>cd</code> vào project đã có), tạo đúng <strong>1 file duy nhất</strong>: <code>AEGIS.md</code>. Paste nội dung từ
+        <code>aegis.md</code> trong repo này, thay phần <code>[YÊU CẦU CỦA BẠN]</code>. Xong.</p>
+
+      <div class="note ok">
+        <b>Project đã có sẵn code?</b> Set <code>PROJECT_MODE: existing</code> trong AEGIS.md (hoặc để <code>auto</code> — AI tự detect). Bootstrap sẽ scan toàn bộ codebase trước khi plan.
+      </div>
+
+      <div class="prompt-box">
+        <span class="label-tag">Ví dụ yêu cầu user viết</span>
+        <div class="example">"Tôi muốn tạo một SaaS dashboard cho quản lý inventory của chuỗi siêu thị. Có real-time
+          stock tracking, low-stock alerts qua email/Telegram, barcode scanning từ mobile, và reporting dashboard. Tech:
+          Next.js + Supabase. Deploy lên Vercel + Cloudflare Workers cho API."</div>
+      </div>
+
+      <h3>Cấu trúc file sau khi Bootstrap (Phase 0)</h3>
+
+      <div class="tree">
+        my-project/<br>
+        ├── <span class="h">AEGIS.md</span> <span class="dim">← file duy nhất bạn tạo</span><br>
+        ├── <span class="new">CLAUDE.md</span> <span class="dim">← persistent memory, Claude đọc tự động</span><br>
+        ├── <span class="new">BLUEPRINT.md</span> <span class="dim">← architecture + phases</span><br>
+        ├── <span class="new">feature_list.json</span> <span class="dim">← 10-20 features (with depends_on)</span><br>
+        ├── <span class="new">.last_state.json</span> <span class="dim">← v5: state snapshot for context recovery</span><br>
+        ├── <span class="new">NEEDS.md</span> <span class="dim">← credentials cần từ bạn</span><br>
+        ├── <span class="new">CODEBASE_SCAN.md</span> <span class="dim">← [existing mode] kết quả scan codebase hiện có</span><br>
+        ├── <span class="new">PROGRESS.md</span> <span class="dim">← feature completion log</span><br>
+        ├── <span class="new">LIVE_LOG.md</span> <span class="dim">← real-time action log</span><br>
+        ├── <span class="new">STEERING.md</span> <span class="dim">← bạn viết lệnh vào đây</span><br>
+        ├── <span class="new">BLOCKED.md</span> <span class="dim">← features bị stuck (auto-rollback)</span><br>
+        ├── <span class="new">COST_TRACKER.md</span> <span class="dim">← session cost log</span><br>
+        ├── <span class="new">WORKERS.md</span> <span class="dim">← multi-agent worker status</span><br>
+        ├── <span class="new">init.sh</span> <span class="dim">← bootstrap dev env (idempotent)</span><br>
+        ├── <span class="new">.claude/</span><br>
+        │ ├── <span class="new">settings.local.json</span><br>
+        │ ├── <span class="new">settings.json</span> <span class="dim">← v5.1: hooks (Stop + PostToolUse)</span><br>
+        │ ├── <span class="new">hooks/lint-check.sh</span> <span class="dim">← async lint after each file edit</span><br>
+        │ └── <span class="new">commands/</span> <span class="dim">← /status, /unblock, /rollback slash commands</span><br>
+        ├── <span class="new">scripts/</span><br>
+        │ ├── <span class="new">agent-watchdog.sh</span> <span class="dim">← v5: thrashing detection + --continue timeout</span><br>
+        │ ├── <span class="new">health-check.sh</span><br>
+        │ ├── <span class="new">aegis-start.sh</span><br>
+        │ ├── <span class="new">multi-agent.sh</span> <span class="dim">← v5: heartbeat + dependency-aware</span><br>
+        │ ├── <span class="new">memory-index.sh</span> <span class="dim">← v5.2: build semantic memory index</span><br>
+        │ └── <span class="new">memory-search.sh</span> <span class="dim">← v5.2: query index trước khi implement</span><br>
+        ├── <span class="new">.memory/</span> <span class="dim">← v5.2: index.json (file paths + exports + descriptions)</span><br>
+        ├── <span class="new">logs/</span> <span class="dim">← rotated LIVE_LOG archives</span><br>
+        ├── <span class="new">tests/</span> <span class="dim">← v5: integration test suite</span><br>
+        └── <span class="d">src/</span> <span class="dim">← code bắt đầu xuất hiện ở đây</span>
+      </div>
+    </div>
+
+    <!-- Step 02 -->
+    <div class="step">
+      <div class="step-head">
+        <span class="step-num g">02</span>
+        <span class="step-title">Khởi động — Đúng 2 lệnh</span>
+      </div>
+
+      <pre><span class="label">terminal — greenfield (project mới)</span>
+<span class="cm"># 1. Tạo folder mới, thêm AEGIS.md</span>
+<span class="kw">mkdir</span> my-project &amp;&amp; <span class="kw">cd</span> my-project
+<span class="cm"># (tạo AEGIS.md với yêu cầu của bạn)</span>
+
+<span class="cm"># 2. Bootstrap + bắt đầu code</span>
+claude --model claude-opus-4-6 --dangerously-skip-permissions \
+  -p <span class="st">"Đọc AEGIS.md và thực hiện Phase 0: Bootstrap. Tạo tất cả files cần thiết rồi bắt đầu code Phase 1 ngay."</span></pre>
+
+      <pre><span class="label">terminal — existing codebase (project đã có sẵn)</span>
+<span class="cm"># 1. Vào project đã có, thêm AEGIS.md (set PROJECT_MODE: existing hoặc auto)</span>
+<span class="kw">cd</span> /path/to/existing-project
+<span class="cm"># (tạo AEGIS.md với yêu cầu + PROJECT_MODE: existing)</span>
+
+<span class="cm"># 2. Bootstrap — AI sẽ scan codebase trước khi plan</span>
+claude --model claude-opus-4-6 --dangerously-skip-permissions \
+  -p <span class="st">"Đọc AEGIS.md và thực hiện Phase 0: Bootstrap. Scan toàn bộ codebase hiện có, tạo CODEBASE_SCAN.md, rồi plan và bắt đầu code."</span></pre>
+
+      <div class="note ok">
+        <b>Sau khi Initializer chạy xong</b>, project sẽ có: BLUEPRINT.md, feature_list.json (10-20 features cho phase
+        1-2), CLAUDE.md (persistent memory), NEEDS.md, governance files, scripts, và agent đã bắt đầu code Phase 1.
+        <br><br>
+        <b>[Existing mode]</b> Thêm: CODEBASE_SCAN.md (tech stack, existing features, ENV status), NEEDS.md chỉ liệt kê keys thực sự còn thiếu, feature_list.json chỉ chứa features MỚI (không rebuild những gì đã có).
+      </div>
+
+      <h3>Chuyển sang chạy tự động liên tục</h3>
+
+      <pre><span class="label">scripts/agent-watchdog.sh — v5: thrashing detection + --continue timeout + state snapshot</span>
+#!/usr/bin/env bash
+WORKDIR="$(cd "$(dirname "$0")/.." && pwd)"
+LOG="$WORKDIR/LIVE_LOG.md"
+RESTART_DELAY=45
+MAX_RESTARTS=500
+CREDIT_WAIT=900
+STALL_TIMEOUT=2400    <span class="cm"># 40 phút không có commit → restart</span>
+CONTINUE_TIMEOUT=600  <span class="cm"># v5: 10 phút sau --continue mà không commit → kill + fresh</span>
+
+<span class="cm"># Đọc budget từ AEGIS.md</span>
+MAX_COST=$(grep -oP 'MAX_COST_USD:\s*\K[0-9]+' "$WORKDIR/AEGIS.md" 2>/dev/null || echo 50)
+ALERT_COST=$(grep -oP 'ALERT_COST_USD:\s*\K[0-9]+' "$WORKDIR/AEGIS.md" 2>/dev/null || echo 30)
+SESSION_COST_EST=9    <span class="cm"># ước tính $9/session Opus 4.6 normal</span>
+
+<span class="kw">export</span> CLAUDE_CODE_MAX_OUTPUT_TOKENS=128000
+<span class="kw">export</span> ANTHROPIC_MODEL=claude-opus-4-6
+<span class="kw">export</span> CLAUDE_CODE_EFFORT_LEVEL=high
+
+count=0
+total_cost=0
+log() { local m="[$(date +%H:%M)] WD: $*"; echo "$m"; echo "$m" >> "$LOG"; }
+
+detect_quota() { tail -5 "$LOG" 2>/dev/null | grep -qiE "credit|quota|429|billing"; }
+
+check_budget() {
+  total_cost=$((total_cost + SESSION_COST_EST))
+  log "COST: session ~\$${SESSION_COST_EST} — TOTAL: ~\$${total_cost}/\$${MAX_COST}"
+  if [ "$total_cost" -ge "$MAX_COST" ]; then
+    log "BUDGET EXCEEDED \$${total_cost} >= \$${MAX_COST} — stopping"
+    echo "Budget exceeded: \$${total_cost} of \$${MAX_COST}" > "$WORKDIR/BUDGET_EXCEEDED"
+    exit 1
+  fi
+  if [ "$total_cost" -ge "$ALERT_COST" ]; then
+    log "BUDGET ALERT: \$${total_cost} of \$${MAX_COST} used"
+  fi
+}
+
+check_stall() {
+  local last_commit_time
+  last_commit_time=$(git -C "$WORKDIR" log -1 --format="%ct" 2>/dev/null || echo 0)
+  local now; now=$(date +%s)
+  local elapsed=$(( now - last_commit_time ))
+  if [ "$elapsed" -gt "$STALL_TIMEOUT" ]; then
+    log "STALL DETECTED: no commit in ${elapsed}s — forcing restart"
+    return 1
+  fi
+  return 0
+}
+
+<span class="cm"># v5: Thrashing detection — nhiều commits nhưng 0 features pass</span>
+check_thrashing() {
+  local recent_commits=$(git -C "$WORKDIR" log --since="30 minutes ago" --oneline 2>/dev/null | wc -l)
+  local current_passes=$(jq '[.[]|select(.passes==true)]|length' "$WORKDIR/feature_list.json" 2>/dev/null || echo 0)
+  local prev_passes=$(cat "$WORKDIR/.thrash_check" 2>/dev/null || echo 0)
+  local new_passes=$((current_passes - prev_passes))
+  echo "$current_passes" > "$WORKDIR/.thrash_check"
+
+  if [ "$recent_commits" -gt 10 ] && [ "$new_passes" -eq 0 ]; then
+    log "THRASHING: $recent_commits commits in 30min, 0 new features passed — fresh restart"
+    return 1
+  fi
+  return 0
+}
+
+<span class="cm"># v5: Save state snapshot before restart</span>
+save_state_snapshot() {
+  local feature_id=$(jq -r '[.[]|select(.passes==false and .blocked==false)][0].id // "none"' \
+    "$WORKDIR/feature_list.json" 2>/dev/null)
+  local last_error=$(tail -3 "$LOG" 2>/dev/null | grep -i "error\|fail" | tail -1)
+  cat > "$WORKDIR/.last_state.json" << SNAPSHOT
+{"current_feature_id":$feature_id,"last_error":"$(echo "$last_error" | tr '"' "'")","timestamp":"$(date -Iseconds)","session_number":$count}
+SNAPSHOT
+}
+
+rotate_log() {
+  local lines; lines=$(wc -l < "$LOG" 2>/dev/null || echo 0)
+  if [ "$lines" -gt 500 ]; then
+    mkdir -p "$WORKDIR/logs"
+    mv "$LOG" "$WORKDIR/logs/LIVE_LOG_$(date +%Y%m%d_%H%M%S).md"
+    echo "# LIVE_LOG.md — rotated $(date)" > "$LOG"
+    log "Log rotated (was ${lines} lines)"
+  fi
+}
+
+cd "$WORKDIR" || exit 1
+log "AEGIS v5 Watchdog started — budget \$${MAX_COST} — opus-4-6/high"
+
+while [ "$count" -lt "$MAX_RESTARTS" ]; do
+  [ -f "$WORKDIR/PAUSE" ] && { log "PAUSED — remove PAUSE file to resume"; sleep 60; continue; }
+  [ -f "$WORKDIR/BUDGET_EXCEEDED" ] && { log "Budget exceeded — stopped"; exit 1; }
+
+  rotate_log
+  <span class="cm"># v5: Check thrashing before launch</span>
+  THRASHING=false
+  check_thrashing || THRASHING=true
+
+  log "Launch #$((count + 1)) of $MAX_RESTARTS"
+  <span class="cm"># v5: Save state snapshot before each session</span>
+  save_state_snapshot
+
+  if [ "$THRASHING" = true ]; then
+    <span class="cm"># v5: Thrashing → skip --continue, go straight to fresh with explicit instructions</span>
+    log "Thrashing detected — fresh start (skipping --continue)"
+    claude --model claude-opus-4-6 --dangerously-skip-permissions \
+      -p "Đọc AEGIS.md. Bạn là CODING AGENT. CẢNH BÁO: session trước bị thrashing.
+Đọc .last_state.json để hiểu context. Chọn approach KHÁC cho feature hiện tại.
+Nếu feature quá khó → mark blocked, skip sang feature khác."
+    EC=$?
+  else
+    <span class="cm"># Normal: thử --continue trước</span>
+    <span class="cm"># v5: --continue với timeout validation</span>
+    LAST_COMMIT_BEFORE=$(git -C "$WORKDIR" log -1 --format="%ct" 2>/dev/null || echo 0)
+    claude --model claude-opus-4-6 --dangerously-skip-permissions --continue 2>/dev/null &
+    CLAUDE_PID=$!
+
+    <span class="cm"># v5: Monitor --continue session for CONTINUE_TIMEOUT</span>
+    CONTINUE_START=$(date +%s)
+    while kill -0 "$CLAUDE_PID" 2>/dev/null; do
+      sleep 30
+      ELAPSED=$(( $(date +%s) - CONTINUE_START ))
+      LAST_COMMIT_NOW=$(git -C "$WORKDIR" log -1 --format="%ct" 2>/dev/null || echo 0)
+      if [ "$ELAPSED" -gt "$CONTINUE_TIMEOUT" ] && [ "$LAST_COMMIT_NOW" -le "$LAST_COMMIT_BEFORE" ]; then
+        log "--continue stale after ${ELAPSED}s with no new commits — killing"
+        kill "$CLAUDE_PID" 2>/dev/null
+        wait "$CLAUDE_PID" 2>/dev/null
+        break
+      fi
+    done
+    wait "$CLAUDE_PID" 2>/dev/null
+    EC=$?
+
+    if [ "$EC" -ne 0 ]; then
+      claude --model claude-opus-4-6 --dangerously-skip-permissions \
+        -p "Đọc AEGIS.md. Bạn là CODING AGENT. Đọc .last_state.json nếu có. Tiếp tục coding từ feature chưa hoàn thành."
+      EC=$?
+    fi
+  fi
+
+  count=$((count + 1))
+  check_budget
+
+  [ "$EC" -eq 0 ] && { log "Session ended normally"; check_stall || continue; exit 0; }
+
+  if detect_quota; then
+    log "Quota hit — waiting ${CREDIT_WAIT}s"
+    sleep "$CREDIT_WAIT"
+  else
+    log "Session crashed (exit=$EC) — waiting ${RESTART_DELAY}s"
+    sleep "$RESTART_DELAY"
+  fi
+done
+log "Max restarts reached — manual intervention needed"
+exit 1</pre>
+
+      <pre><span class="label">terminal — khởi động watchdog</span>
+<span class="kw">chmod</span> +x scripts/agent-watchdog.sh
+tmux new-session -d -s agent <span class="st">'bash scripts/agent-watchdog.sh'</span>
+echo <span class="st">"Agent running. Monitor: tmux attach -t agent"</span></pre>
+
+    </div>
+
+    <!-- Step 02b — Existing Codebase Mode -->
+    <div class="step">
+      <div class="step-head">
+        <span class="step-num" style="background:var(--violet);color:#000">02b</span>
+        <span class="step-title">Existing Codebase Mode — Scan trước, plan sau</span>
+      </div>
+
+      <p>Khi drop AEGIS vào project đã có sẵn, Bootstrap agent thực hiện <strong>Codebase Exploration</strong> trước khi tạo bất kỳ file nào.</p>
+
+      <h3>Những gì Bootstrap làm (existing mode)</h3>
+
+      <pre><span class="label">Bootstrap Phase 0 — existing codebase flow</span>
+<span class="cm"># 1. Auto-detect: existing nếu có src/, .env, node_modules, hoặc git history</span>
+find . -not -path '*/node_modules/*' -not -path '*/.git/*' -type f | head -50
+
+<span class="cm"># 2. Đọc package.json / requirements.txt / go.mod</span>
+<span class="cm"># 3. Đọc .env — chỉ lấy KEY names, không log values</span>
+<span class="cm"># 4. Đọc entry points: index.ts, app.ts, server.ts, pages/_app.*</span>
+<span class="cm"># 5. Đọc tối đa 10 core files (routes, models, services)</span>
+<span class="cm"># 6. git log --oneline -20 → hiểu tiến độ</span>
+
+<span class="cm"># → Tạo CODEBASE_SCAN.md với kết quả</span></pre>
+
+      <pre><span class="label">CODEBASE_SCAN.md — AI tự tạo</span>
+## Existing Codebase Analysis
+
+### Tech Stack Detected
+Framework: Next.js 14 (App Router)
+Language: TypeScript
+Database: Supabase (PostgreSQL)
+Auth: NextAuth.js v5
+Styling: Tailwind CSS
+
+### Existing Features (sẽ KHÔNG tạo lại)
+- User authentication (login/register/logout) ✓
+- Dashboard layout + sidebar ✓
+- Product listing page ✓
+
+### ENV Status
+Present: DATABASE_URL, NEXTAUTH_SECRET, NEXTAUTH_URL
+Missing: STRIPE_SECRET_KEY, RESEND_API_KEY
+
+### Key Observations
+- Dùng server actions (không có API routes riêng)
+- Prisma ORM với schema tại prisma/schema.prisma
+- Test: Vitest + Testing Library</pre>
+
+      <div class="note ok">
+        <b>NEEDS.md trong existing mode</b> chỉ liệt kê keys thực sự còn thiếu. Keys đã có trong <code>.env</code> được đánh dấu <code>[x]</code> ngay — AI không hỏi lại.
+      </div>
+
+      <h3>init.sh — validate thay vì overwrite</h3>
+
+      <pre><span class="label">init.sh — existing mode: kiểm tra .env thay vì tạo mới</span>
+<span class="cm"># .env đã có → validate keys còn thiếu, KHÔNG overwrite</span>
+<span class="kw">if</span> [ -f .env ]; <span class="kw">then</span>
+  MISSING=""
+  <span class="kw">while</span> IFS= read -r line; <span class="kw">do</span>
+    key=$(echo "$line" | grep -oP '^[A-Z_]+(?==)' || true)
+    [ -z "$key" ] &amp;&amp; continue
+    grep -q "^${key}=.\+" .env || MISSING="$MISSING $key"
+  <span class="kw">done</span> &lt; .env.example
+  [ -n "$MISSING" ] &amp;&amp; echo "WARNING: Missing keys:$MISSING"
+<span class="kw">fi</span></pre>
+    </div>
+
+    <!-- Step 03 — NEEDS.md -->
+    <div class="step">
+      <div class="step-head">
+        <span class="step-num c">03</span>
+        <span class="step-title">NEEDS.md — AI hỏi, bạn trả lời khi nào tiện</span>
+      </div>
+
+      <p>Sau Phase 0, AI tạo <code>NEEDS.md</code> liệt kê mọi thứ cần từ bạn. AI code với mock data trước, không chờ.
+      </p>
+
+      <pre><span class="label">NEEDS.md — AI tự tạo, bạn chỉ điền</span>
+<span class="cm"># Cần từ bạn (trả lời khi nào tiện. AI không chờ — code với mock trước.)</span>
+<span class="cm"># Khi điền xong: echo "add-env KEY value" >> STEERING.md</span>
+
+<span class="cm">## Bắt buộc để deploy</span>
+- [ ] VERCEL_TOKEN — https://vercel.com/account/tokens
+- [ ] GITHUB_TOKEN — github.com/settings/tokens (scope: repo, workflow)
+
+<span class="cm">## Bắt buộc để chạy backend</span>
+- [ ] CLOUDFLARE_API_TOKEN — dash.cloudflare.com/profile/api-tokens
+- [ ] CLOUDFLARE_ACCOUNT_ID — Dashboard → Account Home → bên phải
+
+<span class="cm">## Optional (mock nếu chưa có)</span>
+- [ ] SUPABASE_URL + SUPABASE_ANON_KEY — app.supabase.com → Settings → API
+- [ ] Custom domain
+
+<span class="cm">---</span>
+<span class="cm">## Cách cung cấp (từ SSH/phone)</span>
+<span class="cm"># Cách 1: Thêm trực tiếp vào .env</span>
+<span class="cm"># echo "VERCEL_TOKEN=xxx" >> .env</span>
+<span class="cm"># Cách 2: Qua STEERING.md (AI tự thêm vào .env)</span>
+<span class="cm"># echo "add-env VERCEL_TOKEN xxx" >> STEERING.md</span></pre>
+    </div>
+
+    <!-- Step 04 — Steering -->
+    <div class="step">
+      <div class="step-head">
+        <span class="step-num v">04</span>
+        <span class="step-title">Steering — Điều khiển từ phone</span>
+      </div>
+
+      <p>Mọi điều khiển qua <code>STEERING.md</code>. Agent đọc <strong>atomic</strong> (rename → process → delete) sau
+        mỗi feature — không bao giờ mất data dù bạn đang viết cùng lúc.</p>
+
+      <h3>Quick Commands</h3>
+
+      <div class="steer-grid">
+        <div class="steer-card">
+          <div class="icon">🔴</div>
+          <div class="cmd">fix [mô tả bug]</div>
+          <div class="desc">Dừng feature hiện tại, fix bug này trước</div>
+        </div>
+        <div class="steer-card">
+          <div class="icon">⏭️</div>
+          <div class="cmd">skip [feature/phase]</div>
+          <div class="desc">Bỏ qua, làm cái tiếp theo</div>
+        </div>
+        <div class="steer-card">
+          <div class="icon">🎯</div>
+          <div class="cmd">focus [feature/phase]</div>
+          <div class="desc">Ưu tiên làm cái này trước</div>
+        </div>
+        <div class="steer-card">
+          <div class="icon">➕</div>
+          <div class="cmd">add [tính năng mới]</div>
+          <div class="desc">Thêm vào feature_list với priority cao</div>
+        </div>
+        <div class="steer-card">
+          <div class="icon">🔄</div>
+          <div class="cmd">change [thay đổi gì]</div>
+          <div class="desc">Thay đổi approach / tech / design</div>
+        </div>
+        <div class="steer-card">
+          <div class="icon">🚀</div>
+          <div class="cmd">deploy</div>
+          <div class="desc">Deploy ngay phiên bản hiện tại</div>
+        </div>
+        <div class="steer-card">
+          <div class="icon">🔑</div>
+          <div class="cmd">add-env KEY value</div>
+          <div class="desc">Thêm credential vào .env</div>
+        </div>
+        <div class="steer-card">
+          <div class="icon">📊</div>
+          <div class="cmd">status</div>
+          <div class="desc">In progress report vào PROGRESS.md</div>
+        </div>
+        <div class="steer-card">
+          <div class="icon">🔓</div>
+          <div class="cmd">unblock #ID</div>
+          <div class="desc">Reset retry_count=0 cho feature bị blocked</div>
+        </div>
+        <div class="steer-card">
+          <div class="icon">⏸️</div>
+          <div class="cmd">pause</div>
+          <div class="desc">Dừng watchdog sau session hiện tại</div>
+        </div>
+      </div>
+
+      <h3>Ví dụ từ phone (SSH)</h3>
+
+      <pre><span class="label">Termius / SSH</span>
+<span class="cm"># Xem agent đang làm gì</span>
+tail -10 LIVE_LOG.md
+
+<span class="cm"># Bug gấp</span>
+echo <span class="st">"fix trang checkout bị lỗi trên Safari mobile"</span> >> STEERING.md
+
+<span class="cm"># Unblock feature bị stuck</span>
+echo <span class="st">"unblock #7"</span> >> STEERING.md
+
+<span class="cm"># Cung cấp credential</span>
+echo <span class="st">"add-env VERCEL_TOKEN vel_abc123xyz"</span> >> STEERING.md
+
+<span class="cm"># Tạm dừng để review</span>
+echo <span class="st">"pause"</span> >> STEERING.md
+
+<span class="cm"># Viết dài cũng OK</span>
+cat >> STEERING.md << 'EOF'
+Tôi vừa test trên phone, thấy 2 vấn đề:
+1. Menu hamburger không đóng khi tap outside
+2. Hình sản phẩm bị stretch trên iPhone SE
+Ưu tiên fix 2 cái này trước khi làm tính năng mới.
+EOF</pre>
+
+      <div class="note info">
+        <b>Atomic read:</b> Agent dùng <code>mv STEERING.md STEERING.processing.md</code> trước khi đọc. Nếu bạn đang
+        viết vào STEERING.md đúng lúc agent đọc, data của bạn an toàn — agent chỉ xử lý file đã được rename, STEERING.md
+        mới của bạn sẽ được đọc ở lần tiếp theo.
+      </div>
+    </div>
+
+    <!-- Step 05 — Loop Detection -->
+    <div class="step">
+      <div class="step-head">
+        <span class="step-num r">05</span>
+        <span class="step-title">Loop Detection + Checkpoint/Rollback</span>
+      </div>
+
+      <p>Mỗi feature có <code>retry_count</code> + <code>depends_on</code>. Agent không bao giờ bị kẹt — v5 thêm <strong>checkpoint/rollback</strong> tự động khi blocked.</p>
+
+      <pre><span class="label">feature_list.json — schema v5.1</span>
+[{
+  "id": 7,
+  "phase": 2,
+  "priority": 1,
+  "category": "payment",
+  "description": "Stripe checkout integration",
+  <span class="fn">"depends_on": [3, 5],</span>   <span class="cm">← v5: dependency graph (IDs of required features)</span>
+  <span class="fn">"supervision_level": "supervised",</span>  <span class="cm">← v5.1: "auto" (default) | "supervised" (pause before commit)</span>
+  "acceptance_criteria": [
+    "User can enter card details",
+    "Successful payment redirects to /success",
+    "Failed payment shows error message"
+  ],
+  "steps": ["Navigate to /checkout", "Fill card form", "Submit", "Verify redirect"],
+  "passes": false,
+  "retry_count": 0,               <span class="cm">← tăng sau mỗi lần fail</span>
+  "blocked": false,                <span class="cm">← true khi retry_count >= 3 (+ auto-rollback)</span>
+  "completed_at": null
+}]</pre>
+
+      <div class="note info">
+        <b>supervision_level:</b> <code>"auto"</code> (default) = agent tự code và commit. <code>"supervised"</code> = agent code xong, dừng lại, ghi vào NEEDS.md chờ bạn approve. Dùng <code>"supervised"</code> cho: payment flows, security-critical code, core business logic. Approve qua: <code>echo "approve #7" >> STEERING.md</code>
+      </div>
+
+      <h3>Flow khi feature bị stuck</h3>
+
+      <pre><span class="label">agent behavior — v5: checkpoint + rollback</span>
+<span class="cm"># Before starting feature:</span>
+git tag "checkpoint/pre-feature-7" HEAD     <span class="cm">← v5: save checkpoint</span>
+
+Feature #7: Stripe checkout
+  → Attempt 1: build fail (missing env var) → retry_count=1
+  → Attempt 2: test fail (webhook signature) → retry_count=2
+  → Attempt 3: test fail (same error)       → retry_count=3
+
+retry_count >= 3:
+  → feature.blocked = true
+  → <span class="fn">git reset --hard "checkpoint/pre-feature-7"</span>  <span class="cm">← v5: auto-rollback!</span>
+  → append BLOCKED.md:
+     "[14:32] Feature #7 blocked after 3 retries
+      Error: Stripe webhook signature mismatch
+      Tried: mock webhook, test mode, env var fix
+      Needs: STRIPE_WEBHOOK_SECRET from user
+      Rolled back to checkpoint/pre-feature-7"
+  → append NEEDS.md: "- [ ] STRIPE_WEBHOOK_SECRET"
+  → continue to feature #8 <span class="cm">(code is clean — no broken artifacts)</span>
+
+<span class="cm"># When feature passes:</span>
+git tag -d "checkpoint/pre-feature-7"       <span class="cm">← cleanup checkpoint</span></pre>
+
+      <h3>Unblock từ phone</h3>
+
+      <pre><span class="label">SSH</span>
+<span class="cm"># Xem features bị blocked</span>
+cat BLOCKED.md
+
+<span class="cm"># Cung cấp secret còn thiếu</span>
+echo <span class="st">"add-env STRIPE_WEBHOOK_SECRET whsec_xxx"</span> >> STEERING.md
+
+<span class="cm"># Unblock feature để agent thử lại</span>
+echo <span class="st">"unblock #7"</span> >> STEERING.md</pre>
+
+      <div class="note warn">
+        <b>Watchdog stall + thrashing detection (v5):</b> Stall: không commit trong 40 phút → restart. Thrashing (v5): >10 commits trong 30 phút nhưng 0 features pass → force fresh restart (skip --continue) với cảnh báo chọn approach khác. Cả hai level được monitor đồng thời.
+      </div>
+    </div>
+
+    <!-- Step 06 — Monitoring -->
+    <div class="step">
+      <div class="step-head">
+        <span class="step-num b">06</span>
+        <span class="step-title">Monitoring & Health Check</span>
+      </div>
+
+      <pre><span class="label">scripts/health-check.sh — v5: checkpoints + dependencies + state</span>
+#!/usr/bin/env bash
+W="$(cd "$(dirname "$0")/.." && pwd)"; cd "$W"
+echo "═══ AEGIS v5 Status ═══"
+echo
+
+if [ -f feature_list.json ]; then
+  T=$(jq length feature_list.json)
+  D=$(jq '[.[]|select(.passes==true)]|length' feature_list.json)
+  B=$(jq '[.[]|select(.blocked==true)]|length' feature_list.json)
+  P=$((T > 0 ? D * 100 / T : 0))
+  echo "Progress: $D/$T features ($P%) | Blocked: $B"
+  echo "Phase breakdown:"
+  jq -r 'group_by(.phase)|.[]|
+    "  Phase \(.[0].phase): \([.[]|select(.passes==true)]|length)/\(length) done, \([.[]|select(.blocked==true)]|length) blocked"' \
+    feature_list.json
+
+  <span class="cm"># v5: Show features blocked by dependencies</span>
+  DEP_BLOCKED=$(jq '[
+    . as $all |
+    .[] | select(.passes==false and .blocked==false) |
+    select(.depends_on | length > 0) |
+    select(.depends_on | any(. as $d | $all[] | select(.id == $d and .passes == false)) )
+  ] | length' feature_list.json 2>/dev/null || echo 0)
+  [ "$DEP_BLOCKED" -gt 0 ] && echo "  Waiting on dependencies: $DEP_BLOCKED features"
+fi
+
+echo
+echo "Recent log:"
+tail -5 LIVE_LOG.md 2>/dev/null || echo "  (no log)"
+
+echo
+<span class="cm"># v5: Active checkpoints</span>
+echo "Checkpoints:"
+CKPTS=$(git tag -l "checkpoint/*" 2>/dev/null | wc -l)
+echo "  $CKPTS active checkpoint tags"
+
+echo
+<span class="cm"># v5: Last state snapshot</span>
+echo "Last state:"
+[ -f .last_state.json ] && cat .last_state.json | jq -r '"  Feature #\(.current_feature_id) | Session \(.session_number) | \(.timestamp)"' 2>/dev/null || echo "  (no snapshot)"
+
+echo
+echo "Budget:"
+[ -f COST_TRACKER.md ] && tail -3 COST_TRACKER.md || echo "  No cost data yet"
+[ -f BUDGET_EXCEEDED ] && echo "  !! BUDGET EXCEEDED — remove BUDGET_EXCEEDED to resume"
+
+echo
+echo "Blockers:"
+[ -s BLOCKED.md ] && grep "^##" BLOCKED.md | head -5 || echo "  None"
+
+echo
+echo "Steering:"
+[ -s STEERING.md ] && cat STEERING.md || echo "  Empty"
+[ -f STEERING.processing.md ] && echo "  (processing...)"
+
+echo
+echo "Agent:"
+tmux has-session -t agent 2>/dev/null && echo "  Running" || echo "  NOT running"
+echo "  Last commit: $(git log --oneline -1 2>/dev/null)"
+echo "  Last commit time: $(git log -1 --format='%ar' 2>/dev/null)"</pre>
+
+      <h3>Cheat Sheet từ phone</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Muốn</th>
+            <th>Gõ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Xem agent</td>
+            <td><code>tmux attach -t agent</code> (thoát: Ctrl+B, D)</td>
+          </tr>
+          <tr>
+            <td>Quick status</td>
+            <td><code>bash scripts/health-check.sh</code></td>
+          </tr>
+          <tr>
+            <td>Log gần nhất</td>
+            <td><code>tail -20 LIVE_LOG.md</code></td>
+          </tr>
+          <tr>
+            <td>Features blocked</td>
+            <td><code>jq '[.[]|select(.blocked)]' feature_list.json</code></td>
+          </tr>
+          <tr>
+            <td>Budget status</td>
+            <td><code>cat COST_TRACKER.md</code></td>
+          </tr>
+          <tr>
+            <td>Steer</td>
+            <td><code>echo "fix XYZ" >> STEERING.md</code></td>
+          </tr>
+          <tr>
+            <td>Thêm credential</td>
+            <td><code>echo "add-env KEY val" >> STEERING.md</code></td>
+          </tr>
+          <tr>
+            <td>Tạm dừng</td>
+            <td><code>echo "pause" >> STEERING.md</code></td>
+          </tr>
+          <tr>
+            <td>Resume sau pause</td>
+            <td><code>rm PAUSE && tmux new-session -d -s agent 'bash scripts/agent-watchdog.sh'</code></td>
+          </tr>
+          <tr>
+            <td>Emergency restart</td>
+            <td><code>tmux kill-session -t agent && bash scripts/agent-watchdog.sh</code></td>
+          </tr>
+          <tr>
+            <td>Hard reset</td>
+            <td><code>git reset --hard [hash]</code></td>
+          </tr>
+          <tr>
+            <td>Checkpoints (v5)</td>
+            <td><code>git tag -l "checkpoint/*"</code></td>
+          </tr>
+          <tr>
+            <td>Last state (v5)</td>
+            <td><code>cat .last_state.json | jq .</code></td>
+          </tr>
+          <tr>
+            <td>Dependencies (v5)</td>
+            <td><code>jq '.[]|select(.depends_on|length>0)|{id,depends_on}' feature_list.json</code></td>
+          </tr>
+          <tr>
+            <td>Quick status (slash cmd)</td>
+            <td><code>/status</code> — trong Claude Code session</td>
+          </tr>
+          <tr>
+            <td>Unblock (slash cmd)</td>
+            <td><code>/unblock 7</code> — reset feature #7 để retry</td>
+          </tr>
+          <tr>
+            <td>Rollback (slash cmd)</td>
+            <td><code>/rollback 7</code> — git reset về checkpoint feature #7</td>
+          </tr>
+          <tr>
+            <td>Approve supervised</td>
+            <td><code>echo "approve #7" >> STEERING.md</code></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Auto-recovery table</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Sự cố</th>
+            <th>Watchdog làm</th>
+            <th>Bạn cần làm</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>API crash / 502</td>
+            <td>Chờ 45s → restart với --continue</td>
+            <td>Không cần</td>
+          </tr>
+          <tr>
+            <td>Hết credit / 429</td>
+            <td>Chờ 15 phút → retry</td>
+            <td>Nạp credit nếu muốn nhanh</td>
+          </tr>
+          <tr>
+            <td>Feature bị loop</td>
+            <td>retry_count >= 3 → auto-rollback + skip</td>
+            <td>Xem BLOCKED.md, unblock khi có info</td>
+          </tr>
+          <tr>
+            <td>Session stall 40 phút</td>
+            <td>Force restart</td>
+            <td>Không cần</td>
+          </tr>
+          <tr>
+            <td>Thrashing (v5)</td>
+            <td>>10 commits, 0 pass → fresh restart</td>
+            <td>Không cần (auto chọn approach khác)</td>
+          </tr>
+          <tr>
+            <td>Worker dead (v5)</td>
+            <td>Heartbeat > 5min → auto-respawn</td>
+            <td>Không cần</td>
+          </tr>
+          <tr>
+            <td>Budget exceeded</td>
+            <td>Tạo BUDGET_EXCEEDED, dừng</td>
+            <td><code>rm BUDGET_EXCEEDED</code> hoặc tăng MAX_COST_USD</td>
+          </tr>
+          <tr>
+            <td>User muốn pause</td>
+            <td>Dừng sau session hiện tại</td>
+            <td><code>echo "pause" >> STEERING.md</code></td>
+          </tr>
+          <tr>
+            <td>Code hỏng nặng</td>
+            <td>—</td>
+            <td><code>git reset --hard [hash]</code> → restart</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Step 07 — Multi-Agent Parallel -->
+    <div class="step">
+      <div class="step-head">
+        <span class="step-num g">07</span>
+        <span class="step-title">Multi-Agent Parallel — Chạy song song nhiều agent</span>
+      </div>
+
+      <p>Khi project đủ lớn (≥20 features pending), AEGIS tự chuyển sang multi-agent mode: 1 orchestrator phân task + N
+        workers code song song trong git worktrees riêng.</p>
+
+      <div class="note info">
+        <b>Config trong AEGIS.md:</b> <code>EXECUTION_MODE: auto | single | multi</code>, <code>MAX_WORKERS: 3</code>,
+        <code>MIN_FEATURES_FOR_MULTI: 20</code>. Mặc định <code>auto</code> — tự chuyển khi đủ features.
+      </div>
+
+      <h3>Kiến trúc</h3>
+
+      <div class="tree">
+        <span class="h">Orchestrator Agent</span> <span class="dim">(tmux pane 0 — root project dir)</span><br>
+        ├── <span class="new">Worker 1</span> <span class="dim">(tmux pane 1 — .worktrees/worker-1 — branch:
+          worker-1)</span><br>
+        ├── <span class="new">Worker 2</span> <span class="dim">(tmux pane 2 — .worktrees/worker-2 — branch:
+          worker-2)</span><br>
+        └── <span class="new">Worker 3</span> <span class="dim">(tmux pane 3 — .worktrees/worker-3 — branch:
+          worker-3)</span>
+      </div>
+
+      <h3>Orchestrator (không code — chỉ quản lý)</h3>
+
+      <pre><span class="label">orchestrator flow — v5: dependency-aware + heartbeat</span>
+<span class="cm"># 1. Topological sort features theo depends_on (v5)</span>
+<span class="cm">#    Wave 1: depends_on=[] → worker-1: auth, worker-2: api, worker-3: ui</span>
+<span class="cm">#    Wave 2: depends on wave 1 → assigned after wave 1 merge</span>
+
+<span class="cm"># 2. Tạo worktrees + assign features (chỉ wave 1 features)</span>
+git worktree add .worktrees/worker-1 -b worker-1 dev
+git worktree add .worktrees/worker-2 -b worker-2 dev
+
+<span class="cm"># 3. Tạo WORKER_ID (v5: includes WAVE number)</span>
+cat > .worktrees/worker-1/WORKER_ID << 'EOF'
+WORKER_NUM=1
+BRANCH=worker-1
+ASSIGNED_FEATURES=[3,4,7]
+CATEGORY=auth
+WAVE=1
+EOF
+
+<span class="cm"># 4. Spawn workers trong tmux panes</span>
+<span class="cm"># 5. Monitor progress (poll mỗi 2 phút — v5: heartbeat check)</span>
+<span class="cm">#    If worker HEARTBEAT file > 5 min old → respawn worker</span>
+<span class="cm"># 6. Wave merge khi workers xong:</span>
+git checkout dev
+git merge worker-1 --no-edit
+<span class="cm"># v5: build+test after EACH merge (catch conflicts early)</span>
+npm run build && npm test
+git merge worker-2 --no-edit
+npm run build && npm test
+git merge worker-3 --no-edit
+
+<span class="cm"># 7. Full integration test after all merges (v5)</span>
+<span class="cm"># 8. If wave 2 features exist → repeat from step 2</span>
+<span class="cm"># 9. Cleanup: remove worktrees + delete worker branches</span></pre>
+
+      <h3>Worker Agent (chỉ code features được assign)</h3>
+
+      <pre><span class="label">worker flow — v5: heartbeat + checkpoint + depends_on</span>
+<span class="cm"># Worker đọc WORKER_ID → biết features cần làm</span>
+<span class="cm"># v5: Start heartbeat background process</span>
+while true; do date +%s > HEARTBEAT; sleep 60; done &
+
+<span class="cm"># Worker tuân theo:</span>
+1. Đọc WORKER_ID → lấy assigned features
+2. Đọc BLUEPRINT.md → hiểu architecture
+3. <span class="fn">Respect depends_on order</span> (v5): chỉ code khi dependencies passed
+4. <span class="fn">Checkpoint trước mỗi feature</span> (v5): git tag checkpoint/...
+5. Code feature → test → commit vào branch worker-N
+6. <span class="fn">Nếu blocked → rollback checkpoint</span> (v5): code sạch
+7. <span class="fn">KHÔNG</span> đọc/ghi STEERING.md (chỉ orchestrator đọc)
+8. <span class="fn">KHÔNG</span> merge vào dev (orchestrator làm)
+9. <span class="fn">KHÔNG</span> sửa files ngoài scope assigned
+10. Khi xong tất cả features → exit session
+11. Ghi progress vào WORKER_LOG.md trong worktree</pre>
+
+      <h3>Feature Assignment Strategy (v5: dependency-aware)</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Nguyên tắc</th>
+            <th>Ví dụ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Topological sort (v5)</td>
+            <td><code>depends_on:[]</code> → wave 1; depends wave 1 → wave 2</td>
+          </tr>
+          <tr>
+            <td>Group by category</td>
+            <td>Auth features → worker-1, Dashboard → worker-2</td>
+          </tr>
+          <tr>
+            <td>Chain optimization (v5)</td>
+            <td>A→B→C cùng category → cùng worker (skip wave overhead)</td>
+          </tr>
+          <tr>
+            <td>Load balancing</td>
+            <td>15 features ÷ 3 workers = ~5 features/worker</td>
+          </tr>
+          <tr>
+            <td>Independent first</td>
+            <td>Features <code>depends_on:[]</code> → wave 1 song song</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Khi nào dùng Single vs Multi</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Tình huống</th>
+            <th>Mode</th>
+            <th>Lý do</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Project mới, Phase 1 (10 features)</td>
+            <td><code>single</code></td>
+            <td>Ít features, cần setup foundation</td>
+          </tr>
+          <tr>
+            <td>Phase 3+ với 25 features pending</td>
+            <td><code>multi</code></td>
+            <td>Đủ features independent</td>
+          </tr>
+          <tr>
+            <td>Bug fixing (3-5 bugs)</td>
+            <td><code>single</code></td>
+            <td>Bugs thường liên quan nhau</td>
+          </tr>
+          <tr>
+            <td>Adding 20 API endpoints</td>
+            <td><code>multi</code></td>
+            <td>Endpoints independent</td>
+          </tr>
+          <tr>
+            <td>UI components (15 pages)</td>
+            <td><code>multi</code></td>
+            <td>Pages thường independent</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Chi phí</h3>
+
+      <div class="diff-grid">
+        <div class="diff-box old">
+          <div class="diff-label">Single Agent</div>
+          <ul style="list-style:none">
+            <li style="padding:.15rem 0">1 session × $9-18</li>
+            <li style="padding:.15rem 0"><strong>= $9-18 / batch</strong></li>
+          </ul>
+        </div>
+        <div class="diff-box new">
+          <div class="diff-label">Multi Agent (3 workers)</div>
+          <ul style="list-style:none">
+            <li style="padding:.15rem 0">1 orchestrator + 3 workers</li>
+            <li style="padding:.15rem 0"><strong>= ~$36-72 / batch</strong></li>
+            <li style="padding:.15rem 0">Nhanh ~2-3x, đắt ~3-4x</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>Chạy multi-agent thủ công</h3>
+
+      <pre><span class="label">terminal</span>
+<span class="cm"># Chạy với 3 workers (mặc định)</span>
+bash scripts/multi-agent.sh
+
+<span class="cm"># Chạy với 5 workers</span>
+bash scripts/multi-agent.sh 5
+
+<span class="cm"># Xem workers status</span>
+cat WORKERS.md</pre>
+
+      <h3>WORKERS.md — Tracking format</h3>
+
+      <pre><span class="label">WORKERS.md</span>
+<span class="cm">## Multi-Agent Wave #1 — Started 2024-01-15 14:00</span>
+
+| Worker | Branch   | Features        | Status       | Commits |
+|--------|----------|-----------------|--------------|--------|
+| 1      | worker-1 | #3,#4,#7 (auth) | ✅ Done       | 5      |
+| 2      | worker-2 | #5,#6,#8 (dash) | 🔄 Running   | 3      |
+| 3      | worker-3 | #9,#10,#11 (api)| ❌ Failed #10 | 4      |
+
+<span class="cm">### Merge Status</span>
+- [x] worker-1 → dev (merged)
+- [ ] worker-2 → dev (pending)
+- [ ] worker-3 → dev (pending)
+- [ ] Build + test after merge</pre>
+
+      <div class="note warn">
+        <b>Conflict resolution (v5):</b> Orchestrator tự resolve conflicts. >50 lines conflict → giữ worker có nhiều changes hơn, feature kia retry ở wave tiếp. v5: <code>npm run build && npm test</code> chạy sau <strong>MỖI</strong> worker merge (không chờ merge hết) — bắt conflict sớm hơn.
+      </div>
+
+      <h3>Git Strategy — Multi-agent mode</h3>
+
+      <pre><span class="label">branch model</span>
+main       ← production (deploy trigger)
+dev        ← merge target / single-agent works here
+worker-1   ← temporary: worker 1 (deleted after merge)
+worker-2   ← temporary: worker 2 (deleted after merge)
+worker-3   ← temporary: worker 3 (deleted after merge)
+
+<span class="cm"># Commit format per worker:</span>
+feat: [phase N] #featureID description (worker-N)</pre>
+
+    </div>
+
+    <!-- Step 08 — Deploy -->
+    <div class="step">
+      <div class="step-head">
+        <span class="step-num">08</span>
+        <span class="step-title">Deploy Pipeline — Staging → Production (v5)</span>
+      </div>
+
+      <div class="note ok">
+        <b>v5 Rule:</b> KHÔNG BAO GIỜ deploy thẳng production. Flow: deploy staging → health check → smoke test → promote to production. Agent tự xử lý flow này.
+      </div>
+
+      <h3>Vercel (Frontend) — staging first</h3>
+      <pre><span class="label">v5 deploy flow</span>
+<span class="cm"># Step 1: Deploy staging (không có --prod)</span>
+STAGING_URL=$(npx vercel deploy --token "$VERCEL_TOKEN" --yes 2>&1 | grep -o 'https://[^ ]*')
+
+<span class="cm"># Step 2: Health check</span>
+curl -sf "$STAGING_URL/api/health" || { echo "Staging FAIL"; exit 1; }
+
+<span class="cm"># Step 3: Promote to production</span>
+npx vercel deploy --prod --token "$VERCEL_TOKEN" --yes</pre>
+
+      <h3>Config examples</h3>
+      <pre><span class="label">vercel.json</span>
+{
+  "buildCommand": "pnpm build",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "framework": "nextjs",
+  "regions": ["sin1"]
+}</pre>
+
+      <h3>Cloudflare Workers (API)</h3>
+      <pre><span class="label">wrangler.toml</span>
+name = "my-api"
+main = "src/index.ts"
+compatibility_date = "2025-12-01"
+
+[vars]
+ENVIRONMENT = "production"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "my-db"
+database_id = ""  <span class="cm"># AI fills after: wrangler d1 create my-db</span>
+
+[[r2_buckets]]
+binding = "STORAGE"
+bucket_name = "my-storage"</pre>
+
+      <h3>GitHub Actions CI/CD</h3>
+      <pre><span class="label">.github/workflows/deploy.yml</span>
+name: Deploy
+on:
+  push:
+    branches: [main]
+jobs:
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          vercel-args: '--prod'
+
+  deploy-api:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          workingDirectory: 'apps/api'</pre>
+    </div>
+
+    <!-- Step 09 — Claude Code Hooks -->
+    <div class="step">
+      <div class="step-head">
+        <span class="step-num v">09</span>
+        <span class="step-title">Claude Opus Hooks — Quality gates tự động</span>
+      </div>
+
+      <p>Bootstrap tạo <code>.claude/settings.json</code> với 2 hooks quan trọng. Không cần cài thêm gì — Claude Code đọc tự động.</p>
+
+      <h3>Stop Hook — Ngăn agent dừng khi còn pending features</h3>
+
+      <pre><span class="label">.claude/settings.json — auto-created by Bootstrap</span>
+{
+  "hooks": {
+    "Stop": [{
+      "hooks": [{
+        "type": "prompt",
+        "prompt": "Check feature_list.json: are there features with passes=false AND blocked=false? If yes, return {\"ok\": false, \"reason\": \"Still have N pending features\"}. If none, return {\"ok\": true}."
+      }]
+    }],
+    "PostToolUse": [{
+      "matcher": "Write|Edit|NotebookEdit",
+      "hooks": [{
+        "type": "command",
+        "command": "bash .claude/hooks/lint-check.sh",
+        "async": true
+      }]
+    }]
+  }
+}</pre>
+
+      <div class="note ok">
+        <b>Stop hook</b> là quan trọng nhất — ngăn agent kết thúc session khi còn features chưa làm. Agent phải tiếp tục cho đến khi tất cả features passes=true hoặc blocked=true.
+      </div>
+
+      <h3>Custom Slash Commands — Reusable workflows</h3>
+
+      <p>Bootstrap tạo <code>.claude/commands/</code> với 3 commands dùng ngay trong Claude Code session:</p>
+
+      <div class="steer-grid">
+        <div class="steer-card">
+          <div class="icon">📊</div>
+          <div class="cmd">/status</div>
+          <div class="desc">Chạy health-check.sh + show LIVE_LOG tail</div>
+        </div>
+        <div class="steer-card">
+          <div class="icon">🔓</div>
+          <div class="cmd">/unblock [id]</div>
+          <div class="desc">Reset retry_count=0, blocked=false cho feature</div>
+        </div>
+        <div class="steer-card">
+          <div class="icon">⏪</div>
+          <div class="cmd">/rollback [id]</div>
+          <div class="desc">git reset --hard về checkpoint/pre-feature-[id]</div>
+        </div>
+      </div>
+
+      <h3>Hooks không cần thiết cho AEGIS</h3>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Hook</th>
+            <th>Cần?</th>
+            <th>Lý do</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>Stop</code></td>
+            <td>✓ CẦN</td>
+            <td>Ngăn agent dừng khi còn pending features</td>
+          </tr>
+          <tr>
+            <td><code>PostToolUse</code> (Write/Edit)</td>
+            <td>✓ CẦN</td>
+            <td>Chạy lint async sau mỗi file edit</td>
+          </tr>
+          <tr>
+            <td><code>TaskCompleted</code></td>
+            <td>Optional</td>
+            <td>v5 đã có quality gates trong agent protocol</td>
+          </tr>
+          <tr>
+            <td><code>SessionEnd</code></td>
+            <td>Optional</td>
+            <td>v5 đã có COST_TRACKER.md</td>
+          </tr>
+          <tr>
+            <td><code>WorktreeCreate/Remove</code></td>
+            <td>✗ Không</td>
+            <td>v5 tự quản lý worktrees trong multi-agent.sh</td>
+          </tr>
+          <tr>
+            <td><code>TeammateIdle</code></td>
+            <td>✗ Không</td>
+            <td>Chỉ cần cho Claude Code Teams, không phải git worktrees</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Step 10 — Semantic Memory -->
+    <div class="step">
+      <div class="step-head">
+        <span class="step-num b">10</span>
+        <span class="step-title">Semantic Memory — Tìm code liên quan trước khi implement</span>
+      </div>
+
+      <p>v5.2 thêm <strong>memory index</strong>: agent index toàn bộ <code>src/</code> sau mỗi feature pass, search trước khi implement feature mới. Tránh duplicate code, tái sử dụng utilities đã có.</p>
+
+      <h3>Cách hoạt động</h3>
+
+      <pre><span class="label">coding loop — v5.2 memory integration</span>
+<span class="cm"># Trước khi implement feature:</span>
+bash scripts/memory-search.sh <span class="st">"auth user login session"</span>
+<span class="cm"># → trả về top 8 files liên quan với exports + descriptions</span>
+<span class="cm"># → agent đọc 2-3 files quan trọng nhất → hiểu patterns hiện có</span>
+
+<span class="cm"># Sau khi feature pass (async, không block):</span>
+bash scripts/memory-index.sh &amp;
+<span class="cm"># → rebuild .memory/index.json với files mới vừa tạo</span></pre>
+
+      <pre><span class="label">scripts/memory-search.sh — output example</span>
+[
+  {
+    "score": 3,
+    "file": "src/lib/auth/session.ts",
+    "exports": "createSession,validateSession,destroySession",
+    "description": "Session management utilities for authenticated users"
+  },
+  {
+    "score": 2,
+    "file": "src/middleware/auth.ts",
+    "exports": "withAuth,requireRole",
+    "description": "Auth middleware — wraps API routes with session check"
+  },
+  {
+    "score": 1,
+    "file": "src/hooks/useAuth.ts",
+    "exports": "useAuth,useSession",
+    "description": "React hook for accessing auth state"
+  }
+]</pre>
+
+      <h3>Memory index structure</h3>
+
+      <pre><span class="label">.memory/index.json</span>
+[
+  {
+    "file": "src/lib/auth/session.ts",
+    "exports": "createSession,validateSession,destroySession",
+    "description": "Session management utilities for authenticated users",
+    "lines": 87
+  },
+  ...
+]
+<span class="cm"># Rebuilt async sau mỗi feature pass — không block coding loop</span>
+<span class="cm"># Session start: agent check số files indexed để biết index có fresh không</span></pre>
+
+      <div class="note info">
+        <b>Tại sao cần semantic memory?</b> Khi project có 50+ files, agent không thể đọc hết mỗi lần implement feature mới. Memory index cho phép tìm nhanh "file nào có auth utilities?" hay "đã có component nào handle pagination chưa?" — tránh viết lại code đã có.
+      </div>
+
+      <h3>Session start — kiểm tra memory index</h3>
+
+      <pre><span class="label">session start protocol — v5.2</span>
+<span class="cm"># Bước 10 trong session start:</span>
+[ -f .memory/index.json ] &amp;&amp; \
+  echo "Memory: $(jq length .memory/index.json) files indexed"
+
+<span class="cm"># Nếu index chưa có hoặc stale (>1 ngày):</span>
+bash scripts/memory-index.sh</pre>
+    </div>
+
+    <!-- TL;DR -->
+    <div class="step">
+      <div class="step-head">
+        <span class="step-num">TL;DR</span>
+        <span class="step-title">Toàn bộ workflow trong 1 block</span>
+      </div>
+
+      <pre><span class="label">complete workflow</span>
+<span class="cm"># ── SETUP: GREENFIELD (project mới) ──</span>
+mkdir my-project &amp;&amp; cd my-project
+<span class="cm"># Tạo AEGIS.md → viết yêu cầu vào [YÊU CẦU CỦA BẠN]</span>
+<span class="cm"># Optionally set: MAX_COST_USD, EXECUTION_MODE, MAX_WORKERS</span>
+
+<span class="cm"># ── SETUP: EXISTING CODEBASE ──</span>
+<span class="kw">cd</span> /path/to/existing-project
+<span class="cm"># Tạo AEGIS.md → set PROJECT_MODE: existing (hoặc auto)</span>
+<span class="cm"># Bootstrap sẽ scan codebase, đọc .env keys, tạo CODEBASE_SCAN.md</span>
+
+<span class="cm"># ── LAUNCH (cả 2 mode) ──</span>
+claude --model claude-opus-4-6 --dangerously-skip-permissions \
+  -p "Đọc AEGIS.md và thực hiện Phase 0: Bootstrap rồi bắt đầu code."
+
+<span class="cm"># ── AUTO MODE (single agent) ──</span>
+chmod +x scripts/agent-watchdog.sh
+tmux new-session -d -s agent 'bash scripts/agent-watchdog.sh'
+
+<span class="cm"># ── MULTI-AGENT MODE (khi project lớn) ──</span>
+bash scripts/multi-agent.sh 3             <span class="cm"># 3 workers song song</span>
+
+<span class="cm"># ── TỪ PHONE ──</span>
+ssh me@dev-machine
+bash scripts/health-check.sh              <span class="cm"># dashboard</span>
+tail -20 LIVE_LOG.md                      <span class="cm"># real-time log</span>
+cat .last_state.json | jq .               <span class="cm"># v5: agent state snapshot</span>
+cat CODEBASE_SCAN.md                      <span class="cm"># existing mode: tech stack + what's already built</span>
+jq length .memory/index.json             <span class="cm"># v5.2: bao nhiêu files đã indexed</span>
+bash scripts/memory-search.sh "query"    <span class="cm"># v5.2: tìm code liên quan</span>
+git tag -l "checkpoint/*"                 <span class="cm"># v5: active checkpoints</span>
+cat NEEDS.md                              <span class="cm"># AI cần gì (existing: chỉ keys thực sự thiếu)</span>
+cat BLOCKED.md                            <span class="cm"># features bị stuck (auto-rolled back)</span>
+cat WORKERS.md                            <span class="cm"># multi-agent status</span>
+echo "add-env VERCEL_TOKEN xxx" >> STEERING.md
+echo "fix bug login page" >> STEERING.md
+echo "unblock #7" >> STEERING.md
+echo "pause" >> STEERING.md               <span class="cm"># dừng để review</span>
+
+<span class="cm"># Agent chạy liên tục. Check 2-3 lần/ngày là đủ.</span>
+<span class="cm"># v5.2: Semantic memory — search trước implement, index sau pass.</span></pre>
+
+    </div>
+
+    <footer>
+      <p>AEGIS v5.2 — Autonomous Engineering &amp; Governance Intelligence System</p>
+      <p style="margin-top:.3rem">Claude Opus 4.6 · Checkpoint/Rollback · Dependency Graph · Thrashing Detection · Staging Deploy ·
+        <strong>Multi-Agent with Heartbeat</strong> · Stop Hook · Supervision Level · Existing Codebase Mode · <strong>Semantic Memory</strong></p>
+      <p style="margin-top:.3rem;font-size:.65rem">v5.2: Semantic memory index (memory-index.sh + memory-search.sh), agent searches before implement + rebuilds index async after pass — plus all v5.1 features (Stop hook, PostToolUse lint, supervision_level, slash commands, CLAUDE.md Common Mistakes, Existing Codebase Mode) and v5 features (checkpoint/rollback, depends_on graph, thrashing detection, state snapshots, --continue timeout, worker heartbeat, staging→prod deploy, integration tests, idempotent bootstrap, flock for NFS)</p>
+    </footer>
+
+  </div>
+</body>
+
+</html>

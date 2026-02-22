@@ -1,0 +1,11 @@
+{
+  "current_feature_id": 1,
+  "current_phase": 1,
+  "current_file": null,
+  "last_error": null,
+  "partial_changes": [],
+  "retry_count": 0,
+  "timestamp": "2026-02-22T06:50:00Z",
+  "checkpoint_tag": "checkpoint/pre-feature-1",
+  "session_number": 1
+}

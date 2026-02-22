@@ -1,4 +1,62 @@
-# CLAUDE.md - MVP PWA Project
+# CLAUDE.md — AEGIS v5.2 Persistent Memory
+
+## Project Identity
+This is an AEGIS v5.2 autonomous coding project (existing codebase mode).
+Read AEGIS.md at every session start: `automation-long-run-code/aegis.md`
+
+## Role Detection
+- If file `WORKER_ID` exists in cwd → you are WORKER AGENT (read WORKER_ID for assignment)
+- If in root project dir with feature_list.json → you are ORCHESTRATOR or SINGLE AGENT
+- EXECUTION_MODE: auto (single for now — switch to multi when pending features >= 20)
+
+## Session Start Protocol (AEGIS)
+1. Read `automation-long-run-code/aegis.md` (full)
+2. Read `CODEBASE_SCAN.md` → remember existing features (do NOT recreate)
+3. `jq '[.[]|select(.passes==false and .blocked==false)]' feature_list.json` → pending features
+4. `git log --oneline -10` → recent changes
+5. `tail -15 LIVE_LOG.md` → last actions
+6. [ATOMIC] read STEERING.md → user instructions?
+7. `cat NEEDS.md | grep "\- \[x\]"` → new credentials?
+8. `cat BLOCKED.md` → blockers resolved?
+9. `[ -f .memory/index.json ] && echo "Memory: $(jq length .memory/index.json) files"`
+10. Pick next feature → START CODING
+
+## Non-negotiable Rules (AEGIS)
+- Never ask "what should I do next?" — always check feature_list.json
+- passes=true ONLY after build AND test pass (exit code 0)
+- Read STEERING.md atomically (rename → process → delete)
+- Log every action to LIVE_LOG.md
+- If retry_count >= 3 on a feature → mark blocked=true, rollback to checkpoint, move on
+- Respect depends_on: only pick features whose dependencies all have passes=true
+- Create checkpoint tag BEFORE starting each feature: `git tag "checkpoint/pre-feature-N" HEAD`
+- ALWAYS run memory-search before implementing: `bash scripts/memory-search.sh "query"`
+- ALWAYS run memory-index async after feature passes: `bash scripts/memory-index.sh &`
+
+## Common Mistakes to Avoid
+- [paths]: project root is /mnt/d/mm-new-pwa/ on WSL
+- [build]: always run `cd /mnt/d/mm-new-pwa && npx tsc --noEmit` from apps/web/ for type check
+- [deploy]: Vercel production branch = dev (NOT main) — push to dev to trigger production deploy
+- [category-urls]: Magento url_path already includes "category/" prefix — use toCategoryPath() helper
+- [pnpm]: use `pnpm --filter @mm/web add <pkg>` to add deps to web app
+- [workbox]: workbox-window must be in direct deps (not just transitive) for Vercel build
+
+## Existing Codebase Context
+- PROJECT_MODE: existing
+- Tech Stack: React 18 + TypeScript 5.7 + Vite 6 + TanStack Query 5 + Zustand 5 + Tailwind 3
+- Entry Points: apps/web/src/main.tsx, apps/web/src/App.tsx, apps/bff/src/index.ts
+- Production: https://mm-pwa-v2.vercel.app (bundle index-qV1wWcyQ.js)
+- BFF: https://mm-bff.hi-huythanh.workers.dev
+- Do NOT recreate: all 25 pages, all 135 components/hooks/stores (see CODEBASE_SCAN.md)
+- ENV keys present: VERCEL_TOKEN, CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID, VITE_MAGENTO_URL, VITE_AI_SEARCH_URL, VITE_AI_SEARCH_KEY, VITE_ANTSOMI_SDK_KEY, VITE_FACEBOOK_APP_ID, VITE_FRESHCHAT_TOKEN, VITE_GOOGLE_CLIENT_ID, VITE_GOONG_KEY, VITE_GTM_ID, VITE_RECAPTCHA_SITE_KEY
+
+## Semantic Memory (v5.2)
+<!-- Index lives at .memory/index.json — rebuilt async after each feature pass -->
+<!-- Before implementing any feature: bash scripts/memory-search.sh "query" -->
+<!-- After feature passes: bash scripts/memory-index.sh & (async, non-blocking) -->
+
+---
+
+# CLAUDE.md - MVP PWA Project (Legacy Section)
 
 ## Autonomy Level: MAXIMUM
 
