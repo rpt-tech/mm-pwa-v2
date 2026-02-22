@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { MapPin, X, Navigation, ChevronRight } from 'lucide-react';
+import Cookies from 'js-cookie';
 import { gqlClient } from '@/lib/graphql-client';
 import { gql } from '@/lib/gql';
 import { GET_CITIES, GET_WARDS } from '@/queries/location';
@@ -152,14 +153,17 @@ export default function StoreSwitcher({ isOpen, onClose }: StoreSwitcherProps) {
       const data = await gqlClient.request(GET_STORE_INFORMATION, { storeViewCode });
       const info = data?.storeInformation;
       if (info) {
-        localStorage.setItem('store', JSON.stringify({
+        const storeData = {
           storeViewCode,
           storeInformation: {
             source_code: info.source_code,
             name: info.name,
             address: info.address,
           },
-        }));
+        };
+        localStorage.setItem('store', JSON.stringify(storeData));
+        // Also persist as cookie so graphql-client picks it up immediately
+        Cookies.set('store_code', storeViewCode, { expires: 30, sameSite: 'lax' });
         // Reload to apply store context
         window.location.reload();
       }
