@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { Helmet } from 'react-helmet-async';
@@ -34,9 +34,17 @@ const CategoryPage: React.FC = () => {
     return (sessionStorage.getItem('viewMode') as 'grid' | 'list') || 'grid';
   });
 
+  const isInfiniteScroll = searchParams.get('scroll') === 'infinite';
+
   const currentPage = parseInt(searchParams.get('page') || '1', 10);
   const sortAttribute = searchParams.get('sort_attribute') || 'position';
   const sortDirection = searchParams.get('sort_direction') || 'ASC';
+
+  // Infinite scroll state
+  const [infinitePage, setInfinitePage] = useState(1);
+  const [accumulatedProducts, setAccumulatedProducts] = useState<any[]>([]);
+  const [isFetchingMore, setIsFetchingMore] = useState(false);
+  const sentinelRef = useRef<HTMLDivElement>(null);
 
   // Fetch category data - by UID or URL path
   // Magento stores url_path as "category/slug" — prepend prefix for the query
@@ -98,11 +106,12 @@ const CategoryPage: React.FC = () => {
   }, [searchParams, categoryUid, filterTypeMap]);
 
   // Fetch products
+  const activePage = isInfiniteScroll ? infinitePage : currentPage;
   const { data: productsData, isLoading: productsLoading } = useQuery({
-    queryKey: ['products', categoryUid, currentPage, filters, sortAttribute, sortDirection],
+    queryKey: ['products', categoryUid, activePage, filters, sortAttribute, sortDirection],
     queryFn: () =>
       gqlClient.request(GET_PRODUCTS, {
-        currentPage,
+        currentPage: activePage,
         filters,
         pageSize: PAGE_SIZE,
         sort: { [sortAttribute]: sortDirection },
@@ -116,7 +125,46 @@ const CategoryPage: React.FC = () => {
   const aggregations = productsData?.products?.aggregations || [];
   const sortFields = productsData?.products?.sort_fields?.options || [];
 
-  const isLoading = categoryLoading || productsLoading;
+  // Accumulate products for infinite scroll
+  useEffect(() => {
+    if (!isInfiniteScroll) return;
+    if (productsLoading || products.length === 0) return;
+    setAccumulatedProducts((prev) => {
+      // Reset on page 1 (filter/sort change)
+      if (infinitePage === 1) return products;
+      return [...prev, ...products];
+    });
+    setIsFetchingMore(false);
+  }, [productsData, isInfiniteScroll, infinitePage, productsLoading]);
+
+  // Reset infinite scroll when filters/sort change
+  useEffect(() => {
+    if (!isInfiniteScroll) return;
+    setInfinitePage(1);
+    setAccumulatedProducts([]);
+  }, [filters, sortAttribute, sortDirection, isInfiniteScroll]);
+
+  // IntersectionObserver sentinel
+  const loadMore = useCallback(() => {
+    if (isFetchingMore || productsLoading) return;
+    if (infinitePage >= totalPages) return;
+    setIsFetchingMore(true);
+    setInfinitePage((p) => p + 1);
+  }, [isFetchingMore, productsLoading, infinitePage, totalPages]);
+
+  useEffect(() => {
+    if (!isInfiniteScroll || !sentinelRef.current) return;
+    const observer = new IntersectionObserver(
+      (entries) => { if (entries[0]?.isIntersecting) loadMore(); },
+      { rootMargin: '200px' }
+    );
+    observer.observe(sentinelRef.current);
+    return () => observer.disconnect();
+  }, [isInfiniteScroll, loadMore]);
+
+  const displayProducts = isInfiniteScroll ? accumulatedProducts : products;
+
+  const isLoading = categoryLoading || (productsLoading && (isInfiniteScroll ? infinitePage === 1 : true));
 
   // Handle page change
   const handlePageChange = (page: number) => {
@@ -347,8 +395,8 @@ const CategoryPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Pagination Top */}
-            {totalPages > 1 && (
+            {/* Pagination Top — hidden in infinite scroll mode */}
+            {!isInfiniteScroll && totalPages > 1 && (
               <div className="mb-4">
                 <Pagination
                   currentPage={currentPage}
@@ -360,13 +408,13 @@ const CategoryPage: React.FC = () => {
 
             {/* Product Grid */}
             <ProductGrid
-              products={products}
+              products={displayProducts}
               isLoading={isLoading}
               viewMode={viewMode}
             />
 
             {/* No Products */}
-            {!isLoading && products.length === 0 && (
+            {!isLoading && displayProducts.length === 0 && (
               <div className="text-center py-16">
                 <div className="text-5xl mb-4">🔍</div>
                 <p className="text-xl font-medium text-gray-700 mb-2">Không tìm thấy sản phẩm</p>
@@ -382,14 +430,23 @@ const CategoryPage: React.FC = () => {
               </div>
             )}
 
-            {/* Pagination Bottom */}
-            {totalPages > 1 && (
+            {/* Pagination Bottom — hidden in infinite scroll mode */}
+            {!isInfiniteScroll && totalPages > 1 && (
               <div className="mt-6">
                 <Pagination
                   currentPage={currentPage}
                   totalPages={totalPages}
                   onPageChange={handlePageChange}
                 />
+              </div>
+            )}
+
+            {/* Infinite scroll sentinel + spinner */}
+            {isInfiniteScroll && (
+              <div ref={sentinelRef} className="mt-6 flex justify-center py-4">
+                {(isFetchingMore || (productsLoading && infinitePage > 1)) && (
+                  <div className="w-8 h-8 border-4 border-[#0272BA] border-t-transparent rounded-full animate-spin" aria-label="Đang tải thêm sản phẩm" />
+                )}
               </div>
             )}
           </div>
