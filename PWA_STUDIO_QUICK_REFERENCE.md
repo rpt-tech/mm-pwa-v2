@@ -2,10 +2,10 @@
 
 ## At a Glance
 
-### PWACng (Legacy PWA Studio)
+### PWACng (Legacy PWA Studio 11.0)
 ```
-📦 Framework:    @magento/pwa-studio 11.5 + Venia UI
-🔨 Bundler:      Webpack 4 + PWA Buildpack
+📦 Framework:    @magento/pwa-studio 11.0 + Venia UI 11.5
+🔨 Bundler:      Webpack 4 + PWA Buildpack 11.5.3
 ⚡ Build Time:   60-90 seconds
 📊 Bundle:       ~500KB+ (gzipped)
 🎨 Components:   Pre-built Venia UI (~50 components)

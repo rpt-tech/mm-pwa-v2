@@ -8,7 +8,7 @@
 
 | Aspect | PWACng (Legacy) | mm-new-pwa (Current) |
 |--------|-----------------|----------------------|
-| **Framework** | PWA Studio 11.5 + Venia UI | React 18 + TypeScript (custom) |
+| **Framework** | PWA Studio 11.0 + Venia UI 11.5 | React 18 + TypeScript (custom) |
 | **Bundler** | Webpack 4 + PWA Buildpack | Vite 6 |
 | **Build Time** | ~60-90s (slow) | ~3-5s (fast) |
 | **Bundle Size** | ~500KB+ (with Venia bloat) | ~150-200KB (optimized) |
@@ -25,11 +25,11 @@
 
 ## Architecture Comparison
 
-### PWACng (PWA Studio Stack)
+### PWACng (PWA Studio 11.0 Stack)
 
 ```
 pwacng-release/
-├── package.json                    # PWA Studio config + Venia deps
+├── package.json                    # PWA Studio 11.0 config + Venia 11.5 deps
 ├── local-intercept.js              # PWA Studio intercept targets
 ├── src/
 │   ├── index.js                    # Redux store + Adapter wrapper
