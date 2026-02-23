@@ -198,6 +198,32 @@ Ghi lại mọi action theo format:
 [08:52] Start Priority 1: Complete Checkout — Payment methods VN (Momo, VNPay, ZaloPay, COD)
 [08:53] Create PaymentMethods component — COD, Momo, VNPay, ZaloPay support — done
 [08:54] Add payment queries to checkout.ts — GET_PAYMENT_METHODS, SET_PAYMENT_METHOD — done
+
+---
+
+## Phase 5: BFF Payload & CSS/Link Audit — COMPLETE
+
+[14:30] Session resume — Phase 5 audit execution — create feature branch fix/bff-payloads
+[14:31] Create feature branch — ✓ git checkout -b fix/bff-payloads — verify GraphQL queries
+[14:32] Read catalog.ts queries — ✓ all price fields present (price_range, minimum_price, regular_price, value, currency)
+[14:33] Read product.ts queries — ✓ all custom fields present (unit_ecom, is_alcohol, allow_pickup, ecom_name, mm_product_type)
+[14:34] Read category queries — ✓ url_path and image fields present in GET_CATEGORY_DATA and GET_CATEGORY_BY_URL_PATH
+[14:35] Run BFF test script — ✓ confirmed critical issues:
+  - Product prices: ALL showing value=1 VND (should be 50K+)
+  - Category url_path: null (should have values like "electronics")
+  - Custom fields: unit_ecom, is_alcohol, allow_pickup all null
+  - Category images: null
+[14:36] Read BFF code (apps/bff/src/index.ts) — ✓ BFF is simple proxy with caching, NO field filtering
+[14:37] Root cause analysis — ✓ Issues are in MAGENTO BACKEND, not in frontend or BFF:
+  - Magento pricing not configured or test data
+  - Magento categories missing url_path values
+  - Magento custom attributes not set
+  - Magento categories missing images
+[14:38] Conclusion — ✓ GraphQL queries are CORRECT and complete
+  - Frontend requesting all fields correctly
+  - BFF forwarding all fields correctly
+  - Issue is DATA COMPLETENESS in Magento backend
+[14:39] Create Phase 5 Implementation Report — documenting findings and recommendations
 [08:57] Update GET_ORDER_DETAILS — add note and available fields to payment methods — done
 [08:59] Git commit payment methods — ✓ pushed to dev — COD, Momo, VNPay, ZaloPay support
 [08:59] Payment methods COMPLETE — next: OrderConfirmationPage
