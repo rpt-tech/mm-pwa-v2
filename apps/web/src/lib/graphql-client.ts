@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 const MAGENTO_URL = import.meta.env.VITE_MAGENTO_URL;
 
 // Default B2C store code — used when no store has been selected yet
+// Using b2c_10010_vi (MM Mega Market An Phú VI) instead of mm_10010_vi (AnPhuVN - store phụ)
 const DEFAULT_STORE_CODE = 'b2c_10010_vi';
 
 export function getStoreCode(): string {
