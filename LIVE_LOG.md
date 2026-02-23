@@ -548,3 +548,8 @@ Static assets: placeholder, bg-login, mCard + fix broken /images/logo.svg — �
 [08:54] ProductPage.tsx: handle null urlKey before .replace()
 [08:54] Build pass ✓ — committed 9072b0f — pushed to main + dev
 [08:54] Production hotfix deployed
+[15:13] PRODUCTION VERIFICATION: Bundle index-CVsErfXl.js (not latest index-CaWwtQeI.js)
+[15:13] Vercel Git integration may not have triggered or deployed older version
+[15:13] Pushed dev branch to trigger Vercel auto-deploy
+[15:13] Waiting for Vercel to complete deployment
+[15:13] NOTE: Latest code (07df1f0) includes minor fixes but production may be on previous version
