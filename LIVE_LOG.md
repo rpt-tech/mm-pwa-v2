@@ -570,3 +570,28 @@ Static assets: placeholder, bg-login, mCard + fix broken /images/logo.svg — �
 [14:56] Deploy to production — pushed main to dev branch — Vercel auto-deploy triggered
 [14:57] Build verified — ✓ 184.97 KB main bundle (55.38 KB gzip) — no errors
 [14:58] Commits pushed — HTML sanitization fix + audit report + logs — ready for production
+
+[04:23] BFF Payload Audit Plan created — comprehensive 5-phase plan for CSS/link/payload issues
+[04:24] Phase 1: CSS Loading Audit — PASSED ✅
+  - CSS files generated correctly (30KB total)
+  - Tailwind 4.2 setup verified (@tailwindcss/postcss)
+  - PostCSS config correct, Vite CSS code splitting enabled
+  - HTML entry point ready for CSS injection
+  - All checks passed — CSS is being generated and bundled correctly
+  - Possible reasons for missing CSS in browser: cache, SW cache, network, Vercel deployment
+[04:25] Phase 2: BFF Payload Audit — PASSED with Issues ⚠️
+  - BFF Health: ok, version 1.0.0, responding correctly
+  - Product data: Basic fields present (id, name, sku, ecom_name)
+  - Product images: Thumbnail URLs valid (mmpro.vn/media/...)
+  - MM custom fields: ecom_name, mm_product_type working
+  - CRITICAL ISSUES FOUND:
+    1. Category url_path: null (needed for routing) — BLOCKING
+    2. Product prices: All showing 1 VND (pricing issue) — BLOCKING
+  - MEDIUM ISSUES:
+    3. MM custom fields null: unit_ecom, is_alcohol, allow_pickup
+    4. Category image: null (needed for display)
+  - Root causes: Magento pricing not configured, GraphQL query may not request url_path, BFF mapping issues
+  - Investigation steps provided for direct Magento GraphQL tests
+  - Estimated fix time: 2-4 hours
+[04:26] Deployed to production — pushed main to dev for Vercel auto-deploy
+[04:27] Next: Phase 3 - Link & URL Audit, Phase 4 - Image URL Audit, Phase 5 - Implementation & Fixes
