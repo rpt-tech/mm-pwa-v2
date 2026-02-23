@@ -5,29 +5,29 @@ const features = [
     icon: Truck,
     title: 'Giao hàng nhanh',
     desc: 'Giao hàng tận nơi toàn quốc trong 24-48 giờ',
-    bgColor: '#eff6ff',
-    textColor: '#2563eb'
+    bgColor: 'bg-blue-50',
+    textColor: 'text-blue-600'
   },
   {
     icon: Shield,
     title: 'Hàng chính hãng',
     desc: 'Cam kết 100% hàng thật, có bảo hành chính thức',
-    bgColor: '#f0fdf4',
-    textColor: '#16a34a'
+    bgColor: 'bg-green-50',
+    textColor: 'text-green-600'
   },
   {
     icon: CreditCard,
     title: 'Thanh toán linh hoạt',
     desc: 'COD, Momo, VNPay, ZaloPay, chuyển khoản',
-    bgColor: '#faf5ff',
-    textColor: '#a855f7'
+    bgColor: 'bg-purple-50',
+    textColor: 'text-purple-600'
   },
   {
     icon: Headphones,
     title: 'Hỗ trợ 24/7',
     desc: 'Đội ngũ chăm sóc khách hàng sẵn sàng giúp đỡ',
-    bgColor: '#fff7ed',
-    textColor: '#ea580c'
+    bgColor: 'bg-orange-50',
+    textColor: 'text-orange-600'
   },
 ];
 
@@ -50,9 +50,9 @@ export default function FeaturesSection() {
             return (
               <div
                 key={feature.title}
-                className="group p-6 rounded-2xl border border-gray-200 hover:border-blue-400 hover:shadow-lg transition-all duration-300"
+                className={`group p-6 rounded-2xl border border-gray-200 hover:border-blue-400 hover:shadow-lg transition-all duration-300 ${feature.bgColor}`}
               >
-                <div className="w-14 h-14 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform" style={{ backgroundColor: feature.bgColor, color: feature.textColor }}>
+                <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform ${feature.textColor}`}>
                   <Icon size={28} />
                 </div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">{feature.title}</h3>
