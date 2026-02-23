@@ -7,6 +7,7 @@ set -e
 
 BFF_URL="https://mm-bff.hi-huythanh.workers.dev/graphql"
 MAGENTO_URL="https://online.mmvietnam.com"
+STORE_CODE="b2c_10010_vi"  # B2C store (MM Mega Market An Phú VI)
 
 echo "=========================================="
 echo "BFF Payload Audit — Phase 2"
@@ -20,6 +21,7 @@ echo ""
 
 RESPONSE=$(curl -s -X POST "$BFF_URL" \
   -H "Content-Type: application/json" \
+  -H "Store: $STORE_CODE" \
   -d '{
     "query": "query { category(id: \"2\") { id name description url_path image products { items { id name sku ecom_name unit_ecom mm_product_type is_alcohol allow_pickup thumbnail { url label } price_range { minimum_price { regular_price { value currency } } } } } } }"
   }')
@@ -46,8 +48,9 @@ echo ""
 
 RESPONSE=$(curl -s -X POST "$BFF_URL" \
   -H "Content-Type: application/json" \
+  -H "Store: $STORE_CODE" \
   -d '{
-    "query": "query { products(first: 5) { items { id name sku ecom_name unit_ecom mm_product_type is_alcohol allow_pickup thumbnail { url label } price_range { minimum_price { regular_price { value currency } } } } } }"
+    "query": "query { products(filter: {}, pageSize: 5) { items { id name sku ecom_name unit_ecom mm_product_type is_alcohol allow_pickup thumbnail { url label } price_range { minimum_price { regular_price { value currency } } } } } }"
   }')
 
 echo "$RESPONSE" | jq '.data.products.items[0]' 2>/dev/null || echo "$RESPONSE"
