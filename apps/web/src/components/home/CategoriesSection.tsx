@@ -2,12 +2,12 @@ import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 
 const categories = [
-  { name: 'Thực phẩm tươi sống', icon: '🥩', color: 'from-red-500 to-red-600' },
-  { name: 'Rau củ quả', icon: '🥦', color: 'from-green-500 to-green-600' },
-  { name: 'Đồ uống', icon: '🥤', color: 'from-blue-500 to-blue-600' },
-  { name: 'Bánh kẹo', icon: '🍰', color: 'from-yellow-500 to-yellow-600' },
-  { name: 'Gia vị & Nước chấm', icon: '🧂', color: 'from-orange-500 to-orange-600' },
-  { name: 'Chăm sóc cá nhân', icon: '🧴', color: 'from-purple-500 to-purple-600' },
+  { name: 'Thực phẩm tươi sống', icon: '🥩', color: 'linear-gradient(to bottom right, #ef4444, #dc2626)' },
+  { name: 'Rau củ quả', icon: '🥦', color: 'linear-gradient(to bottom right, #22c55e, #16a34a)' },
+  { name: 'Đồ uống', icon: '🥤', color: 'linear-gradient(to bottom right, #3b82f6, #1d4ed8)' },
+  { name: 'Bánh kẹo', icon: '🍰', color: 'linear-gradient(to bottom right, #eab308, #ca8a04)' },
+  { name: 'Gia vị & Nước chấm', icon: '🧂', color: 'linear-gradient(to bottom right, #f97316, #ea580c)' },
+  { name: 'Chăm sóc cá nhân', icon: '🧴', color: 'linear-gradient(to bottom right, #a855f7, #7e22ce)' },
 ];
 
 export default function CategoriesSection() {
@@ -23,7 +23,10 @@ export default function CategoriesSection() {
           </div>
           <Link
             to="/category"
-            className="hidden md:flex items-center gap-2 text-[#0272BA] hover:text-[#005a9e] font-semibold transition-colors"
+            className="hidden md:flex items-center gap-2 font-semibold transition-colors"
+            style={{ color: '#0272BA' }}
+            onMouseEnter={(e) => e.currentTarget.style.color = '#005a9e'}
+            onMouseLeave={(e) => e.currentTarget.style.color = '#0272BA'}
           >
             Xem tất cả <ChevronRight size={20} />
           </Link>
@@ -34,10 +37,10 @@ export default function CategoriesSection() {
             <Link
               key={cat.name}
               to="/category"
-              className="group relative overflow-hidden rounded-2xl aspect-square"
+              className="group relative overflow-hidden rounded-2xl aspect-square hover:scale-105 transition-transform"
             >
               {/* Background gradient */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${cat.color} opacity-90 group-hover:opacity-100 transition-opacity`}></div>
+              <div className="absolute inset-0 opacity-90 group-hover:opacity-100 transition-opacity" style={{ background: cat.color }}></div>
 
               {/* Content */}
               <div className="relative h-full flex flex-col items-center justify-center text-white p-4 text-center">
@@ -58,7 +61,10 @@ export default function CategoriesSection() {
         <div className="mt-8 md:hidden">
           <Link
             to="/category"
-            className="w-full flex items-center justify-center gap-2 bg-[#0272BA] hover:bg-[#005a9e] text-white py-3 rounded-lg font-semibold transition-colors"
+            className="w-full flex items-center justify-center gap-2 text-white py-3 rounded-lg font-semibold transition-colors"
+            style={{ backgroundColor: '#0272BA' }}
+            onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#005a9e'}
+            onMouseLeave={(e) => e.currentTarget.style.backgroundColor = '#0272BA'}
           >
             Xem tất cả danh mục <ChevronRight size={20} />
           </Link>

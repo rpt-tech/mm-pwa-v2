@@ -6,21 +6,21 @@ const promotions = [
     title: 'Flash Sale',
     desc: 'Giảm giá lên đến 70%',
     icon: Zap,
-    color: 'from-red-500 to-orange-500',
+    color: 'linear-gradient(to bottom right, #ef4444, #f97316)',
     link: '/flash-sale'
   },
   {
     title: 'Khuyến mãi hôm nay',
     desc: 'Mua 2 tặng 1 cho các sản phẩm chọn lọc',
     icon: Gift,
-    color: 'from-green-500 to-emerald-500',
+    color: 'linear-gradient(to bottom right, #22c55e, #10b981)',
     link: '/promotions'
   },
   {
     title: 'Bán chạy nhất',
     desc: 'Những sản phẩm được yêu thích nhất',
     icon: TrendingUp,
-    color: 'from-blue-500 to-cyan-500',
+    color: 'linear-gradient(to bottom right, #3b82f6, #06b6d4)',
     link: '/best-sellers'
   },
 ];
@@ -41,10 +41,8 @@ export default function PromotionsSection() {
                 key={promo.title}
                 to={promo.link}
                 className="group relative overflow-hidden rounded-2xl p-8 text-white transition-transform hover:scale-105"
+                style={{ background: promo.color }}
               >
-                {/* Background gradient */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${promo.color}`}></div>
-
                 {/* Content */}
                 <div className="relative z-10">
                   <div className="flex items-start justify-between mb-4">
