@@ -1,5 +1,6 @@
 import React from 'react';
 import { lazy, Suspense } from 'react';
+import DOMPurify from 'isomorphic-dompurify';
 
 const FlashsaleProductsCT = lazy(() => import('./FlashsaleProductsCT'));
 const ProductRecommendationCT = lazy(() => import('./ProductRecommendationCT'));
@@ -99,11 +100,28 @@ export const Html: React.FC<HtmlProps> = ({
     );
   }
 
+  // Sanitize HTML before rendering
+  const sanitizedHtml = DOMPurify.sanitize(html, {
+    ADD_TAGS: ['iframe', 'style'],
+    ADD_ATTR: [
+      'allow', 'allowfullscreen', 'frameborder', 'scrolling',
+      'data-content-type', 'data-appearance', 'data-element',
+      'data-pb-style', 'data-background-images', 'data-background-type',
+      'data-show-button', 'data-show-overlay', 'data-slide-name',
+      'data-autoplay', 'data-autoplay-speed', 'data-fade',
+      'data-infinite-loop', 'data-show-arrows', 'data-show-dots',
+      'data-enable-parallax', 'data-parallax-speed',
+      'data-video-loop', 'data-video-play-only-visible',
+      'data-video-fallback-src', 'data-video-lazy-load',
+    ],
+    FORCE_BODY: true,
+  });
+
   return (
     <div
       className={`html-content ${cssClasses.join(' ')}`}
       style={dynamicStyles}
-      dangerouslySetInnerHTML={{ __html: html }}
+      dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
     />
   );
 };
