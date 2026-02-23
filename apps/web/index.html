@@ -24,10 +24,30 @@
     <!-- End Google Tag Manager -->
     <!-- Antsomi CDP Web Insight -->
     <script type="text/javascript">
+      // Prevent CDP from modifying DOM before React loads
       var _portalId = "564892373";
       var _propId = "565018647";
       var _ATM_TRACKING_ASSOCIATE_UTM = 1;
       var _cdp365Analytics = { first_party_domain: ".mmvietnam.com" };
+
+      // Intercept CDP DOM modifications
+      var originalAppendChild = Element.prototype.appendChild;
+      var originalInsertBefore = Element.prototype.insertBefore;
+
+      Element.prototype.appendChild = function(node) {
+        if (node && node.className && (node.className.includes('cdp') || node.className.includes('antsomi') || node.className.includes('delivery'))) {
+          return node;
+        }
+        return originalAppendChild.call(this, node);
+      };
+
+      Element.prototype.insertBefore = function(node, ref) {
+        if (node && node.className && (node.className.includes('cdp') || node.className.includes('antsomi') || node.className.includes('delivery'))) {
+          return node;
+        }
+        return originalInsertBefore.call(this, node, ref);
+      };
+
       (function() {
         var w = window;
         if (w.web_event) return;
@@ -54,6 +74,21 @@
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v18.0&appId=1031510681791734&autoLogAppEvents=1"></script>
     <!-- Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+      /* Isolate CDP scripts to prevent UI overlap */
+      #root {
+        position: relative;
+        z-index: 1;
+      }
+      /* Hide CDP overlay elements */
+      [class*="cdp"], [class*="antsomi"], [class*="delivery"], [id*="cdp"], [id*="antsomi"] {
+        display: none !important;
+      }
+      /* Ensure body doesn't get modified by CDP */
+      body {
+        overflow: auto !important;
+      }
+    </style>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
