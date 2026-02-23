@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useForm } from 'react-hook-form';
+import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { toast } from 'sonner';
@@ -48,8 +48,8 @@ const addressSchema = z.object({
   district_name: z.string().optional(),
   ward_code: z.string().min(1, 'Vui lòng chọn Phường/Xã'),
   ward_name: z.string().optional(),
-  country_code: z.string().default('VN'),
-  postcode: z.string().default('00000'),
+  country_code: z.string().default('VN').optional(),
+  postcode: z.string().default('00000').optional(),
 });
 
 type AddressFormData = z.infer<typeof addressSchema>;
@@ -395,7 +395,7 @@ function ShippingStep({
     },
   });
 
-  const onSubmit = async (data: AddressFormData) => {
+  const onSubmit: SubmitHandler<AddressFormData> = async (data) => {
     if (!isLoggedIn && data.email) {
       await setGuestEmailMutation.mutateAsync(data.email);
     }

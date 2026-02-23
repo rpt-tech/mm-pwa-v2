@@ -53,14 +53,12 @@ export const Heading: React.FC<HeadingProps> = ({
     paddingLeft,
   };
 
-  const Tag = headingType as keyof JSX.IntrinsicElements;
-  return (
-    <Tag
-      className={`heading-${headingType} ${cssClasses.join(' ')}`}
-      style={style}
-      dangerouslySetInnerHTML={{ __html: text }}
-    />
-  );
+  const Tag = headingType as React.ElementType;
+  return React.createElement(Tag, {
+    className: `heading-${headingType} ${cssClasses.join(' ')}`,
+    style,
+    dangerouslySetInnerHTML: { __html: text },
+  });
 };
 
 export default Heading;

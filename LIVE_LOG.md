@@ -566,3 +566,7 @@ Static assets: placeholder, bg-login, mCard + fix broken /images/logo.svg — �
 [14:53] Fix: Html.tsx sanitization — added DOMPurify.sanitize() to prevent XSS — matches RichContent config
 [14:54] Build verified — ✓ built in 1m — no errors — committed to dev branch
 [14:55] AUDIT COMPLETE — CDP scripts properly isolated, block rendering verified, banner products from BFF working correctly
+
+[14:56] Deploy to production — pushed main to dev branch — Vercel auto-deploy triggered
+[14:57] Build verified — ✓ 184.97 KB main bundle (55.38 KB gzip) — no errors
+[14:58] Commits pushed — HTML sanitization fix + audit report + logs — ready for production
