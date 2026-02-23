@@ -1,19 +1,32 @@
 import CmsPage from '@/components/cms/CmsPage';
-import HomeLandingFallback from '@/components/home/HomeLandingFallback';
+import HeroBanner from '@/components/home/HeroBanner';
+import FeaturesSection from '@/components/home/FeaturesSection';
+import CategoriesSection from '@/components/home/CategoriesSection';
+import PromotionsSection from '@/components/home/PromotionsSection';
+import FlashsaleProducts from '@/components/catalog/FlashsaleProducts';
 
 /**
- * HomePage renders the visual landing content (HomeLandingFallback) always,
- * plus CmsPage for SEO metadata and any CMS-managed content blocks.
- * The Magento "home" CMS page only contains SEO JSON-LD structured data —
- * the actual visual homepage content lives in HomeLandingFallback.
+ * HomePage renders the new modern homepage design
+ * CmsPage injects SEO metadata and any CMS-managed content blocks
  */
 export default function HomePage() {
   return (
     <>
       {/* CmsPage injects SEO <Helmet> tags and HomeSchema JSON-LD */}
       <CmsPage identifier="home" fallbackElement={null} />
-      {/* Always render the visual homepage content */}
-      <HomeLandingFallback />
+
+      {/* New modern homepage design */}
+      <HeroBanner />
+      <FeaturesSection />
+      <CategoriesSection />
+      <PromotionsSection />
+
+      {/* Flash Sale Products */}
+      <div className="bg-gray-50 py-16 lg:py-24">
+        <div className="container mx-auto px-4">
+          <FlashsaleProducts pageSize={12} />
+        </div>
+      </div>
     </>
   );
 }
