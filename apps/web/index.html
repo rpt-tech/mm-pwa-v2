@@ -35,14 +35,14 @@
       var originalInsertBefore = Element.prototype.insertBefore;
 
       Element.prototype.appendChild = function(node) {
-        if (node && node.className && (node.className.includes('cdp') || node.className.includes('antsomi') || node.className.includes('delivery'))) {
+        if (node && typeof node.className === 'string' && (node.className.includes('cdp') || node.className.includes('antsomi') || node.className.includes('delivery'))) {
           return node;
         }
         return originalAppendChild.call(this, node);
       };
 
       Element.prototype.insertBefore = function(node, ref) {
-        if (node && node.className && (node.className.includes('cdp') || node.className.includes('antsomi') || node.className.includes('delivery'))) {
+        if (node && typeof node.className === 'string' && (node.className.includes('cdp') || node.className.includes('antsomi') || node.className.includes('delivery'))) {
           return node;
         }
         return originalInsertBefore.call(this, node, ref);
