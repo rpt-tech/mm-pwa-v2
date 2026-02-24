@@ -12,7 +12,6 @@
     <link rel="preconnect" href="https://online.mmvietnam.com" crossorigin />
     <link rel="preconnect" href="https://mmpro.vn" crossorigin />
     <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="https://st-a.cdp.asia" />
     <link rel="dns-prefetch" href="https://connect.facebook.net" />
     <link rel="dns-prefetch" href="https://accounts.google.com" />
     <!-- Google Tag Manager -->
@@ -22,89 +21,10 @@
     'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
     })(window,document,'script','dataLayer','GTM-KXH7R829');</script>
     <!-- End Google Tag Manager -->
-    <!-- Antsomi CDP Web Insight -->
-    <script type="text/javascript">
-      // Prevent CDP from modifying DOM before React loads
-      var _portalId = "564892373";
-      var _propId = "565018647";
-      var _ATM_TRACKING_ASSOCIATE_UTM = 1;
-      var _cdp365Analytics = { first_party_domain: ".mmvietnam.com" };
-
-      // Intercept CDP DOM modifications - safer approach
-      var originalAppendChild = Element.prototype.appendChild;
-      var originalInsertBefore = Element.prototype.insertBefore;
-
-      Element.prototype.appendChild = function(node) {
-        try {
-          // Check if node is a CDP element
-          if (node && node.nodeType === 1) { // Element node
-            var className = node.className;
-            if (typeof className === 'string' && (className.includes('cdp') || className.includes('antsomi') || className.includes('delivery'))) {
-              return node; // Block CDP elements
-            }
-          }
-        } catch (e) {
-          // Silently ignore errors
-        }
-        return originalAppendChild.call(this, node);
-      };
-
-      Element.prototype.insertBefore = function(node, ref) {
-        try {
-          // Check if node is a CDP element
-          if (node && node.nodeType === 1) { // Element node
-            var className = node.className;
-            if (typeof className === 'string' && (className.includes('cdp') || className.includes('antsomi') || className.includes('delivery'))) {
-              return node; // Block CDP elements
-            }
-          }
-        } catch (e) {
-          // Silently ignore errors
-        }
-        return originalInsertBefore.call(this, node, ref);
-      };
-
-      (function() {
-        var w = window;
-        if (w.web_event) return;
-        var a = window.web_event = function() { a.queue.push(arguments); };
-        a.propId = _propId;
-        a.track = a;
-        a.queue = [];
-        var e = document.createElement("script");
-        e.type = "text/javascript"; e.async = true; e.src = "//st-a.cdp.asia/insight.js";
-        var t = document.getElementsByTagName("script")[0];
-        t.parentNode.insertBefore(e, t);
-      })();
-    </script>
-    <!-- Antsomi Web Push -->
-    <script src="https://st-a.cdp.asia/webpush.js" async></script>
-    <script>
-      window.AntsomiPush = window.AntsomiPush || [];
-      AntsomiPush.push(function() {
-        AntsomiPush.init({ portalId: 564892373, appId: "9a48a327-0a7b-4fa5-b903-1cec3d5907d8" });
-      });
-    </script>
-    <!-- End Antsomi CDP -->
     <!-- Facebook SDK -->
     <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v18.0&appId=1031510681791734&autoLogAppEvents=1"></script>
     <!-- Google Identity Services -->
     <script src="https://accounts.google.com/gsi/client" async defer></script>
-    <style>
-      /* Isolate CDP scripts to prevent UI overlap */
-      #root {
-        position: relative;
-        z-index: 1;
-      }
-      /* Hide CDP overlay elements */
-      [class*="cdp"], [class*="antsomi"], [class*="delivery"], [id*="cdp"], [id*="antsomi"] {
-        display: none !important;
-      }
-      /* Ensure body doesn't get modified by CDP */
-      body {
-        overflow: auto !important;
-      }
-    </style>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
