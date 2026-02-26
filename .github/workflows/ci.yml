@@ -60,7 +60,7 @@ jobs:
         run: pnpm --filter @mm/web vitest run --reporter=verbose --coverage
 
       - name: Upload coverage artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: always()
         with:
           name: coverage-${{ github.sha }}
@@ -119,7 +119,7 @@ jobs:
           fi
 
       - name: Upload dist artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: dist-${{ github.sha }}
           path: apps/web/dist/

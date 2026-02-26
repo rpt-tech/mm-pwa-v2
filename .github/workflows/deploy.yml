@@ -37,7 +37,7 @@ jobs:
           VITE_MAGENTO_URL: https://mm-bff.hi-huythanh.workers.dev/graphql
 
       - name: Upload dist artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: dist-${{ github.sha }}
           path: apps/web/dist/
